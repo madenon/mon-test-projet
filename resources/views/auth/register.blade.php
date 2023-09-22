@@ -29,6 +29,38 @@
                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
+            <div class="mt-4">
+                <x-label for="phone" value="{{ __('Phone') }}" />
+                <x-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required autofocus autocomplete="phone" />
+            </div>
+
+            <div class="mt-4">
+                <x-label value="{{ __('Gender') }}" />
+            
+                <div class="flex">
+                    <div class="mt-4">
+                        <label for="female" class="block font-medium text-sm text-gray-700">{{ __('Female') }}</label>
+                        <x-input id="female" type="radio" name="gender" value="{{App\Enums\Genre::Female}}"  class="form-checkbox h-5 w-5 text-indigo-600 mt-1" />
+                    </div>
+            
+                    
+                    <div class="mt-4 ml-4">
+                        <label for="male" class="block font-medium text-sm text-gray-700">{{ __('Male') }}</label>
+                        <x-input id="male" type="radio" name="gender" value="{{App\Enums\Genre::Male}}" class="form-checkbox h-5 w-5 text-indigo-600 mt-1" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <x-label for="bio" value="{{ __('Description') }}" />
+                <textarea name="bio" id="bio" cols="30" rows="10"></textarea>
+                
+            </div>
+
+        
+
+            
+
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">
                     <x-label for="terms">
