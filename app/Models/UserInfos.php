@@ -2,34 +2,23 @@
 
 namespace App\Models;
 
-use App\Enums\Genre;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Enums\Gender;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Support\Facades\Validator;
-
-
 
 
 class UserInfos extends Model
 {
-    use HasFactory;
-
-
-    
-        
-
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
         'user_id', 
         'phone', 
         'gender',
         'bio',
+        'nickname',
     ];
 
     protected $hidden = [
@@ -38,12 +27,11 @@ class UserInfos extends Model
     ];
 
     protected $casts = [
-        'gender' => Genre::class,
+        'gender' => Gender::class,
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
 }
