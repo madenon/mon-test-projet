@@ -86,6 +86,8 @@ class ProfileController extends Controller
             // Store the new profile picture
             $path = $file->store($storagePath);
 
+            $path = str_replace($storagePath . '/', '', $path);
+
             // Update the user's profile_photo_path with the new path
             $user->update(['profile_photo_path' => $path]);
             return Storage::url($path);

@@ -18,7 +18,7 @@
 
         <div>
             <x-input-label for="profile_photo_path" :value="__('Profile Picture')" />
-            <img src="{{ auth()->user()->profile_photo_path }}" name="profile_photo_path" alt="Profile Picture" class="rounded-full h-16 w-16">
+            <img src="{{ url('storage/profile_pictures/' . auth()->user()->profile_photo_path) }}" name="profile_photo_path" alt="Profile Picture" class="rounded-full h-16 w-16" />
             <input type="file" name="profile_photo_path"> 
         </div>
 
