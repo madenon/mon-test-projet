@@ -77,7 +77,7 @@ class ProfileController extends Controller
         // Validate and store the new profile picture
         if ($file->isValid()) {
 
-            $storagePath = 'public/profile_pictures';
+            $storagePath = 'storage/profile_pictures';
             // Delete the old profile picture (if it exists)
             if ($user->profile_photo_path) {
                 Storage::delete($user->profile_photo_path);

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -39,6 +40,13 @@ Route::post('/email/verification-notification', function (Request $request) {
  
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/offer', [OfferController::class, 'index'])->name('offer.index');
+    Route::get('/offer/create', [OfferController::class, 'create'])->name('offer.create');
+    Route::post('/offer', [OfferController::class, 'store'])->name('offer.store');
+    //Route::delete('/offer', [OfferController::class, 'destroy'])->name('offer.destroy');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

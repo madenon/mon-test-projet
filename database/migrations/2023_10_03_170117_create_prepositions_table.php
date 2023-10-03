@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_infos', function (Blueprint $table) {
+        Schema::create('prepositions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->string('phone')->unique();
-            $table->enum('gender', ['male', 'female']);
-            $table->text('bio')->nullable();
+            $table->string('name');
+            $table->foreignId('offer_id')->constrained('offers');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_infos');
+        Schema::dropIfExists('prepositions');
     }
 };

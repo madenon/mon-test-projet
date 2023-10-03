@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\Gender;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -30,7 +31,7 @@ class UserInfos extends Model
         'gender' => Gender::class,
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
