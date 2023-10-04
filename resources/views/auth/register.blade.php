@@ -58,7 +58,7 @@
 
         <div class="mt-4">
             <x-input-label for="bio" :value="__('A propos de vous')" />
-            <x-text-input id="bio" class="block mt-1 w-full" type="text" name="bio"  required  />
+            <x-text-input id="bio" class="block mt-1 w-full" type="text" name="bio" value="" />
             <x-input-error :messages="$errors->get('bio')" class="mt-2" />
         </div>
 

@@ -46,7 +46,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => ['required' , 'string', 'unique:user_infos', 'regex:/(33)[0-9]{9}/'],
             'gender' => [new Enum(Gender::class)],
-            'bio' => ['string', 'max:300'],
+            'bio' => ['nullable','string', 'max:300'],
             'nickname' => ['required', 'unique:user_infos', 'min:2', 'max:100'],
             'profile_photo_path' => ['image', 'max:12288', 'mimes:jpeg,jpg,png'],
             
@@ -60,15 +60,16 @@ class RegisteredUserController extends Controller
 
         DB::transaction(function() use($request){
 
-            $storePicture = $this->uploadProfilePicture($request->file('profile_photo_path'));
+            // Verify if the profile photo is included in the submitted form
+            $storePicture = $request->hasFile('profile_photo_path')? $this->uploadProfilePicture($request->file('profile_photo_path')): null;
 
             $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'profile_photo_path' => $storePicture,
-                ]);
+                'profile_photo_path' =>  $storePicture,
+            ]);
 
             $this->createUserInfos($user, $request->only(['phone', 'nickname', 'gender', 'bio']));
 

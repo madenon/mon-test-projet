@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -17,9 +18,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -41,9 +40,10 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
+Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
+
 Route::middleware('auth')->group(function () {
-    Route::get('/offer', [OfferController::class, 'index'])->name('offer.index');
-    Route::get('/offer/create', [OfferController::class, 'create'])->name('offer.create');
+    Route::get('/offres/creer', [OfferController::class, 'create'])->name('offer.create');
     Route::post('/offer', [OfferController::class, 'store'])->name('offer.store');
     //Route::delete('/offer', [OfferController::class, 'destroy'])->name('offer.destroy');
 });
