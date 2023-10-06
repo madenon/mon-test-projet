@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Department;
 use App\Models\Offer;
+use App\Models\OfferImages;
 use App\Models\Region;
 use App\Models\Type;
 use Illuminate\Auth\Events\Registered;
@@ -22,10 +23,14 @@ class OfferController extends Controller
 
     public function index(){
 
-        $offer = Offer::orderBy('created_at', 'DESC')->get();
+        $offers = Offer::orderBy('created_at', 'DESC')->get();
+        $user = User::find(1);
 
-        return view('offer.index', compact('offer'));
-    }
+        $onlineStatus = $user->is_online;
+
+
+        return view('offer.index', compact('offers' , 'onlineStatus'));
+    }   
 
     public function create(){
 
@@ -34,11 +39,12 @@ class OfferController extends Controller
         $department = Department::all();
         $type = Type::all();
 
+
         return view('offer.create')->with([
             'type' => $type,
             'department' => $department,
             'region' => $region,
-            'category' => $category
+            'category' => $category,
         ]);
     }
 
@@ -49,7 +55,7 @@ class OfferController extends Controller
 
             $request->validate([
                 'name' => ['required', 'string', 'between:10,100'],
-                'description' => ['string', 'max:300'],
+                'description' => ['string'],
             ], [
                 'name' => 'Le nom de l\'annonce doit contenir entre 10 et 100 caractères.',
             ]);
@@ -91,14 +97,16 @@ class OfferController extends Controller
     {
         
         if ($file->isValid()) {
-            $path = $file->store('public/profile_pictures');
+            $path = $file->store('public/offer_pictures');
             return Storage::url($path); 
         }
 
         return ''; 
     }
 
+
+    
     
 
-
+    
 }

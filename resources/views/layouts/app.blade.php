@@ -33,9 +33,15 @@
             @endif
 
             <!-- Page Content -->
+
+            
+
+
             <main>
                 {{ $slot }}
             </main>
+
+            
 
             @include('components/footer')
 

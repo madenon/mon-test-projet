@@ -13,6 +13,8 @@ class Offer extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    
+
     protected $fillable = [
         'name',
         'description',

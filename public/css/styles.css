@@ -993,3 +993,197 @@ body {
         
     }
 }
+
+/* Offers style */
+
+.offer_list_card {
+    border: var(--line-color);
+    display: flex;
+    flex-direction: row;
+    background-color: #ffffff;
+    border: 2px solid #e8eaed;
+    border-radius: 10px;
+    margin: 14px 0;
+}
+
+.offer_image {
+    display: flex;
+    width: 300px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    border-radius: 10px 0 0 10px;
+}
+
+
+.offer_details {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.offer_title{
+    color: #191f33;
+    padding: 12px 24px;   
+}
+
+.offer_title h2{
+    font-size: 24px;
+}
+
+.offer_category{
+    display: flex;
+    padding: 12px 24px;
+    column-gap: 16px;
+}
+
+.offer_category_item{
+    display: inline-block;
+}
+
+.offer_category_item img{
+    display: inline-flex;
+    margin-top: -6px;
+    width: 18px;
+    height: 18px;
+}
+
+.offer_category_item p{
+    display: inline-flex;
+    color: #686590;
+}
+
+.offer_preposition{
+    color: #5a5a5a;
+    padding: 12px 24px;
+}
+
+.offer_preposition h4{
+    font-size: 18px;
+}
+
+.offer_preposition p{
+    padding: 0 12px;
+}
+
+.offer_localisation_price{
+    display: flex;
+    padding: 12px 24px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.offer_localisation{
+    height: 24px;
+    column-gap: 4px;
+    display: flex;
+    color: #7a8297;
+}
+
+.offer_price{
+    display: flex;
+    column-gap: 24px;
+    height: 24px;
+    align-items: center;
+    color: #615e8b;
+}
+
+.offer_autorisation{
+    padding: 0 10px 0 5px;
+    display: flex;
+    height: 24px;
+    column-gap: 4px;
+    background-color: #fff1ee;
+    border-radius: 10px;
+    color: #ff6445;
+}
+
+
+.offer_countdown{
+    padding: 12px 24px;
+    border-top: 2px solid #e8eaed;
+}
+
+.offer_countdown_container{
+    display: flex;
+    column-gap: 6px;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.offer_countdown_containers{
+    flex: 1;
+    display: inline-block;
+    color: #6e6b95;
+}
+
+.offer_countdown_containers_counter{
+    height: 48px;
+    background-color: #6ebfb5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #f1f0ff;
+}
+
+.offer_owner{
+    border-top: 2px solid #e8eaed;
+    height: 64px;
+    padding: 12px 24px;
+}
+
+.offer_owner_content{
+    height: 36px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 16px;
+}
+.offer_owner_content_avatar{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+.offer_owner_content_infos{
+    display: flex;
+    flex-direction: column;
+}
+.offer_owner_content_infos_name{
+    display: flex;
+    flex-direction: row;
+    height: 18px;
+    column-gap: 12px;
+    color: #565c6e;
+}
+
+.offer_owner_content_infos_name h3{
+    font-size: 14px;
+}
+                                          
+.offer_owner_content_infos_pro_badge{
+    border-radius: 10px;
+    font-size: 14px;
+    display: inline-flex;
+    column-gap: 6px;
+    background-color: #dbf3ff;
+    color: #a7595c;
+    padding: 2px 6px;
+    align-items: center;
+}
+
+.offer_owner_content_infos_pro_badge p{
+    margin-top: 14px;
+}
+
+.offer_owner_content_infos_pro_badge img{
+    height: 18px;
+    width: 18px;
+    display: inline-flex;
+}
+.offer_owner_content_infos_status{
+    font-size: 14px;
+    height: 18px;
+
+}
+                            

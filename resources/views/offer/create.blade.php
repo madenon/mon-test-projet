@@ -22,13 +22,15 @@
         @csrf
         @method('POST')
 
-        <div>
+         <div>
             <select name='type_id'>
                 @foreach($type as $type)
+               
                     <option value="{{ $type->id }}">{{ $type->name }}</option>
                 @endforeach
             </select>
-        </div>
+        </div> 
+
 
         <div>
             <select name='category_id'>
@@ -70,7 +72,7 @@
 
         <div>
             <x-input-label for="price" :value="__('Prix')" />
-            <x-text-input id="price" name="price" type="text" class="mt-1 block w-full" required />
+            <x-text-input id="price" name="price" type="text" class="mt-1 block w-full"/>
             <x-input-error class="mt-2" :messages="$errors->get('price')" />
         </div>
 
@@ -82,11 +84,13 @@
 
         <div class="row mb-3">
             <input type="file" name="offer_default_photo">
+            <img src="" name="offer_default_photo" alt="" />
         </div>
 
-
-
-
+        <div>
+            <input type="file" name="offer_photo" multiple>
+            <img src="" alt="">
+        </div>
 
        
         <div class="flex items-center gap-4">

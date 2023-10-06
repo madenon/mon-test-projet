@@ -10,8 +10,11 @@ class OfferImages extends Model
 {
     use HasFactory;
 
+    
+
     protected $fillable = [
         'offer_photo',
+        'offer_id',
     ];
 
     public function offer(): BelongsTo

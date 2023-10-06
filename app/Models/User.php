@@ -14,6 +14,9 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+
+    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -25,6 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'profile_photo_path',
+        'is_online',
     ];
 
     /**
@@ -45,7 +49,13 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+
     ];
+
+    public function getIsOnlineAttribute()
+    {
+        return $this->attributes['is_online'] ? 'Online' : 'Offline';
+    }
 
     
 
