@@ -23,11 +23,10 @@ class OfferController extends Controller
 
     public function index(){
 
-        $offers = Offer::orderBy('created_at', 'DESC')->get();
+        $offers = Offer::orderBy('created_at', 'DESC')->paginate(10);
         $user = User::find(1);
 
         $onlineStatus = $user->is_online;
-
 
         return view('offer.index', compact('offers' , 'onlineStatus'));
     }   
@@ -102,6 +101,13 @@ class OfferController extends Controller
         }
 
         return ''; 
+    }
+
+    protected function show(Offer $offer){
+
+    
+        return view('offer.offer', compact('offer'));
+
     }
 
 

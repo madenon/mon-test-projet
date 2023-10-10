@@ -15,14 +15,21 @@
         </div>
     </div>
 
+    <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">{{ Breadcrumbs::render('offers') }}</li>
+        </ol>
+    </nav>
+    
+    
     <h1>Offres</h1>
     <div class="container">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-3 col-xl-3">
             Filters part
           </div>
 
-          <div class="col-md-9">
+          <div class="col-12 col-xl-9">
 
             
             @foreach ($offers as $offer)
@@ -34,7 +41,7 @@
                 <div class="offer_details">
                     
                     <div class="offer_title">
-                        <h2>{{$offer->name}}</h2>
+                        <a href="{{route('offer.offer', $offer)}}"><h2>{{$offer->name}}</h2></a>
                     </div>
 
                     <div class="offer_category">
@@ -74,7 +81,7 @@
                         </div>
                     </div>
 
-                    <div class="offer_countdown">
+                    <div class="offer_countdown" style="display: none;">
                         <div class="offer_countdown_container">
                             <div class="offer_countdown_containers">
                                 <span>Jours</span>
@@ -140,6 +147,7 @@
          
         </div>
       </div>
+      {{ $offers->links() }}
 </x-app-layout>
 
 

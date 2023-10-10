@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TypeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -42,11 +44,19 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
 
+Route::get('/offres/{offer}', [OfferController::class, 'show'])->name('offer.offer');
+//Route::get('/offres/{categoryslug}', [OfferController::class, 'offersByCategory'])->name('offer.offersByCategory');
+
 Route::middleware('auth')->group(function () {
     Route::get('/offres/creer', [OfferController::class, 'create'])->name('offer.create');
     Route::post('/offer', [OfferController::class, 'store'])->name('offer.store');
     //Route::delete('/offer', [OfferController::class, 'destroy'])->name('offer.destroy');
 });
+
+
+Route::get('/offres/{type}/{category}', [CategoryController::class, 'index'])->name('category.index');
+
+Route::get('/offres/{type}', [TypeController::class, 'index'])->name('type.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
