@@ -23,7 +23,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'first_name',
         'last_name',
         'email',
+        "email_verified_at",
         'password',
+        'role',
+        'phone',
+        'pseudo',
+        'aPropos',
+        'gender',
         'profile_photo_path',
     ];
 
@@ -47,7 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
-    
+
 
     public function userInfo(): HasOne
     {

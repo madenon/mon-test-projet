@@ -14,10 +14,17 @@ return new class extends Migration
         Schema::create('user_infos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->string('role')->default('particulier');
             $table->string('phone')->unique();
-            $table->string('nickname')->unique();
-            $table->enum('gender', ['male', 'female']);
-            $table->text('bio')->nullable();
+            $table->string('pseudo')->nullable();
+            $table->text('aPropos');
+            $table->enum('gender', ['male', 'female'])->default('female');
+            $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamps();
         });
     }

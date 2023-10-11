@@ -15,16 +15,22 @@ class UserInfos extends Model
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
-        'user_id', 
-        'phone', 
+        'user_id',
+        'first_name',
+        'last_name',
+        'email',
+        'phone',
+        "pseudo",
+        'password',
         'gender',
-        'bio',
-        'nickname',
+        'aPropos',
+        'profile_photo_path',
     ];
+ 
 
     protected $hidden = [
         'user_id',
-        
+
     ];
 
     protected $casts = [
