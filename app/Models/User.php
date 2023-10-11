@@ -15,7 +15,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable;
 
 
-    
+
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +26,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'first_name',
         'last_name',
         'email',
+        "email_verified_at",
         'password',
+        'role',
+        'phone',
+        'pseudo',
+        'aPropos',
+        'gender',
         'profile_photo_path',
         'is_online',
     ];
@@ -57,7 +63,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->attributes['is_online'] ? 'Online' : 'Offline';
     }
 
-    
+
 
     public function userInfo(): HasOne
     {

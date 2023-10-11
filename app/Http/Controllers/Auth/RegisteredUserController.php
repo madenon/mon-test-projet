@@ -40,45 +40,69 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'first_name' => ['required', 'string','min:2', 'max:50'],
-            'last_name' => ['required', 'string','min:2', 'max:50'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'first_name' => ['required', 'string', 'min:2', 'max:50'],
+            'last_name' => ['required', 'string', 'min:2', 'max:50'],
+            'email' => ['required', 'string', 'email', 'min:5', 'max:100', 'unique:' . UserInfos::class],
+            'phone' => ['required', 'unique:users', 'regex:/^[0-9]{7,20}$/'],
+            'aPropos' => ['required', 'string', 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'phone' => ['required' , 'string', 'unique:user_infos', 'regex:/(33)[0-9]{9}/'],
-            'gender' => [new Enum(Gender::class)],
-            'bio' => ['nullable','string', 'max:300'],
-            'nickname' => ['required', 'unique:user_infos', 'min:2', 'max:100'],
+            // 'gender' => [new Enum(Gender::class)],
+            'pseudo' => ['nullable', 'string', 'max:300'],
             'profile_photo_path' => ['image', 'max:12288', 'mimes:jpeg,jpg,png'],
-            
-         ],[
-            'email' => 'Ce email exist dèja.',
-            'phone.min' => 'Le numéro de téléphone doit comporter au moins 7 chiffres et au maximum 11 chiffres.',
-            'nickname' => 'Ce pseudonyme existe déjà.',
-            'password'=>'Le mot de passe doit contenir au moins 6 caractères, une combinaison de majuscules et de minuscules, un chiffre et un symbole.',
-            'profile_photo_path' => "L'image doit être moins de 12 Mo."
+        ], [
+            'first_name.required' => 'Le prénom est requis.',
+            'first_name.min' => 'Le prénom doit avoir au moins :min caractères.',
+            'first_name.max' => 'Le prénom ne peut pas dépasser :max caractères.',
+            'last_name.required' => 'Le nom de famille est requis.',
+            'last_name.min' => 'Le nom de famille doit avoir au moins :min caractères.',
+            'last_name.max' => 'Le nom de famille ne peut pas dépasser :max caractères.',
+            'email.required' => 'L\'adresse e-mail est requise.',
+            'email.email' => 'L\'adresse e-mail doit être une adresse e-mail valide.',
+            'email.min' => 'L\'adresse e-mail doit avoir au moins :min caractères.',
+            'email.max' => 'L\'adresse e-mail ne peut pas dépasser :max caractères.',
+            'email.unique' => 'Cette adresse e-mail est déjà utilisée.',
+            'phone.required' => 'Le numéro de téléphone est requis.',
+            'phone.regex' => 'Le numéro de téléphone n\'est pas au bon format.',
+            'phone.unique' => 'Ce numéro de téléphone est déjà utilisé.',
+            'password.required' => 'Le mot de passe est requis.',
+            'password.confirmed' => 'La confirmation du mot de passe ne correspond pas.',
+            'password.min' => 'Le mot de passe doit avoir au moins :min caractères.',
+            'gender.enum' => 'Genre invalide.',
+            'pseudo.max' => 'Le pseudonyme ne peut pas dépasser :max caractères.',
+            'profile_photo_path.image' => 'L\'image doit être au format image (jpeg, jpg, png).',
+            'profile_photo_path.max' => 'L\'image ne peut pas dépasser :max kilo-octets.',
+            'profile_photo_path.mimes' => 'L\'image doit être au format jpeg, jpg ou png.',
+        ], [
+            'min' => ':attribute doit avoir au moins :min caractères.',
+            'max' => ':attribute ne peut pas dépasser :max caractères.',
         ]);
+
 
         DB::transaction(function() use($request){
 
-            // Verify if the profile photo is included in the submitted form
             $storePicture = $request->hasFile('profile_photo_path')? $this->uploadProfilePicture($request->file('profile_photo_path')): null;
 
             $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
+                'phone' => $request->phone,
+                'gender' => $request->gender,
+                'pseudo' => $request->pseudo,
+                'role' => $request->role,
+                'aPropos' => $request->aPropos,
                 'password' => Hash::make($request->password),
                 'profile_photo_path' =>  $storePicture,
             ]);
 
-            $this->createUserInfos($user, $request->only(['phone', 'nickname', 'gender', 'bio']));
+            // $this->createUserInfos($user, $request->only(['first_name','last_name','role',"password",'email','phone', 'pseudo', 'gender', 'aPropos',"profile_photo_path"]));
 
             event(new Registered($user));
 
             Auth::login($user);
         });
-        
-        
+
+
 
         return redirect(RouteServiceProvider::HOME);
     }
@@ -99,10 +123,16 @@ class RegisteredUserController extends Controller
 
         $user->userInfo()->create([
             'user_id' => $user->id,
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'role' => $data['role'],
+            'password' => Hash::make($data['password']),
             'phone' => $data['phone'],
-            'nickname' => $data['nickname'],
+            'pseudo' => $data['pseudo'],
             'gender' => $data['gender'],
-            'bio' =>$data['bio'],
+            'aPropos' => $data['aPropos'],
+            'profile_photo_path' => $data['profile_photo_path'],
         ]);
     }
 }

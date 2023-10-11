@@ -18,9 +18,13 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone')->unique();
+            $table->enum('gender', ['male', 'female'])->default('female');
+            $table->string('pseudo')->nullable();
+            $table->text('aPropos');
             $table->boolean('is_online')->default(false);
             $table->timestamp('last_login')->nullable();
-            $table->string('role')->nullable();
+            $table->string('role')->default('particulier');
             $table->boolean('active')->default(true);
             $table->string('profile_photo_path', 2048)->nullable();
             $table->rememberToken();
