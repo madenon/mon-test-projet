@@ -16,7 +16,7 @@
                     id="professionnel" onclick="selectType('professionnel')">
                     Professionnel
                 </div>
-                {{--  <input type="hidden" name="role" id="selectedType" value="particulier">  --}}
+                {{-- <input type="hidden" name="role" id="selectedType" value="particulier"> --}}
             </div>
             <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                 @csrf
@@ -89,8 +89,8 @@
                     <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                 </div>
                 <div class="mt-4">
-                    <x-text-input id="nickname" class="block mt-1 w-full border-focus" type="text" name="nickname" value=""
-                        placeholder="Pseudo" />
+                    <x-text-input id="nickname" class="block mt-1 w-full border-focus" type="text" name="nickname"
+                        value="" placeholder="Pseudo" />
                     <x-input-error :messages="$errors->get('nickname')" class="mt-2" />
                 </div>
 
