@@ -1,11 +1,11 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Profile Information') }}
+            {{ __('Informations de profile') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and email address.") }}
+            {{ __("Mettez à jour les informations et l'adresse e-mail de votre compte.") }}
         </p>
     </header>
 
@@ -23,15 +23,15 @@
         </div>
 
         <div>
-            <x-input-label for="first_name" :value="__('First Name')" />
-            <x-text-input id="first_name" name="first_name" type="text" class="mt-1 block w-full" :value="old('first_name', $user->name)" required autofocus autocomplete="first_name" />
-            <x-input-error class="mt-2" :messages="$errors->get('first_name')" />
+            <x-input-label for="last_name" :value="__('Nom')" />
+            <x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full" :value="old('last_name', $user->name)" required autofocus autocomplete="last_name" />
+            <x-input-error class="mt-2" :messages="$errors->get('last_name')" />
         </div>
 
         <div>
-            <x-input-label for="last_name" :value="__('Last Name')" />
-            <x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full" :value="old('last_name', $user->name)" required autofocus autocomplete="last_name" />
-            <x-input-error class="mt-2" :messages="$errors->get('last_name')" />
+            <x-input-label for="first_name" :value="__('Prénom')" />
+            <x-text-input id="first_name" name="first_name" type="text" class="mt-1 block w-full" :value="old('first_name', $user->name)" required autofocus autocomplete="first_name" />
+            <x-input-error class="mt-2" :messages="$errors->get('first_name')" />
         </div>
 
         <div>
@@ -59,25 +59,25 @@
         </div>
 
         <div>
-            <x-input-label for="phone" :value="__('Phone')" />
+            <x-input-label for="phone" :value="__('Téléphone')" />
             <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required autocomplete="phone" />
             <x-input-error :messages="$errors->get('phone')" class="mt-2" />
         </div>
 
         <div>
-            <x-input-label for="bio" :value="__('A propos de vous')" />
+            <x-input-label for="bio" :value="__('À propos de vous')" />
             <x-text-input id="bio" class="block mt-1 w-full" type="text" name="bio"  required  />
             <x-input-error :messages="$errors->get('bio')" class="mt-2" />
         </div>
 
         <div>
-            <x-input-label for="nickname" :value="__('Nickname')" />
+            <x-input-label for="nickname" :value="__('Pseudo')" />
             <x-text-input id="nickname" class="block mt-1 w-full" type="text" name="nickname"  required  />
             <x-input-error :messages="$errors->get('nickname')" class="mt-2" />
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <x-primary-button>{{ __('Enregistrer les modifications') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p
