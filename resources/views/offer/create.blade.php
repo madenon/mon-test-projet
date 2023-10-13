@@ -82,15 +82,26 @@
             <x-input-error class="mt-2" :messages="$errors->get('perimeter')" />
         </div>
 
-        <div class="row mb-3">
-            <input type="file" name="offer_default_photo">
-            <img src="" name="offer_default_photo" alt="" />
-        </div>
+        <div
+                    class="flex items-center w-full relative border-dashed border-2 border-gray-300 rounded-md px-3 py-2">
+                    <label for="offer_default_photo" class="cursor-pointer w-full">
+                        <input id="offer_default_photo" type="file" name="offer_default_photo"
+                            class="absolute inset-0 opacity-0 z-10 w-full border-focus" style="width: 0; height: 0;">
+                        <div class="flex items-center justify-center gap-4 text-center w-full">
+                            <img src="" alt="" srcset="">
+                            <p class="text-gray-600 mt-2">Photo de profil</p>
+                        </div>
+                    </label>
 
-        <div>
+                    <!-- Affiche le nom du fichier sélectionné (facultatif) -->
+                    <span id="selectedFileName" class="text-gray-600 mt-2">Aucun fichier sélectionné</span>
+                    <x-input-error :messages="$errors->get('offer_default_photo')" class="mt-2" />
+                </div>
+
+        {{-- <div>
             <input type="file" name="offer_photo" multiple>
             <img src="" alt="">
-        </div>
+        </div> --}}
 
        
         <div class="flex items-center gap-4">

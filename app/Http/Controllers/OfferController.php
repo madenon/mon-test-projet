@@ -16,6 +16,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class OfferController extends Controller
 {
@@ -72,6 +73,7 @@ class OfferController extends Controller
 
                 Offer::create([
                     'name' => $request->name,
+                    'slug' => Str::slug($request->name),
                     'description' => $request-> description,
                     'offer_default_photo' => $storePicture,
                     'price' => $request-> price,
@@ -103,10 +105,13 @@ class OfferController extends Controller
         return ''; 
     }
 
-    protected function show(Offer $offer){
+    protected function show(Offer $offer, $name){
 
-    
-        return view('offer.offer', compact('offer'));
+        $similarOffers = Offer::where('category_id', $offer->catgory_id)->where('id', '!=', $offer->id)->get();
+        
+
+
+        return view('offer.offer', compact(['offer', 'name']));
 
     }
 

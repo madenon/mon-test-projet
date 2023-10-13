@@ -43,8 +43,6 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
-
-Route::get('/offres/{offer}', [OfferController::class, 'show'])->name('offer.offer');
 //Route::get('/offres/{categoryslug}', [OfferController::class, 'offersByCategory'])->name('offer.offersByCategory');
 
 Route::middleware('auth')->group(function () {
@@ -53,6 +51,7 @@ Route::middleware('auth')->group(function () {
     //Route::delete('/offer', [OfferController::class, 'destroy'])->name('offer.destroy');
 });
 
+Route::get('/offres/{offer}/{name}', [OfferController::class, 'show'])->name('offer.offer');
 
 Route::get('/offres/{type}/{category}', [CategoryController::class, 'index'])->name('category.index');
 

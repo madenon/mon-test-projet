@@ -41,7 +41,7 @@
                 <div class="offer_details">
                     
                     <div class="offer_title">
-                        <a href="{{route('offer.offer', $offer)}}"><h2>{{$offer->name}}</h2></a>
+                        <a href="{{route('offer.offer', $offer, $name)}}"><h2>{{$offer->name}}</h2></a>
                     </div>
 
                     <div class="offer_category">

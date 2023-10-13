@@ -5,7 +5,7 @@
                 <div class="row g-0">
                     <div class="col-sm-6 col-md-4 ">
                         <div class="footer-content-infos">
-                            <img src="images/logo-faistroquerfr.svg" alt="Footer logo faistroquer.fr" class="footer-logo" />
+                            <img src="{{asset('images/logo-faistroquerfr.svg')}}" alt="Footer logo faistroquer.fr" class="footer-logo" />
                             <span>
                                 4517 Washington Ave. Manchester, Kentucky 39495
                             </span>

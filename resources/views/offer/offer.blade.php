@@ -42,12 +42,12 @@
                     <!-- Left Section -->
                     <div class="col-span-3 p-4 space-y-4  sm:px-12 max-sm:mx-12">
                         <div class="">
-                            <img src="./images/image.jpeg" alt="" srcset="" class="rounded-md">
+                            <img src="{{ asset("{$offer->offer_default_photo}") }}" alt="" srcset="" class="rounded-md">
                         </div>
                         <!-- Description-->
                         <div class="">
                             <h1 class=" mt-16 mb-11 text-2xl">Description</h1>
-                            <p class="leading-8">                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias
+                            <p class="leading-8">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias
                                 facere maiores odit eos dolores explicabo optio modi, architecto 
                                 dolor quia placeat nulla vitae error est, 
                                 ipsa quibusdam voluptatibus in. Impedit!
@@ -62,7 +62,7 @@
                      <!-- Right Section -->
                      <div class="col-span-2 p-2 space-y-11">
 
-                        <h1 class=" xl:text-2xl lg::text-2xl font-semibold text-xl">Cadre nu peugeot competition vintage 1980 reynolds</h1>
+                        <h1 class=" xl:text-2xl lg::text-2xl font-semibold text-xl">{{$offer->name}}</h1>
 
                         <button class=" bg-green-800 w-full py-6 rounded-md text-white text-lg font-medium"> Troquez Maintenant</button>
 
@@ -78,7 +78,7 @@
                                     <div class="">
                                         <ul class="flex">
                                             <li>
-                                                <a class="font-semibold" href="">Vehicules</a>
+                                                <a class="font-semibold" href="">{{$offer->category->name}}</a>
                                             </li>
                                             <li>
                                                 >
@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="flex space-x-2">
                                     <p class=" text-gray-500  ">Mis en ligne le  : </p>
-                                    <p class="font-semibold"> 12 Sept 2023 <span>18:40:52</span></p>
+                                    <p class="font-semibold"> {{$offer->created_at->format('d M Y | H:i:s')}}</p>
                                 </div>
                             </div>
 
@@ -104,11 +104,12 @@
                             <hr class="w-full">
                 
                             <div class=" p-4">
-                                <h1><span></span> Longuedoc-Roussilion-Herault</h1>
+
+                                <h4 class="flex"><span><img width="24" height="24" src="{{asset('images/location-21.svg')}}" alt="Localisation"/></span>{{$offer->region->name . ", " . $offer->department->name}}</h4>
                             </div>
                             <hr class="w-full">
                             <div class=" flex justify-between m-4">
-                                <h1 class="font-semibold text-lg">70.00 $</h1>
+                                <h1 class="font-semibold text-lg">{{$offer->price . "€" }}</h1>
                                 <button class="text-sm bg-orange-200 rounded-xl px-2 text-orange-600"><span class=" bg-orange-700 text-white rounded-full px-[4px] py-[1px] mx-2">$</span>Vente autorise</button>
                             </div>
                             <hr>
@@ -128,10 +129,10 @@
                     <div class=" flex align-items-center justify-between p-4">
                         <div class="space-x-4 flex flex-row align-items-center">
                             <div class="rounded-full bg-gray-500 overflow-hidden w-16 h-16 text-center flex justify-center">
-                                <img src="./images/profile.jpeg" alt="" class=" object-cover" width="100%" >
+                                <img src="{{ asset($offer->user->profile_photo_path) }}" alt="" class=" object-cover" width="100%" >
                             </div>
                             <div class="">
-                                <h1 class="text-lg">Jacob Jones</h1>
+                                <h1 class="text-lg">{{$offer->user->first_name . " " . $offer->user->last_name}}</h1>
                                 <span class="text-green-600">En ligne</span>
                             </div>
                             <div class="px-4 h-8 leading-10 border-[2px] space-x-2 border-green-500 rounded-full flex justify-center align-items-center">
@@ -228,18 +229,18 @@
 
     {{-- End new design --}}
 
-<div class="offer_list_card">
-    <div class="offer_image" style="background-image:url('{{ asset("{$offer->offer_default_photo}") }}')"></div>
+{{-- <div class="offer_list_card">
+    <div class="offer_image" style="background-image:url('')"></div>
     <div class="offer_details">
         
         <div class="offer_title">
-            <h2>{{$offer->name}}</h2>
+            <h2></h2>
         </div>
 
         <div class="offer_category">
             <div class="offer_category_item">
                 <img src="images/category-8.svg" alt="Category"/>
-                <p>{{$offer->category->name}}</p>
+                <p></p>
             </div>
             <div class="offer_category_item">
                 <img width="18" height="18" src="images/category-8.svg" alt="Category"/>
@@ -254,8 +255,8 @@
 
         <div class="offer_localisation_price">
             <div class="offer_localisation">
-                <img width="18" height="18" src="images/location-21.svg" alt="Localisation"/>
-                <p>{{$offer->region->name . ", " . $offer->department->name}}</p>
+                
+                <p></p>
             </div>
 
             <div class="offer_price">
@@ -322,17 +323,17 @@
                         </div>
                     </div>
                     
-                        {{-- <div class="offer_owner_content_infos_status
+                         <div class="offer_owner_content_infos_status
                             @if ($onlineStatus == 'Online')
                                 text-green-500
                             @else
                                 text-red-500
                             @endif">
                             {{$offer->user->is_online}}</div>
-                        </div> --}}
+                        </div> 
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 </x-app-layout>

@@ -17,6 +17,7 @@ class Offer extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'description',
         'exchange_state',
         'experience',
