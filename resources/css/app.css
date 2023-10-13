@@ -19,39 +19,126 @@
         padding-left: 15% !important;
     }
 
+
+
+
+
+@media (max-width: 1264px) {
+    .title-div span{
+        width: 20%;
+    }
+    .login-div{
+        width: 50%;
+    }
+}
+@media (max-width: 1076px) {
+    .title-div span{
+        width: 15%;
+    }
+    .login-div{
+        width: 60%;
+    }
+}
+@media (max-width: 935px) {
+    .title-div span{
+        width: 12%;
+    }
+    .login-div{
+        width: 70%;
+    }
+}
 @media (max-width: 900px) {
     #particulier,
     #professionnel {
         padding-left: 12% !important;
     }
 }
+@media (max-width: 885px) {
+    .title-div span{
+        width: 10%;
+    }
+
+}
 @media (max-width: 850px) {
 
     .form-div{
         padding: 8px !important;
     }
-}
-@media (max-width: 1264px) {
-    .title-div span{
-        width: 20%;
+    .footer-login .partie-droite{
+        left: 27% ;
+        bottom: 50px;
     }
-
-}
-@media (max-width: 1076px) {
-    .title-div span{
-        width: 15%;
+     .footer-login .partie-gauche{
+        left: 22%;
     }
-
 }
-@media (max-width: 935px) {
-    .title-div span{
-        width: 12%;
-    }
+@media (max-width: 765px) {
 
-}
-@media (max-width: 885px) {
-    .title-div span{
+    .title-div-login span{
         width: 10%;
+    }
+    .footer-login .partie-droite{
+        left: 26% ;
+    }
+    .footer-login .partie-gauche{
+        left: 20%;
+    }
+}
+@media (max-width: 650px) {
+
+    .title-div-login span{
+        width: 8%;
+    }
+    .login-div{
+        width: 77%;
+        margin-top: 20px;
+    }
+    .footer-login .partie-droite{
+        left: 23% ;
+    }
+    .footer-login .partie-gauche{
+        left: 14%;
+    }
+}
+@media (max-width: 580px) {
+.login-div{
+        width: 82%;
+    }
+    .title-div-login span{
+        width: 5%;
+    }
+   .footer-login .partie-droite{
+        left: 17% ;
+        bottom: 7%;
+    }
+    .footer-login .partie-gauche{
+        left: 3%;
+        top: 94%;
+    }
+    .google-fb{
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .facebook ,
+    .google{
+        width: 100%!important;
+        margin: 0px !important;
+    }
+     .footer-login {
+        text-align: center;
+    }
+}
+@media (max-width: 465px) {
+
+    .login-div{
+        border-radius: none !important;
+        margin-top: 0px;
+        padding: 10px;
+        width: 100%;
+    }
+    .footer-login .partie-droite,.partie-gauche{
+
+        left: 10% ;
     }
 
 }
@@ -62,7 +149,9 @@
     .text-Inscrivez{
         padding: 0px !important;
     }
-
+   .footer-login .partie-droite{
+        left: 1%!important ;
+    }
 }
 @media  (max-width: 300px) {
 
@@ -72,7 +161,13 @@
         width: 50%;
 
     }
+    .footer-login{
+        position: none !important; ;
+        height: 40%;
+    }
 }
+
+
 .border-focus:focus{
     border-color: #24A19C !important;
 }
