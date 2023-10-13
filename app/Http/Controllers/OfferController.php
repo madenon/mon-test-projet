@@ -105,7 +105,6 @@ class OfferController extends Controller
 
     protected function show(Offer $offer){
 
-    
         return view('offer.offer', compact('offer'));
 
     }
