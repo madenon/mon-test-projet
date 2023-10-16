@@ -6,57 +6,57 @@
     </x-slot>
 
     <section>
-    <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Ajouter une annonce') }}
-        </h2>
+        <header>
+            <h2 class="text-lg font-medium text-gray-900">
+                {{ __('Ajouter une annonce') }}
+            </h2>
 
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __("Remplir les informations pour poster une annonce.") }}
-        </p>
-    </header>
+            <p class="mt-1 text-sm text-gray-600">
+                {{ __("Remplir les informations pour poster une annonce.") }}
+            </p>
+        </header>
+        <form method="POST" action="{{ route('offer.store') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
+            @csrf
+            @method('POST')
 
-    
-
-    <form method="POST" action="{{ route('offer.store') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
-        @csrf
-        @method('POST')
-
-         <div>
-            <select name='type_id'>
-                @foreach($type as $type)
-               
-                    <option value="{{ $type->id }}">{{ $type->name }}</option>
-                @endforeach
-            </select>
-        </div> 
+            <div>
+                <select name='type_id'>
+                    @foreach($type as $type)
+                
+                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                    @endforeach
+                </select>
+            </div> 
 
 
-        <div>
-            <select name='category_id'>
-                @foreach($category as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                @endforeach
-            </select>
-        </div>
+            <div>
+                <select name='category_id'>
+                    @foreach($category as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <div>
-            <select name='region_id'>
-                @foreach($region as $region)
-                    <option value="{{ $region->id }}">{{ $region->name }}</option>
-                @endforeach
-            </select>
-        </div>
+            <div>
+                <select name='region_id'>
+                    @foreach($region as $region)
+                        <option value="{{ $region->id }}">{{ $region->name }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <div>
-            <select name='department_id'>
-                @foreach($department as $department)
-                    <option value="{{ $department->id }}">{{ $department->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        
+            <div>
+                <select name='department_id'>
+                    @foreach($department as $department)
+                        <option value="{{ $department->id }}">{{ $department->name }}</option>
+                    @endforeach
+                </select>
+            </div>
             
+                
+            
+            
+
         
         <div>
             <x-input-label for="name" :value="__('Nom de l\'annonce')" />
@@ -103,14 +103,14 @@
             <img src="" alt="">
         </div> --}}
 
-       
-        <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Créer') }}</x-primary-button>
-        </div>
-    </form>
-</section>
+    
 
 
 
+            <div class="flex items-center gap-4">
+                <x-primary-button>{{ __('Créer') }}</x-primary-button>
+            </div>
+        </form>
+    </section>
 
 </x-app-layout>

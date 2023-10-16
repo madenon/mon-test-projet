@@ -105,14 +105,21 @@ class OfferController extends Controller
         return ''; 
     }
 
-    protected function show(Offer $offer, $name){
+    protected function show(Offer $offer, $slug){
 
-        $similarOffers = Offer::where('category_id', $offer->catgory_id)->where('id', '!=', $offer->id)->get();
+        $similarOffers = Offer::where('category_id', $offer->category_id)->where('id', '!=', $offer->id)->get();
+        
+        
+        $slug = Offer::where('slug', $offer->slug)->get('slug');
+
+        $type = Type::where('id', $offer->type_id)->pluck('name')->first();
         
 
-
-        return view('offer.offer', compact(['offer', 'name']));
-
+        $category = Category::where('id', $offer->category_id)->pluck('name')->first();
+        
+        
+               
+        return view('offer.offer', compact(['offer', 'slug', 'type', 'category', 'similarOffers']));
     }
 
 
