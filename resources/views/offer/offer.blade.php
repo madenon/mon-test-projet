@@ -13,7 +13,7 @@
         <div class="container m-auto">
             <!-- links -->
             <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
-                <ol class="breadcrumb">
+                <ol class="breadcrumb bg-slate-400">
                   <li class="breadcrumb-item active" aria-current="page">{{ Breadcrumbs::render('category', $type, $category) }}</li>
                 </ol>
             </nav>
@@ -38,8 +38,8 @@
                                 ipsum eveniet ipsam eos tenetur ratione assumenda mollitia incidunt harum doloremque, quo omnis atque, corrupti sed.</p>
                         </div>
                         <!-- map section-->
-                        <div class="">
-                            <img src="{{asset('images/map.jpeg')}}" alt="" srcset="">
+                        <div id="map" style="height: 400px; width: 700px; border-radius: 10px;">
+                            
                         </div>
                     </div>
                      <!-- Right Section -->
@@ -104,8 +104,11 @@
                         </div>
 
                         <!-- Signaiez ce troc-->
-                        <button class="bg-gray-100 px-6 py-2 rounded-xl border-b-2 border-gray-600 text-gray-500 text-lg font-light"><span></span> Signaiez ce troc</button>
-
+                        <div class="d-flex gap-2 bg-gray-100 px-6 py-2 rounded-xl border-b-2 border-gray-600 w-52">
+                            <img src="{{asset('images/flag-svgrepo-com.svg')}}" alt="">
+                            <button class=" text-gray-500 text-lg font-light"><span></span> Signaiez ce troc</button>
+                        </div>
+                        
                         <!--  -->
                      <div class="border-[1px] border-gray-300 rounded-md space-y-4">
                         <!-- Profile and Reviews -->
@@ -244,6 +247,37 @@
             autoplaySpeed: 2000,
         });
     });
+      </script>
+
+      <script>
+        
+        function initMap(){
+            // map options
+            var options = {
+                zoom:8,
+                center:{lat:34.6820, lng:-1.9002}
+            }
+            
+            // New map 
+            var map = new google.maps.Map(document.getElementById('map'), options);
+
+            // map marker
+            
+            addMarker({lat:34.6820, lng:-1.9002});
+
+            function addMarker(coords){
+                var marker = new google.maps.Marker({
+                position:coords,
+                map:map
+            });
+            }
+
+
+        }
+
+      </script>
+      <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBB19IBnomMnlfb3EYBf7G16-zcZGkd6IE&callback=initMap">
       </script>
     
 </body>
