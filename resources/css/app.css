@@ -8,7 +8,7 @@
     color:#24A19C;
 }
 
-.bg-btn-register,.bg-type
+.bg-btn-register,.bg-type,.btn-add-offre
 {
     background-color: #24A19C;
 }
@@ -20,6 +20,10 @@
     }
 
 
+select:active,select:focus {
+    outline: none;
+    border:1px solid #24A19C;
+}
 
 
 
