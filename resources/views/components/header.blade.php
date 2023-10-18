@@ -7,13 +7,13 @@
                 </a>
             </div>
             <div id="header-categories-button">
-                <button 
-                    id="header-categories-button-btn" 
+                <button
+                    id="header-categories-button-btn"
                     class="header-categories-button-button">
-                        <img 
-                            src="{{ asset('images/list-icon-24.svg') }} " 
-                            alt="" 
-                            id="header-categories-button-button-icon" /> 
+                        <img
+                            src="{{ asset('images/list-icon-24.svg') }} "
+                            alt=""
+                            id="header-categories-button-button-icon" />
                         <span class="header-categories-button-button-span">Categories</span>
                 </button>
             </div>
@@ -37,7 +37,7 @@
                     <span>Filtre</span>
                 </button>
             </div>
-            
+
             <div id="header-user">
                 @auth
                 <!-- Authenticated User -->
@@ -105,7 +105,7 @@
                             </li>
                         </ul>
                     </div>
-                    
+
                     <div id="header-user-messages-icon" class="">
                         <div class="header-user-messages-icon-newmessages"></div>
                     </div>
@@ -147,13 +147,13 @@
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
-                                    
+
                                     <!-- Authentication -->
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
 
-                                        <a 
-                                            class="header-user-avatar-dropdown-item" href="route('logout')" 
+                                        <a
+                                            class="header-user-avatar-dropdown-item" href="route('logout')"
                                             onclick="event.preventDefault();
                                                             this.closest('form').submit();">
                                             <img src="{{ asset('images/log-out-icon-16.svg') }} " alt="" class="header-user-avatar-dropdown-item-img" />
@@ -171,7 +171,7 @@
                 <div id="header-guest-user">
                     <div class="dropdown" class="header-guest-user-content">
                         <button class="header-guest-user-btn" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('images/user-icon-24.svg') }} " alt="" class="" /> 
+                            <img src="{{ asset('images/user-icon-24.svg') }} " alt="" class="" />
                             <span>S'authentifier</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end header-user-avatar-dropdown">
@@ -193,12 +193,12 @@
                 </div>
                 @endguest
             </div>
-            
+
             <div id="header-create-add-button">
                 <button class="">
                     <div class="header-create-add-button-img">
                         <img src="{{ asset('images/plus-icon-white.svg') }}" alt="" />
-                    </div> 
+                    </div>
                     <span>
                         Déposer <br />
                         une annonce
