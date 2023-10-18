@@ -24,6 +24,11 @@
 
     <h1>Offres</h1>
     <div class="container">
+        <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item active" aria-current="page">{{ Breadcrumbs::render('offers') }}</li>
+            </ol>
+        </nav>
         <div class="row">
           <div class="col-3 col-xl-3">
             Filters part
@@ -33,15 +38,12 @@
 
 
             @foreach ($offers as $offer)
-
-
-
             <div class="offer_list_card">
                 <div class="offer_image" style="background-image:url('{{ asset("{$offer->offer_default_photo}") }}')"></div>
                 <div class="offer_details">
 
                     <div class="offer_title">
-                        <a href="{{route('offer.offer', $offer)}}"><h2>{{$offer->name}}</h2></a>
+                        <a href="{{route('offer.offer', [$offer, urlencode($offer->slug)])}}"><h2>{{$offer->name}}</h2></a>
                     </div>
 
                     <div class="offer_category">

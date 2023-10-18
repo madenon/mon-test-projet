@@ -110,6 +110,7 @@ class OfferController extends Controller
                 OfferImages::create([
                     'offer_photo' => $name,
                     'offer_id' => $id
+
                 ]);
             }
         });
@@ -129,15 +130,23 @@ class OfferController extends Controller
         return '';
     }
 
-    protected function show(Offer $offer)
+
+    protected function show(Offer $offer, $slug)
     {
-        return view('offer.offer', compact('offer'));
 
+        $similarOffers = Offer::where('category_id', $offer->category_id)->where('id', '!=', $offer->id)->get();
+
+
+        $slug = Offer::where('slug', $offer->slug)->get('slug');
+
+        $type = Type::where('id', $offer->type_id)->pluck('name')->first();
+
+
+        $category = Category::where('id', $offer->category_id)->pluck('name')->first();
+
+
+        return view('offer.offer', compact(['offer', 'slug', 'type', 'category', 'similarOffers']));
     }
-
-
-
-
 
 
 }

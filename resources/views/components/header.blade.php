@@ -2,8 +2,8 @@
         <div class="h-container">
             <div id="header-logo" class="">
                 <a href="">
-                    <img src="{{ asset('images/logo-faistroquerfr.svg') }} " alt="Logo faistroquer.fr" class="logo-desktop" />
-                    <img src="{{ asset('images/logo-mobile.svg') }} " alt="Logo faistroquer.fr" class="logo-mobile" />
+                    <img src="{{asset('images/logo-faistroquerfr.svg')}}" alt="Logo faistroquer.fr" class="logo-desktop" />
+                    <img src="{{asset('images/logo-mobile.svg')}}" alt="Logo faistroquer.fr" class="logo-mobile" />
                 </a>
             </div>
             <div id="header-categories-button">
@@ -14,6 +14,8 @@
                             src="{{ asset('images/list-icon-24.svg') }} "
                             alt=""
                             id="header-categories-button-button-icon" />
+
+
                         <span class="header-categories-button-button-span">Categories</span>
                 </button>
             </div>
@@ -24,16 +26,16 @@
                     </button>
                     <input id="header-search-input" type="search" placeholder="Rechercher un truc..." />
                     <button id="header-search-submit" type="submit">
-                        <img src="{{ asset('images/search-icon.svg') }} " alt="Recherche" />
+                        <img src="{{asset('images/search-icon.svg')}}" alt="Recherche" />
                     </button>
                 </form>
                 <button id="header-search-icon-mobile">
-                    <img src="{{ asset('images/search-icon-dark.svg') }} " alt="" />
+                    <img src="{{asset('images/search-icon-dark.svg')}}" alt="" />
                 </button>
             </div>
             <div id="header-filter">
                 <button>
-                    <img src="{{ asset('images/filter-icon.svg') }} " alt="" />
+                    <img src="{{asset('images/filter-icon.svg')}}" alt="" />
                     <span>Filtre</span>
                 </button>
             </div>
@@ -50,7 +52,7 @@
                             <li>
                                 <div class="notification-dropdown-item">
                                     <div class="notification-dropdown-item-image">
-                                        <img src="{{ asset('images/circle-user-icon.svg') }} " alt="" />
+                                        <img src="{{asset('images/circle-user-icon.svg')}}" alt="" />
                                     </div>
                                     <div class="notification-dropdown-item-content">
                                         <a href="">
@@ -64,7 +66,7 @@
                             <li>
                                 <div class="notification-dropdown-item">
                                     <div class="notification-dropdown-item-image">
-                                        <img src="{{ asset('images/circle-user-icon.svg') }} " alt="" />
+                                        <img src="{{asset('images/circle-user-icon.svg')}}" alt="" />
                                     </div>
                                     <div class="notification-dropdown-item-content">
                                         <a href="">
@@ -78,7 +80,7 @@
                             <li>
                                 <div class="notification-dropdown-item">
                                     <div class="notification-dropdown-item-image">
-                                        <img src="{{ asset('images/circle-user-icon.svg') }} " alt="" />
+                                        <img src="{{asset('images/circle-user-icon.svg')}}" alt="" />
                                     </div>
                                     <div class="notification-dropdown-item-content">
                                         <a href="">
@@ -92,7 +94,7 @@
                             <li>
                                 <div class="notification-dropdown-item notification-dropdown-item-last-child">
                                     <div class="notification-dropdown-item-image">
-                                        <img src="{{ asset('images/circle-user-icon.svg') }} " alt="" />
+                                        <img src="{{asset('images/circle-user-icon.svg')}}" alt="" />
                                     </div>
                                     <div class="notification-dropdown-item-content">
                                         <a href="">
@@ -112,36 +114,36 @@
                     <div id="header-user-avatar-icon" >
                         <div class="dropdown">
                             <div class="" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ asset('images/user-avatar-icon.svg') }} " alt="" class="header-user-avatar-icon-img" />
+                                <img src="{{asset('images/user-avatar-icon.svg')}}" alt="" class="header-user-avatar-icon-img" />
                             </div>
                             <ul class="dropdown-menu dropdown-menu-end header-user-avatar-dropdown">
                                 <li>
                                     <a class="header-user-avatar-dropdown-item" href="#">
-                                        <img src="{{ asset('images/user-icon-16.svg') }} " class="header-user-avatar-dropdown-item-img" alt="" />
+                                        <img src="{{asset('mages/user-icon-16.svg')}}" class="header-user-avatar-dropdown-item-img" alt="" />
                                         Mon compte
                                     </a>
                                 </li>
                                 <li>
                                     <a class="header-user-avatar-dropdown-item" href="#">
-                                        <img src="{{ asset('images/mail-icon-16.svg') }} " alt="" class="header-user-avatar-dropdown-item-img" />
+                                        <img src="{{asset('images/mail-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
                                         Mes messages
                                     </a>
                                 </li>
                                 <li>
                                     <a class="header-user-avatar-dropdown-item" href="#">
-                                        <img src="{{ asset('images/list-icon-16.svg') }} " alt="" class="header-user-avatar-dropdown-item-img" />
+                                        <img src="{{asset('images/list-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
                                         Mes annonces
                                     </a>
                                 </li>
                                 <li>
                                     <a class="header-user-avatar-dropdown-item" href="#">
-                                        <img src="{{ asset('images/shopping-bag-icon-16.svg') }} " alt="" class="header-user-avatar-dropdown-item-img" />
+                                        <img src="{{asset('images/shopping-bag-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
                                         Mes transactions
                                     </a>
                                 </li>
                                 <li>
                                     <a class="header-user-avatar-dropdown-item" href="#">
-                                        <img src="{{ asset('images/shield-icon-16.svg') }} " alt="" class="header-user-avatar-dropdown-item-img" />
+                                        <img src="{{asset('images/shield-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
                                         Crédibilité
                                     </a>
                                 </li>
@@ -156,7 +158,7 @@
                                             class="header-user-avatar-dropdown-item" href="route('logout')"
                                             onclick="event.preventDefault();
                                                             this.closest('form').submit();">
-                                            <img src="{{ asset('images/log-out-icon-16.svg') }} " alt="" class="header-user-avatar-dropdown-item-img" />
+                                            <img src="{{asset('images/log-out-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
                                             Se déconnecter
                                         </a>
                                     </form>
@@ -172,19 +174,20 @@
                     <div class="dropdown" class="header-guest-user-content">
                         <button class="header-guest-user-btn" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="{{ asset('images/user-icon-24.svg') }} " alt="" class="" />
+
                             <span>S'authentifier</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end header-user-avatar-dropdown">
                             <li>
                                 <a class="header-user-avatar-dropdown-item" href="{{ route('login') }}">
-                                    <img src="{{ asset('images/user-icon-16.svg') }} " class="header-user-avatar-dropdown-item-img" alt="" />
+                                    <img src="{{asset('images/user-icon-16.svg')}}" class="header-user-avatar-dropdown-item-img" alt="" />
                                     Se connecter
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="header-user-avatar-dropdown-item" href="{{ route('register') }}">
-                                    <img src="{{ asset('images/user-plus-icon-24.svg') }} " alt="" class="header-user-avatar-dropdown-item-img" />
+                                    <img src="{{asset('images/user-plus-icon-24.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
                                     S'enregistrer
                                 </a>
                             </li>
@@ -198,6 +201,7 @@
                 <button class="">
                     <div class="header-create-add-button-img">
                         <img src="{{ asset('images/plus-icon-white.svg') }}" alt="" />
+
                     </div>
                     <span>
                         Déposer <br />
@@ -209,7 +213,7 @@
         <nav id="header-categories-dropdown-menu">
             <div class="header-categories-dropdown-menu-items">
                 <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
+                    <img src="{{asset('images/map-pin-icon.svg')}}" alt="" />
                     <h3>Immobilier</h3>
                 </a>
                 <a href="" class="header-categories-dropdown-menu-item">

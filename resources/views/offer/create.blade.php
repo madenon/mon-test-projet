@@ -120,6 +120,7 @@
             <div class="flex justify-end gap-4 ">
                 <button class="btn-add-offre text-white p-2 rounded-md px-4 " type="submit">{{ __('Créer l\'annonce')
                     }}</button>
+
             </div>
         </form>
     </section>
