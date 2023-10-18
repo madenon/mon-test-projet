@@ -8,7 +8,7 @@
     color:#24A19C;
 }
 
-.bg-btn-register,.bg-type
+.bg-btn-register,.bg-type,.btn-add-offre
 {
     background-color: #24A19C;
 }
@@ -20,6 +20,10 @@
     }
 
 
+select:active,select:focus {
+    outline: none;
+    border:1px solid #24A19C;
+}
 
 
 
@@ -29,6 +33,12 @@
     }
     .login-div{
         width: 50%;
+    }
+    .add-offre-section{
+        width: 90%;
+    }
+    .sidebar{
+        width: 30%;
     }
 }
 @media (max-width: 1076px) {
@@ -46,6 +56,24 @@
     .login-div{
         width: 70%;
     }
+     .add-offre-section{
+        width: 100%;
+        padding: 10px;
+    }
+    .add-offre,.add-offre-annonce,.add-offre-location{
+        flex-wrap: wrap;
+    }
+    .add-offer-select{
+        /* border:1px solid; */
+        width: 40%;
+        display: flex;
+
+    }
+    .add-offer-select label{
+        /* border: 1px solid red; */
+        width: 50%;
+    }
+
 }
 @media (max-width: 900px) {
     #particulier,
@@ -56,6 +84,9 @@
 @media (max-width: 885px) {
     .title-div span{
         width: 10%;
+    }
+    .sidebar{
+        width: 35%;
     }
 
 }
@@ -83,6 +114,24 @@
     .footer-login .partie-gauche{
         left: 20%;
     }
+    .add-offer-select{
+        display: block;
+        width: 100%;
+    }
+    .add-offre-image {
+        display: flex;
+        flex-wrap: wrap;
+
+    }
+    .input-div-nom{
+        width: 100%;
+    }
+    select,input,.input-div,.div-image{
+        width: 80% !important;
+    }
+
+
+
 }
 @media (max-width: 650px) {
 
@@ -99,6 +148,10 @@
     .footer-login .partie-gauche{
         left: 14%;
     }
+    .sidebar{
+        width: 45%;
+    }
+
 }
 @media (max-width: 580px) {
 .login-div{
@@ -127,6 +180,10 @@
      .footer-login {
         text-align: center;
     }
+    .sidebar{
+        width: 50%;
+    }
+
 }
 @media (max-width: 465px) {
 
@@ -140,6 +197,11 @@
 
         left: 10% ;
     }
+       .sidebar{
+        width: 65%;
+        margin-left: 0!important;
+        margin: auto!important;
+    }
 
 }
 @media (max-width: 340px) {
@@ -151,6 +213,9 @@
     }
    .footer-login .partie-droite{
         left: 1%!important ;
+    }
+       .sidebar{
+        width: 80%;
     }
 }
 @media  (max-width: 300px) {

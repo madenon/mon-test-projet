@@ -15,9 +15,13 @@
         </div>
     </div>
 
-    
-    
-    
+    <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">{{ Breadcrumbs::render('offers') }}</li>
+        </ol>
+    </nav>
+
+
     <h1>Offres</h1>
     <div class="container">
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
@@ -32,15 +36,12 @@
 
           <div class="col-12 col-xl-9">
 
-            
+
             @foreach ($offers as $offer)
-            
-              
-            
             <div class="offer_list_card">
                 <div class="offer_image" style="background-image:url('{{ asset("{$offer->offer_default_photo}") }}')"></div>
                 <div class="offer_details">
-                    
+
                     <div class="offer_title">
                         <a href="{{route('offer.offer', [$offer, urlencode($offer->slug)])}}"><h2>{{$offer->name}}</h2></a>
                     </div>
@@ -78,7 +79,7 @@
                                 </div>
                                 <h2>{{$offer->price . "€" }}</h2>
                             @endif
-                            
+
                         </div>
                     </div>
 
@@ -120,7 +121,7 @@
                                 @else
                                 <img src="{{ asset($offer->user->profile_photo_path) }}" alt="Profile photo">
                                 @endif
-                            
+
                             </div>
                             <div class="offer_owner_content_infos">
                                 <div class="offer_owner_content_infos_name">
@@ -130,7 +131,7 @@
                                         <p>Pro</p>
                                     </div>
                                 </div>
-                                
+
                                     <div class="offer_owner_content_infos_status
                                         @if ($onlineStatus == 'Online')
                                             text-green-500
@@ -145,7 +146,7 @@
             </div>
             @endforeach
           </div>
-         
+
         </div>
       </div>
       {{ $offers->links() }}

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -16,8 +15,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('exchange_state')->nullable();
-            $table->string('experience')->nullable();
+            $table->enum('experience', ['NO_EXPERIENCE', 'LESS_THAN_5_YEARS', 'BETWEEN_5_AND_10_YEARS', 'BETWEEN_10_AND_25_YEARS', 'MORE_THAN_25_YEARS']);
             $table->string('offer_default_photo');
+            $table->string('slug');
             $table->boolean('countdown')->default(false);
             $table->boolean('countdownTo')->nullable();
             $table->boolean('active_offer')->default(true);
@@ -25,6 +25,7 @@ return new class extends Migration
             $table->timestamp('published_at')->nullable();
             $table->boolean('buy_authorized')->default(false);
             $table->float('price')->nullable();
+
             $table->boolean('perimeter_authorized')->default(false);
             $table->integer('perimeter')->nullable();
             $table->boolean('specify_proposition')->default(false);

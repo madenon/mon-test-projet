@@ -10,7 +10,7 @@ class OfferImages extends Model
 {
     use HasFactory;
 
-    
+
 
     protected $fillable = [
         'offer_photo',

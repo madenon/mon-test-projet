@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use App\Enums\ExperienceLevel;
+
 
 class Offer extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    
+
 
     protected $fillable = [
         'name',
@@ -23,6 +25,7 @@ class Offer extends Model
         'experience',
         'offer_default_photo',
         'price',
+        'slug',
         'perimeter',
         'user_id',
         'type_id',
@@ -31,6 +34,10 @@ class Offer extends Model
         'department_id',
     ];
 
+
+    protected $casts = [
+        'level' => ExperienceLevel::class,
+    ];
 
 
     public function user(): BelongsTo

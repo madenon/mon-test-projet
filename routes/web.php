@@ -20,6 +20,10 @@ use Illuminate\Http\Request;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+// Route::get('file/{name}',function(Request $request){
+//     $url=storage_path('app/public/offer_pictures/'.$request->name);
+//     return response()->file($url);
+//  });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -33,7 +37,7 @@ Route::get('/email/verify', function () {
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
- 
+
     return redirect('/dashboard');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
@@ -77,3 +81,5 @@ Route::middleware('auth')->group(function () {
 
 
 require __DIR__.'/auth.php';
+
+
