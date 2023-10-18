@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
 |
 */
 // Route::get('file/{name}',function(Request $request){
-//     $url=storage_path('app/public/profile_pictures/'.$request->name);
+//     $url=storage_path('app/public/offer_pictures/'.$request->name);
 //     return response()->file($url);
 //  });
 
