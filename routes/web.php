@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MyAccountController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TypeController;
@@ -65,5 +66,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::middleware('auth')->group(function () {
+    Route::get('/myaccount', [MyAccountController::class, 'index'])->name('myaccount.index');
+    Route::get('/myaccount/offres', [MyAccountController::class, 'showOffer'])->name('myaccount.offers');
+    Route::get('/myaccount/modifier/{offerId}', [MyAccountController::class, 'editOffer'])->name('myaccount.editOffer');
+
+});
+
+
 
 require __DIR__.'/auth.php';
