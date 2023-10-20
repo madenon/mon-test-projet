@@ -1,7 +1,8 @@
+@props(['parentcategories'])
 <header id="main-header">
         <div class="h-container">
             <div id="header-logo" class="">
-                <a href="">
+                <a href="{{ route('home') }}">
                     <img src="{{asset('images/logo-faistroquerfr.svg')}}" alt="Logo faistroquer.fr" class="logo-desktop" />
                     <img src="{{asset('images/logo-mobile.svg')}}" alt="Logo faistroquer.fr" class="logo-mobile" />
                 </a>
@@ -198,7 +199,7 @@
             </div>
 
             <div id="header-create-add-button">
-                <button class="">
+                <a class="" href="{{ route('offer.create') }}">
                     <div class="header-create-add-button-img">
                         <img src="{{ asset('images/plus-icon-white.svg') }}" alt="" />
 
@@ -207,119 +208,24 @@
                         Déposer <br />
                         une annonce
                     </span>
-                </button>
+                </a>
             </div>
         </div>
         <nav id="header-categories-dropdown-menu">
             <div class="header-categories-dropdown-menu-items">
+                @if($parentcategories)
+
+                @foreach($parentcategories as $parentcategory)
+              
                 <a href="" class="header-categories-dropdown-menu-item">
                     <img src="{{asset('images/map-pin-icon.svg')}}" alt="" />
-                    <h3>Immobilier</h3>
+                    <h3>{{$parentcategory['name']}}</h3>
                 </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Véhicules</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Bricolage</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Multimédia</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Mode</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Maison</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Jardin & Plantes</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Librairie & Papeterie</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Animaux</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Alimentation</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Sports & Loisirs</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Beauté & Bien-être</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Enfance</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Art & Spectacle</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Collection</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Billetterie</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Matériel professionnel</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>CD, Vinyles & Cassettes</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Seniors & Handicap</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Emploi</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Divers</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Immobilier</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Immobilier</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Emploi</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Divers</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Immobilier</h3>
-                </a>
-                <a href="" class="header-categories-dropdown-menu-item">
-                    <img src="{{ asset('images/map-pin-icon.svg') }} " alt="" />
-                    <h3>Immobilier</h3>
-                </a>
+
+                @endforeach
+             
+                @endif
+
             </div>
         </nav>
     </header>

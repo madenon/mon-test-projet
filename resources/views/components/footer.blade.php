@@ -57,69 +57,19 @@
                                     <h3>Categories</h3>
                                     <nav>
                                         <ul class="footer-content-links-grid">
+
+                                            @if($parentcategories)
+
+                                            @foreach($parentcategories as $parentcategory)
+
                                             <li>
-                                                <a href="">Immobilier</a>
+                                                <a href="">{{$parentcategory['name']}}</a>
                                             </li>
-                                            <li>
-                                                <a href="">Véhicules</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Bricolage</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Multimédia</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Mode</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Maison</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Jardin & Plantes</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Librairie & Papeterie</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Animaux</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Alimentation</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Sports & Loisirs</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Beauté & Bien-être</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Enfance</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Art & Spectacle</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Collection</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Billetterie</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Matériel professionnel</a>
-                                            </li>
-                                            <li>
-                                                <a href="">CD, Vinyles & Cassettes</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Seniors & Handicap</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Emploi</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Divers</a>
-                                            </li>
+
+                                            @endforeach
+                                        
+                                            @endif
+
                                         </ul>
                                     </nav>
                                 </div>

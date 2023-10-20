@@ -45,7 +45,7 @@
                      <!-- Right Section -->
                      <div class="col-span-2 p-2 space-y-11">
 
-                        <h1 class=" xl:text-2xl lg::text-2xl font-semibold text-xl" style="color: var(--titles-color);">{{$offer->name}}</h1>
+                        <h1 class=" xl:text-2xl lg::text-2xl font-semibold text-xl" style="color: var(--titles-color);">{{$offer->title}}</h1>
 
                         <button class="w-full py-6 rounded-md text-white text-lg font-bold" style="background-color: var(--primary-color); font-size: 30px;"> Troquez Maintenant</button>
 

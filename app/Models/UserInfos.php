@@ -19,7 +19,7 @@ class UserInfos extends Model
         'phone',
         'gender',
         'bio',
-        'nickname',
+        'nickname'
     ];
 
 

@@ -21,16 +21,22 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen">
-            @include('components/header')
+            <x-header />
 
             <!-- Page Heading -->
-            @if (isset($header))
+             @if (isset($header))
                 <header class="bg-white">
                     <div class="container pt-6">
                         {{ $header }}
                     </div>
                 </header>
-            @endif
+            @endif 
+
+            
+
+
+
+
 
             <!-- Page Content -->
 
@@ -38,7 +44,7 @@
                 {{ $slot }}
             </main>
 
-            @include('components/footer')
+            <x-footer />
 
         </div>
 

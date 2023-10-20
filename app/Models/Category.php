@@ -17,6 +17,8 @@ class Category extends Model
         'name',
         'category_photo',
         'count',
+        'parent_id',
+        'type_id'
     ];
 
 
@@ -29,5 +31,15 @@ class Category extends Model
     public function type(): BelongsTo
     {
         return $this->belongsTo(Type::class);
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
     }
 }

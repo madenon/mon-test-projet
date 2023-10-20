@@ -25,7 +25,6 @@ return new class extends Migration {
             $table->timestamp('published_at')->nullable();
             $table->boolean('buy_authorized')->default(false);
             $table->float('price')->nullable();
-
             $table->boolean('perimeter_authorized')->default(false);
             $table->integer('perimeter')->nullable();
             $table->boolean('specify_proposition')->default(false);

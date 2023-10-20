@@ -6,15 +6,6 @@
 
     </x-slot>
 
-    <div class="">
-        <div class="container">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <h1>We are Home Page</h1>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <h1>Home</h1>
+
 </x-app-layout>

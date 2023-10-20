@@ -13,18 +13,16 @@ class TypeSeeder extends Seeder
      */
     public function run(): void
     {
-        $type = [
-            ['name' => 'Adoption'],
-            ['name' => 'Bien'],
-            ['name' => 'Don'],
-            ['name' => 'Moment'],
-            ['name' => 'Prêt et Location'],
-            ['name' => 'Savoir'],
-            ['name' => 'Service'],
-
-
+        $types = [
+            ['id' => 1, 'name' => 'Adoption'],
+            ['id' => 2, 'name' => 'Bien'],
+            ['id' => 3, 'name' => 'Don'],
+            ['id' => 4, 'name' => 'Moment'],
+            ['id' => 5, 'name' => 'Prêt et Location'],
+            ['id' => 6, 'name' => 'Savoir'],
+            ['id' => 7, 'name' => 'Service'],
         ];
 
-        Type::insert($type);
+        Type::insert($types);
     }
 }

@@ -1,34 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Index') }}
+            {{ __('Offres') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item active" aria-current="page">{{ Breadcrumbs::render('offers') }}</li>
-        </ol>
-    </nav>
-
-
-    <h1>Offres</h1>
     <div class="container">
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
             <ol class="breadcrumb">
-              <li class="breadcrumb-item active" aria-current="page">{{ Breadcrumbs::render('offers') }}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ Breadcrumbs::render('offers') }}</li>
             </ol>
         </nav>
+    </div>
+    
+    <div class="container">
         <div class="row">
           <div class="col-3 col-xl-3">
             Filters part
@@ -39,11 +25,15 @@
 
             @foreach ($offers as $offer)
             <div class="offer_list_card">
-                <div class="offer_image" style="background-image:url('{{ asset("{$offer->offer_default_photo}") }}')"></div>
+                <div 
+                    class="offer_image bg-[url({{ asset('{$offer->offer_default_photo}') }})]" 
+                    >
+                    <img src="{{url($offer->offer_default_photo)}}" alt="" />
+                </div>
                 <div class="offer_details">
 
                     <div class="offer_title">
-                        <a href="{{route('offer.offer', [$offer, urlencode($offer->slug)])}}"><h2>{{$offer->name}}</h2></a>
+                        <a href="{{route('offer.offer', [$offer, urlencode($offer->slug)])}}"><h2>{{$offer->title}}</h2></a>
                     </div>
 
                     <div class="offer_category">
