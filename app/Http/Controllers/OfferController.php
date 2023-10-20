@@ -136,16 +136,13 @@ class OfferController extends Controller
 
         $similarOffers = Offer::where('category_id', $offer->category_id)->where('id', '!=', $offer->id)->get();
 
-
         $slug = Offer::where('slug', $offer->slug)->get('slug');
 
         $type = Type::where('id', $offer->type_id)->pluck('name')->first();
-
-
+        $images=OfferImages::where('offer_id',$offer->id)->get();
         $category = Category::where('id', $offer->category_id)->pluck('name')->first();
-
-
-        return view('offer.offer', compact(['offer', 'slug', 'type', 'category', 'similarOffers']));
+        $sousCategorys = Category::where('parent_id', $offer->category_id)->get()[0];
+        return view('offer.offer', compact(['offer', 'slug', 'type', 'category', 'similarOffers','sousCategorys','images']));
     }
 
 

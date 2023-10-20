@@ -20,10 +20,10 @@ use Illuminate\Http\Request;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-// Route::get('file/{name}',function(Request $request){
-//     $url=storage_path('app/public/offer_pictures/'.$request->name);
-//     return response()->file($url);
-//  });
+Route::get('file/{name}',function(Request $request){
+    $url=storage_path('app/public/offer_pictures/'.$request->name);
+    return response()->file($url);
+ });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 

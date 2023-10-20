@@ -4,394 +4,208 @@
             {{ __('Index') }}
         </h2>
     </x-slot>
-
-    {{-- New design --}}
-
-    
-
-    <div class=" w-full">
-        <div class="container m-auto">
-            <!-- links -->
-            <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
-                <ol class="breadcrumb bg-slate-400">
-                  <li class="breadcrumb-item active" aria-current="page">{{ Breadcrumbs::render('category', $type, $category) }}</li>
-                </ol>
-            </nav>
-            
-
-            <!-- -->
-            <div class="">
-                <div class="grid-container grid xl:grid-cols-5 grid-cols-2 container">
-                    <!-- Left Section -->
-                    <div class="col-span-3 p-4 space-y-4  sm:px-12 max-sm:mx-12">
-                        <div class="">
-                            <img src="{{ asset("{$offer->offer_default_photo}") }}" alt="" srcset="" class="rounded-md">
-                        </div>
-                        <!-- Description-->
-                        <div class="">
-                            <h1 class=" mt-16 mb-11 text-2xl color" style="color: var(--titles-color);">Description</h1>
-                            <p class="leading-8">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias
-                                facere maiores odit eos dolores explicabo optio modi, architecto 
-                                dolor quia placeat nulla vitae error est, 
-                                ipsa quibusdam voluptatibus in. Impedit!
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla, recusandae ut quidem quae pariatur 
-                                ipsum eveniet ipsam eos tenetur ratione assumenda mollitia incidunt harum doloremque, quo omnis atque, corrupti sed.</p>
-                        </div>
-                        <!-- map section-->
-                        <div id="map" style="height: 400px; width: 700px; border-radius: 10px;">
-                            
-                        </div>
-                    </div>
-                     <!-- Right Section -->
-                     <div class="col-span-2 p-2 space-y-11">
-
-                        <h1 class=" xl:text-2xl lg::text-2xl font-semibold text-xl" style="color: var(--titles-color);">{{$offer->name}}</h1>
-
-                        <button class="w-full py-6 rounded-md text-white text-lg font-bold" style="background-color: var(--primary-color); font-size: 30px;"> Troquez Maintenant</button>
-
-                        <!-- border -->
-                        <div class="border-[1px] border-gray-300 rounded-md space-y-4">
-                            <div class="space-y-2 text-sm p-4">
-                                <div class="flex space-x-2">
-                                    <p class=" text-gray-500" style=" color:var(--text-color); " >Type de troc :</p>
-                                    <p class="font-semibold" style="color: var(--titles-color);">{{$offer->type->name}}</p>
-                                </div>
-                                <div class="flex space-x-2">
-                                    <p class=" text-gray-500" style=" color:var(--text-color); ">Categorie :</p>
-                                    <div class="">
-                                        <ul class="flex">
-                                            <li>
-                                                <a class="font-semibold text-decoration-none" href="" style="color: var(--titles-color);">{{$offer->category->name}}</a>
-                                            </li>
-                                            <li>
-                                                >
-                                            </li>
-                                            <li>
-                                                <a class="font-semibold text-decoration-none" href="" style="color: var(--titles-color);">{{$offer->category->name}}</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="flex space-x-2">
-                                    <p class=" text-gray-500  ">Mis en ligne le  : </p>
-                                    <p class="font-semibold" style="color: var(--titles-color);"> {{$offer->created_at->format('d M Y | H:i:s')}}</p>
-                                </div>
-                            </div>
-
-                            <hr class="w-full">
-
-                            <div class="flex space-x-2 p-4">
-                                <p class=" text-gray-500  ">L'etat : </p>
-                                <p class="font-semibold" style="color: var(--titles-color);"><span></span> Tres Bon etat</p>
-                            </div>
-                            <hr class="w-full">
-                
-                            <div class=" p-4">
-
-                                <h4 class="flex" style="color: var(--titles-color);"><span><img width="24" height="24" src="{{asset('images/location-21.svg')}}" alt="Localisation"/></span>{{$offer->region->name . ", " . $offer->department->name}}</h4>
-                            </div>
-                            <hr class="w-full">
-                            <div class=" flex justify-between m-4">
-                                <h1 class="font-semibold text-lg" style="color: var(--titles-color);">{{$offer->price . "€" }}</h1>
-                                <button class="text-sm bg-orange-200 rounded-xl px-2 text-orange-600"><span class=" bg-orange-700 text-white rounded-full px-[4px] py-[1px] mx-2">$</span>Vente autorise</button>
-                            </div>
-                            <hr>
-                            <div class="uppercase p-4 bg-gray-100">
-                                <h2 class="text-base">A Echanger contre :</h2>
-                                <p class="mx-4"><span></span> Etudue tout propostion</p>
-                            </div>
-
-                        </div>
-
-                        <!-- Signaiez ce troc-->
-                        <div class="d-flex gap-2 bg-gray-100 px-6 py-2 rounded-xl border-b-2 border-gray-600 w-52">
-                            <img src="{{asset('images/flag-svgrepo-com.svg')}}" alt="">
-                            <button class=" text-gray-500 text-lg font-light"><span></span> Signaiez ce troc</button>
-                        </div>
-                        
-                        <!--  -->
-                     <div class="border-[1px] border-gray-300 rounded-md space-y-4">
-                        <!-- Profile and Reviews -->
-                    <div class=" flex align-items-center justify-between p-4">
-                        <div class="space-x-4 flex flex-row align-items-center">
-                            <div class="rounded-full bg-gray-500 overflow-hidden w-16 h-16 text-center flex justify-center">
-                                <img src="{{ asset($offer->user->profile_photo_path) }}" alt="" class=" object-cover" width="100%" >
-                            </div>
-                            <div class="">
-                                <h1 class="text-lg">{{$offer->user->first_name . " " . $offer->user->last_name}}</h1>
-                                <span class="text-green-600">En ligne</span>
-                            </div>
-                            <div class="px-4 h-8 leading-10 border-[2px] space-x-2 rounded-full flex justify-center align-items-center" style="background-color: var(--primary-color-hover);">
-                                <!-- add star icon-->
-                                <h3 class=" text-base font-bold justify-content-center">Pro</h3>
-                            </div>
-                        </div>
-                        <!-- Reviews -->
-                        <div class="">
-                            <h3 class="text-lg">4/5 <span class="text-sm font-semibold">(6 avis)</span></h3>
-                            <div class="">
-                                <div class="">
-                                    <i class="fa-solid fa-star text-yellow-500"></i>
-                                    <i class="fa-solid fa-star text-yellow-500"></i>
-                                    <i class="fa-solid fa-star text-yellow-500"></i>
-                                    <i class="fa-solid fa-star text-yellow-500"></i>
-                                    <i class="fa-solid fa-star text-gray-200"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" flex justify-between p-4">
-                        <h3 class="text-lg"><span class="text-sm font-semibold px-2 py-1 bg-gray-200 rounded-full" style="color: var(--text-color)" >0</span> Trocs</h3>
-                        <h3 class="text-lg"><span class="text-sm font-semibold px-2 py-1 bg-gray-200 rounded-full" style="color: var(--text-color)">1</span> Offres</h3>
-                        <h3 class="text-lg"><span class="text-sm font-semibold px-2 py-1 bg-gray-200 rounded-full" style="color: var(--text-color)">0</span> Avis</h3>
-                    </div>
-                    <div class="flex space-x-4 p-4">
-                        <button class=" w-full py-6 rounded-md text-white text-lg font-medium" style="background-color: var(--primary-color-hover);"> Voir profile</button>
-                        <button class=" w-full py-6 rounded-md text-white text-lg font-medium" style="background-color: var(--titles-color);"> Contact</button>
-                    </div>
-                    <div class="text-center">
-                        <h4>Pargtagez cette annonce a vos amis</h4>
-                        <ul class="flex space-x-2 p-4 justify-center ">
-                            <li>
-                                <a href="#"><i class="fa-brands fa-facebook text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-600 hover:text-white"></i>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa-brands fa-twitter text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-600 hover:text-white"></i>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa-brands fa-youtube text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-600 hover:text-white"></i>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa-brands fa-facebook text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-600 hover:text-white"></i>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa-brands fa-whatsapp text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-600 hover:text-white"></i>
-                            </li>
-                        </ul>
-                    </div>
-
-                    
-                    
-                </div>
-                
+    <div class="flex gap-5 offre-page">
+        <div class="w-[50%] ml-12 partie-slide">
+            <div class=" flex flex-col gap-6">
+                <div class="">
+                    <img src="{{ storage_path('/app/public/offer_pictures/'). $images[0]->offer_photo}}"
+                        alt="Image principale" id="mainImage" class="  rounded-lg " />
                 </div>
 
+                <div class="flex scrollBar  gap-3 overflow-x-auto  ">
+                    @foreach ($images as $img)
 
-                @foreach ($similarOffers as $similarOffer)
-                <div class="bg-white rounded-lg overflow-hidden shadow-lg ring-4 ring-red-500 ring-opacity-40 max-w-dm w-96">
-                    <div class="relative">
-                        <img class="w-full" src="{{asset($similarOffer->offer_default_photo)}}" alt="Product Image">
-                        
-                    </div>
-                    <div class="p-4 text-decoration-none">
-                        <div class="d-flex align-items-center text-decoration-none">
-                            <img width="18" height="18" src="{{asset('images/category-8.svg')}}" alt="">
-                            <p class="text-gray-600 text-sm mb-4 text-decoration-none">{{$similarOffer->category->name}}</p>
-                        </div>
-                        
-                        
-                        <h3 class="text-lg font-medium mb-2 text-decoration-none">{{$similarOffer->name}}</h3>
-
-                        <hr>
-                        <div class="flex items-center justify-between text-decoration-none">
-                            <p class="font-bold text-lg text-decoration-none">{{$similarOffer->region->name .', ' . $similarOffer->department->name}}</p>
-                            <p class="justify-center align-items-center text-decoration-none ">
-                            {{$similarOffer->price . ' €'}}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-                
-
+                    <img src="{{ storage_path('/app/public/offer_pictures/'). $img->offer_photo}}" alt="Image produit"
+                        class=" w-[15%] h-[50%] hover:cursor-pointer hover:scale-110 rounded-lg hover:transition-transform hover:transform-gpu"
+                        onmouseover="changeMainImage('{{ $img->offer_photo }}')" />
+                    @endforeach
                 </div>
             </div>
-
-        </div>
-    </div>
-
-
-    <script>
-        tailwind.config = {
-          theme: {
-            screen:{
-                'sm': '640px',
-      // => @media (min-width: 640px) { ... }
-
-      'md': '768px',
-      // => @media (min-width: 768px) { ... }
-
-      'lg': '1024px',
-      // => @media (min-width: 1024px) { ... }
-
-      'xl': '1280px',
-      // => @media (min-width: 1280px) { ... }
-
-      '2xl': '1536px',
-      // => @media (min-width: 1536px) { ... }
-            },
-
-            extend: {
-              colors: {
-                clifford: '#da373d',
-              }
-            }
-          }
-        }
-
-        $(document).ready(function () {
-        $('#similar-offers-carousel').slick({
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 2000,
-        });
-    });
-      </script>
-
-      <script>
-        
-        function initMap(){
-            // map options
-            var options = {
-                zoom:8,
-                center:{lat:34.6820, lng:-1.9002}
-            }
-            
-            // New map 
-            var map = new google.maps.Map(document.getElementById('map'), options);
-
-            // map marker
-            
-            addMarker({lat:34.6820, lng:-1.9002});
-
-            function addMarker(coords){
-                var marker = new google.maps.Marker({
-                position:coords,
-                map:map
-            });
-            }
-
-
-        }
-
-      </script>
-      <script async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBB19IBnomMnlfb3EYBf7G16-zcZGkd6IE&callback=initMap">
-      </script>
-    
-</body>
-
-
-
-
-    {{-- End new design --}}
-
-{{-- <div class="offer_list_card">
-    <div class="offer_image" style="background-image:url('')"></div>
-    <div class="offer_details">
-        
-        <div class="offer_title">
-            <h2></h2>
-        </div>
-
-        <div class="offer_category">
-            <div class="offer_category_item">
-                <img src="images/category-8.svg" alt="Category"/>
-                <p></p>
-            </div>
-            <div class="offer_category_item">
-                <img width="18" height="18" src="images/category-8.svg" alt="Category"/>
-                <p>Subcategory</p>
-            </div>
-        </div>
-
-        <div class="offer_preposition">
-            <h4>A ECHANGER CONTRE</h4>
-            <p>Etudie toute preposition</p>
-        </div>
-
-        <div class="offer_localisation_price">
-            <div class="offer_localisation">
-                
-                <p></p>
-            </div>
-
-            <div class="offer_price">
-
-                @if (!$offer->price)
-                <h2>{{$offer->type->name }}</h2>
-                @else
-                    <div class="offer_autorisation">
-                        <img width="18" height="18" src="images/euro-46.svg" alt="Buy-autorisation"/>
-                        <p>Vente autorisé</p>
-                    </div>
-                    <h2>{{$offer->price . "€" }}</h2>
-                @endif
-                
-            </div>
-        </div>
-
-        <div class="offer_countdown" style="display: none;">
-            <div class="offer_countdown_container">
-                <div class="offer_countdown_containers">
-                    <span>Jours</span>
-                    <div class="offer_countdown_containers_counter">
-                        00
-                    </div>
+            <div class="my-5">
+                <div class="my-3">
+                    <h2 class="text-black ">Description</h2>
+                    <p>{{ $offer->description }}</p>
                 </div>
-                <div class="offer_countdown_containers">
-                    <span>Heurs</span>
-                    <div class="offer_countdown_containers_counter">
-                        00
-                    </div>
-                </div>
-                <div class="offer_countdown_containers">
-                    <span>Minutes</span>
-                    <div class="offer_countdown_containers_counter">
-                        00
-                    </div>
-                </div>
-                <div class="offer_countdown_containers">
-                    <span>Secs</span>
-                    <div class="offer_countdown_containers_counter">
-                        00
-                    </div>
+                <div id="map" class=" mt-5">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5916333.136450014!2d-1.3992720794176445!3d43.60998660794066!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b6af0725dd9db1%3A0xad8756742894e802!2sMontpellier%2C%20France!5e0!3m2!1sfr!2sma!4v1697796341376!5m2!1sfr!2sma"
+                        class="h-[400px] w-[100%]" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>
 
-        <div class="offer_owner">
-            <div class="offer_owner_content">
-                <div class="offer_owner_content_avatar">
-
-                    @if (!$offer->user->profile_photo_path)
-                    <img src="images/user-avatar-icon.svg" alt="Avatar">
-                    @else
-                    <img src="{{ asset($offer->user->profile_photo_path) }}" alt="Profile photo">
-                    @endif
-                
+        <div class="w-[38%] partie-detail">
+            <h2 class="text-black  font-semibold">{{ $offer->name }}</h2>
+            <button class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-btn-register " type="submit">
+                {{ __('Troquez Maintenant ') }}
+            </button>
+            <div class="border pt-4 flex rounded-lg flex-col ">
+                <div class="flex pb-3 px-12 gap-2 flex-col ">
+                    <div class="flex  items-center   ">
+                        <span class="w-[35%]">
+                            Type de troc:
+                        </span>
+                        <span class="text-black text-lg ">
+                            {{$offer->type->name }}
+                        </span>
+                    </div>
+                    <div class="flex    items-center   ">
+                        <span class="w-[35%]">
+                            Categorie:
+                        </span>
+                        <span class="text-black text-lg flex items-center div-categorie">
+                            <img src="/images/Stack.svg" alt="" class="mr-2">
+                            {{$offer->category->name}}
+                            <img src="/images/chevron-right.svg" alt="" class="px-2">
+                            {{$sousCategorys->name}}
+                        </span>
+                    </div>
+                    <div class="flex    items-center   ">
+                        <span class="w-[35%]">
+                            Mis en ligne le:
+                        </span>
+                        <span class="text-black text-lg flex ">
+                            {{ $offer->user->created_at->format('d M Y | H:i:s') }}
+                        </span>
+                    </div>
                 </div>
-                <div class="offer_owner_content_infos">
-                    <div class="offer_owner_content_infos_name">
-                        <h3>{{$offer->user->first_name . " " . $offer->user->last_name}}</h3>
-                        <div class="offer_owner_content_infos_pro_badge">
-                            <img width="94" height="94" src="images/star-circle-blue.svg" alt="Pro"/>
-                            <p>Pro</p>
+                <div class=" border-y py-3 ">
+                    <div class=" px-12 flex    items-center">
+
+                        <span class="w-[35%]">
+                            L’etat:
+                        </span>
+                        <span class="text-black text-lg flex ">
+                            &#128578; Tres bon etat
+                        </span>
+                    </div>
+                </div>
+                <div class="border-b py-3">
+                    <div class="px-12 flex   gap-2 items-center">
+
+                        <img src="/images/map-pin.svg" alt="">
+                        <span class="">
+                            {{$offer->region->name . ", " .
+                            $offer->department->name}}
+                        </span>
+                    </div>
+                </div>
+                <div class=" pt-3">
+                    <div class="px-12 flex justify-content-between  gap-2 items-center">
+
+                        <span class="text-black text-2xl font-semibold">
+                            {{$offer->price}} €
+                        </span>
+                        <span class="flex bg-red-100  rounded-full px-3 py-1 gap-2 text-red-500">
+                            <span class="bg-red-500 px-2 rounded-full text-white">$</span>
+                            <span>Vente autorisé</span>
+                        </span>
+                    </div>
+                    <div class="m-4 bg-gray-100 p-4 rounded-lg">
+                        <h5>À ÉCHANGER CONTRE :</h5>
+                        <span class="flex gap-2 px-5">
+                            <img src="/images/Icon.svg" alt="">
+                            <span>
+                                Etudie toute proposition
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class=" my-4  justify-center border-black py-2 border-b rounded-lg flex gap-2 w-52">
+                <img src="/images/flag_FILL0_wght200_GRAD-25_opsz20 1.svg" alt="">
+                <span>
+                    Signalez ce troc
+                </span>
+            </div>
+            <div class="border rounded-lg pb-4">
+                <h4 class="text-black border-b px-5 py-4">Vendeur</h4>
+                <div>
+                    <div class="flex justify-between px-4 py-2">
+                        <div class="flex gap-3  ">
+                            <img src="{{ $offer->user->profile_photo_path }}" alt="" class="rounded-full">
+                            <span class="flex flex-col">
+                                <span class="text-black font-medium">
+                                    {{$offer->user->first_name . " " .
+                                    $offer->user->last_name}}
+                                </span>
+                                @if ($offer->user->is_online=="Offline")
+                                <span class="text-red-500">Hors ligne</span>
+                                @else
+                                <span class="text-green-500">En ligne</span>
+                                @endif
+                            </span>
+                            <img src="/images/Badge-pro.svg" alt="" class="pb-3 ">
+                        </div>
+                        <div class="flex flex-col ">
+                            <span>
+                                4/5 (6 avis)
+                            </span>
+                            <span class="flex">
+                                <i class="fa-solid fa-star text-orange-600"></i>
+                                <i class="fa-solid fa-star text-orange-600"></i>
+                                <i class="fa-solid fa-star text-orange-600"></i>
+                                <i class="fa-solid fa-star text-orange-600"></i>
+                                <i class="fa-solid fa-star text-gray-200"></i>
+                            </span>
                         </div>
                     </div>
-                    
-                         <div class="offer_owner_content_infos_status
-                            @if ($onlineStatus == 'Online')
-                                text-green-500
-                            @else
-                                text-red-500
-                            @endif">
-                            {{$offer->user->is_online}}</div>
-                        </div> 
+                    <div class="m-4 flex gap-4 justify-content-between">
+                        <div>
+                            <span class="bg-gray-200 rounded-full px-2">1</span>
+                            Trocs
+                        </div>
+                        <div>
+                            <span class="bg-gray-200 rounded-full px-2">1</span>
+                            Offres
+                        </div>
+                        <div>
+                            <span class="bg-gray-200 rounded-full px-2">1</span>
+                            Avis
+                        </div>
+                    </div>
+                    <div class=" flex px-3 gap-4">
+                        <button class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-btn-register">
+                            Voir Profil
+                        </button>
+                        <button class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-black ">
+                            Contact
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="m-auto mt-5 w-[60%]  ">
+                <h5 class="mb-4">
+                    Partager cette annonce à vos amis
+                </h5>
+                <div class=" flex justify-content-between ">
+                    <a href="#"><i
+                            class="fa-brands fa-facebook text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-700 hover:text-white"></i></a>
+                    <a href="#">
+                        <i
+                            class="fa-brands fa-twitter text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-600 hover:text-white"></i>
+                    </a>
+                    <a href="#">
+                        <i
+                            class="fa-brands fa-instagram text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-600 hover:text-white"></i>
+                    </a>
+                    <a href="#"><i
+                            class="fa-brands fa-youtube text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-600 hover:text-white"></i></a>
+                    <a href="#"><i
+                            class="fa-brands fa-linkedin text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-600 hover:text-white"></i></a>
+                    <a href="#"><i
+                            class="fa-brands fa-whatsapp text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-600 hover:text-white"></i></a>
+
+                </div>
             </div>
         </div>
-    </div>
-</div> --}}
+        <script>
+            function changeMainImage(newImage) {
+        const mainImage = document.getElementById('mainImage');
+        mainImage.src = newImage;
+    }
+        </script>
+
 
 </x-app-layout>
