@@ -4,6 +4,20 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* Hide scrollbars for all browsers */
+body {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer / Edge */
+    overflow: -moz-scrollbars-none; /* Firefox */
+    -webkit-scrollbar-width: none; /* WebKit (Safari, Chrome, and newer Edge) */
+    scrollbar-color: transparent transparent; /* Firefox (for thumb and track color) */
+    }
+
+    ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+        }
 .registreTitle{
     color:#24A19C;
 }
@@ -11,6 +25,10 @@
 .bg-btn-register,.bg-type,.btn-add-offre
 {
     background-color: #24A19C;
+}
+.bg-btn-register:hover
+{
+    background-color: #6EBFB5;
 }
 
 #particulier,
@@ -48,6 +66,17 @@ select:active,select:focus {
     .login-div{
         width: 60%;
     }
+    .partie-slide{
+        width: 45%;
+    }
+
+    .partie-detail{
+        width:40%;
+    }
+    .div-categorie{
+        flex-wrap: wrap;
+
+    }
 }
 @media (max-width: 935px) {
     .title-div span{
@@ -71,7 +100,20 @@ select:active,select:focus {
     }
     .add-offer-select label{
         /* border: 1px solid red; */
-        width: 50%;
+      flex:2;
+    }
+    .offre-page{
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        margin: auto ;
+        justify-content: center;
+    }
+    .partie-slide,.partie-detail{
+        width: 90%;
+    }
+    .partie-detail{
+        margin: auto!important;
     }
 
 }
@@ -183,7 +225,14 @@ select:active,select:focus {
     .sidebar{
         width: 50%;
     }
+    .offre-page{
+        width: 100%;
 
+    }
+    .partie-slide,.partie-detail{
+        width: 98%;
+        margin: 8px!important;
+    }
 }
 @media (max-width: 465px) {
 
