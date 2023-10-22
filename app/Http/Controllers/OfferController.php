@@ -62,7 +62,7 @@ class OfferController extends Controller
     public function store(Request $request)
     {
 
-        $validation = $request->validate([
+        $request->validate([
             'type' => ['required'],
             'experience' => ['nullable'],
             'condition' => ['nullable'],
@@ -150,17 +150,42 @@ class OfferController extends Controller
     }
 
 
-    protected function show(Offer $offer, $slug)
-    {
-        $similarOffers = Offer::where('category_id', $offer->category_id)->where('id', '!=', $offer->id)->get();
 
-        $slug = Offer::where('slug', $offer->slug)->get('slug');
-        $type = Type::where('id', $offer->type_id)->pluck('name')->first();
-        $images=OfferImages::where('offer_id',$offer->id)->get();
-        $category = Category::where('id', $offer->category_id)->pluck('name')->first();
-        $sousCategorys = Category::where('parent_id', $offer->category_id)->get()[0];
-        return view('offer.offer', compact(['offer', 'slug', 'type', 'category', 'similarOffers','sousCategorys','images']));
+    protected function show($offerid, $slug)
+    {
+        $offer = Offer::find($offerid);
+
+        //dd($offer);
+
+        //dd($offer->id);
+
+        $similaroffers = Offer::where('category_id', $offer->category_id)->where('id', '!=', $offer->id)->get();
+        if(!$similaroffers){
+            $similaroffers = [];
+        }
+
+        //dd($similaroffers);
+        //$slug = Offer::where('slug', $offer->slug)->get('slug');
+
+        $type = Type::where('id', $offer->type_id)->first();
+        $images = OfferImages::where('offer_id',$offer->id)->get();
+
+        //dd($images);
+        $category = Category::where('id', $offer->category_id)->first();
+        $subcategory = Category::where('id', $offer->subcategory_id)->first();
+
+        return view(
+            'offer.offer', 
+            compact([
+                'offer', 
+                'type', 
+                'category', 
+                'similaroffers',
+                'subcategory',
+                'images'
+            ]));
     }
+
 
 
 }

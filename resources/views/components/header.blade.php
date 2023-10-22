@@ -204,7 +204,7 @@
                         <img src="{{ asset('images/plus-icon-white.svg') }}" alt="" />
 
                     </div>
-                    <span>
+                    <span class="header-create-add-button-span">
                         Déposer <br />
                         une annonce
                     </span>

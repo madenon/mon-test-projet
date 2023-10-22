@@ -424,7 +424,7 @@ body {
     align-items: center;
     margin-left: -6px;
 }
-#header-create-add-button a span {
+.header-create-add-button-span {
     font-weight:600;
     text-transform: uppercase;
     text-align: start;
@@ -432,6 +432,7 @@ body {
     padding-right: 24px;
     line-height: 16px;
     font-size: 14px;
+    display: block;
     
 }
 
@@ -598,6 +599,9 @@ body {
     color: #191f33;
     padding: 12px 24px;  
 }
+.offer_title a {
+    text-decoration: none;
+}
 
 .offer_title h2{
     font-size: 28px;
@@ -759,6 +763,8 @@ body {
 
 }
 
+
+
                             
  
 /* X-Small devices (portrait phones, less than 576px) */
@@ -799,18 +805,6 @@ body {
     }
     .header-guest-user-btn span  {
         display: none;
-    }
-    #header-create-add-button span {
-        display: none;
-    }
-    
-    #header-create-add-button a {
-        width: 48px;
-        border-right: none;
-    }
-    .header-create-add-button-img {
-        border-right: none;
-        margin-left: 0px;
     }
     .header-guest-user-btn {
         border: 1px solid var(--line-color);
@@ -984,6 +978,7 @@ body {
         padding-top: 6px;
     }
 }
+
 
 /* Medium devices (tablets, 768px and up) */
 @media (max-width: 768px) { 

@@ -1,14 +1,26 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Index') }}
+            {{ $offer->title }}
         </h2>
     </x-slot>
+
+
+    <div class="container">
+        <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">{{ Breadcrumbs::render('offers') }}</li>
+            </ol>
+        </nav>
+    </div>
+
+
+    
     <div class="flex gap-5 offre-page">
         <div class="w-[50%] ml-12 partie-slide">
             <div class=" flex flex-col gap-6">
                 <div class="">
-                    <img src="{{ storage_path('/app/public/offer_pictures/'). $images[0]->offer_photo}}"
+                    <img src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}"
                         alt="Image principale" id="mainImage" class="  rounded-lg " />
                 </div>
 
@@ -36,7 +48,7 @@
         </div>
 
         <div class="w-[38%] partie-detail">
-            <h2 class="text-black  font-semibold">{{ $offer->name }}</h2>
+            <h2 class="text-black  font-semibold">{{ $offer->title }}</h2>
             <button class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-btn-register " type="submit">
                 {{ __('Troquez Maintenant ') }}
             </button>
@@ -58,7 +70,7 @@
                             <img src="/images/Stack.svg" alt="" class="mr-2">
                             {{$offer->category->name}}
                             <img src="/images/chevron-right.svg" alt="" class="px-2">
-                            {{$sousCategorys->name}}
+                            {{$subcategory->name}}
                         </span>
                     </div>
                     <div class="flex    items-center   ">

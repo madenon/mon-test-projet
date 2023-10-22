@@ -16,24 +16,24 @@
     
     <div class="container">
         <div class="row">
-          <div class="col-3 col-xl-3">
+          <div class="col-3 col-md-3">
             Filters part
           </div>
 
-          <div class="col-12 col-xl-9">
+          <div class="col-12 col-md-9">
 
 
             @foreach ($offers as $offer)
             <div class="offer_list_card">
                 <div 
-                    class="offer_image bg-[url({{ asset('{$offer->offer_default_photo}') }})]" 
+                    class="offer_image relative" 
                     >
-                    <img src="{{url($offer->offer_default_photo)}}" alt="" />
+                    <img src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}" alt="" class=" object-cover h-full w-full" />
                 </div>
                 <div class="offer_details">
 
                     <div class="offer_title">
-                        <a href="{{route('offer.offer', [$offer, urlencode($offer->slug)])}}"><h2>{{$offer->title}}</h2></a>
+                        <a href="{{route('offer.offer', [$offer, urlencode($offer->slug)])}}"><h1 class="text-titles text-xl no-underline hover:no-underline active:no-underline">{{$offer->title}}</h1></a>
                     </div>
 
                     <div class="offer_category">
