@@ -81,10 +81,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/myaccount', [MyAccountController::class, 'index'])->name('myaccount.index');
-    Route::get('/myaccount/offres', [MyAccountController::class, 'showOffer'])->name('myaccount.offers');
-    Route::get('/myaccount/modifier/{offerId}', [MyAccountController::class, 'editOffer'])->name('myaccount.editOffer');
-
+    Route::get('/moncompte', [MyAccountController::class, 'index'])->name('myaccount.index');
+    Route::get('/moncompte/offres', [MyAccountController::class, 'showOffer'])->name('myaccount.offers');
+    Route::get('/moncompte/modifier/{offerId}', [MyAccountController::class, 'editOffer'])->name('myaccount.editOffer');
+    Route::put('/moncompte/mettreajours/{offerId}', [MyAccountController::class, 'updateOffer'])->name('myaccount.updateOffer');
+    Route::delete('/moncompte/offres/{offer}', [OfferController::class, 'destroyOffer'])->name('myaccount.deleteOffer');
 });
 
 
