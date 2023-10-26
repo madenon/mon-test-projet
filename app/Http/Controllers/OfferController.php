@@ -61,6 +61,7 @@ class OfferController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->default_image);
 
         $request->validate([
             'type' => ['required'],
@@ -72,8 +73,8 @@ class OfferController extends Controller
             'department' => ['required'],
             'title' => ['required', 'string', 'between:10,100'],
             'description' => ['string'],
-            'default_image' => ['nullable','image','mimes:jpeg,png','max:4096'], 
-            'additional_images.*' => ['nullable','image','mimes:jpeg,png','max:4096'], 
+            'default_image' => ['nullable','image','mimes:jpeg,png','max:4096'],
+            'additional_images.*' => ['nullable','image','mimes:jpeg,png','max:4096'],
         ], [
             'title' => 'Le nom de l\'annonce doit contenir entre 10 et 100 caractères.',
             'default_image.max' => 'Vous ne pouvez pas télécharger plus de 4mb.',
@@ -132,7 +133,7 @@ class OfferController extends Controller
                     ]);
                 }
             }
-            
+
         });
 
         return redirect()->route('offer.index')->with('success', 'produit ajouté');
@@ -175,11 +176,11 @@ class OfferController extends Controller
         $subcategory = Category::where('id', $offer->subcategory_id)->first();
 
         return view(
-            'offer.offer', 
+            'offer.offer',
             compact([
-                'offer', 
-                'type', 
-                'category', 
+                'offer',
+                'type',
+                'category',
                 'similaroffers',
                 'subcategory',
                 'images'

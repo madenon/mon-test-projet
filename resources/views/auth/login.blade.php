@@ -3,7 +3,7 @@
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <div class="mt-[6vh]">
-        <h1 class="text-center registreTitle text-4xl">{{ __('Se connecter') }}</h1>
+        <h1 class="text-center text-primary-color text-4xl">{{ __('Se connecter') }}</h1>
     </div>
     <div class="flex justify-center items-center space-x-4 mt-[6vh] google-fb">
         <!--  Bouton "Sign In with Google" -->
@@ -50,7 +50,7 @@
         <!-- Email Address -->
         <div>
             {{--  <x-input-label for="email" :value="__('Email')" />  --}}
-            <x-text-input id="email" class=" mt-1 w-full border-focus" type="email" name="email" :value="old('email')" required
+            <x-text-input id="email" class=" mt-1 w-full  focus:border-primary-color" type="email" name="email" :value="old('email')" required
                 autofocus autocomplete="username" placeholder="Addresse e-mail" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
@@ -59,9 +59,9 @@
         <div class="mt-4 relative">
             <div class="relative">
                 <x-text-input id="password" type="password" name="password"
-                    class="border border-gray-300 border-focus rounded-md px-3 py-2 pr-10 focus:border-24A19C outline-none w-full border-focus"
+                    class="border border-gray-300  focus:border-primary-color rounded-md px-3 py-2 pr-10 focus:border-24A19C outline-none w-full"
                     required autocomplete="new-password" placeholder="Mot de passe" />
-                <div class="absolute inset-y-0 right-0 flex items-center pr-3 border-focus">
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3  focus:border-primary-color">
                     <button type="button" id="togglePassword" class="cursor-pointer focus:outline-none">
                         <i id="eyeIcon" class="fas fa-eye text-gray-500"></i>
                     </button>
@@ -72,7 +72,7 @@
        <div class="flex items-center justify-between mt-4">
         <label for="remember_me" class="inline-flex items-center">
             <input id="remember_me" type="checkbox"
-                class="rounded input-check-color border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
+                class="rounded text-primary-color border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
             <span class="ml-2 text-sm text-gray-600">{{ __('Gardez-moi connecté') }}</span>
         </label>
 
@@ -83,7 +83,7 @@
         </a>
         @endif
     </div>
-<button class="my-5 w-full text-white bg-black font-semibold py-3 rounded-md bg-btn-register " type="submit">
+<button class="my-5 w-full text-white  font-semibold py-3 rounded-md bg-primary-color hover:bg-primary-hover " type="submit">
     <div class="  transition-transform transform hover:translate-x-3 flex items-center justify-center">
 
         {{ __('Se connecter ') }}

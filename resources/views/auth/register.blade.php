@@ -1,14 +1,49 @@
 <x-registerGuest>
     <div class="flex flex-col md:flex-row">
-        <div class="md:w-1/2 ">
-            <img src="images/Bannar.png" href="bannar" alt="Bannière de l'inscription" class="w-full h-full " />
+        <div class="md:w-1/2 bg-primary-color bg-cover bg-center  text-white partie-droit-register"
+            style='background-image: url("images/signup-bg-pattern.svg");'>
+            <div class="w-[70%] mx-auto my-44 p-3">
+                <h1 class="font-semibold text-3xl">Pourquoi Créer Un Compte? </h1>
+                <div class="flex gap-5 mt-7 w-[80%] items-center border-b border-line pb-7">
+                    <img src="/images/icons8-time-100 1.svg" alt="" class="mb-7">
+                    <div class="flex flex-col gap-3">
+                        <h2 class="font-semibold text-lg mt-2">Gagnez du temps</h2>
+                        <span>Publiez vos annonces rapidement, avec vos informations pré-remplies chaque fois que vous
+                            souhaitez déposer une nouvelle annonce.</span>
+                    </div>
+                </div>
+                <div class="flex gap-5 mt-7 w-[80%] items-center border-b border-line pb-7">
+                    <img src="/images/icons8-bell-80 1.svg" alt="" class="mb-7">
+                    <div class="flex flex-col gap-3">
+                        <h2 class="font-semibold text-lg mt-2">Soyez les premiers informés</h2>
+                        <span>Créez des alertes Immo ou Emploi et ne manquez jamais l’annonce qui vous intéresse.</span>
+                    </div>
+                </div>
+                <div class="flex gap-5 mt-7 w-[80%] items-centerpb-7">
+                    <img src="/images/icons8-ophthalmology-100 1.svg" alt="" class="mb-7">
+                    <div class="flex flex-col gap-3">
+                        <h2 class="font-semibold text-lg mt-2">Visibilité</h2>
+                        <span>Suivez les statistiques de vos annonces (nombre de fois où votre annonce a été vue, nombre
+                            de contacts reçus).</span>
+                    </div>
+                </div>
+            </div>
+            <div class="w-[90%] mx-auto text-sm text-center">
+                <a href="">
+                    Politique de confidentialité
+                </a>
+                <a href="">
+                    {{ _('Conditions générales d\'utilisation') }}
+                </a>
+
+            </div>
         </div>
-        <div class="md:w-1/2 p-14 form-div">
+        <div class="md:w-1/2 p-14 form-div partie-gauche-register">
             <div class="mt-[8vh]">
-                <h1 class="text-center registreTitle text-4xl">{{ __('S\'enregistrer') }}</h1>
+                <h1 class="text-center text-primary-color text-4xl">{{ __('S\'enregistrer') }}</h1>
             </div>
             <div class="flex  justify-center mt-10 rounded-md bg-gray-100 py-3 types-div">
-                <div class="border border-gray-300 rounded-l-md py-2 px-3 bg-type text-white cursor-pointer "
+                <div class="border border-gray-300 rounded-l-md py-2 px-3 bg-primary-color text-white cursor-pointer "
                     id="particulier" onclick="selectType('particulier')">
                     Particulier
                 </div>
@@ -62,7 +97,7 @@
                     <span class="border-b border-gray-300 inline-block w-1/4"></span>
                 </div>
                 <div class="flex gap-3 mt-4  py-3 genre-div">
-                    <div class="border   border-gray-300 rounded-md py-3 px-7 bg-type text-white cursor-pointer "
+                    <div class="border   border-gray-300 rounded-md py-3 px-7 bg-primary-color text-white cursor-pointer "
                         id="female" onclick="selectGenre('female')">
                         Mme
                     </div>
@@ -73,33 +108,37 @@
                     <input type="hidden" name="gender" id="selectedGenre" value="female">
                 </div>
                 <div class="flex space-x-4 mb-3">
-                    <x-text-input id="first_name" class="block mt-1 w-full border-focus" type="text" name="first_name"
-                        :value="old('first_name')" required autofocus autocomplete="first_name" placeholder="Nom" />
+                    <x-text-input id="first_name" class="block mt-1 w-full focus:border-primary-color" type="text"
+                        name="first_name" :value="old('first_name')" required autofocus autocomplete="first_name"
+                        placeholder="Nom" />
                     <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
-                    <x-text-input id="last_name" class="block mt-1 w-full border-focus" type="text" name="last_name"
-                        :value="old('last_name')" required autofocus autocomplete="last_name" placeholder="Prenom" />
+                    <x-text-input id="last_name" class="block mt-1 w-full focus:border-primary-color" type="text"
+                        name="last_name" :value="old('last_name')" required autofocus autocomplete="last_name"
+                        placeholder="Prenom" />
                     <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
                 </div>
                 <div class="flex space-x-4">
-                    <x-text-input id="email" class="block mt-1 w-full border-focus" type="email" name="email"
-                        :value="old('email')" required autofocus autocomplete="email" placeholder="Email" />
+                    <x-text-input id="email" class="block mt-1 w-full focus:border-primary-color" type="email"
+                        name="email" :value="old('email')" required autofocus autocomplete="email"
+                        placeholder="Email" />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                    <x-text-input id="phone" class="block mt-1 w-full border-focus" type="text" name="phone"
-                        :value="old('phone')" required autofocus autocomplete="phone" placeholder="Téléphone" />
+                    <x-text-input id="phone" class="block mt-1 w-full focus:border-primary-color" type="text"
+                        name="phone" :value="old('phone')" required autofocus autocomplete="phone"
+                        placeholder="Téléphone" />
                     <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                 </div>
                 <div class="mt-4">
-                    <x-text-input id="nickname" class="block mt-1 w-full border-focus" type="text" name="nickname"
-                        value="" placeholder="Pseudo" />
+                    <x-text-input id="nickname" class="block mt-1 w-full focus:border-primary-color" type="text"
+                        name="nickname" value="" placeholder="Pseudo" />
                     <x-input-error :messages="$errors->get('nickname')" class="mt-2" />
                 </div>
 
                 <div class="mt-4 relative">
-                    <div class="relative">
+                    <div class="relative password-input">
                         <x-text-input id="password" type="password" name="password"
-                            class="border border-gray-300 rounded-md px-3 py-2 pr-10 focus:border-24A19C outline-none w-full border-focus"
+                            class="border password-input border-gray-300 rounded-md px-3 py-2 pr-10 focus:border-24A19C outline-none w-full focus:border-primary-color"
                             required autocomplete="new-password" placeholder="Mot de passe" />
-                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 border-focus">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 focus:border-primary-color">
                             <button type="button" id="togglePassword" class="cursor-pointer focus:outline-none">
                                 <i id="eyeIcon" class="fas fa-eye text-gray-500"></i>
                             </button>
@@ -108,9 +147,9 @@
                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
                 <div class="mt-4 relative">
-                    <div class="relative">
+                    <div class="relative password-input">
                         <x-text-input id="password_confirmation"
-                            class="border border-gray-300 rounded-md px-3 py-2 pr-10 focus:border-24A19C outline-none w-full border-focus"
+                            class="border border-gray-300 rounded-md px-3 py-2 pr-10 focus:border-24A19C outline-none w-full focus:border-primary-color"
                             type="password" name="password_confirmation" required autocomplete="new-password"
                             placeholder="Confirmation de mot de passe" />
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -124,15 +163,17 @@
                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                 </div>
                 <div class="mt-4">
-                    <textarea id="bio" class="block mt-1 w-full rounded-md border-gray-400 mb-10 border-focus"
-                        name="bio" required placeholder="À propos de moi"></textarea>
+                    <textarea id="bio"
+                        class="block mt-1 w-full rounded-md border-gray-400 mb-10 focus:border-primary-color" name="bio"
+                        required placeholder="À propos de moi"></textarea>
                     <x-input-error :messages="$errors->get('bio')" class="mt-2" />
                 </div>
                 <div
-                    class="flex items-center w-full relative border-dashed border-2 border-gray-300 rounded-md px-3 py-2">
+                    class="flex items-center w-full relative border-dashed border-2 border-gray-300 rounded-md px-3 py-2 div-file">
                     <label for="profile_photo_path" class="cursor-pointer w-full">
                         <input id="profile_photo_path" type="file" name="profile_photo_path"
-                            class="absolute inset-0 opacity-0 z-10 w-full border-focus" style="width: 0; height: 0;">
+                            class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
+                            style="width: 0; height: 0;">
                         <div class="flex items-center justify-center gap-4 text-center w-full">
                             <img src="images/IconContainer.svg" alt="" srcset="">
                             <p class="text-gray-600 mt-2">Photo de profil</p>
@@ -143,9 +184,9 @@
                     <span id="selectedFileName" class="text-gray-600 mt-2">Aucun fichier sélectionné</span>
                     <x-input-error :messages="$errors->get('profile_photo_path')" class="mt-2" />
                 </div>
-                <div class="my-6 flex items-center ">
-                    <input type="checkbox" id="agree" name="agree"
-                        class="h-4 w-4  border-gray-300 rounded input-check-color" required>
+                <div class="my-6 flex items-center checkbox-register">
+                    <input type="checkbox" id="agree" name="agree" class=" border-gray-300 rounded text-primary-color"
+                        required>
                     <label for="agree" class="ml-2 text-gray-700 ">
                         {{ __('I\'ve read and agree with your ') }} <a href="#"
                             class="font-semibold text-black hover:underline">Privacy
@@ -153,7 +194,8 @@
                             Conditions</a>
                     </label>
                 </div>
-                <button class="w-full text-white bg-black font-semibold py-3 rounded-md bg-btn-register " type="submit">
+                <button class="w-full text-white  font-semibold py-3 rounded-md bg-primary-color hover:bg-primary-hover"
+                    type="submit">
                     <div class="  transition-transform transform hover:translate-x-3 flex items-center justify-center">
 
                         {{ __('S\'enregistrer ') }}
@@ -176,12 +218,12 @@ function selectType(type) {
     const professionnel = document.getElementById('professionnel');
 
     if (selectedType) {
-    document.getElementById(selectedType).classList.remove('bg-type', 'text-white');
+    document.getElementById(selectedType).classList.remove('bg-primary-color', 'text-white');
     document.getElementById(selectedType).classList.add('bg-white', 'text-dark');
     }
 
     document.getElementById(type).classList.remove('bg-white', 'text-dark');
-    document.getElementById(type).classList.add('bg-type', 'text-white');
+    document.getElementById(type).classList.add('bg-primary-color', 'text-white');
     selectedType = type;
 
     document.querySelector('input[id="selectedType"]').value = type;
@@ -193,12 +235,12 @@ function selectType(type) {
     const m = document.getElementById('male');
 
     if (selectedGenre) {
-    document.getElementById(selectedGenre).classList.remove('bg-type', 'text-white');
+    document.getElementById(selectedGenre).classList.remove('bg-primary-color', 'text-white');
     document.getElementById(selectedGenre).classList.add('bg-white', 'text-dark');
     }
 
     document.getElementById(genre).classList.remove('bg-white', 'text-dark');
-    document.getElementById(genre).classList.add('bg-type', 'text-white');
+    document.getElementById(genre).classList.add('bg-primary-color', 'text-white');
 
 selectedGenre = genre;
     console.log(selectedGenre);

@@ -1,9 +1,8 @@
-@import '@fortawesome/fontawesome-free/css/all.css';
+@import "@fortawesome/fontawesome-free/css/all.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 /* Hide scrollbars for all browsers */
 body {
@@ -12,110 +11,103 @@ body {
     overflow: -moz-scrollbars-none; /* Firefox */
     -webkit-scrollbar-width: none; /* WebKit (Safari, Chrome, and newer Edge) */
     scrollbar-color: transparent transparent; /* Firefox (for thumb and track color) */
-    }
+}
 
-    ::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 0;
     height: 0;
-        }
-.registreTitle{
-    color:#24A19C;
-}
-
-.bg-btn-register,.bg-type,.btn-add-offre
-{
-    background-color: #24A19C;
-}
-.bg-btn-register:hover
-{
-    background-color: #6EBFB5;
 }
 
 #particulier,
 #professionnel {
-        width: 45%;
-        padding-left: 15% !important;
-    }
-
-
-select:active,select:focus {
-    outline: none;
-    border:1px solid #24A19C;
+    width: 45%;
+    padding-left: 15% !important;
 }
 
-
+select:active,
+select:focus {
+    outline: none;
+    border: 1px solid #24a19c;
+}
 
 @media (max-width: 1264px) {
-    .title-div span{
+    .title-div span {
         width: 20%;
     }
-    .login-div{
+    .login-div {
         width: 50%;
     }
-    .add-offre-section{
+    .add-offre-section {
         width: 90%;
     }
-    .sidebar{
+    .sidebar {
         width: 30%;
     }
 }
 @media (max-width: 1076px) {
-    .title-div span{
+    .title-div span {
         width: 15%;
     }
-    .login-div{
+    .login-div {
         width: 60%;
     }
-    .partie-slide{
+    .partie-slide {
         width: 45%;
     }
 
-    .partie-detail{
-        width:40%;
+    .partie-detail {
+        width: 40%;
     }
-    .div-categorie{
+    .div-categorie {
         flex-wrap: wrap;
-
     }
 }
 @media (max-width: 935px) {
-    .title-div span{
+    .title-div span {
         width: 12%;
     }
-    .login-div{
+    .login-div {
         width: 70%;
     }
-     .add-offre-section{
+    .add-offre-section {
         width: 100%;
         padding: 10px;
     }
-    .add-offre,.add-offre-annonce,.add-offre-location{
+    .add-offre,
+    .add-offre-annonce,
+    .add-offre-location {
         flex-wrap: wrap;
     }
-    .add-offer-select{
+    .add-offer-select {
         /* border:1px solid; */
         width: 40%;
         display: flex;
-
     }
-    .add-offer-select label{
+    .add-offer-select label {
         /* border: 1px solid red; */
-      flex:2;
+        flex: 2;
     }
-    .offre-page{
+    .offre-page {
         display: flex;
         flex-direction: column;
         width: 90%;
-        margin: auto ;
+        margin: auto;
         justify-content: center;
     }
-    .partie-slide,.partie-detail{
+    .partie-slide,
+    .partie-detail {
         width: 90%;
     }
-    .partie-detail{
-        margin: auto!important;
+    .partie-detail {
+        margin: auto !important;
     }
-
+    .partie-droit-register{
+        display: none;
+    }
+    .partie-gauche-register{
+        width: 90%!important;
+        margin: auto;
+    }
 }
 @media (max-width: 900px) {
     #particulier,
@@ -124,170 +116,158 @@ select:active,select:focus {
     }
 }
 @media (max-width: 885px) {
-    .title-div span{
+    .title-div span {
         width: 10%;
     }
-    .sidebar{
+    .sidebar {
         width: 35%;
     }
-
 }
 @media (max-width: 850px) {
-
-    .form-div{
+    .form-div {
         padding: 8px !important;
     }
-    .footer-login .partie-droite{
-        left: 27% ;
+    .footer-login .partie-droite {
+        left: 27%;
         bottom: 50px;
     }
-     .footer-login .partie-gauche{
+    .footer-login .partie-gauche {
         left: 22%;
+    }
+    .password-input input{
+        width: 100%!important;
     }
 }
 @media (max-width: 765px) {
-
-    .title-div-login span{
+    .title-div-login span {
         width: 10%;
     }
-    .footer-login .partie-droite{
-        left: 26% ;
+    .footer-login .partie-droite {
+        left: 26%;
     }
-    .footer-login .partie-gauche{
+    .footer-login .partie-gauche {
         left: 20%;
     }
-    .add-offer-select{
+    .add-offer-select {
         display: block;
         width: 100%;
     }
     .add-offre-image {
         display: flex;
         flex-wrap: wrap;
-
     }
-    .input-div-nom{
+    .input-div-nom {
         width: 100%;
     }
-    select,input,.input-div,.div-image{
+    select,
+    input,
+    .input-div,
+    .div-image {
         width: 80% !important;
     }
-
-
-
+    .checkbox-register input{
+        width: 2.5%!important;
+    }
 }
 @media (max-width: 650px) {
-
-    .title-div-login span{
+    .title-div-login span {
         width: 8%;
     }
-    .login-div{
+    .login-div {
         width: 77%;
         margin-top: 20px;
     }
-    .footer-login .partie-droite{
-        left: 23% ;
+    .footer-login .partie-droite {
+        left: 23%;
     }
-    .footer-login .partie-gauche{
+    .footer-login .partie-gauche {
         left: 14%;
     }
-    .sidebar{
+    .sidebar {
         width: 45%;
     }
-
 }
 @media (max-width: 580px) {
-.login-div{
+    .login-div {
         width: 82%;
     }
-    .title-div-login span{
+    .title-div-login span {
         width: 5%;
     }
-   .footer-login .partie-droite{
-        left: 17% ;
+    .footer-login .partie-droite {
+        left: 17%;
         bottom: 7%;
     }
-    .footer-login .partie-gauche{
+    .footer-login .partie-gauche {
         left: 3%;
         top: 94%;
     }
-    .google-fb{
+    .google-fb {
         flex-wrap: wrap;
         gap: 10px;
     }
-    .facebook ,
-    .google{
-        width: 100%!important;
+    .facebook,
+    .google {
+        width: 100% !important;
         margin: 0px !important;
     }
-     .footer-login {
+    .footer-login {
         text-align: center;
     }
-    .sidebar{
+    .sidebar {
         width: 50%;
     }
-    .offre-page{
+    .offre-page {
         width: 100%;
-
     }
-    .partie-slide,.partie-detail{
+    .partie-slide,
+    .partie-detail {
         width: 98%;
-        margin: 8px!important;
+        margin: 8px !important;
     }
 }
 @media (max-width: 465px) {
-
-    .login-div{
+    .login-div {
         border-radius: none !important;
         margin-top: 0px;
         padding: 10px;
         width: 100%;
     }
-    .footer-login .partie-droite,.partie-gauche{
-
-        left: 10% ;
+    .footer-login .partie-droite,
+    .partie-gauche {
+        left: 10%;
     }
-       .sidebar{
+    .sidebar {
         width: 65%;
-        margin-left: 0!important;
-        margin: auto!important;
+        margin-left: 0 !important;
+        margin: auto !important;
     }
-
+      .checkbox-register input{
+        width: 5%!important;
+    }
 }
 @media (max-width: 340px) {
-    .title-div span{
+    .title-div span {
         width: 7%;
     }
-    .text-Inscrivez{
+    .text-Inscrivez {
         padding: 0px !important;
     }
-   .footer-login .partie-droite{
-        left: 1%!important ;
+    .footer-login .partie-droite {
+        left: 1% !important ;
     }
-       .sidebar{
+    .sidebar {
         width: 80%;
     }
 }
-@media  (max-width: 300px) {
-
-#particulier,
+@media (max-width: 300px) {
+    #particulier,
     #professionnel {
         padding-left: 5% !important;
         width: 50%;
-
     }
-    .footer-login{
-        position: none !important; ;
+    .footer-login {
+        position: none !important;
         height: 40%;
     }
 }
-
-
-.border-focus:focus{
-    border-color: #24A19C !important;
-}
-.input-check-color{
-    color: #24A19C;
-}
- input[type="file"] {
-        display: none;
-    }

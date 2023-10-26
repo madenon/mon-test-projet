@@ -4,8 +4,6 @@
             {{ $offer->title }}
         </h2>
     </x-slot>
-
-
     <div class="container">
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -13,29 +11,36 @@
             </ol>
         </nav>
     </div>
-
-
-    
+    @php
+    $conditionMapping = [
+    'NEW' => 'Neuf',
+    'VERY_GOOD' => 'Très bon état',
+    'GOOD' => 'Bon état',
+    'MEDIUM' => 'Etat moyen',
+    'BAD' => 'Mauvais état',
+    'BROKEN' => 'En panne',
+    ];
+    @endphp
     <div class="flex gap-5 offre-page">
         <div class="w-[50%] ml-12 partie-slide">
             <div class=" flex flex-col gap-6">
                 <div class="">
                     <img src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}"
-                        alt="Image principale" id="mainImage" class="  rounded-lg " />
+                        alt="Image principale" id="mainImage" class=" h-[450px]  rounded-lg " />
                 </div>
 
-                <div class="flex scrollBar  gap-3 overflow-x-auto  ">
+                <div class="flex scrollBar  gap-3 overflow-x-auto p-2 ">
                     @foreach ($images as $img)
-
-                    <img src="{{ storage_path('/app/public/offer_pictures/'). $img->offer_photo}}" alt="Image produit"
-                        class=" w-[15%] h-[50%] hover:cursor-pointer hover:scale-110 rounded-lg hover:transition-transform hover:transform-gpu"
-                        onmouseover="changeMainImage('{{ $img->offer_photo }}')" />
+                    <img src="{{ route('offer-pictures-file-path',$img->offer_photo) }}" alt="Image produit"
+                        class=" h-[80px] hover:cursor-pointer hover:scale-110 rounded-lg hover:transition-transform hover:transform-gpu "
+                        onmouseover="changeMainImage('{{ $img->offer_photo }}')"
+                        onmouseout="changeMainImage('{{ $offer->offer_default_photo }}')" />
                     @endforeach
                 </div>
             </div>
             <div class="my-5">
                 <div class="my-3">
-                    <h2 class="text-black ">Description</h2>
+                    <h2 class="text-titles ">Description</h2>
                     <p>{{ $offer->description }}</p>
                 </div>
                 <div id="map" class=" mt-5">
@@ -48,8 +53,10 @@
         </div>
 
         <div class="w-[38%] partie-detail">
-            <h2 class="text-black  font-semibold">{{ $offer->title }}</h2>
-            <button class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-btn-register " type="submit">
+            <h2 class="text-titles  font-semibold">{{ $offer->title }}</h2>
+            <button
+                class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-primary-color hover:bg-primary-hover "
+                type="submit">
                 {{ __('Troquez Maintenant ') }}
             </button>
             <div class="border pt-4 flex rounded-lg flex-col ">
@@ -58,7 +65,7 @@
                         <span class="w-[35%]">
                             Type de troc:
                         </span>
-                        <span class="text-black text-lg ">
+                        <span class="text-titles text-lg ">
                             {{$offer->type->name }}
                         </span>
                     </div>
@@ -66,7 +73,7 @@
                         <span class="w-[35%]">
                             Categorie:
                         </span>
-                        <span class="text-black text-lg flex items-center div-categorie">
+                        <span class="text-titles text-lg flex items-center div-categorie">
                             <img src="/images/Stack.svg" alt="" class="mr-2">
                             {{$offer->category->name}}
                             <img src="/images/chevron-right.svg" alt="" class="px-2">
@@ -77,7 +84,7 @@
                         <span class="w-[35%]">
                             Mis en ligne le:
                         </span>
-                        <span class="text-black text-lg flex ">
+                        <span class="text-titles text-lg flex ">
                             {{ $offer->user->created_at->format('d M Y | H:i:s') }}
                         </span>
                     </div>
@@ -88,8 +95,9 @@
                         <span class="w-[35%]">
                             L’etat:
                         </span>
-                        <span class="text-black text-lg flex ">
-                            &#128578; Tres bon etat
+                        <span class="text-titles text-lg flex gap-2 ">
+                            &#128578;
+                            <p>{{ $conditionMapping[$offer->condition] }}</p>
                         </span>
                     </div>
                 </div>
@@ -105,10 +113,11 @@
                 </div>
                 <div class=" pt-3">
                     <div class="px-12 flex justify-content-between  gap-2 items-center">
-
-                        <span class="text-black text-2xl font-semibold">
+                        @if($offer->price)
+                        <span class="text-titles text-2xl font-semibold">
                             {{$offer->price}} €
                         </span>
+                        @endif
                         <span class="flex bg-red-100  rounded-full px-3 py-1 gap-2 text-red-500">
                             <span class="bg-red-500 px-2 rounded-full text-white">$</span>
                             <span>Vente autorisé</span>
@@ -132,13 +141,18 @@
                 </span>
             </div>
             <div class="border rounded-lg pb-4">
-                <h4 class="text-black border-b px-5 py-4">Vendeur</h4>
+                <h4 class="text-titles border-b px-5 py-4">Vendeur</h4>
                 <div>
                     <div class="flex justify-between px-4 py-2">
                         <div class="flex gap-3  ">
-                            <img src="{{ $offer->user->profile_photo_path }}" alt="" class="rounded-full">
+                            @if (!$offer->user->profile_photo_path)
+                            <img src="/images/user-avatar-icon.svg" alt="Avatar">
+                            @else
+                            <img src="{{ route('profile_pictures-file-path',$offer->user->profile_photo_path) }}" alt=""
+                                class="rounded-full">
+                            @endif
                             <span class="flex flex-col">
-                                <span class="text-black font-medium">
+                                <span class="text-titles font-medium">
                                     {{$offer->user->first_name . " " .
                                     $offer->user->last_name}}
                                 </span>
@@ -178,7 +192,8 @@
                         </div>
                     </div>
                     <div class=" flex px-3 gap-4">
-                        <button class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-btn-register">
+                        <button
+                            class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-primary-color hover:bg-primary-hover">
                             Voir Profil
                         </button>
                         <button class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-black ">
@@ -193,30 +208,30 @@
                 </h5>
                 <div class=" flex justify-content-between ">
                     <a href="#"><i
-                            class="fa-brands fa-facebook text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-700 hover:text-white"></i></a>
+                            class="fa-brands fa-facebook text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i></a>
                     <a href="#">
                         <i
-                            class="fa-brands fa-twitter text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-600 hover:text-white"></i>
+                            class="fa-brands fa-twitter text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
                     </a>
                     <a href="#">
                         <i
-                            class="fa-brands fa-instagram text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-600 hover:text-white"></i>
+                            class="fa-brands fa-instagram text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
                     </a>
                     <a href="#"><i
-                            class="fa-brands fa-youtube text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-600 hover:text-white"></i></a>
+                            class="fa-brands fa-youtube text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i></a>
                     <a href="#"><i
-                            class="fa-brands fa-linkedin text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-600 hover:text-white"></i></a>
+                            class="fa-brands fa-linkedin text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i></a>
                     <a href="#"><i
-                            class="fa-brands fa-whatsapp text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-emerald-600 hover:text-white"></i></a>
+                            class="fa-brands fa-whatsapp text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i></a>
 
                 </div>
             </div>
         </div>
         <script>
             function changeMainImage(newImage) {
-        const mainImage = document.getElementById('mainImage');
-        mainImage.src = newImage;
-    }
+                const mainImage = document.getElementById('mainImage');
+                mainImage.src = window.location.origin +'/file/offer-pictures/'+newImage;
+            }
         </script>
 
 
