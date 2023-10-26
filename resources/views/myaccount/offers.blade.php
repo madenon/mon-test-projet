@@ -54,13 +54,17 @@
                 <tbody>
                     <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{$offer->name}}
+                        {{$offer->title}}
                     </th>
                     <td class="px-6 py-4">
-                        <img class="object-scale-down h-16 w-16 rounded" src="{{asset($offer->offer_default_photo)}}" alt="Annonce Image">
+                        <img class="object-scale-down h-16 w-16 rounded" src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}" alt="Annonce Image">
                     </td>
                     <td class="px-6 py-4">
-                        {{$offer->created_at}}
+                        @if (!$offer->updated_at)
+                            {{$offer->created_at}}
+                        @else
+                            {{$offer->updated_at}}
+                        @endif
                     </td>
                     <td class="px-6 py-4">
                         {{$offer->type->name}}
@@ -71,9 +75,16 @@
                     <td class="px-6 py-4">
                         {{$offer->price}}
                     </td>
-                    <td class="px-6 py-4">
-                        <a href="{{route('myaccount.editOffer', [$offer->id])}}" class="no-underline font-medium text-blue-600 dark:text-blue-500">Modifier</a>
-                        <a href="{{route('offer.offer', [$offer->id, $offer->slug])}}" class="no-underline font-medium text-blue-600 dark:text-blue-500">Voir offre</a>
+                    <td class="flex gap-1 px-6 py-4">
+                        <button class=" bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-full"><a class="no-underline font-medium text-white " href="{{route('offer.offer', [$offer->id, $offer->slug])}}">Voir offre</a></button>
+                        <button class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded-full"><a class="no-underline font-medium text-white" href="{{route('myaccount.editOffer', [$offer->id])}}">Modifier</a></button>
+                        
+                        
+                        <form class="" action="{{route('myaccount.deleteOffer', [$offer->id])}}" method="post">
+                            @method('DELETE')
+                            @csrf
+                            <button class="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-full">Supprimer offre</button>
+                        </form>
                     </td>
                     </tr>
                 </tbody>

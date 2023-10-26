@@ -119,7 +119,7 @@
                             </div>
                             <ul class="dropdown-menu dropdown-menu-end header-user-avatar-dropdown">
                                 <li>
-                                    <a class="header-user-avatar-dropdown-item" href="#">
+                                    <a class="header-user-avatar-dropdown-item" href="{{route('myaccount.index')}}">
                                         <img src="{{asset('mages/user-icon-16.svg')}}" class="header-user-avatar-dropdown-item-img" alt="" />
                                         Mon compte
                                     </a>

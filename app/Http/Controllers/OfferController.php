@@ -110,7 +110,8 @@ class OfferController extends Controller
                         'region_id' => $region->id,
                         'department_id' => $department->id,
                         'experience' => $experience,
-                        'condition' => $condition
+                        'condition' => $condition,
+                        'created_at' => \Carbon\Carbon::now()
                     ]
                 );
             // OfferImages::create([
@@ -187,6 +188,12 @@ class OfferController extends Controller
             ]));
     }
 
+    public function destroyOffer(Offer $offer){
+        
+        $offer->delete();
+
+        return redirect()->route('myaccount.offers')->with('success','Annoce supprimer avec succès');
+    }
 
 
 }
