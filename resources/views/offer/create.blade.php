@@ -166,7 +166,7 @@
                                     <span id="selectedFileName" class="text-text text-sm mt-2">Aucun fichier
                                         sélectionné</span>
                                 </div>
-                                <x-input-error :messages="$errors->get('offer_photo')" class="mt-2" />
+                                <x-input-error :messages="$errors->get('default_image')" class="mt-2" />
 
                                 <span for="" class="text-sm text-text mt-4">
                                     {{ __('Parcourir d\'autres images') }}</span>
@@ -184,7 +184,7 @@
                                     <span id="selectedFileNameMultiple" class="text-text text-sm mt-2">Aucun fichier
                                         sélectionné</span>
                                 </div>
-                                <x-input-error :messages="$errors->get('offer_photo')" class="mt-2" />
+                                <x-input-error :messages="$errors->get('additional_images')" class="mt-2" />
                             </div>
                         </div>
                     </div>
@@ -246,6 +246,18 @@
         spanElement.textContent = selectedFiles.length + " fichier(s) sélectionné(s)";
         } else {
         spanElement.textContent = "Aucun fichier sélectionné";
+        }
+    });
+
+    const inputElement1 = document.getElementById("additional_images");
+    const spanElement1 = document.getElementById("selectedFileNameMultiple");
+
+    inputElement1.addEventListener("change", function () {
+        const selectedFiles = inputElement1.files;
+        if (selectedFiles.length > 0) {
+        spanElement1.textContent = selectedFiles.length + " fichier(s) sélectionné(s)";
+        } else {
+        spanElement1.textContent = "Aucun fichier sélectionné";
         }
     });
     const additional_images = document.getElementById("additional_images");

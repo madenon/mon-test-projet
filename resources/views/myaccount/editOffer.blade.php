@@ -135,51 +135,54 @@
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="flex flex-col div-image ">
-                            <span for="" class="text-sm text-text">Parcourir l'image par défaut depuis votre machine</span>
+                            <span for="" class="text-sm text-text">
+                                {{ __('Parcourir l\'image par défaut depuis votre machine') }}</span>
                             <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 ">
-                                <label for="offer_default_photo" class="cursor-pointer w-full" required>
-                                    <input 
-                                        id="offer_default_photo" 
-                                        type="file" 
-                                        name="default_image"
-                                        class="absolute inset-0 opacity-0 z-10 w-full border-focus"
+                                <label for="default_image" class="cursor-pointer w-full" required>
+                                    <input id="default_image" type="file" name="default_image"
+                                        class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
                                         style="width: 0; height: 0;">
                                     <div class="flex items-center justify-center gap-4 text-center w-full">
+                                        <img class="object-scale-down h-16 w-16 rounded" src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}" alt="Annonce Image">
                                         <img src="/images/IconContainer.svg" alt="" srcset="">
-                                        <img src="{{ url('' . $offer->offer_default_photo)}}" style="width: 100px; height: 100px;" alt="Image par default">
-                                        <p class="text-text text-sm mt-3">Parcourir l'image</p>
+                                        <p class="text-text text-sm mt-3">
+                                            {{ __('Parcourir l\'image ') }}</span></p>
                                     </div>
                                 </label>
                                 <!-- Affiche le nom du fichier sélectionné (facultatif) -->
                                 <span id="selectedFileName" class="text-text text-sm mt-2">Aucun fichier sélectionné</span>
                             </div>
-                            <x-input-error :messages="$errors->get('offer_default_photo')" class="mt-2" />
+                            <x-input-error :messages="$errors->get('default_image')" class="mt-2" />
 
-                            <span for="" class="text-sm text-text mt-4">Parcourir d'autres images</span>
+                            <span for="" class="text-sm text-text mt-4">
+                                {{ __('Parcourir d\'autres images') }}</span>
                             <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 ">
-                                <label for="offer_default_photo" class="cursor-pointer w-full" required>
-                                    <input 
-                                        id="offer_default_photo" 
-                                        type="file" 
-                                        name="additional_images[]" multiple
-                                        class="absolute inset-0 opacity-0 z-10 w-full border-focus"
+                                <label for="additional_images" class="cursor-pointer w-full" required>
+                                    <input id="additional_images" type="file" name="additional_images[]" multiple
+                                        class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
                                         style="width: 0; height: 0;" />
                                     <div class="flex items-center justify-center gap-4 text-center w-full">
-                                        <img src="/images/IconContainer.svg" alt="" srcset=""> 
-                                        <p class="text-text text-sm mt-3">Parcourir l'image</p>
+                                        @foreach ($images as $image)
+                                            <img class="object-scale-down h-16 w-16 rounded" src="{{ route('offer-pictures-file-path',$image->offer_photo) }}" alt="Annonce Image">
+                                        @endforeach
+                                        <img src="/images/IconContainer.svg" alt="" srcset="">
+                                        <p class="text-text text-sm mt-3">{{ __('Parcourir l\'image ') }}</p>
                                     </div>
                                 </label>
                                 <!-- Affiche le nom du fichier sélectionné (facultatif) -->
-                                <span id="selectedFileName" class="text-text text-sm mt-2">Aucun fichier sélectionné</span>
+                                <span id="selectedFileNameMultiple" class="text-text text-sm mt-2">Aucun fichier sélectionné</span>
                             </div>
-                            <x-input-error :messages="$errors->get('offer_photo')" class="mt-2" />
+                            <x-input-error :messages="$errors->get('additional_images')" class="mt-2" />
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="flex justify-end">
+            <div class="flex justify-end gap-2">
                 <button class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-primary-color hover:bg-primary-hover" type="submit">
                     Mettre l'annonce à jours
+                </button>
+                <button class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-gray-900  hover:bg-black" type="submit">
+                    Annuler
                 </button>
             </div>
 
@@ -232,7 +235,7 @@
     typeDropdownElement.dispatchEvent(new Event('change'));
 
 
-    const inputElement = document.getElementById("offer_default_photo");
+    const inputElement = document.getElementById("default_image");
     const spanElement = document.getElementById("selectedFileName");
 
     inputElement.addEventListener("change", function () {
@@ -241,6 +244,18 @@
         spanElement.textContent = selectedFiles.length + " fichier(s) sélectionné(s)";
         } else {
         spanElement.textContent = "Aucun fichier sélectionné";
+        }
+    });
+
+    const inputElement1 = document.getElementById("additional_images");
+    const spanElement1 = document.getElementById("selectedFileNameMultiple");
+
+    inputElement1.addEventListener("change", function () {
+        const selectedFiles = inputElement1.files;
+        if (selectedFiles.length > 0) {
+        spanElement1.textContent = selectedFiles.length + " fichier(s) sélectionné(s)";
+        } else {
+        spanElement1.textContent = "Aucun fichier sélectionné";
         }
     });
 

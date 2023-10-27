@@ -89,9 +89,9 @@
                         </span>
                     </div>
                 </div>
+                @if($offer->condition)
                 <div class=" border-y py-3 ">
                     <div class=" px-12 flex    items-center">
-
                         <span class="w-[35%]">
                             L’etat:
                         </span>
@@ -101,6 +101,7 @@
                         </span>
                     </div>
                 </div>
+                @endif
                 <div class="border-b py-3">
                     <div class="px-12 flex   gap-2 items-center">
 

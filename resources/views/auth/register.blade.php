@@ -33,7 +33,7 @@
                     Politique de confidentialité
                 </a>
                 <a href="">
-                    {{ _('Conditions générales d\'utilisation') }}
+                    {{ __('Conditions générales d\'utilisation') }}
                 </a>
 
             </div>

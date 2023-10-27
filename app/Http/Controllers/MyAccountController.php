@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\OfferImages;
 
 class MyAccountController extends Controller
 {
@@ -45,6 +46,7 @@ class MyAccountController extends Controller
         $offer = Offer::find($offerId);
         $experienceLevels = ExperienceLevel::toArray();
         $conditions = Condition::toArray();
+        $images = OfferImages::where('offer_id',$offerId)->get();
 
         return view('myaccount.editOffer')->with([
             'user' => $user,
@@ -55,7 +57,8 @@ class MyAccountController extends Controller
             'offer' => $offer,
             'subcategories' => $subcategories,
             'experienceLevels' => $experienceLevels,
-            'conditions' => $conditions
+            'conditions' => $conditions,
+            'images'=> $images
         ]);
         
     }
@@ -95,10 +98,38 @@ class MyAccountController extends Controller
         $offer->perimeter = $request->perimeter;
         $offer->experience = $request->experience;
         $offer->condition = $request->condition;
-        if ($request->hasFile('offer_default_photo')) {
-            $this->updateOfferImage($offer, $request->file('offer_default_photo'));
-            dd($offer->offer_default_photo);
+
+         if ($request->hasFile('default_image')) {
+            // Delete the old image file if necessary
+            // Save the new image and update the offer
+            $ext = $request->file('default_image')->getClientOriginalExtension();
+            $imageDefault = uniqid() . '.' . $ext;
+            $request->file('default_image')->storeAs('public/offer_pictures', $imageDefault);
+            $offer->offer_default_photo = $imageDefault;
         }
+
+        if ($request->hasFile('additional_images')) {
+            // Delete the old additional images if necessary
+            if ($offer->additionalImages) {
+                foreach ($offer->additionalImages as $image) {
+                    Storage::delete('public/offer_pictures/' . $image->offer_photo);
+                    $image->delete();
+                }
+            }
+
+            // Save the new additional images
+            foreach ($request->file('additional_images') as $file) {
+                $ext = $file->getClientOriginalExtension();
+                $name = uniqid() . '.' . $ext;
+                $file->storeAs('public/offer_pictures', $name);
+                OfferImages::create([
+                    'offer_photo' => $name,
+                    'offer_id' => $offer->id,
+                ]);
+            }
+        }
+
+
         
 
         $offer->update();
@@ -106,28 +137,5 @@ class MyAccountController extends Controller
         return redirect(route('myaccount.offers'))->with(['success', 'Annonce mis à jours', ['offerId']]);
     }
 
-    protected function updateOfferImage(Offer $offer, UploadedFile $file)
-    {
-
-        if ($file->isValid()) {
-
-            $storagePath = 'public/offer_pictures';
-            
-            if ($offer->offer_default_photo) {
-                Storage::delete($offer->offer_default_photo);
-            }
-
-            $path = $file->store($storagePath);
-            $fullPath = url(Storage::url($path));
-
-            
-            $path = str_replace($storagePath . '/', '', $path);
-            
-
-            $offer->update(['offer_default_photo' => $fullPath]);
-            return Storage::url($path);
-        }
-
-        return '';
-    }
+   
 }

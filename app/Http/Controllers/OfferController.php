@@ -61,7 +61,6 @@ class OfferController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->default_image);
 
         $request->validate([
             'type' => ['required'],
@@ -114,18 +113,12 @@ class OfferController extends Controller
                         'created_at' => \Carbon\Carbon::now()
                     ]
                 );
-            // OfferImages::create([
-            //     'offer_photo' => $imageDefault,
-            //     'offer_id' => $id
-            // ]);
+          
             Storage::putFileAs('public/offer_pictures', $request->default_image, $imageDefault);
 
 
             if($request->has('additional_images')){
                 foreach ($request->additional_images as $key => $value) {
-                    if ($key == 0) {
-                        continue;
-                    }
                     $name = uniqid() . '.' . $extention;
                     Storage::putFileAs('public/offer_pictures', $value, $name);
                     OfferImages::create([
@@ -141,38 +134,18 @@ class OfferController extends Controller
 
     }
 
-    protected function uploadOfferImage(UploadedFile $file): string
-    {
-        if ($file->isValid()) {
-            $path = $file->store('public/offer_pictures');
-            return Storage::url($path);
-        }
-
-        return '';
-    }
-
-
-
     protected function show($offerid, $slug)
     {
         $offer = Offer::find($offerid);
-
-        //dd($offer);
-
-        //dd($offer->id);
 
         $similaroffers = Offer::where('category_id', $offer->category_id)->where('id', '!=', $offer->id)->get();
         if(!$similaroffers){
             $similaroffers = [];
         }
 
-        //dd($similaroffers);
-        //$slug = Offer::where('slug', $offer->slug)->get('slug');
-
         $type = Type::where('id', $offer->type_id)->first();
         $images = OfferImages::where('offer_id',$offer->id)->get();
 
-        //dd($images);
         $category = Category::where('id', $offer->category_id)->first();
         $subcategory = Category::where('id', $offer->subcategory_id)->first();
 
