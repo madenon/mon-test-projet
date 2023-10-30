@@ -66,7 +66,7 @@ class MyAccountController extends Controller
     public function updateOffer(Request $request, $offerId){
 
         $user = Auth::user();
-        $offer = Offer::find($offerId);
+        $offer = Offer::find($offerId)->with('user_id', $user->id);
 
         $request->validate([
             'type' => ['required_if:old_type, $offer->type_id'],

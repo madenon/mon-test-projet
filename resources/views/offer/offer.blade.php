@@ -26,10 +26,10 @@
             <div class=" flex flex-col gap-6">
                 <div class="">
                     <img src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}"
-                        alt="Image principale" id="mainImage" class=" h-[450px]  rounded-lg " />
+                        alt="Image principale" id="mainImage" class=" h-[450px] w-[750px] rounded-lg " />
                 </div>
 
-                <div class="flex scrollBar  gap-3 overflow-x-auto p-2 ">
+                <div class="flex scrollBar  gap-3 overflow-x-auto p-2 h-">
                     @foreach ($images as $img)
                     <img src="{{ route('offer-pictures-file-path',$img->offer_photo) }}" alt="Image produit"
                         class=" h-[80px] hover:cursor-pointer hover:scale-110 rounded-lg hover:transition-transform hover:transform-gpu "
@@ -149,7 +149,7 @@
                             @if (!$offer->user->profile_photo_path)
                             <img src="/images/user-avatar-icon.svg" alt="Avatar">
                             @else
-                            <img src="{{ route('profile_pictures-file-path',$offer->user->profile_photo_path) }}" alt=""
+                            <img class="w-12 h-12 rounded-full" src="{{ route('profile_pictures-file-path',$offer->user->profile_photo_path) }}" alt=""
                                 class="rounded-full">
                             @endif
                             <span class="flex flex-col">
@@ -227,7 +227,58 @@
 
                 </div>
             </div>
+            
         </div>
+    </div>
+
+    <section class="similarOffers">
+        <div class="flex justify-between px-24">
+        <h1 class="mb-6 ml-12 font-sans text-2xl font-bold text-gray-900">Offres similaire</h1>
+        <button class="bg-primary-color hover:bg-primary-hover mr-12 text-white font-bold py-2 px-4 rounded-2"><a class="no-underline font-medium text-white" href="#">Voir plus</a></button>
+        </div>
+        
+        <div class="mx-auto grid max-w-screen-xl grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
+            @foreach ($similaroffers as $similar)
+            <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl" >
+                <a class="no-underline" href="{{route('offer.offer', [$similar->id, $similar->slug])}}">
+                  <div class="relative flex items-end overflow-hidden rounded-xl">
+                    <img src="{{ route('offer-pictures-file-path',$similar->offer_default_photo)}}" alt="Offer Photo" />
+                  </div>
+          
+                  <div class="mt-1 p-2">
+                    <span class="text-gray-500 text-lg flex items-center div-categorie pb-2">
+                        <img src="/images/Stack.svg" alt="" class="mr-2 ">
+                        {{$similar->category->name}}
+                    </span>
+                    <span class="text-titles font-bold text-3xl overflow-hidden">
+                        {{$similar->title }}
+                    </span>
+                    <hr class="w-full text-titles">
+                    <div class="mt-3 flex items-end justify-between">
+                        <div class="flex gap-2 items-center">
+                            <img src="/images/map-pin.svg" alt="">
+                            <span class="text-gray-500">
+                                {{$similar->region->name . ", " .
+                                $similar->department->name}}
+                            </span>
+                        </div>
+          
+                        <div class="group inline-flex rounded-xl">
+                            <span class="text-red-500 text-lg">
+                                {{$similar->type->name }}
+                            </span>
+                        </div>
+                    </div>
+                  </div>
+                </a>
+              </article>
+            @endforeach
+          
+        </div>
+      </section>
+      
+         
+        
         <script>
             function changeMainImage(newImage) {
                 const mainImage = document.getElementById('mainImage');

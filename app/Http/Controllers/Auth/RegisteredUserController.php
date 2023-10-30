@@ -48,21 +48,22 @@ class RegisteredUserController extends Controller
             'gender' => [new Enum(Gender::class)],
             'bio' => ['nullable', 'string', 'max:300'],
             'nickname' => ['required', 'unique:user_infos', 'min:2', 'max:100'],
-            'profile_photo_path' => ['image', 'max:12288', 'mimes:jpeg,jpg,png'],
+            'profile_photo_path' => ['nullable','image', 'max:12288', 'mimes:jpeg,jpg,png'],
 
         ], [
             'email' => 'Ce email exist dèja.',
             'phone.min' => 'Le numéro de téléphone doit comporter au moins 7 chiffres et au maximum 11 chiffres.',
             'nickname' => 'Ce pseudonyme existe déjà.',
             'password' => 'Le mot de passe doit contenir au moins 6 caractères, une combinaison de majuscules et de minuscules, un chiffre et un symbole.',
-            'profile_photo_path' => "L'image doit être moins de 12 Mo."
+            'profile_photo_path.max' => "L'image doit être moins de 12 Mo.",
+            'profile_photo_path.mimes' => 'L\'image téléchargés doivent être au format jpg, jpeg ou png.',
         ]);
 
         DB::transaction(function () use ($request) {
 
-            // Verify if the profile photo is included in the submitted form
-            $storePicture = $request->hasFile('profile_photo_path') ? $this->uploadProfilePicture($request->file('profile_photo_path')) : null;
-
+            $extention = explode("/", $request->profile_photo_path->getMimeType())[1];
+            $storePicture = uniqid() . '.' . $extention;
+        
             $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -71,6 +72,8 @@ class RegisteredUserController extends Controller
                 'profile_photo_path' => $storePicture,
             ]);
 
+            Storage::putFileAs('public/profile_pictures', $request->profile_photo_path, $storePicture);
+            
             $this->createUserInfos($user, $request->only(['phone', 'nickname', 'gender', 'bio']));
 
             event(new Registered($user));
@@ -83,16 +86,6 @@ class RegisteredUserController extends Controller
         return redirect(RouteServiceProvider::HOME);
     }
 
-    protected function uploadProfilePicture(UploadedFile $file): string
-    {
-        // Validate and store the profile picture using Laravel's file storage system
-        if ($file->isValid()) {
-            $path = $file->store('public/profile_pictures'); // Store the file in 'storage/app/public/profile_pictures'
-            return Storage::url($path); // Return the URL to the stored file
-        }
-
-        return ''; // Return an empty string if the file upload fails
-    }
 
     protected function createUserInfos(User $user, array $data)
     {
