@@ -1,14 +1,11 @@
 <x-app-layout>
 
     <section>
-        <div class="container">
-
-        
+        <div class="container">        
         <header>
             <h2 class="text-lg font-medium text-gray-900">
                 {{ __('Modifier une annonce') }}
             </h2>
-
             <p class="mt-1 text-sm text-gray-600">
                 {{ __("Mettre à jours les informations de votre annonce.") }}
             </p>
@@ -25,8 +22,6 @@
         <form method="POST" action="{{ route('myaccount.updateOffer', ['offerId' => $offer->id]) }}" class="mt-6 space-y-6" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            
-
             <div class="border-b border-line py-4 mt-12">
                 <div class="flex gap-4 lg:gap-8 flex-wrap ">
                     <div class="md:flex-1 w-full">
@@ -42,7 +37,6 @@
                         <label for="" class="text-sm text-text block">Expérience du service</label>
                         <select name='experience' class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
                             <option value="0" selected>Choisir l’expérience</option>
-
                             @foreach ($experienceLevels as $key => $value)
                             <option value="{{ $value }}" {{ $offer->experience == $value ? 'selected' : '' }}>{{ $key }}</option>
                             @endforeach
@@ -52,13 +46,11 @@
                         <label for="" class="text-sm text-text block">Etat</label>
                         <select name='condition' class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
                             <option value="0" selected>Choisir l'état</option>
-
                             @foreach ($conditions as $key => $value)
                             <option value="{{ $value }}" {{ $offer->condition == $value ? 'selected' : '' }}>{{ $key }}</option>
                             @endforeach
                         </select>
                     </div>
-                   
                     <div class="md:flex-1 w-full">
                         <label for="" class="text-sm text-text block">Catégorie du troc</label>
                         <select required name='category_id' class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover" onchange="changerCategory(this)">
@@ -68,8 +60,6 @@
                             @endforeach
                         </select>
                     </div>
-                   
-                    
                     <div class="md:flex-1 w-full">
                         <label for="" class="text-sm text-text block">Sous catégorie du troc</label>
                         <select required name='subcategory_id' id="select_category" class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
@@ -79,7 +69,6 @@
                             @endforeach
                         </select>
                     </div>
-                   
                 </div>
             </div>
             <div class="border-b border-line py-4 mt-4">
@@ -153,7 +142,6 @@
                                 <span id="selectedFileName" class="text-text text-sm mt-2">Aucun fichier sélectionné</span>
                             </div>
                             <x-input-error :messages="$errors->get('default_image')" class="mt-2" />
-
                             <span for="" class="text-sm text-text mt-4">
                                 {{ __('Parcourir d\'autres images') }}</span>
                             <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 ">
@@ -181,25 +169,20 @@
                 <button class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-primary-color hover:bg-primary-hover" type="submit">
                     Mettre l'annonce à jours
                 </button>
-                <button class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-gray-900  hover:bg-black" type="submit">
-                    Annuler
+                <button class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-gray-900  hover:bg-black">
+                    <a class="no-underline font-medium text-white " href="{{route('myaccount.offers')}}">Annuler</a>
                 </button>
             </div>
-
         </form>
     </div>
     </section>
-
 </x-app-layout>
 
 
 
 <script>
-
     const conditionDropdownElement = document.getElementById('condition-dropdown');
     const yearsOfExperienceDropdownElement = document.getElementById('experience-dropdown');
-
-    
 
     const experienceOrLevel = (selectedValue) => {
         const hasCondition = [2,3,5, "2","3","5"]
@@ -220,7 +203,6 @@
             yearsOfExperienceDropdownElement.style.display = "none"
         }
 
-        
     }
     
     
@@ -233,7 +215,6 @@
     const typeDropdownElement = document.getElementById('type-dropdown')
     typeDropdownElement.addEventListener("change", onTypeDropdownChanged)
     typeDropdownElement.dispatchEvent(new Event('change'));
-
 
     const inputElement = document.getElementById("default_image");
     const spanElement = document.getElementById("selectedFileName");
@@ -303,8 +284,5 @@
     const selectDepartment = document.getElementById('select_department');
     changerNumDepartement(selectDepartment);
     });
-
-    
-
 
 </script>

@@ -8,21 +8,17 @@
 
     <div class="container">
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb" class="no-underline bg-green-500 ">
                 <li class="breadcrumb-item active" aria-current="page">{{ Breadcrumbs::render('offers') }}</li>
             </ol>
         </nav>
     </div>
-
     <div class="container">
         <div class="row">
             <div class="col-3 col-md-3">
                 Filters part
             </div>
-
             <div class="col-12 col-md-9">
-
-
                 @foreach ($offers as $offer)
                 <div class="offer_list_card">
                     <div class="offer_image relative">
@@ -30,7 +26,6 @@
                             class="object-cover h-full w-full rounded-tl-lg rounded-bl-lg " />
                     </div>
                     <div class="offer_details ml-8 mt-4">
-
                         <div class="">
                             <a href="{{route('offer.offer', [$offer, urlencode($offer->slug)])}}" class="no-underline">
                                 <h1 class="text-titles text-2xl">
@@ -44,14 +39,12 @@
                             {{--  {{-- <img src="images/category-8.svg" alt="Category" />  --}}
                             {{--  <p>{{$offer->category->name}}</p> --}} 
                         </div>
-
                         <div class=" text-titles text-xs mt-3">
                             <h6 class=" font-normal ">A ECHANGER CONTRE</h6>
                             <span class=" ml-5 flex items-center gap-1">
                                 <div class="w-2 h-2 bg-black rounded-full"></div>
                                 Etudie toute preposition
                             </span>
-
                         </div>
                         <div class=" mt-3 flex w-full mb-3">
                             <div class=" w-[40%] flex gap-2 items-center">
@@ -61,7 +54,6 @@
                                     $offer->department->name}}
                                 </span>
                             </div>
-
                             <div class="  w-[60%] text-end">
                                 @if (!$offer->price)
                                 <span class="text-titles mr-5  text-2xl font-semibold">
@@ -78,10 +70,8 @@
                                     </span>
                                 </div>
                                 @endif
-
                             </div>
                         </div>
-
                         <div class=" pb-12 mt-2" >
                             <div class="flex gap-2 pr-3 ">
                                <div class="w-1/4">
@@ -117,11 +107,11 @@
                         <div class="offer_owner mb-3" >
                             <div class="flex gap-3 ">
                                 @if (!$offer->user->profile_photo_path)
-                                <img src="/images/user-avatar-icon.svg" alt="Avatar">
-                                @else
-                                <img src="{{ route('profile_pictures-file-path',$offer->user->profile_photo_path) }}"
-                                    alt="" class="rounded-full">
-                                @endif
+                            <img src="/images/user-avatar-icon.svg" alt="Avatar">
+                            @else
+                            <img class="w-12 h-12 rounded-full" src="{{ route('profile_pictures-file-path',$offer->user->profile_photo_path) }}" alt=""
+                                class="rounded-full">
+                            @endif
                                 <span class="flex flex-col">
                                     <span class="text-titles font-medium">
                                         {{$offer->user->first_name . " " .
@@ -140,8 +130,8 @@
                 </div>
                 @endforeach
             </div>
-
         </div>
+        {{ $offers->links() }}
     </div>
-    {{ $offers->links() }}
+    
 </x-app-layout>

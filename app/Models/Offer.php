@@ -16,7 +16,6 @@ class Offer extends Model
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-
     protected $fillable = [
         'title',
         'slug',
@@ -32,13 +31,12 @@ class Offer extends Model
         'category_id',
         'region_id',
         'department_id',
+        'active_offer'
     ];
-
 
     protected $casts = [
         'level' => ExperienceLevel::class,
     ];
-
 
     public function user(): BelongsTo
     {

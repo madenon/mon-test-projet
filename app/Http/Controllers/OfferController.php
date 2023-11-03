@@ -9,27 +9,21 @@ use App\Models\Offer;
 use App\Models\OfferImages;
 use App\Models\Region;
 use App\Models\Type;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Enums\ExperienceLevel;
 use Illuminate\Support\Str;
-use App\Rules\ImageFileRule;
+
 
 class OfferController extends Controller
 {
-
-
     public function index()
     {
-        $offers = Offer::orderBy('created_at', 'DESC')->paginate(10);
+        $offers = Offer::orderBy('created_at', 'DESC')->where('active_offer', 1)->paginate(10);
         $user = User::find(1);
-
         $onlineStatus = $user->is_online;
 
         return view('offer.index', compact('offers', 'onlineStatus'));
@@ -45,8 +39,6 @@ class OfferController extends Controller
         $experienceLevels = ExperienceLevel::toArray();
         $conditions = Condition::toArray();
 
-
-
         return view('offer.create')->with([
             'types' => $types,
             'departments' => $departments,
@@ -61,7 +53,6 @@ class OfferController extends Controller
 
     public function store(Request $request)
     {
-
         $request->validate([
             'type' => ['required'],
             'experience' => ['nullable'],
@@ -80,16 +71,14 @@ class OfferController extends Controller
             'default_image.mimes' => 'Les fichiers téléchargés doivent être au format jpg ou png.',
         ]);
 
-
-
-        DB::transaction(function () use ($request) {
+        $slug = Str::slug($request->title, '-');
+        $id = DB::transaction(function () use ($request, $slug) {
             $user = Auth::user();
             $category = Category::find($request->category);
             $subcategory = Category::find($request->subcategory);
             $region = Region::find($request->region);
             $department = Department::find($request->department);
             $type = Type::find($request->type);
-            $slug = Str::slug($request->title, '-');
             $extention = explode("/", $request->default_image->getMimeType())[1];
             $imageDefault = uniqid() . '.' . $extention;
             $experience = $request->has('experience')? $request->experience : null;
@@ -116,7 +105,6 @@ class OfferController extends Controller
           
             Storage::putFileAs('public/offer_pictures', $request->default_image, $imageDefault);
 
-
             if($request->has('additional_images')){
                 foreach ($request->additional_images as $key => $value) {
                     $name = uniqid() . '.' . $extention;
@@ -127,25 +115,22 @@ class OfferController extends Controller
                     ]);
                 }
             }
-
+            return $id;
         });
 
-        return redirect()->route('offer.index')->with('success', 'produit ajouté');
+        return redirect()->route('offer.offer', ['offer'=>$id, 'slug'=>$slug])->with('success', 'produit ajouté');
 
     }
 
     protected function show($offerid, $slug)
     {
         $offer = Offer::find($offerid);
-
-        $similaroffers = Offer::where('category_id', $offer->category_id)->where('id', '!=', $offer->id)->get();
+        $similaroffers = Offer::where('category_id', $offer->category_id)->where('id', '!=', $offer->id)->Paginate(3);
         if(!$similaroffers){
             $similaroffers = [];
         }
-
         $type = Type::where('id', $offer->type_id)->first();
         $images = OfferImages::where('offer_id',$offer->id)->get();
-
         $category = Category::where('id', $offer->category_id)->first();
         $subcategory = Category::where('id', $offer->subcategory_id)->first();
 
@@ -162,11 +147,23 @@ class OfferController extends Controller
     }
 
     public function destroyOffer(Offer $offer){
-        
         $offer->delete();
 
         return redirect()->route('myaccount.offers')->with('success','Annoce supprimer avec succès');
     }
 
+    public function activate(Offer $offer)
+    {
+        $offer->update(['active_offer' => true]);
+        
+        return redirect()->route('myaccount.offers')->with('success', 'Offer activated successfully');
+    }
+
+    public function deactivate(Offer $offer)
+    {
+        $offer->update(['active_offer' => false]);
+
+        return redirect()->route('myaccount.offers')->with('success', 'Offer deactivated successfully');
+    }
 
 }

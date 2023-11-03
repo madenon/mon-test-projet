@@ -74,8 +74,6 @@
                                 @endforeach
                             </select>
                         </div>
-
-
                         <div class="md:flex-1 w-full">
                             <label for="" class="text-sm text-text block">Sous catégorie du troc</label>
                             <select required name='subcategory' id="select_category"
@@ -86,7 +84,6 @@
                                 @endforeach
                             </select>
                         </div>
-
                     </div>
                 </div>
                 <div class="border-b border-line py-4 mt-4">
@@ -167,7 +164,6 @@
                                         sélectionné</span>
                                 </div>
                                 <x-input-error :messages="$errors->get('default_image')" class="mt-2" />
-
                                 <span for="" class="text-sm text-text mt-4">
                                     {{ __('Parcourir d\'autres images') }}</span>
                                 <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 ">
@@ -189,19 +185,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-end">dropdown
+                <div class="flex justify-end gap-2">
                     <button
                         class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-primary-color hover:bg-primary-hover"
                         type="submit">
                         {{ __('Créer l\'annonce') }}
                     </button>
+                    <button class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-gray-900  hover:bg-black">
+                        <a class="no-underline font-medium text-white " href="{{route('myaccount.offers')}}">Annuler</a>
+                    </button>
                 </div>
             </form>
         </div>
     </div>
-
-
-
 
 </x-app-layout>
 <script>
@@ -226,16 +222,13 @@
             yearsOfExperienceDropdownElement.style.display = "none"
         }
     }
-
     // Type dropdown change handler
     const onTypeDropdownChanged = (e) => {
         const selectedValue = e.target.value
         experienceOrLevel(selectedValue)
-
     }
     const typeDropdownElement = document.getElementById('type-dropdown')
     typeDropdownElement.addEventListener("change", onTypeDropdownChanged)
-
 
     const inputElement = document.getElementById("default_image");
     const spanElement = document.getElementById("selectedFileName");

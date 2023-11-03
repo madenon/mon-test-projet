@@ -15,8 +15,6 @@
                             src="{{ asset('images/list-icon-24.svg') }} "
                             alt=""
                             id="header-categories-button-button-icon" />
-
-
                         <span class="header-categories-button-button-span">Categories</span>
                 </button>
             </div>
@@ -40,7 +38,6 @@
                     <span>Filtre</span>
                 </button>
             </div>
-
             <div id="header-user">
                 @auth
                 <!-- Authenticated User -->
@@ -108,7 +105,6 @@
                             </li>
                         </ul>
                     </div>
-
                     <div id="header-user-messages-icon" class="">
                         <div class="header-user-messages-icon-newmessages"></div>
                     </div>
@@ -150,11 +146,9 @@
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
-
                                     <!-- Authentication -->
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
-
                                         <a
                                             class="header-user-avatar-dropdown-item" href="route('logout')"
                                             onclick="event.preventDefault();
@@ -175,7 +169,6 @@
                     <div class="dropdown" class="header-guest-user-content">
                         <button class="header-guest-user-btn" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="{{ asset('images/user-icon-24.svg') }} " alt="" class="" />
-
                             <span>S'authentifier</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end header-user-avatar-dropdown">
@@ -197,12 +190,10 @@
                 </div>
                 @endguest
             </div>
-
             <div id="header-create-add-button">
                 <a class="" href="{{ route('offer.create') }}">
                     <div class="header-create-add-button-img">
                         <img src="{{ asset('images/plus-icon-white.svg') }}" alt="" />
-
                     </div>
                     <span class="header-create-add-button-span">
                         Déposer <br />
@@ -214,18 +205,13 @@
         <nav id="header-categories-dropdown-menu">
             <div class="header-categories-dropdown-menu-items">
                 @if($parentcategories)
-
                 @foreach($parentcategories as $parentcategory)
-              
                 <a href="" class="header-categories-dropdown-menu-item">
                     <img src="{{asset('images/map-pin-icon.svg')}}" alt="" />
                     <h3>{{$parentcategory['name']}}</h3>
                 </a>
-
                 @endforeach
-             
                 @endif
-
             </div>
         </nav>
     </header>

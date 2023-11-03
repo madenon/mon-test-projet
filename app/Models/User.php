@@ -13,10 +13,6 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
-
-
-
-
     /**
      * The attributes that are mass assignable.
      *
@@ -56,8 +52,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->attributes['is_online'] ? 'Online' : 'Offline';
     }
-
-
 
     public function userInfo(): HasOne
     {

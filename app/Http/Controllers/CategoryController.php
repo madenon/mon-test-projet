@@ -9,12 +9,10 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index($type, $category){
+    public function index($type, $category)
+    {
         $cat = Category::first('id')->get();
-
         $offers = Type::where('type_id', $cat);
-
-
 
         return view('category', compact('offers', 'type', 'category'));
     }   

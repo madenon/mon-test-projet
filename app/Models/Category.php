@@ -11,8 +11,6 @@ class Category extends Model
 {
     use HasFactory;
 
-    
-
     protected $fillable = [
         'name',
         'category_photo',
@@ -20,8 +18,6 @@ class Category extends Model
         'parent_id',
         'type_id'
     ];
-
-
 
     public function offer(): HasMany
     {

@@ -22,7 +22,6 @@ class UserInfos extends Model
         'nickname'
     ];
 
-
     protected $hidden = [
         'user_id',
 

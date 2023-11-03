@@ -4,7 +4,12 @@
             {{ $offer->title }}
         </h2>
     </x-slot>
-    <div class="container">
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
+    <div class="offre-page mx-9">
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="page">{{ Breadcrumbs::render('offers') }}</li>
@@ -28,13 +33,12 @@
                     <img src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}"
                         alt="Image principale" id="mainImage" class=" h-[450px] w-[750px] rounded-lg " />
                 </div>
-
                 <div class="flex scrollBar  gap-3 overflow-x-auto p-2 h-">
                     @foreach ($images as $img)
-                    <img src="{{ route('offer-pictures-file-path',$img->offer_photo) }}" alt="Image produit"
-                        class=" h-[80px] hover:cursor-pointer hover:scale-110 rounded-lg hover:transition-transform hover:transform-gpu "
-                        onmouseover="changeMainImage('{{ $img->offer_photo }}')"
-                        onmouseout="changeMainImage('{{ $offer->offer_default_photo }}')" />
+                        <img src="{{ route('offer-pictures-file-path',$img->offer_photo) }}" alt="Image produit"
+                            class=" h-[80px] hover:cursor-pointer hover:scale-110 rounded-lg hover:transition-transform hover:transform-gpu "
+                            onmouseover="changeMainImage('{{ $img->offer_photo }}')"
+                            onmouseout="changeMainImage('{{ $offer->offer_default_photo }}')" />
                     @endforeach
                 </div>
             </div>
@@ -51,7 +55,6 @@
                 </div>
             </div>
         </div>
-
         <div class="w-[38%] partie-detail">
             <h2 class="text-titles  font-semibold">{{ $offer->title }}</h2>
             <button
@@ -104,7 +107,6 @@
                 @endif
                 <div class="border-b py-3">
                     <div class="px-12 flex   gap-2 items-center">
-
                         <img src="/images/map-pin.svg" alt="">
                         <span class="">
                             {{$offer->region->name . ", " .
@@ -224,67 +226,58 @@
                             class="fa-brands fa-linkedin text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i></a>
                     <a href="#"><i
                             class="fa-brands fa-whatsapp text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i></a>
-
                 </div>
             </div>
-            
         </div>
     </div>
-
     <section class="similarOffers">
         <div class="flex justify-between px-24">
-        <h1 class="mb-6 ml-12 font-sans text-2xl font-bold text-gray-900">Offres similaire</h1>
-        <button class="bg-primary-color hover:bg-primary-hover mr-12 text-white font-bold py-2 px-4 rounded-2"><a class="no-underline font-medium text-white" href="#">Voir plus</a></button>
+            <h1 class="mb-6 ml-12 font-sans text-2xl font-bold text-gray-900">Offres similaire</h1>
+            <button class="bg-primary-color hover:bg-primary-hover mr-12 text-white font-bold py-2 px-4 rounded-2"><a class="no-underline font-medium text-white" href="#">Voir plus</a></button>
         </div>
-        
         <div class="mx-auto grid max-w-screen-xl grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
-            @foreach ($similaroffers as $similar)
-            <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl" >
-                <a class="no-underline" href="{{route('offer.offer', [$similar->id, $similar->slug])}}">
-                  <div class="relative flex items-end overflow-hidden rounded-xl">
-                    <img src="{{ route('offer-pictures-file-path',$similar->offer_default_photo)}}" alt="Offer Photo" />
-                  </div>
-          
-                  <div class="mt-1 p-2">
-                    <span class="text-gray-500 text-lg flex items-center div-categorie pb-2">
-                        <img src="/images/Stack.svg" alt="" class="mr-2 ">
-                        {{$similar->category->name}}
-                    </span>
-                    <span class="text-titles font-bold text-3xl overflow-hidden">
-                        {{$similar->title }}
-                    </span>
-                    <hr class="w-full text-titles">
-                    <div class="mt-3 flex items-end justify-between">
-                        <div class="flex gap-2 items-center">
-                            <img src="/images/map-pin.svg" alt="">
-                            <span class="text-gray-500">
-                                {{$similar->region->name . ", " .
-                                $similar->department->name}}
-                            </span>
-                        </div>
-          
-                        <div class="group inline-flex rounded-xl">
-                            <span class="text-red-500 text-lg">
-                                {{$similar->type->name }}
-                            </span>
-                        </div>
-                    </div>
-                  </div>
-                </a>
-              </article>
-            @endforeach
-          
+                @foreach ($similaroffers as $similar)
+                        <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl " >
+                            <a class="no-underline" href="{{route('offer.offer', [$similar->id, $similar->slug])}}">
+                                <div class="relative flex items-end overflow-hidden rounded-xl">
+                                    <img class="w-full h-96" src="{{ route('offer-pictures-file-path',$similar->offer_default_photo)}}" alt="Offer Photo" />
+                                </div>
+                                <div class="mt-1 p-2">
+                                    <span class="text-gray-500 text-lg flex items-center div-categorie pb-2">
+                                        <img src="/images/Stack.svg" alt="" class="mr-2 ">
+                                        {{$similar->category->name}}
+                                    </span>
+                                    <span class="text-titles font-bold text-3xl overflow-hidden">
+                                        {{$similar->title }}
+                                    </span>
+                                    <hr class="w-full text-titles">
+                                    <div class="mt-3 flex items-end justify-between">
+                                        <div class="flex gap-2 items-center">
+                                            <img src="/images/map-pin.svg" alt="">
+                                            <span class="text-gray-500">
+                                                {{$similar->region->name . ", " .
+                                                $similar->department->name}}
+                                            </span>
+                                        </div>
+                                        <div class="group inline-flex rounded-xl">
+                                            <span class="text-red-500 text-lg">
+                                                {{$similar->type->name }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </article>
+                @endforeach
         </div>
-      </section>
-      
-         
-        
-        <script>
-            function changeMainImage(newImage) {
-                const mainImage = document.getElementById('mainImage');
+    </section>
+
+
+    <script>
+        function changeMainImage(newImage) {
+            const mainImage = document.getElementById('mainImage');
                 mainImage.src = window.location.origin +'/file/offer-pictures/'+newImage;
-            }
-        </script>
-
-
+        }
+    </script>
+        
 </x-app-layout>

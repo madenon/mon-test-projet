@@ -57,19 +57,13 @@
                                     <h3>Categories</h3>
                                     <nav>
                                         <ul class="footer-content-links-grid">
-
                                             @if($parentcategories)
-
                                             @foreach($parentcategories as $parentcategory)
-
                                             <li>
                                                 <a href="">{{$parentcategory['name']}}</a>
                                             </li>
-
-                                            @endforeach
-                                        
+                                            @endforeach                                        
                                             @endif
-
                                         </ul>
                                     </nav>
                                 </div>

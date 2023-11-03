@@ -14,10 +14,7 @@
             </div>
         </div>
     </div>
-
-    
-    
-    
+   
     <h1>My Account Space</h1>
         
 </x-app-layout>

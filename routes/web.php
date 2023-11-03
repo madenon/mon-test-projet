@@ -25,7 +25,6 @@ Route::get('file/{name}',function(Request $request){
     return response()->file($url);
  });
 
-
 Route::get(
     'file/offer-pictures/{name}',
     function(Request $request){
@@ -33,6 +32,7 @@ Route::get(
         return response()->file($url);
     }
 )->name('offer-pictures-file-path');
+
 Route::get(
     'file/profile_pictures/{name}',
     function(Request $request){
@@ -40,7 +40,6 @@ Route::get(
         return response()->file($url);
     }
 )->name('profile_pictures-file-path');
-
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -54,26 +53,20 @@ Route::get('/email/verify', function () {
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-
     return redirect('/dashboard');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
-
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
 
-
-
 //Route::get('/offres/{categoryslug}', [OfferController::class, 'offersByCategory'])->name('offer.offersByCategory');
-
 Route::middleware('auth')->group(function () {
     Route::get('/offres/creer', [OfferController::class, 'create'])->name('offer.create');
     Route::post('/offer', [OfferController::class, 'store'])->name('offer.store');
-    //Route::delete('/offer', [OfferController::class, 'destroy'])->name('offer.destroy');
 });
 
 Route::get('/offres/{offer}/{slug}', [OfferController::class, 'show'])->name('offer.offer');
@@ -91,12 +84,12 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/moncompte', [MyAccountController::class, 'index'])->name('myaccount.index');
     Route::get('/moncompte/offres', [MyAccountController::class, 'showOffer'])->name('myaccount.offers');
+    Route::post('/moncompte/offres/{offer}/activate', [OfferController::class, 'activate'])->name('myaccount.activate');
+    Route::post('/moncompte/offres/{offer}/deactivate', [OfferController::class, 'deactivate'])->name('myaccount.deactivate');
     Route::get('/moncompte/modifier/{offerId}', [MyAccountController::class, 'editOffer'])->name('myaccount.editOffer');
     Route::put('/moncompte/mettreajours/{offerId}', [MyAccountController::class, 'updateOffer'])->name('myaccount.updateOffer');
     Route::delete('/moncompte/offres/{offer}', [OfferController::class, 'destroyOffer'])->name('myaccount.deleteOffer');
 });
-
-
 
 require __DIR__.'/auth.php';
 

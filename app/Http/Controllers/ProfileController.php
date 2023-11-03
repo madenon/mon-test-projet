@@ -22,7 +22,6 @@ class ProfileController extends Controller
     {
         return view('profile.edit', [
             'user' => $request->user(),
-            
         ]);
     }
 
@@ -31,7 +30,6 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-
         $user = $request->user();
         $data = $request->validated();
 
@@ -56,23 +54,15 @@ class ProfileController extends Controller
 
         $this->updateUserInfos($user, $request->only(['phone', 'nickname', 'bio']));
 
-
-        
-
         $user->fill($data);
         $user->save();
-        
-        
-        
-        
-        
+     
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
 
     protected function updateUserInfos(User $user, array $data)
     {
-
         $user->userInfo()->update([
             'user_id' => $user->id,
             'phone' => $data['phone'],
@@ -91,11 +81,8 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
-
         Auth::logout();
-
         $user->delete();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

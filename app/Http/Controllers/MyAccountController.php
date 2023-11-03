@@ -9,9 +9,7 @@ use App\Models\Department;
 use App\Models\Offer;
 use App\Models\Region;
 use App\Models\Type;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\OfferImages;
@@ -19,25 +17,24 @@ use App\Models\OfferImages;
 class MyAccountController extends Controller
 {
     public function index(){
-
         $user = Auth::user();
 
         return view('myaccount.index', $user);
     }
 
-    public function showOffer(){
-
+    public function showOffer()
+    {
         $user = Auth::user();
         $offers = Offer::where('user_id', $user->id)
                    ->orderBy('created_at', 'DESC')
-                   ->get();
+                   ->paginate(10);
         
         return view('myaccount.offers', compact('offers'));
     }
 
-    public function editOffer($offerId){
+    public function editOffer($offerId)
+    {
         $user = Auth::user();
-
         $categories = Category::whereNull("parent_id")->get();
         $subcategories = Category::where("parent_id", '!=', NULL)->get();
         $regions = Region::all();
@@ -63,8 +60,8 @@ class MyAccountController extends Controller
         
     }
 
-    public function updateOffer(Request $request, $offerId){
-
+    public function updateOffer(Request $request, $offerId)
+    {
         $user = Auth::user();
         $offer = Offer::find($offerId)->with('user_id', $user->id);
 
@@ -86,7 +83,6 @@ class MyAccountController extends Controller
             'default_image.mimes' => 'Les fichiers téléchargés doivent être au format jpg ou png.',
         ]);
 
-
         $offer->title = $request->title;
         $offer->type_id = $request->type_id;
         $offer->subcategory_id = $request->category_id;
@@ -99,9 +95,8 @@ class MyAccountController extends Controller
         $offer->experience = $request->experience;
         $offer->condition = $request->condition;
 
-         if ($request->hasFile('default_image')) {
-            // Delete the old image file if necessary
-            // Save the new image and update the offer
+        if ($request->hasFile('default_image')) {
+            
             $ext = $request->file('default_image')->getClientOriginalExtension();
             $imageDefault = uniqid() . '.' . $ext;
             $request->file('default_image')->storeAs('public/offer_pictures', $imageDefault);
@@ -109,15 +104,14 @@ class MyAccountController extends Controller
         }
 
         if ($request->hasFile('additional_images')) {
-            // Delete the old additional images if necessary
+            
             if ($offer->additionalImages) {
                 foreach ($offer->additionalImages as $image) {
                     Storage::delete('public/offer_pictures/' . $image->offer_photo);
                     $image->delete();
                 }
             }
-
-            // Save the new additional images
+ 
             foreach ($request->file('additional_images') as $file) {
                 $ext = $file->getClientOriginalExtension();
                 $name = uniqid() . '.' . $ext;
@@ -129,13 +123,9 @@ class MyAccountController extends Controller
             }
         }
 
-
-        
-
         $offer->update();
         
         return redirect(route('myaccount.offers'))->with(['success', 'Annonce mis à jours', ['offerId']]);
     }
 
-   
 }
