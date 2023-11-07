@@ -72,6 +72,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/offres/{offer}/{slug}', [OfferController::class, 'show'])->name('offer.offer');
 
 Route::get('/offres/{type}/{category}', [CategoryController::class, 'index'])->name('category.index');
+Route::get('/offres/{offer}/{category_id}/{category_name}', [CategoryController::class, 'showSimilarOffers'])->name('category.showSimilarOffers');
 
 Route::get('/offres/{type}', [TypeController::class, 'index'])->name('type.index');
 

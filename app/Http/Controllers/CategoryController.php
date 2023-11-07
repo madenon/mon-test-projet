@@ -16,4 +16,14 @@ class CategoryController extends Controller
 
         return view('category', compact('offers', 'type', 'category'));
     }   
+
+    public function showSimilarOffers($offer, $category_id, $category_name)
+    {
+        $offer = Offer::where('id', $offer)->get();
+        $offers = Offer::where('category_id', $category_id)->paginate(10);
+        $category = Category::where('id' ,$category_id)->get();
+        $type = Type::where('id', 'type_id')->get();
+
+        return view('category', compact('category', 'offers', 'type'));
+    }
 }
