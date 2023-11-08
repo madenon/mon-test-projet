@@ -73,6 +73,7 @@ Route::get('/offres/{offer}/{slug}', [OfferController::class, 'show'])->name('of
 
 Route::get('/offres/{type}/{category}', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/offres/{offer}/{category_id}/{category_name}', [CategoryController::class, 'showSimilarOffers'])->name('category.showSimilarOffers');
+Route::get('/offres/{slug}', [CategoryController::class, 'showOffersByCategory'])->name('category.showOffersByCategory');
 
 Route::get('/offres/{type}', [TypeController::class, 'index'])->name('type.index');
 

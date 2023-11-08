@@ -1,6 +1,6 @@
 <x-app-layout>
 <h2>This is category</h2>
-//deal with created at and updated at on types table
+{{-- deal with created at and updated at on types table --}}
 {{-- <div class="container">
     <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
         <ol class="breadcrumb">

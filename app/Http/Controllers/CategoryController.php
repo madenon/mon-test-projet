@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -24,6 +25,17 @@ class CategoryController extends Controller
         $category = Category::where('id' ,$category_id)->get();
         $type = Type::where('id', 'type_id')->get();
 
-        return view('category', compact('category', 'offers', 'type'));
+        return view('showSimilarOffers', compact('category', 'offers', 'type'));
     }
+
+    public function showOffersByCategory($slug)
+    {
+        $category = Category::where('slug', $slug)->firstOrFail();
+        $offers = Offer::where('active_offer', true)
+            ->where('category_id', $category->id)
+            ->paginate(10);
+            
+        return view('showOffersByCategory', compact('offers', 'category','slug'));
+    }
+
 }
