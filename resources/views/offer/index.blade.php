@@ -1,4 +1,9 @@
 <x-app-layout>
+    @if($categoryName)
+<div class="container">
+    <h2>{{$categoryName }} Page</h2>
+</div>
+@endif
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Offres') }}
@@ -16,7 +21,37 @@
     <div class="container">
         <div class="row">
             <div class="col-3 col-md-3">
-                Filters part
+            <h3>Filters</h3>
+            <form action="{{ route('offer.index') }}" method="GET">
+    <div class="form-group">
+        <div>
+            <label for="min_price">Department :</label>
+        </div>
+        <div class="mt-1">
+            <select name="department">
+                @foreach($departments as $department)
+                    <option value="{{ $department->id }}">{{ $department->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div>
+            <label for="min_price">Type :</label>
+        </div>
+        <div class="mt-1">
+            <select name="type">
+                @foreach($types as $type)
+                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        {{-- Check if the 'category' query parameter is present --}}
+        @if(request()->has('category'))
+            <input type="hidden" name="category" value="{{ request('category') }}">
+        @endif
+        <button class="mt-1"  id="button-filter">Apply Filters</button>
+    </div>
+</form>
+
             </div>
             <div class="col-12 col-md-9">
                 @foreach ($offers as $offer)
@@ -135,3 +170,21 @@
     </div>
     
 </x-app-layout>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const applyFilterButton = document.getElementById('b1');
+
+        applyFilterButton.addEventListener('click', function () {
+            
+
+            // Make an AJAX request to get filtered results
+            fetch(`{{ route('offer.index') }}`)
+                .then(response => response.text())
+                .then(data => {
+                    // Update the filtered results section with the new data
+                   // filteredResults.innerHTML = data;
+                   console.log(data);
+                });
+        });
+    });
+</script>

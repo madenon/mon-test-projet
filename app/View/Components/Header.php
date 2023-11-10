@@ -3,11 +3,14 @@
 namespace App\View\Components;
 
 use App\Models\Category;
+use App\Models\Region;
+
 use Illuminate\View\Component;
 
 class Header extends Component
 {
     public $parentcategories;
+    public $regions;
 
     /**
      * Create a new component instance.
@@ -18,6 +21,7 @@ class Header extends Component
     public function __construct()
     {
         $this->parentcategories = Category::whereNull('parent_id')->get();
+        $this->regions=Region::all();
     }
 
     /**

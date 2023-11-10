@@ -20,13 +20,44 @@ use Illuminate\Support\Str;
 
 class OfferController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $offers = Offer::orderBy('created_at', 'DESC')->where('active_offer', 1)->paginate(10);
-        $user = User::find(1);
-        $onlineStatus = $user->is_online;
+        // Get the list of departments
+    $departments = Department::all();
+    $types=Type::all();
+        $query = $request->input('query');
+        $category = $request->input('category'); // Retrieve the selected category
+        $department = $request->input('department');
+        $region = $request->input('region');
+        $type = $request->input('type');
 
-        return view('offer.index', compact('offers', 'onlineStatus'));
+    
+        $queryBuilder = Offer::orderBy('created_at', 'DESC')->where('active_offer', 1);
+    
+        if ($query) {
+            $queryBuilder->where('title', 'like', '%' . $query . '%');
+        }
+    
+        if ($category) {
+            $queryBuilder->where('category_id', $category); // Filter by category ID
+        }
+        if ($department) {
+            $queryBuilder->where('department_id', $department); // Filter by category ID
+        }
+        if ($type) {
+            $queryBuilder->where('type_id', $type); // Filter by category ID
+        }
+        if ($region) {
+            $queryBuilder->where('region_id', $region); // Filter by category ID
+        }
+        $offers = $queryBuilder->paginate(10);
+    
+        $user = User::find(2);
+        $onlineStatus = $user->is_online;
+        $categoryName = Category::where('id', $category)->value('name');
+
+    
+        return view('offer.index', compact('offers', 'onlineStatus','departments','types','categoryName'));
     }
 
     public function create()
@@ -98,7 +129,7 @@ class OfferController extends Controller
                         'region_id' => $region->id,
                         'department_id' => $department->id,
                         'experience' => $experience,
-                        'condition' => $condition,
+                       // 'condition' => $condition,
                         'created_at' => \Carbon\Carbon::now()
                     ]
                 );

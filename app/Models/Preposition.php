@@ -12,6 +12,11 @@ class Preposition extends Model
 
     protected $fillable = [
         'name',
+        'offer_id',
+        'status',
+        'negotiation',
+        'confirmed_at',
+        'user_id',
     ];
 
     public function offer(): BelongsTo

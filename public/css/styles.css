@@ -19,6 +19,8 @@ body {
     font-size: 16px;
     color: var(--text-color);
     background-color: white;
+    
+    
 }
 #main-header {
     position: relative;
@@ -112,6 +114,33 @@ body {
     -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
     -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
 }
+#header-regions-dropdown-menu {
+    position: absolute;
+    display: none;
+    background-color: white;
+    left:27%;
+    height: 80px;
+    width:30%;
+   overflow-y: scroll;
+    top: 100%;
+    z-index: 50;
+    padding:10px;
+
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
+    -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
+}
+#header-regions-dropdown-menu::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  #header-regions-dropdown-menu::-webkit-scrollbar-track {
+    background-color: #dddddd;
+  }
+  
+  #header-regions-dropdown-menu::-webkit-scrollbar-thumb {
+    background-color: #888888;
+  }
 .header-categories-dropdown-menu-items {
     margin: 48px;
     display: grid; 
@@ -763,7 +792,28 @@ body {
 
 }
 
-                            
+#button-filter {
+    border-radius: 4px;
+    border: 1px solid var(--primary-color);
+    background: var(--primary-color);
+    min-width: 120px ;
+    height: 45px ;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: white;
+    text-decoration: none;
+    
+}
+#button-filter:hover {
+    border: 1px solid #28b2ad;
+    background: #28b2ad;
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
+    -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
+}                           
  
 /* X-Small devices (portrait phones, less than 576px) */
 /* No media query for `xs` since this is the default in Bootstrap */

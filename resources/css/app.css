@@ -5,19 +5,21 @@
 @tailwind utilities;
 
 /* Hide scrollbars for all browsers */
-body {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* Internet Explorer / Edge */
-    overflow: -moz-scrollbars-none; /* Firefox */
-    -webkit-scrollbar-width: none; /* WebKit (Safari, Chrome, and newer Edge) */
-    scrollbar-color: transparent transparent; /* Firefox (for thumb and track color) */
-}
 
-::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-}
-
+  
+  /* Works for Chrome, Safari, and Edge */
+  body::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  body::-webkit-scrollbar-track {
+    background-color: #dddddd;
+  }
+  
+  body::-webkit-scrollbar-thumb {
+    background-color: #888888;
+  }
+ 
 #particulier,
 #professionnel {
     width: 45%;

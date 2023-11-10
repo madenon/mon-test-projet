@@ -72,7 +72,7 @@ class RegisteredUserController extends Controller
             
             $this->createUserInfos($user, $request->only(['phone', 'nickname', 'gender', 'bio']));
 
-            event(new Registered($user));
+            //event(new Registered($user));
 
             Auth::login($user);
         });
