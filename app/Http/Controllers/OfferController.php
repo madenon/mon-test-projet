@@ -133,6 +133,7 @@ class OfferController extends Controller
         $images = OfferImages::where('offer_id',$offer->id)->get();
         $category = Category::where('id', $offer->category_id)->first();
         $subcategory = Category::where('id', $offer->subcategory_id)->first();
+        
 
         return view(
             'offer.offer',

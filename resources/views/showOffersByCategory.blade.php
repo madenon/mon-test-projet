@@ -121,7 +121,7 @@
                 @endforeach
             </div>
         @else
-            <p>Il n y a aucune annonce dans la catégorie {{$category->name }}.</p>
+            <p>Il n y a aucune annonce dans la catégorie {{$title->name }}.</p>
         @endif
     </div>
     {{ $offers->links() }}

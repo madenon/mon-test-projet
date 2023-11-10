@@ -22,7 +22,7 @@ class CategoryController extends Controller
     public function showSimilarOffers($offer, $category_id, $category_name)
     {
         $offer = Offer::where('id', $offer)->get();
-        $offers = Offer::where('category_id', $category_id)->paginate(10);
+        $offers = Offer::orderBy('created_at', 'DESC')->where('category_id', $category_id)->paginate(10);
         $category = Category::where('id' ,$category_id)->get();
         $type = Type::where('id', 'type_id')->get();
 
@@ -33,23 +33,30 @@ class CategoryController extends Controller
     {
         $type = Type::where('name', $slug)->first();
         $category = Category::where('slug', $slug)->first();
+        $subcategory = Category::where('slug', $slug)->where('parent_id', '!=', Null)->first();
         $region = Region::where('name', $slug)->first();
-        $offres = [];
+        $offers = [];
         $title = "";
-
-        if(!empty($category)) {
+        
+        if(!empty($subcategory)) {
+            $title = $subcategory;
+            $offers = Offer::orderBy('created_at', 'DESC')->where('active_offer', true)
+            ->where('subcategory_id', $subcategory->id)
+            ->paginate(10);
+            
+        }elseif(!empty($category)) {
             $title = $category;
-            $offers = Offer::where('active_offer', true)
+            $offers = Offer::orderBy('created_at', 'DESC')->where('active_offer', true)
             ->where('category_id', $category->id)
             ->paginate(10);
-        }else if(!empty($region)) {
+        }elseif(!empty($region)) {
             $title = $region;
-            $offers = Offer::where('active_offer', true)
+            $offers = Offer::orderBy('created_at', 'DESC')->where('active_offer', true)
             ->where('region_id', $region->id)
             ->paginate(10);
-        }else if(!empty($type)) {
+        }elseif(!empty($type)) {
             $title = $type;
-            $offers = Offer::where('active_offer', true)
+            $offers = Offer::orderBy('created_at', 'DESC')->where('active_offer', true)
             ->where('type_id', $type->id)
             ->paginate(10);
         }

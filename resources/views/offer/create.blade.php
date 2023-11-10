@@ -80,7 +80,7 @@
                                 class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
                                 <option value="0" selected hidden>Choisir la sous catégorie *</option>
                                 @foreach($subcategories as $subcategory)
-                                <option value="{{ $subcategory->id }}">{{ $category->name }}</option>
+                                <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -264,45 +264,56 @@
     }
     });
 
-    const changerCategory=(e)=>{
-        const subcategories= @json($subcategories);
-        const subcategory= subcategories.filter(item=>item.parent_id==e.value);
-        const select_category=document.getElementById('select_category');
-        while (select_category.options.length > 1) {
-            select_category.remove(1);
-        }
-        subcategory.map((item)=>{
-                const option=document.createElement("option");
-                option.setAttribute("value",item.parent_id);
-                option.innerHTML=item.name;
-                select_category.append(option);
-        });
+    const changerCategory = (e) => {
+    const subcategories = @json($subcategories);
+    const selectedCategoryId = e.value;
+    const subcategoryOptions = subcategories.filter(item => item.parent_id == selectedCategoryId);
+    const selectCategory = document.getElementById('select_category');
+    
+    while (selectCategory.options.length > 1) {
+        selectCategory.remove(1);
     }
 
-    const changerDepartement=(e)=>{
-        const departments=@json($departments);
-        console.log(e.value);
-        const department=departments.filter(item=>item.region_id==e.value);
-        const select_department=document.getElementById('select_department');
-        while (select_department.options.length > 1) {
-            select_department.remove(1);
-        }
-        department.map((item)=>{
-            const option=document.createElement("option");
-            option.setAttribute("value",item.region_id);
-            option.innerHTML=item.name;
-            select_department.append(option);
-        });
+    subcategoryOptions.forEach(item => {
+        const option = document.createElement("option");
+        option.value = item.id; // Use item.id instead of item.parent_id
+        option.innerHTML = item.name;
+        selectCategory.append(option);
+    });
+};
+
+    
+
+const changerDepartement = (e) => {
+    const departments = @json($departments);
+    console.log(e.value);
+    const departmentOptions = departments.filter(item => item.region_id == e.value);
+    const selectDepartment = document.getElementById('select_department');
+
+    // Clear existing options
+    while (selectDepartment.options.length > 1) {
+        selectDepartment.remove(1);
     }
-    const changerNumDepartement=(e)=>{
-        const departmentsList=@json($departments);
-        console.log(departmentsList)
-        const numDepartment=document.getElementById('num-departement');
-        const department= departmentsList.find(item=>item.id==e.value)
-        console.log(e.value)
-        console.log(department)
-        numDepartment.value= department.department_number
-    }
+
+    // Add new options
+    departmentOptions.forEach(item => {
+        const option = document.createElement("option");
+        option.value = item.id; // Use item.id instead of item.region_id
+        option.innerHTML = item.name;
+        selectDepartment.append(option);
+    });
+};
+
+const changerNumDepartement = (e) => {
+    const departmentsList = @json($departments);
+    console.log('Selected value:', e.value);
+    const numDepartment = document.getElementById('num-departement');
+    const department = departmentsList.find(item => item.id == e.value);
+    console.log('Department found:', department);
+    numDepartment.value = department ? department.department_number : '';
+};
+
+
 
 
 </script>

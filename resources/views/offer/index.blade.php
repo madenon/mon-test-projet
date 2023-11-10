@@ -75,28 +75,28 @@
                         <div class=" pb-12 mt-2" >
                             <div class="flex gap-2 pr-3 ">
                                <div class="w-1/4">
-                                <span class="">Jours</span>
+                                <span class="flex text-center justify-center">Jours</span>
                                 <div
                                     class="flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
                                     00
                                 </div>
                             </div>
                                 <div class="w-1/4">
-                                    <span>Heurs</span>
+                                    <span class="flex text-center justify-center">Heurs</span>
                                      <div
                                     class="flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
                                     00
                                 </div>
                                 </div>
                                 <div class="w-1/4">
-                                    <span>Minutes</span>
+                                    <span class="flex text-center justify-center">Minutes</span>
                                      <div
                                     class="flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
                                     00
                                 </div>
                                 </div>
                                 <div class="w-1/4">
-                                    <span>Secs</span>
+                                    <span class="flex text-center justify-center">Secs</span>
                                      <div
                                     class="flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
                                     00
