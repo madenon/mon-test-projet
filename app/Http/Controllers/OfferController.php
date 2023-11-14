@@ -32,8 +32,9 @@ class OfferController extends Controller
         $type = $request->input('type');
 
     
-        $queryBuilder = Offer::orderBy('created_at', 'DESC')->where('active_offer', 1);
-    
+        $queryBuilder = Offer::with('preposition')
+        ->orderBy('created_at', 'DESC')
+        ->where('active_offer', 1);        
         if ($query) {
             $queryBuilder->where('title', 'like', '%' . $query . '%');
         }
@@ -51,13 +52,15 @@ class OfferController extends Controller
             $queryBuilder->where('region_id', $region); // Filter by category ID
         }
         $offers = $queryBuilder->paginate(10);
-    
-        $user = User::find(2);
-        $onlineStatus = $user->is_online;
+        $user = User::find(auth()->id());
         $categoryName = Category::where('id', $category)->value('name');
-
-    
+  // check if user is connected
+    if( $user!=null){
+        $onlineStatus = $user->is_online;
         return view('offer.index', compact('offers', 'onlineStatus','departments','types','categoryName'));
+    }
+    // case no authentification
+        return view('offer.index', compact('offers','departments','types','categoryName'));
     }
 
     public function create()

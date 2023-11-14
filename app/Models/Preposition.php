@@ -23,4 +23,8 @@ class Preposition extends Model
     {
         return $this->belongsTo(Offer::class);
     }
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

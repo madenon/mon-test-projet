@@ -76,10 +76,13 @@
                         </div>
                         <div class=" text-titles text-xs mt-3">
                             <h6 class=" font-normal ">A ECHANGER CONTRE</h6>
-                            <span class=" ml-5 flex items-center gap-1">
-                                <div class="w-2 h-2 bg-black rounded-full"></div>
-                                Etudie toute preposition
-                            </span>
+                            @foreach ($offer->preposition as $proposition)
+    <a href="#" style="background-color: #24a19c; color:white;" class="ml-5 w-50 mt-2 btn proposition-link" data-bs-toggle="modal" data-bs-target="#exampleModal" 
+      data-id="{{ $proposition->id }}"  data-status="{{ $proposition->status }}" data-user="{{ $proposition->user }}" data-offer="{{ $proposition->offer }}">
+        {{ $proposition->name }}
+    </a>
+@endforeach
+
                         </div>
                         <div class=" mt-3 flex w-full mb-3">
                             <div class=" w-[40%] flex gap-2 items-center">
@@ -170,21 +173,127 @@
     </div>
     
 </x-app-layout>
+@php
+    function getStatusBadgeClass($status) {
+        switch ($status) {
+            case 'validated':
+                return 'bg-success';
+            case 'pending':
+                return 'bg-warning';
+            case 'accepted':
+                return 'bg-primary';
+           
+        }
+    }
+    @endphp
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal content remains the same -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table align-middle mb-0 bg-white">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>User</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="modalName"></td>
+                            <td id="modalStatus"></td>
+                            <td id="modalUser"></td>
+                            <td>
+                             <button type="button"  class="btn btn-info" id="acceptButton">
+                                  Accept
+                             </button>
+                             <button type="button" class="btn btn-danger" id="declineButton">
+                                 Decline
+                             </button>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const applyFilterButton = document.getElementById('b1');
-
-        applyFilterButton.addEventListener('click', function () {
-            
-
-            // Make an AJAX request to get filtered results
-            fetch(`{{ route('offer.index') }}`)
-                .then(response => response.text())
-                .then(data => {
-                    // Update the filtered results section with the new data
-                   // filteredResults.innerHTML = data;
-                   console.log(data);
-                });
+   
+    $(document).ready(function () {
+        $('.proposition-link').click(function () {
+            // Get data from the clicked link
+            var propositionName = $(this).text();
+            var propositionStatus = $(this).data('status'); // Adjust based on your data attributes
+            var propositionUser = $(this).data('user'); // Adjust based on your data attributes
+            var propositionId=$(this).data('id');
+            var user=propositionUser.first_name+" "+propositionUser.last_name
+            // Update modal content
+            $('#modalName').text(propositionName);
+            $('#modalStatus').text(propositionStatus);
+            $('#modalUser').text(user);
+            // Update propositionId in button data attributes
+            $('#acceptButton').data('proposition-id', propositionId);
+            $('#declineButton').data('proposition-id', propositionId);
+           
         });
+          // Handle Accept button click
+          $('#acceptButton').click(function () {
+            var propositionId = $(this).data('proposition-id');
+            updatePropositionStatus(propositionId, 'accepted');
+        });
+
+        // Handle Decline button click
+        $('#declineButton').click(function () {
+            var propositionId = $(this).data('proposition-id');
+            updatePropositionStatus(propositionId, 'declined');
+        });
+
+        // Function to update proposition status via AJAX
+        function updatePropositionStatus(propositionId, newStatus) {
+            // Send an AJAX request to update the status
+            $.ajax({
+                type: 'POST',
+                url: '/update-proposition-status', // Replace with your actual route
+                data: {
+                    propositionId: propositionId,
+                    newStatus: newStatus,
+                },
+                success: function (response) {
+            // Handle success response
+
+            // Show success message
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'The proposition status has been updated.',
+            }).then(function () {
+                // Reload the page after showing the success message
+                location.reload();
+            });
+        },
+        error: function (error) {
+            
+            // Show error message
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Failed to update proposition status.',
+            });
+        }
+            });
+        }
+    
     });
 </script>

@@ -37,13 +37,11 @@ headerRegionsButtonElement.addEventListener('click', () => {
 // hide region dropdown when click outside
 const regionIcon=window.document.getElementById("region-icon") 
 document.addEventListener('click', function handleClickOutsideBox(event) {
-    // 👇️ the element the user clicked
-    console.log('user clicked: ', event.target);
-  
+   
+   
     
   
     if (!headerRegionsDropdownElement.contains(event.target) && event.target!=headerRegionsButtonElement && event.target!=regionIcon  ) {
         headerRegionsDropdownElement.style.display = "none"
-console.log("yesss");
     }
   });

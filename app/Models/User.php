@@ -62,4 +62,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Offer::class);
     }
+    public function prepositions(): HasMany
+    {
+        return $this->hasMany(Preposition::class);
+    }
 }

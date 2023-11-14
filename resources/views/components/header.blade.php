@@ -136,6 +136,12 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a class="header-user-avatar-dropdown-item" href="{{route('propositions.index')}}">
+                                        <img src="{{asset('images/list-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
+                                        Mes propositions
+                                    </a>
+                                </li>
+                                <li>
                                     <a class="header-user-avatar-dropdown-item" href="#">
                                         <img src="{{asset('images/shopping-bag-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
                                         Mes transactions

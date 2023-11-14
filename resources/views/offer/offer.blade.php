@@ -57,11 +57,13 @@
         </div>
         <div class="w-[38%] partie-detail">
             <h2 class="text-titles  font-semibold">{{ $offer->title }}</h2>
+            <form action="{{ route('propositions.create', ['offerid' => $offer->id,'userid'=>auth()->id()]) }}" method="get">
             <button
                 class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-primary-color hover:bg-primary-hover "
                 type="submit">
                 {{ __('Troquez Maintenant ') }}
-            </button>
+</button></form>
+
             <div class="border pt-4 flex rounded-lg flex-col ">
                 <div class="flex pb-3 px-12 gap-2 flex-col ">
                     <div class="flex  items-center   ">

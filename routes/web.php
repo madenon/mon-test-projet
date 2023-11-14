@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PropositionController;
 use App\Http\Controllers\MyAccountController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ProfileController;
@@ -80,6 +81,11 @@ Route::get('/offres/{slug}', [CategoryController::class, 'showOffersByCategory']
 
 
 Route::get('/offres/{type}', [TypeController::class, 'index'])->name('type.index');
+Route::get('/propositions/create/{offerid}/{userid}', [PropositionController::class, 'create'])->name('propositions.create');
+Route::post('/proposition', [PropositionController::class, 'store'])->name('propositions.store');
+Route::get('/propositions', [PropositionController::class, 'index'])->name('propositions.index');
+Route::post('/update-proposition-status', [PropositionController::class, 'updateStatus']);
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
