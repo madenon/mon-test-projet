@@ -23,8 +23,8 @@ class OfferController extends Controller
     public function index(Request $request)
     {
         // Get the list of departments
-    $departments = Department::all();
-    $types=Type::all();
+        $departments = Department::all();
+        $types=Type::all();
         $query = $request->input('query');
         $category = $request->input('category'); // Retrieve the selected category
         $department = $request->input('department');
@@ -52,12 +52,12 @@ class OfferController extends Controller
         }
         $offers = $queryBuilder->paginate(10);
     
-        $user = User::find(2);
+        $user = User::find(1);
         $onlineStatus = $user->is_online;
         $categoryName = Category::where('id', $category)->value('name');
 
     
-        return view('offer.index', compact('offers', 'onlineStatus','departments','types','categoryName'));
+        return view('offer.index', compact('offers', 'onlineStatus','types','departments','categoryName'));
     }
 
     public function create()
@@ -198,4 +198,11 @@ class OfferController extends Controller
         return redirect()->route('myaccount.offers')->with('success', 'Offer deactivated successfully');
     }
 
+    public function search(Offer $offer)
+    {
+        $search = $_GET['get'];
+        $offer = Offer::where('name', 'like', '%'. $search .'%')->get();
+
+        return view('offer.search', compact('offer'));
+    }
 }

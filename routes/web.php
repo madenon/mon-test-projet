@@ -6,6 +6,7 @@ use App\Http\Controllers\MyAccountController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\SocialShareButtonsController;
 use App\Http\Controllers\TypeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -63,6 +64,7 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
+Route::get('/offres/search', [OfferController::class, 'search'])->name('offer.search');
 
 //Route::get('/offres/{categoryslug}', [OfferController::class, 'offersByCategory'])->name('offer.offersByCategory');
 Route::middleware('auth')->group(function () {
@@ -71,7 +73,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/offres/{offer}/{slug}', [OfferController::class, 'show'])->name('offer.offer');
+Route::get('/offres/{offerId}/{slug}', [OfferController::class, 'show'])->name('offer.offer');
 
 Route::get('/offres/{type}/{category}', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/offres/{offer}/{category_id}/{category_name}', [CategoryController::class, 'showSimilarOffers'])->name('category.showSimilarOffers');

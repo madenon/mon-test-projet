@@ -5,12 +5,15 @@ namespace App\View\Components;
 use App\Models\Category;
 use App\Models\Region;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class Header extends Component
 {
     public $parentcategories;
     public $regions;
+    public $user;
 
     /**
      * Create a new component instance.
@@ -22,6 +25,7 @@ class Header extends Component
     {
         $this->parentcategories = Category::whereNull('parent_id')->get();
         $this->regions=Region::all();
+        $this->user = User::find(Auth::user()->id);
     }
 
     /**

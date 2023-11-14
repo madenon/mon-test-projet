@@ -26,8 +26,8 @@
                             <img src="/images/Stack.svg" alt="" class="">
                             {{$offer->category->name}}
                             <img src="/images/chevron-right.svg" alt="" class="">
-                            {{--  {{-- <img src="images/category-8.svg" alt="Category" />  --}}
-                            {{--  <p>{{$offer->category->name}}</p> --}} 
+                            <img src="/images/Stack.svg" alt="" class="">
+                            {{$subcategory->name}}
                         </div>
                         <div class=" text-titles text-xs mt-3">
                             <h6 class=" font-normal ">A ECHANGER CONTRE</h6>
