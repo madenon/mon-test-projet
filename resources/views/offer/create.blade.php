@@ -108,9 +108,6 @@
                                     onchange="changerNumDepartement(this)"
                                     class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
                                     <option value="0" selected hidden>Choisir un département *</option>
-                                    {{-- @foreach($departments as $department)
-                                    <option value="{{ $department->id }}">{{ $department->name }}</option>
-                                    @endforeach --}}
                                 </select>
                             </div>
                         </div>
@@ -276,7 +273,7 @@
 
     subcategoryOptions.forEach(item => {
         const option = document.createElement("option");
-        option.value = item.id; // Use item.id instead of item.parent_id
+        option.value = item.id;
         option.innerHTML = item.name;
         selectCategory.append(option);
     });
@@ -290,15 +287,13 @@ const changerDepartement = (e) => {
     const departmentOptions = departments.filter(item => item.region_id == e.value);
     const selectDepartment = document.getElementById('select_department');
 
-    // Clear existing options
     while (selectDepartment.options.length > 1) {
         selectDepartment.remove(1);
     }
 
-    // Add new options
     departmentOptions.forEach(item => {
         const option = document.createElement("option");
-        option.value = item.id; // Use item.id instead of item.region_id
+        option.value = item.id;
         option.innerHTML = item.name;
         selectDepartment.append(option);
     });

@@ -114,12 +114,12 @@
                     <div id="header-user-avatar-icon" >
                         <div class="dropdown">
                             <div class="" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{asset('images/user-avatar-icon.svg')}}" alt="" class="header-user-avatar-icon-img" />
+                                <img src="{{route('profile_pictures-file-path',$user->profile_photo_path)}}" alt="" class="header-user-avatar-icon-img rounded-full" />
                             </div>
                             <ul class="dropdown-menu dropdown-menu-end header-user-avatar-dropdown">
                                 <li>
                                     <a class="header-user-avatar-dropdown-item" href="{{route('myaccount.index')}}">
-                                        <img src="{{asset('mages/user-icon-16.svg')}}" class="header-user-avatar-dropdown-item-img" alt="" />
+                                        <img src="{{asset('images/user-icon-16.svg')}}" class="header-user-avatar-dropdown-item-img" alt="" />
                                         Mon compte
                                     </a>
                                 </li>

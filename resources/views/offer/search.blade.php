@@ -1,12 +1,57 @@
 <x-app-layout>
+    @if($categoryName)
 <div class="container">
-    <h2>{{$title->name }} Page</h2>
+    <h2>{{$categoryName }} Page</h2>
 </div>
-<div class="container">
-    <div class="row">
-        @if(count($offers) > 0)
+@endif
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Offres') }}
+        </h2>
+    </x-slot>
+
+
+    <div class="container">
+        <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
+            <ol class="breadcrumb" class="no-underline bg-green-500 ">
+                <li class="breadcrumb-item active" aria-current="page">{{ Breadcrumbs::render('offers') }}</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="row">
             <div class="col-3 col-md-3">
-                Filters part
+            <h3>Filters</h3>
+            <form action="{{ route('offer.index') }}" method="GET">
+    <div class="form-group">
+        <div>
+            <label for="min_price">Department :</label>
+        </div>
+        <div class="mt-1">
+            <select name="department">
+                @foreach($departments as $department)
+                    <option value="{{ $department->id }}">{{ $department->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div>
+            <label for="min_price">Type :</label>
+        </div>
+        <div class="mt-1">
+            <select name="type">
+                @foreach($types as $type)
+                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        {{-- Check if the 'category' query parameter is present --}}
+        @if(request()->has('category'))
+            <input type="hidden" name="category" value="{{ request('category') }}">
+        @endif
+        <button class="mt-1"  id="button-filter">Apply Filters</button>
+    </div>
+</form>
+
             </div>
             <div class="col-12 col-md-9">
                 @foreach ($offers as $offer)
@@ -27,7 +72,7 @@
                             {{$offer->category->name}}
                             <img src="/images/chevron-right.svg" alt="" class="">
                             <img src="/images/Stack.svg" alt="" class="">
-                            {{$subcategory->name}}
+                            {{-- {{$subcategory->name}} --}}
                         </div>
                         <div class=" text-titles text-xs mt-3">
                             <h6 class=" font-normal ">A ECHANGER CONTRE</h6>
@@ -64,7 +109,7 @@
                         </div>
                         <div class=" pb-12 mt-2" >
                             <div class="flex gap-2 pr-3 ">
-                                <div class="w-1/4">
+                               <div class="w-1/4">
                                 <span class="flex text-center justify-center">Jours</span>
                                 <div
                                     class="flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
@@ -73,21 +118,21 @@
                             </div>
                                 <div class="w-1/4">
                                     <span class="flex text-center justify-center">Heurs</span>
-                                    <div
+                                     <div
                                     class="flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
                                     00
                                 </div>
                                 </div>
                                 <div class="w-1/4">
                                     <span class="flex text-center justify-center">Minutes</span>
-                                    <div
+                                     <div
                                     class="flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
                                     00
                                 </div>
                                 </div>
                                 <div class="w-1/4">
                                     <span class="flex text-center justify-center">Secs</span>
-                                    <div
+                                     <div
                                     class="flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
                                     00
                                 </div>
@@ -120,11 +165,26 @@
                 </div>
                 @endforeach
             </div>
-        @else
-            <p>Il n y a aucune annonce dans la catégorie {{$title->name }}.</p>
-        @endif
+        </div>
+        {{ $offers->links() }}
     </div>
-    {{ $offers->links() }}
-</div>
-
+    
 </x-app-layout>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const applyFilterButton = document.getElementById('b1');
+
+        applyFilterButton.addEventListener('click', function () {
+            
+
+            // Make an AJAX request to get filtered results
+            fetch(`{{ route('offer.index') }}`)
+                .then(response => response.text())
+                .then(data => {
+                    // Update the filtered results section with the new data
+                   // filteredResults.innerHTML = data;
+                   console.log(data);
+                });
+        });
+    });
+</script>

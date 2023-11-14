@@ -62,7 +62,7 @@ class CategoryController extends Controller
         }
         
             
-        return view('showOffersByCategory', compact('offers', 'title','slug'));
+        return view('showOffersByCategory', compact('offers', 'title','slug', 'subcategory'));
     }
 
 }

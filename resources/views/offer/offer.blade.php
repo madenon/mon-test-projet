@@ -211,28 +211,28 @@
                 <h5 class="mb-4">
                     Partager cette annonce à vos amis
                 </h5>
-                <div class=" flex justify-content-between ">
-                    <a href="#"><i
-                            class="fa-brands fa-facebook text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i></a>
-                    <a href="#">
-                        <i
-                            class="fa-brands fa-twitter text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
+                <div class=" flex justify-content-between social-button">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ route('offer.offer', ['offerId'=>$offer->id,'slug' => $offer->slug]) }}">
+                        <i id="facebookBtn" class="fa-brands fa-facebook text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
                     </a>
-                    <a href="#">
-                        <i
-                            class="fa-brands fa-instagram text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
+                    <a href="https://twitter.com/share?url={{ route('offer.offer', ['offerId'=>$offer->id,'slug' => $offer->slug]) }}&text={{ rawurlencode($offer->name) }}">
+                        <i id="twitterBtn" class="fa-brands fa-twitter text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
                     </a>
-                    <a href="#"><i
-                            class="fa-brands fa-youtube text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i></a>
-                    <a href="#"><i
-                            class="fa-brands fa-linkedin text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i></a>
-                    <a href="#"><i
-                            class="fa-brands fa-whatsapp text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i></a>
+                    <a href="instagram://share?text={{ rawurlencode('Check out this offer on Faitroquez.fr: ' . route('offer.offer', ['offerId' => $offer->id, 'slug' => $offer->slug])) }}">
+                        <i id="instagramBtn" class="fa-brands fa-instagram text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/shareArticle?url={{ route('offer.offer', ['offerId'=>$offer->id,'slug' => $offer->slug]) }}&title={{ rawurlencode($offer->name) }}">
+                        <i id="linkedinBtn" class="fa-brands fa-linkedin text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
+                    </a>
+                    <a href="https://api.whatsapp.com/send?text={{ route('offer.offer', ['offerId'=>$offer->id,'slug' => $offer->slug]) }}">
+                        <i id="whatsappBtn" class="fa-brands fa-whatsapp text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
+                    </a>
+                        
                 </div>
             </div>
         </div>
     </div>
-    <section class="similarOffers">
+    <section class="similarOffers mt-4">
         <div class="flex justify-between px-24">
             <h1 class="mb-6 ml-12 font-sans text-2xl font-bold text-gray-900">Offres similaire</h1>
             <button class="bg-primary-color hover:bg-primary-hover mr-12 text-white font-bold py-2 px-4 rounded-2"><a class="no-underline font-medium text-white" href="{{ route('category.showSimilarOffers', ['offer'=>$offer->id ,'category_id' => $offer->category_id, 'category_name' => $category->name])}}">Voir plus</a></button>
@@ -280,6 +280,7 @@
             const mainImage = document.getElementById('mainImage');
                 mainImage.src = window.location.origin +'/file/offer-pictures/'+newImage;
         }
+
     </script>
         
 </x-app-layout>
