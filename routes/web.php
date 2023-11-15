@@ -86,8 +86,9 @@ Route::get('/offres/{type}', [TypeController::class, 'index'])->name('type.index
 Route::get('/propositions/create/{offerid}/{userid}', [PropositionController::class, 'create'])->name('propositions.create');
 Route::post('/proposition', [PropositionController::class, 'store'])->name('propositions.store');
 Route::get('/propositions', [PropositionController::class, 'index'])->name('propositions.index');
+Route::post('/update-proposition/{prepositionId}', [PropositionController::class, 'update'])->name('update-proposition');
 Route::post('/update-proposition-status', [PropositionController::class, 'updateStatus']);
-
+Route::delete('/delete-proposition/{prepositionId}', [PropositionController::class, 'destroy'])->name('delete-proposition');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

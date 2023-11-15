@@ -47,65 +47,39 @@
                 <div id="header-authenticated-user" class="">
                     <div class="dropdown" class="header-authenticated-user-content">
                         <div id="header-user-notification-icon" class="" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="header-user-notification-icon-notified"></div>
+                        @if(count($propositions) == 0)
+                            <div class="header-user-notification-icon"></div>
+                        @else
+                        <div class="header-user-notification-icon-notified"></div>
+                        @endif 
                         </div>
                         <ul class="dropdown-menu notification-dropdown">
+                        @if(count($propositions) == 0)
+                            <li>
+                                <div class="notification-dropdown-item">
+                                    <div class="notification-dropdown-item-content">  
+                                            <b>You have no notifications</b>  
+                                    </div>
+                                </div>
+                            </li>
+                            @else
+                        @foreach ($propositions as $preposition)
                             <li>
                                 <div class="notification-dropdown-item">
                                     <div class="notification-dropdown-item-image">
                                         <img src="{{asset('images/circle-user-icon.svg')}}" alt="" />
                                     </div>
                                     <div class="notification-dropdown-item-content">
-                                        <a href="">
-                                            <b>name</b>
+                                        <a href="{{route('offer.offer', [$preposition->offer, urlencode($preposition->offer->slug)])}}">
+                                            <b>{{$preposition->user->first_name}} {{$preposition->user->last_name}}</b>
                                             <span>Send you a proposition in </span>
-                                            <strong>Range rover location...</strong>
+                                            <strong>{{$preposition->name}}</strong>
                                         </a>
                                     </div>
                                 </div>
                             </li>
-                            <li>
-                                <div class="notification-dropdown-item">
-                                    <div class="notification-dropdown-item-image">
-                                        <img src="{{asset('images/circle-user-icon.svg')}}" alt="" />
-                                    </div>
-                                    <div class="notification-dropdown-item-content">
-                                        <a href="">
-                                            <b>name</b>
-                                            <span>Send you a proposition in </span>
-                                            <strong>Range rover location...</strong>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="notification-dropdown-item">
-                                    <div class="notification-dropdown-item-image">
-                                        <img src="{{asset('images/circle-user-icon.svg')}}" alt="" />
-                                    </div>
-                                    <div class="notification-dropdown-item-content">
-                                        <a href="">
-                                            <b>name</b>
-                                            <span>Send you a proposition in </span>
-                                            <strong>Range rover location...</strong>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="notification-dropdown-item notification-dropdown-item-last-child">
-                                    <div class="notification-dropdown-item-image">
-                                        <img src="{{asset('images/circle-user-icon.svg')}}" alt="" />
-                                    </div>
-                                    <div class="notification-dropdown-item-content">
-                                        <a href="">
-                                            <b>name</b>
-                                            <span>Send you a proposition in </span>
-                                            <strong>Range rover location...</strong>
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
+                            @endforeach
+                            @endif
                         </ul>
                     </div>
                     <div id="header-user-messages-icon" class="">

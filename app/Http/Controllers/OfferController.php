@@ -34,7 +34,8 @@ class OfferController extends Controller
     
         $queryBuilder = Offer::with('preposition')
         ->orderBy('created_at', 'DESC')
-        ->where('active_offer', 1);        
+        ->where('active_offer', 1)
+        ->where('user_id',auth()->id());  // to get my offers   
         if ($query) {
             $queryBuilder->where('title', 'like', '%' . $query . '%');
         }
@@ -59,8 +60,7 @@ class OfferController extends Controller
         $onlineStatus = $user->is_online;
         return view('offer.index', compact('offers', 'onlineStatus','departments','types','categoryName'));
     }
-    // case no authentification
-        return view('offer.index', compact('offers','departments','types','categoryName'));
+    
     }
 
     public function create()

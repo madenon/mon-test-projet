@@ -191,7 +191,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Offer</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -210,13 +210,12 @@
                             <td id="modalStatus"></td>
                             <td id="modalUser"></td>
                             <td>
-                             <button type="button"  class="btn btn-info" id="acceptButton">
+                             <button type="button"  class="btn btn-success" id="acceptButton">
                                   Accept
                              </button>
                              <button type="button" class="btn btn-danger" id="declineButton">
                                  Decline
                              </button>
-
                             </td>
                         </tr>
                     </tbody>
@@ -224,7 +223,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
@@ -246,6 +244,10 @@
             // Update propositionId in button data attributes
             $('#acceptButton').data('proposition-id', propositionId);
             $('#declineButton').data('proposition-id', propositionId);
+            if(propositionStatus=="accepted" || propositionStatus=="refused" ){
+                $('#acceptButton').hide();
+                $('#declineButton').hide();
+            }
            
         });
           // Handle Accept button click

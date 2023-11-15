@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use App\Models\Category;
+use App\Models\Preposition;
 use App\Models\Region;
 
 use App\Models\User;
@@ -14,6 +15,7 @@ class Header extends Component
     public $parentcategories;
     public $regions;
     public $user;
+    public $propositions;
 
     /**
      * Create a new component instance.
@@ -25,7 +27,13 @@ class Header extends Component
     {
         $this->parentcategories = Category::whereNull('parent_id')->get();
         $this->regions=Region::all();
+
+        if(Auth::user()!=null){
         $this->user = User::find(Auth::user()->id);
+        $this->propositions = Preposition::with('offer', 'user')->where('user_id', Auth::user()->id)            
+        ->where('status', 'pending')
+        ->get();
+    }
     }
 
     /**
