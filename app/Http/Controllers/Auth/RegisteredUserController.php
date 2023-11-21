@@ -59,13 +59,15 @@ class RegisteredUserController extends Controller
 
             $extention = explode("/", $request->profile_photo_path->getMimeType())[1];
             $storePicture = uniqid() . '.' . $extention;
-        
+            
             $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'profile_photo_path' => $storePicture,
+                'avatar'=> $storePicture,
+                'name' => trim($request->first_name) . ' ' . trim($request->last_name),
             ]);
 
             Storage::putFileAs('public/profile_pictures', $request->profile_photo_path, $storePicture);

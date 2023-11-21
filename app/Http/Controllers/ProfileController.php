@@ -45,11 +45,14 @@ class ProfileController extends Controller
             $user->last_name = $request->input('last_name');
         }
 
+        $user->name = trim($request->first_name) . ' ' . trim($request->last_name);
+
         if ($request->hasFile('profile_photo_path')) {
             $ext = $request->file('profile_photo_path')->getClientOriginalExtension();
             $profileImage = uniqid() . '.' . $ext;
             $request->file('profile_photo_path')->storeAs('public/profile_pictures', $profileImage);
             $user->profile_photo_path = $profileImage;
+            $user->avatar = $profileImage;
         }
 
         $this->updateUserInfos($user, $request->only(['phone', 'nickname', 'bio']));

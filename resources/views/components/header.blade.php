@@ -98,7 +98,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="header-user-avatar-dropdown-item" href="#">
+                                    <a class="header-user-avatar-dropdown-item" href="{{route('moncompte/mesmessages')}}">
                                         <img src="{{asset('images/mail-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
                                         Mes messages
                                     </a>

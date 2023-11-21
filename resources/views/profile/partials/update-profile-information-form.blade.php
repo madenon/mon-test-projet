@@ -18,19 +18,19 @@
 
         <div>
             <x-input-label for="profile_photo_path" :value="__('Profile Picture')" />
-            <img src="{{route('profile_pictures-file-path',$user->profile_photo_path)}}" name="profile_photo_path" alt="Profile Picture" class="rounded-full h-16 w-16" />
+            <img src="{{route('profile_pictures-file-path',$user->profile_photo_path)}}" name="profile_photo_path" alt="Profile Picture" class="rounded-full h-16 w-16 mb-2" />
             <input type="file" name="profile_photo_path"> 
         </div>
 
         <div>
             <x-input-label for="last_name" :value="__('Nom')" />
-            <x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full" :value="old('last_name', $user->name)" required autofocus autocomplete="last_name" />
+            <x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full" :value="old('last_name', $user->last_name)" required autofocus autocomplete="last_name" />
             <x-input-error class="mt-2" :messages="$errors->get('last_name')" />
         </div>
 
         <div>
             <x-input-label for="first_name" :value="__('Prénom')" />
-            <x-text-input id="first_name" name="first_name" type="text" class="mt-1 block w-full" :value="old('first_name', $user->name)" required autofocus autocomplete="first_name" />
+            <x-text-input id="first_name" name="first_name" type="text" class="mt-1 block w-full" :value="old('first_name', $user->first_name)" required autofocus autocomplete="first_name" />
             <x-input-error class="mt-2" :messages="$errors->get('first_name')" />
         </div>
 
