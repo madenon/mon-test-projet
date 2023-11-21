@@ -78,7 +78,7 @@
                             <h6 class=" font-normal ">A ECHANGER CONTRE</h6>
                             @foreach ($offer->preposition as $proposition)
     <a href="#" style="background-color: #24a19c; color:white;" class="ml-5 w-50 mt-2 btn proposition-link" data-bs-toggle="modal" data-bs-target="#exampleModal" 
-      data-id="{{ $proposition->id }}"  data-status="{{ $proposition->status }}" data-user="{{ $proposition->user }}" data-offer="{{ $proposition->offer }}">
+      data-id="{{ $proposition->id }}"  data-status="{{ $proposition->status }}" data-user="{{ $proposition->user }}" data-offer="{{ $proposition->offer }}" data-meet="{{ $proposition->meetup }}">
         {{ $proposition->name }}
     </a>
 @endforeach
@@ -216,10 +216,49 @@
                              <button type="button" class="btn btn-danger" id="declineButton">
                                  Decline
                              </button>
+                             <button type="button" class="btn" id="meetButton">
+                                 Add Meetup
+                             </button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                <!-- show meetups -->
+                <h2 id="meetHeader">Meetups</h2>
+            <table id="meetTable" class="table align-middle">
+                <thead class="bg-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="meetupsTableBody">
+                    <td id="meetDate"></td>
+                    <td id="meetTime"></td>
+                    <td id="meetDescription"></td>
+                   <td id="meetStatus"></td>
+                </tbody>
+            </table>
+                 <!-- Meetup Schedule Form -->
+                 <form id="meetupForm">
+                @csrf
+                <input type="hidden" id="prepositionId" name="prepositionId" value="">
+                <div class="mb-3">
+                    <label for="meetupDate" class="form-label">Meetup Date</label>
+                    <input type="date" class="form-control" id="meetupDate" name="meetupDate" required>
+                </div>
+                <div class="mb-3">
+                    <label for="meetupTime" class="form-label">Meetup Time</label>
+                    <input type="time" class="form-control" id="meetupTime" name="meetupTime" required>
+                </div>
+                <div class="mb-3">
+                    <label for="meetupDescription" class="form-label">Meetup Description</label>
+                    <textarea class="form-control" id="meetupDescription" name="meetupDescription" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Schedule Meetup</button>
+            </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -236,14 +275,43 @@
             var propositionStatus = $(this).data('status'); // Adjust based on your data attributes
             var propositionUser = $(this).data('user'); // Adjust based on your data attributes
             var propositionId=$(this).data('id');
-            var user=propositionUser.first_name+" "+propositionUser.last_name
+            var user=propositionUser.first_name+" "+propositionUser.last_name;
+            var descriptionData=$(this).data('meet');
+            console.log(descriptionData);
+            var meetDescription=descriptionData.description;
+            var meetDate=descriptionData.date;
+            var meetTime=descriptionData.time;
+            var meetStatus=descriptionData.status;
+// Set the value of the hidden input in meetup form
+            $('#prepositionId').val(propositionId);
             // Update modal content
             $('#modalName').text(propositionName);
             $('#modalStatus').text(propositionStatus);
             $('#modalUser').text(user);
             // Update propositionId in button data attributes
             $('#acceptButton').data('proposition-id', propositionId);
+            $('#acceptButton').data('proposition-id', propositionId);
             $('#declineButton').data('proposition-id', propositionId);
+            // add meetup in table 
+            if(descriptionData){
+            $('#meetDescription').text(meetDescription);
+            $('#meetDate').text(meetDate);
+            $('#meetTime').text(meetTime);
+            $('#meetStatus').text(meetStatus);
+            $('#meetButton').hide();
+            $('#meetHeader').show();
+            $('#meetTable').show();
+        } 
+            else {
+                $('#meetDescription').empty();
+            $('#meetDate').empty();
+            $('#meetTime').empty();
+            $('#meetStatus').empty();
+            $('#meetButton').show();
+            $('#meetHeader').hide();
+            $('#meetTable').hide();
+            }
+
             if(propositionStatus=="accepted" || propositionStatus=="refused" ){
                 $('#acceptButton').hide();
                 $('#declineButton').hide();
@@ -261,7 +329,12 @@
             var propositionId = $(this).data('proposition-id');
             updatePropositionStatus(propositionId, 'declined');
         });
+ // Handle Meet button click
+ $("#meetupForm").hide();
+ $('#meetButton').click(function () {
+    $("#meetupForm").show();
 
+        });
         // Function to update proposition status via AJAX
         function updatePropositionStatus(propositionId, newStatus) {
             // Send an AJAX request to update the status
@@ -298,4 +371,86 @@
         }
     
     });
+    // for meetup form
+    $(document).ready(function () {
+        // Handle form submission
+        $('#meetupForm').submit(function (e) {
+            e.preventDefault();
+
+            // Get form data
+            var formData = {
+                prepositionId: $('#prepositionId').val(),
+                meetupDate: $('#meetupDate').val(),
+                meetupTime: $('#meetupTime').val(),
+                meetupDescription: $('#meetupDescription').val(),
+            };
+            console.log(formData);
+
+            // Perform AJAX request to save meetup schedule
+            $.ajax({
+                url: '/schedule-meetup',
+                method: 'POST',
+                data: formData,
+                success: function (response) {
+                    // Handle success response
+                    console.log(response);
+
+                    // Optionally, close the modal after a successful update
+                    $('#meetupModal').modal('hide');
+                },
+                error: function (error) {
+                    // Handle error response
+                    console.error(error);
+                }
+            });
+        });
+
+        // Open the modal and set the prepositionId
+        $('#meetupModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var prepositionId = button.data('preposition-id'); // Extract info from data-* attributes
+            $('#prepositionId').val(prepositionId); // Set the prepositionId in the form
+        });
+    });
+
+    // Assuming you have the meetup data available in a variable named 'meetups'
+var meetups = {};
+
+// Function to populate the meetups table
+function populateMeetupsTable() {
+    var meetupsTableBody = document.getElementById('meetupsTableBody');
+
+    // Clear existing rows
+    meetupsTableBody.innerHTML = '';
+
+    // Loop through meetups and add rows to the table
+    
+        var row = meetupsTableBody.insertRow();
+        var dateCell = row.insertCell(0);
+        var timeCell = row.insertCell(1);
+        var descriptionCell = row.insertCell(2);
+        var statusCell = row.insertCell(3);
+
+        // Set cell values based on meetup data
+        dateCell.innerHTML = meetup.date;
+        timeCell.innerHTML = meetup.time;
+        descriptionCell.innerHTML = meetup.description;
+        statusCell.innerHTML = meetup.status;
+    
+}
+
+// Event listener for modal show event
+$('#yourModalId').on('show.bs.modal', function (event) {
+    // Assuming you have the preposition data available in a variable named 'preposition'
+     /* var preposition = Your preposition data */
+
+    // Set preposition details in the modal
+    document.getElementById('modalName').innerHTML = preposition.name;
+    document.getElementById('modalStatus').innerHTML = preposition.status;
+    document.getElementById('modalUser').innerHTML = preposition.user_name;
+
+    // Populate meetups table
+    populateMeetupsTable();
+});
+
 </script>

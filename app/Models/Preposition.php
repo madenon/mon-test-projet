@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 
 class Preposition extends Model
 {
@@ -22,6 +24,10 @@ class Preposition extends Model
     public function offer(): BelongsTo
     {
         return $this->belongsTo(Offer::class);
+    }
+    public function meetup()
+    {
+        return $this->hasOne(Meetup::class, 'preposition_id', 'id');
     }
     public function user(): BelongsTo
     {

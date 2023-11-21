@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\SocialShareButtonsController;
 use App\Http\Controllers\TypeController;
+use App\Http\Controllers\MeetupController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -89,6 +90,8 @@ Route::get('/propositions', [PropositionController::class, 'index'])->name('prop
 Route::post('/update-proposition/{prepositionId}', [PropositionController::class, 'update'])->name('update-proposition');
 Route::post('/update-proposition-status', [PropositionController::class, 'updateStatus']);
 Route::delete('/delete-proposition/{prepositionId}', [PropositionController::class, 'destroy'])->name('delete-proposition');
+Route::post('/schedule-meetup', [MeetupController::class, 'scheduleMeetup']);
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

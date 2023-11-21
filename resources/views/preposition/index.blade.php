@@ -8,6 +8,7 @@
                     <th>Status</th>
                     <th>User</th>
                     <th>Offer</th>
+                    <th>Meet</th>
                     <th>Actions</th>
 
                 </tr>
@@ -21,6 +22,8 @@
             </span></td>
                         <td>{{ $preposition->user_name }}</td>
                         <td>{{ $preposition->offer_name }}</td>
+                        <td><button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#meetModal">
+<i class="fas fa-calendar" style="color: #24a19c;"></i></button></td>
                         <td>
                        <!-- Edit button with icon -->
 <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#editModal{{ $preposition->id }}">
@@ -68,11 +71,41 @@
             </div>
         </div>
 </div>
+
                 @endforeach
             </tbody>
         </table>
     </div>
-   
+    
+    <div class="modal fade" id="meetModal" tabindex="-1" aria-labelledby="meetModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h2 id="meetHeader">Meetups</h2>
+
+                    </div>
+                    <div class="modal-body">
+            <table id="meetTable" class="table align-middle">
+                <thead class="bg-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="meetupsTableBody">
+                    <td id="meetDate"></td>
+                    <td id="meetTime"></td>
+                    <td id="meetDescription"></td>
+                   <td id="meetStatus"></td>
+                </tbody>
+            </table>
+                </div>
+            </div>
+        
+</div>
+</div>
 </x-app-layout>
 @php
     function getStatusBadgeClass($status) {

@@ -32,7 +32,7 @@ class OfferController extends Controller
         $type = $request->input('type');
 
     
-        $queryBuilder = Offer::with('preposition')
+        $queryBuilder = Offer::with('preposition.meetup')
         ->orderBy('created_at', 'DESC')
         ->where('active_offer', 1)
         ->where('user_id',auth()->id());  // to get my offers   
