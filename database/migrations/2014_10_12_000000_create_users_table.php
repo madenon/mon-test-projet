@@ -12,16 +12,16 @@ return new class extends Migration {
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('email')->unique();
+            $table->boolean('first_name');
+            $table->boolean('last_name');
+            $table->boolean('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->boolean('password');
             $table->boolean('is_online')->default(false);
             $table->timestamp('last_login')->nullable();
-            $table->string('role')->nullable();
+            $table->boolean('role')->nullable();
             $table->boolean('active')->default(true);
-            $table->string('profile_photo_path', 2048)->nullable();
+            $table->boolean('profile_photo_path', 2048)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

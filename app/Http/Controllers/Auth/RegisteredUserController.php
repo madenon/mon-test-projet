@@ -59,7 +59,7 @@ class RegisteredUserController extends Controller
 
             $extention = explode("/", $request->profile_photo_path->getMimeType())[1];
             $storePicture = uniqid() . '.' . $extention;
-            
+
             $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -71,17 +71,16 @@ class RegisteredUserController extends Controller
             ]);
 
             Storage::putFileAs('public/profile_pictures', $request->profile_photo_path, $storePicture);
-            
+
             $this->createUserInfos($user, $request->only(['phone', 'nickname', 'gender', 'bio']));
 
-            //event(new Registered($user));
+            event(new Registered($user));
 
-            Auth::login($user);
         });
+        
+        return redirect()->route('verification.notice');
 
-
-
-        return redirect(RouteServiceProvider::HOME);
+        // return redirect(RouteServiceProvider::HOME);
     }
 
 

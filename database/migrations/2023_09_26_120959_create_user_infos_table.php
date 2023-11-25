@@ -13,8 +13,8 @@ return new class extends Migration {
         Schema::create('user_infos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('phone')->unique();
-            $table->string('nickname')->unique();
+            $table->boolean('phone')->unique();
+            $table->boolean('nickname')->unique();
             $table->enum('gender', ['male', 'female']);
             $table->text('bio')->nullable();
             $table->timestamps();

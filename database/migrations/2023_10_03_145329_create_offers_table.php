@@ -12,12 +12,12 @@ return new class extends Migration {
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description')->nullable();
-            $table->string('exchange_state')->nullable();
+            $table->boolean('name');
+            $table->boolean('description')->nullable();
+            $table->boolean('exchange_state')->nullable();
             $table->enum('experience', ['NO_EXPERIENCE', 'LESS_THAN_5_YEARS', 'BETWEEN_5_AND_10_YEARS', 'BETWEEN_10_AND_25_YEARS', 'MORE_THAN_25_YEARS']);
-            $table->string('offer_default_photo');
-            $table->string('slug');
+            $table->boolean('offer_default_photo');
+            $table->boolean('slug');
             $table->boolean('countdown')->default(false);
             $table->boolean('countdownTo')->nullable();
             $table->boolean('active_offer')->default(true);

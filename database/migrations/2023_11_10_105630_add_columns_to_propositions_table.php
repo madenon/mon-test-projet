@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('prepositions', function (Blueprint $table) {
-            $table->string('status')->nullable();
+            $table->boolean('status')->nullable();
             $table->text('negotiation')->nullable();
             $table->timestamp('confirmed_at')->nullable();
             $table->foreignId('user_id')->constrained('users');
