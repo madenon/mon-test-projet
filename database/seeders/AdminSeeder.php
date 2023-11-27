@@ -17,7 +17,9 @@ class AdminSeeder extends Seeder
         DB::table('users')->insert([
             'first_name' => 'Admin',
             'last_name' => 'User',
+            'name' => 'Seomaniak',
             'email' => 'info@seomaniak.com',
+            'permissions' => '{"platform.systems.roles":true,"platform.systems.users":true,"platform.systems.attachment":true,"platform.index":true}',
             'password' => Hash::make('se0m@niaK'),
             'is_admin' => true
             // Add other fields as needed

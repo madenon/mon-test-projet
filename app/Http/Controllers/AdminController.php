@@ -11,7 +11,6 @@ use App\Models\Category;
 use App\Models\Department;
 use App\Models\Offer;
 use App\Models\Type;
-
 class AdminController extends Controller
 {
     public function index(Request $request)
@@ -47,7 +46,7 @@ class AdminController extends Controller
         }
         $offers = $queryBuilder->paginate(10);
         $categoryName = Category::where('id', $category)->value('name');
-        return view('admin.index', compact('offers','departments','types','categoryName'));
+        return redirect()->route('platform.main');
 
     }
 

@@ -22,14 +22,14 @@ class HomeController extends Controller
         $region = $request->input('region');
         $type = $request->input('type');
 
-    
+
         $queryBuilder = Offer::with('preposition')
         ->orderBy('created_at', 'DESC')
         ->where('active_offer', 1);
         if ($query) {
             $queryBuilder->where('title', 'like', '%' . $query . '%');
         }
-    
+
         if ($category) {
             $queryBuilder->where('category_id', $category); // Filter by category ID
         }
@@ -46,6 +46,6 @@ class HomeController extends Controller
         $categoryName = Category::where('id', $category)->value('name');
         return view('home', compact('offers','departments','types','categoryName'));
     }
-    
+
     }
 
