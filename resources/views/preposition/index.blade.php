@@ -22,8 +22,9 @@
             </span></td>
                         <td>{{ $preposition->user_name }}</td>
                         <td>{{ $preposition->offer_name }}</td>
-                        <td><button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#meetModal">
-<i class="fas fa-calendar" style="color: #24a19c;"></i></button></td>
+                        <td>@if($preposition->meetup)
+                            <button type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button " data-bs-toggle="modal" data-bs-target="#meetModal">
+<i class="fas fa-calendar" style="color: #24a19c;"></i></button>@endif</td>
                         <td>
                        <!-- Edit button with icon -->
 <button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#editModal{{ $preposition->id }}">
@@ -57,9 +58,6 @@
                                 <textarea class="form-control" id="editNegotiation" name="negotiation">{{ $preposition->negotiation }}</textarea>
                             </div>
                             <!-- Add other form fields as needed -->
-                        
-
-                        
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -189,4 +187,24 @@
             }
         });
     }
+    $(document).on('click', '.meet-button', function () {
+        var descriptionData=$(this).data('meet');
+            console.log(descriptionData);
+            var meetDescription=descriptionData.description;
+            var meetDate=descriptionData.date;
+            var meetTime=descriptionData.time;
+            var meetStatus=descriptionData.status;
+            // add data to table meet 
+            $('#meetDescription').text(meetDescription);
+            $('#meetDate').text(meetDate);
+            $('#meetTime').text(meetTime);
+            $('#meetStatus').text(meetStatus);
+            if(!descriptionData){
+            $('#meetDescription').empty();
+            $('#meetDate').empty();
+            $('#meetTime').empty();
+            $('#meetStatus').empty();
+            }
+    });
+
 </script>

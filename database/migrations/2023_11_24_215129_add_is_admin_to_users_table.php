@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
-            $table->id();
-            $table->boolean('name');
-            $table->integer('department_number');
-            $table->foreignId('region_id')->constrained('regions')->onUpdate('cascade');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('is_admin')->default(false);
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('is_admin');
+        });
     }
 };

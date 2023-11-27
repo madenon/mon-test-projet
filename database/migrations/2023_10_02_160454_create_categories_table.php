@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->boolean('name');
             $table->unsignedBigInteger('parent_id')->nullable();
-            $table->string('category_photo');
+            $table->boolean('category_photo');
             $table->integer('count');
             $table->foreignId('type_id')->constrained('types')->onUpdate('cascade');
             $table->timestamps();

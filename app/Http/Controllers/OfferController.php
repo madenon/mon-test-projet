@@ -152,7 +152,7 @@ class OfferController extends Controller
             return $id;
         });
 
-        return redirect()->route('offer.offer', ['offer'=>$id, 'slug'=>$slug])->with('success', 'produit ajouté');
+        return redirect()->route('offer.offer', ['offerId'=>$id, 'slug'=>$slug])->with('success', 'produit ajouté');
 
     }
 
