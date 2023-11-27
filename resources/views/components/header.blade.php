@@ -107,7 +107,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="header-user-avatar-dropdown-item" href="{{route('offer.index')}}">
+                                    <a class="header-user-avatar-dropdown-item" href="{{route('myaccount.offers')}}">
                                         <img src="{{asset('images/list-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
                                         Mes annonces
                                     </a>
