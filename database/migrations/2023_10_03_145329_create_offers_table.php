@@ -12,22 +12,22 @@ return new class extends Migration {
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
-            $table->boolean('name');
-            $table->boolean('description')->nullable();
-            $table->boolean('exchange_state')->nullable();
+            $table->string('name');
+            $table->string('description')->nullable();
+            $table->string('exchange_state')->nullable();
             $table->enum('experience', ['NO_EXPERIENCE', 'LESS_THAN_5_YEARS', 'BETWEEN_5_AND_10_YEARS', 'BETWEEN_10_AND_25_YEARS', 'MORE_THAN_25_YEARS']);
-            $table->boolean('offer_default_photo');
-            $table->boolean('slug');
-            $table->boolean('countdown')->default(false);
-            $table->boolean('countdownTo')->nullable();
-            $table->boolean('active_offer')->default(true);
-            $table->boolean('archive_offer')->default(false);
+            $table->string('offer_default_photo');
+            $table->string('slug');
+            $table->string('countdown')->default(false);
+            $table->string('countdownTo')->nullable();
+            $table->string('active_offer')->default(true);
+            $table->string('archive_offer')->default(false);
             $table->timestamp('published_at')->nullable();
-            $table->boolean('buy_authorized')->default(false);
+            $table->string('buy_authorized')->default(false);
             $table->float('price')->nullable();
-            $table->boolean('perimeter_authorized')->default(false);
+            $table->string('perimeter_authorized')->default(false);
             $table->integer('perimeter')->nullable();
-            $table->boolean('specify_proposition')->default(false);
+            $table->string('specify_proposition')->default(false);
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');
             $table->foreignId('type_id')->constrained()->onUpdate('cascade');
             $table->foreignId('category_id')->constrained()->onUpdate('cascade');

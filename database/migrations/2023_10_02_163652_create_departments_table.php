@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
-            $table->boolean('name');
+            $table->string('name');
             $table->integer('department_number');
             $table->foreignId('region_id')->constrained('regions')->onUpdate('cascade');
             $table->timestamps();
