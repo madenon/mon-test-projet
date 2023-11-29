@@ -3,49 +3,54 @@
 <div >
     <h1 class="title">Avez-vous un bien ou un service ?<br>cherchez, postez et troquez !</h1>
     <div class="mt-12 d-flex align-items-center justify-content-center" >
-        <a class="sg-btn" href="">Consultez nos offres <i class="pl-2 fa fa-long-arrow-right"></i></a>
+        <a class="sg-btn" href="{{route('alloffers.index')}}">Consultez nos offres <i class="pl-2 fa fa-long-arrow-right"></i></a>
     </div>
 </div>
 </div>
 <div class="grid-container">
-
-  <!-- Top Categories Column -->
-  <div class="s" >
-      <h2 class="d-flex justify-content-center">Top Categories</h2>
-      <div class="d-flex justify-content-center">
-        <ul>
-          <li><a href="#" class="list-item-link">296 Rhone-Alpes</a></li>
-          <li><a href="#" class="list-item-link">123 Category 2</a></li>
-          <li><a href="#" class="list-item-link">456 Category 3</a></li>
-          <!-- Add more items as needed -->
+<!-- Top Users Column -->
+<div class="s">
+    <h2 class="d-flex justify-content-center">Top Users</h2>
+        <ul class="mt-4">
+        @foreach ($topUsers as $user)
+        @foreach ($topUsers as $user)
+            <li class="user-item">
+                <div class="media">
+                    <img src="{{ route('profile_pictures-file-path', $user->profile_photo_path) }}" class="rounded-full max-w-15 max-h-8" alt="{{ $user->name }} Avatar">
+                </div>
+                <div class="details">
+                    <a class="sg-home-link" href="#" data-target="#LoginProfilModal104" data-toggle="modal">{{ $user->name }}</a>
+                    <div class="offer-count">
+                        <span>{{ $user->offer_count }} trocs publiés</span>
+                    </div>
+                </div>
+            </li>
+        @endforeach
+        @endforeach
         </ul>
-      </div>
+</div>
+
+ <!-- Top Categories Column -->
+<div class="s">
+    <h2 class="d-flex justify-content-center">Top Categories</h2>
+    
+        <ul class="mt-4">
+            @foreach($topCategories as $category)
+                <li><a href="#" class="list-item-link">{{ $category->name }} ({{ $category->offer_count }})</a></li>
+            @endforeach
+        </ul>
     </div>
 
-    <!-- Top Regions Column -->
-    <div class="s">
-      <h2 class="d-flex justify-content-center">Top Regions</h2>
-      <div class="d-flex justify-content-center">
-        <ul>
-          <li><a href="#" class="list-item-link">789 Region 1</a></li>
-          <li><a href="#" class="list-item-link">101 Region 2</a></li>
-          <li><a href="#" class="list-item-link">112 Region 3</a></li>
-          <!-- Add more items as needed -->
-        </ul>
-      </div>
-    </div>
 
-    <!-- Top Users Column -->
-    <div class="s" >
-      <h2 class="d-flex justify-content-center">Top Users</h2>
-      <div class="d-flex justify-content-center">
-        <ul>
-          <li><a href="#" class="list-item-link">555 User 1</a></li>
-          <li><a href="#" class="list-item-link">777 User 2</a></li>
-          <li><a href="#" class="list-item-link">999 User 3</a></li>
-          <!-- Add more items as needed -->
+<!-- Top Regions Column -->
+<div class="s">
+    <h2 class="d-flex justify-content-center">Top Regions</h2>
+        <ul class="mt-4">
+            @foreach($topRegions as $region)
+                <li><a href="#" class="list-item-link">{{ $region->name }} ({{ $region->offer_count }})</a></li>
+            @endforeach
         </ul>
-      </div>
+</div>
 
 </div>
 
@@ -62,6 +67,7 @@
 }
 .s{
   border : 1px solid black;
+  padding-top:15px ;
 }
 
 .title {
@@ -98,5 +104,21 @@
       border: solid;
     }
     
-    
+    .user-item {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.media {
+    margin-right: 15px; /* Adjust the spacing between the avatar and user details */
+}
+
+.details {
+    flex-grow: 1; /* This will make the details take up the remaining space */
+}
+
+.offer-count {
+    font-size: 14px; /* Adjust the font size of the offer count */
+}
+
 </style>
