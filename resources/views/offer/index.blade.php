@@ -24,31 +24,49 @@
             <h3>Filters</h3>
             <form action="{{ route('offer.index') }}" method="GET">
     <div class="form-group">
-        <div>
-            <label for="min_price">Department :</label>
+    <div>
+            <label for="sort_by">Trier par :</label>
         </div>
         <div class="mt-1">
-            <select name="department">
+            <select name="sort_by">
+                <option value="latest" {{ request('sort_by') == 'latest' ? 'selected' : '' }}>Plus récents</option>
+                <option value="oldest" {{ request('sort_by') == 'oldest' ? 'selected' : '' }}>Plus anciens</option>
+                <option value="price_desc" {{ request('sort_by') == 'price_desc' ? 'selected' : '' }}>Prix décroissant</option>
+                <option value="price_asc" {{ request('sort_by') == 'price_asc' ? 'selected' : '' }}>Prix croissant</option>
+            </select>
+        </div>
+        <div>
+            <label for="department">Department:</label>
+        </div>
+        <div class="mt-1">
+            <select name="department" id="departmentSelect">
+            <option value="" selected>Sélectionnez le département</option>
                 @foreach($departments as $department)
                     <option value="{{ $department->id }}">{{ $department->name }}</option>
                 @endforeach
             </select>
         </div>
+
         <div>
-            <label for="min_price">Type :</label>
+            <label for="type">Type:</label>
         </div>
         <div class="mt-1">
-            <select name="type">
+            <select name="type" id="typeSelect">
+            <option value="" selected>Sélectionnez le type</option>
                 @foreach($types as $type)
                     <option value="{{ $type->id }}">{{ $type->name }}</option>
                 @endforeach
             </select>
         </div>
+
         {{-- Check if the 'category' query parameter is present --}}
         @if(request()->has('category'))
             <input type="hidden" name="category" value="{{ request('category') }}">
         @endif
-        <button class="mt-1"  id="button-filter">Apply Filters</button>
+        @if(request()->has('region'))
+            <input type="hidden" name="region" value="{{ request('region') }}">
+        @endif
+        <button class="mt-1" id="button-filter">Appliquer les filtres</button>
     </div>
 </form>
 
@@ -78,7 +96,7 @@
                             <h6 class=" font-normal ">A ECHANGER CONTRE</h6>
                             @foreach ($offer->preposition as $proposition)
     <a href="#" style="background-color: #24a19c; color:white;" class="ml-5 w-50 mt-2 btn proposition-link" data-bs-toggle="modal" data-bs-target="#exampleModal" 
-      data-id="{{ $proposition->id }}"  data-status="{{ $proposition->status }}" data-user="{{ $proposition->user }}" data-offer="{{ $proposition->offer }}" data-meet="{{ $proposition->meetup }}">
+      data-id="{{ $proposition->id }}" data-image="{{route('proposition-pictures-file-path',$proposition->images ?$proposition->images :'' )}}"  data-status="{{ $proposition->status }}" data-user="{{ $proposition->user }}" data-offer="{{ $proposition->offer }}" data-meet="{{ $proposition->meetup }}">
         {{ $proposition->name }}
     </a>
 @endforeach
@@ -200,6 +218,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Status</th>
+                            <th>Image</th>
                             <th>User</th>
                             <th>Actions</th>
                         </tr>
@@ -208,6 +227,7 @@
                         <tr>
                             <td id="modalName"></td>
                             <td id="modalStatus"></td>
+                            <td>  <img id="modalImage" src="" alt="Image"> </td>
                             <td id="modalUser"></td>
                             <td>
                              <button type="button"  class="btn btn-success" id="acceptButton">
@@ -269,12 +289,23 @@
 <script>
    
     $(document).ready(function () {
+        var departmentValue = "{{ request('department') }}";
+        var typeValue = "{{ request('type') }}";
+        // Set the selected attribute for the department dropdown
+        $("#departmentSelect").val(departmentValue).prop('selected', true);
+
+        // Set the selected attribute for the type dropdown
+        $("#typeSelect").val(typeValue).prop('selected', true);
+        $('#exampleModal').on('hidden.bs.modal', function () {
+            $("#meetupForm").hide();
+    });
         $('.proposition-link').click(function () {
             // Get data from the clicked link
             var propositionName = $(this).text();
             var propositionStatus = $(this).data('status'); // Adjust based on your data attributes
             var propositionUser = $(this).data('user'); // Adjust based on your data attributes
             var propositionId=$(this).data('id');
+            var propositionImage=$(this).data('image');
             var user=propositionUser.first_name+" "+propositionUser.last_name;
             var descriptionData=$(this).data('meet');
             console.log(descriptionData);
@@ -288,6 +319,7 @@
             $('#modalName').text(propositionName);
             $('#modalStatus').text(propositionStatus);
             $('#modalUser').text(user);
+            $('#modalImage').attr('src',propositionImage);
             // Update propositionId in button data attributes
             $('#acceptButton').data('proposition-id', propositionId);
             $('#acceptButton').data('proposition-id', propositionId);
@@ -315,6 +347,10 @@
             if(propositionStatus=="accepted" || propositionStatus=="refused" ){
                 $('#acceptButton').hide();
                 $('#declineButton').hide();
+            }
+            else{
+                $('#acceptButton').show();
+                $('#declineButton').show();
             }
            
         });
@@ -413,7 +449,6 @@
         });
     });
 
-    // Assuming you have the meetup data available in a variable named 'meetups'
 var meetups = {};
 
 // Function to populate the meetups table
@@ -441,10 +476,7 @@ function populateMeetupsTable() {
 
 // Event listener for modal show event
 $('#yourModalId').on('show.bs.modal', function (event) {
-    // Assuming you have the preposition data available in a variable named 'preposition'
-     /* var preposition = Your preposition data */
-
-    // Set preposition details in the modal
+   
     document.getElementById('modalName').innerHTML = preposition.name;
     document.getElementById('modalStatus').innerHTML = preposition.status;
     document.getElementById('modalUser').innerHTML = preposition.user_name;

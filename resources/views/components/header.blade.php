@@ -19,24 +19,25 @@
                 </button>
             </div>
             <div id="header-search">
-                <form action="{{ route('offer.index') }}" method="GET">
-                    <button type="button" id="header-search-location-btn">
-                        <img id="region-icon" src="{{ asset('images/location-icon.svg') }} " alt="Localisation" />
-                    </button>
-                    <input id="header-search-input" type="search" name="query" placeholder="Rechercher un truc..." />
-                    @if(request()->has('region'))
-                    <input type="hidden" name="region" value="{{ request('region') }}">
-                    @endif
-                    <button id="header-search-submit" type="submit">
-                        <img src="{{asset('images/search-icon.svg')}}" alt="Recherche" />
-                    </button>
-                </form>
+            <form action="{{ request()->is('offer.*') ? route('offer.index') : route('alloffers.index') }}" method="GET">
+    <button type="button" id="header-search-location-btn">
+        <img id="region-icon" src="{{ asset('images/location-icon.svg') }} " alt="Localisation" />
+    </button>
+    <input id="header-search-input" type="search" name="query" placeholder="Rechercher un truc..." />
+    @if(request()->has('region'))
+        <input type="hidden" name="region" value="{{ request('region') }}">
+    @endif
+    <button id="header-search-submit" type="submit">
+        <img src="{{ asset('images/search-icon.svg') }}" alt="Recherche" />
+    </button>
+</form>
+
                 <button id="header-search-icon-mobile">
                     <img src="{{asset('images/search-icon-dark.svg')}}" alt="" />
                 </button>
             </div>
             <div id="header-filter">
-                <button>
+                <button id="header-filter-button-btn">
                     <img src="{{asset('images/filter-icon.svg')}}" alt="" />
                     <span>Filtre</span>
                 </button>
@@ -73,7 +74,7 @@
                                         <a href="{{route('offer.offer', [$preposition->offer, urlencode($preposition->offer->slug)])}}">
                                             <b>{{$preposition->user->first_name}} {{$preposition->user->last_name}}</b>
                                             <span>Send you a proposition in </span>
-                                            <strong>{{$preposition->name}}</strong>
+                                            <strong>{{$preposition->offer->title}}</strong>
                                         </a>
                                     </div>
                                 </div>
@@ -111,12 +112,12 @@
                                 </li>
                                 <li>
                                     <a class="header-user-avatar-dropdown-item" href="{{route('propositions.index')}}">
-                                        <img src="{{asset('images/list-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
+                                        <img src="{{asset('images/exchange-44.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
                                         Mes propositions
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="header-user-avatar-dropdown-item" href="#">
+                                    <a class="header-user-avatar-dropdown-item" href="{{route('transactions.index')}}">
                                         <img src="{{asset('images/shopping-bag-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
                                         Mes transactions
                                     </a>
@@ -188,10 +189,33 @@
             <div class="header-regions-dropdown-menu-items">
                 @if($regions)
                 @foreach($regions as $region)
-                <a href="{{ route('offer.index', ['region' => $region->id]) }}"  class="header-categories-dropdown-menu-item">
-                    <img src="{{asset('images/map-pin-icon.svg')}}" alt="" />
-                    <h3>{{$region['name']}}</h3>
-                </a>
+                @if(request()->is('offer.*'))
+                @if(request()->has('category'))
+    <a href="{{ route('offer.index', ['region' => $region->id,'category'=>request('category')]) }}" class="header-categories-dropdown-menu-item">
+        <img src="{{ asset('images/map-pin-icon.svg') }}" alt="" />
+        <h3>{{ $region['name'] }}</h3>
+    </a>
+    @else
+    <a href="{{ route('offer.index', ['region' => $region->id]) }}" class="header-categories-dropdown-menu-item">
+        <img src="{{ asset('images/map-pin-icon.svg') }}" alt="" />
+        <h3>{{ $region['name'] }}</h3>
+    </a>
+    @endif()
+@else
+   
+    @if(request()->has('category'))
+    <a href="{{ route('alloffers.index', ['region' => $region->id,'category'=>request('category')]) }}" class="header-categories-dropdown-menu-item">
+        <img src="{{ asset('images/map-pin-icon.svg') }}" alt="" />
+        <h3>{{ $region['name'] }}</h3>
+    </a>
+    @else
+    <a href="{{ route('alloffers.index', ['region' => $region->id]) }}" class="header-categories-dropdown-menu-item">
+        <img src="{{ asset('images/map-pin-icon.svg') }}" alt="" />
+        <h3>{{ $region['name'] }}</h3>
+    </a>
+    @endif()
+@endif
+
                 @endforeach
                 @endif
             </div>
@@ -201,12 +225,32 @@
             <div class="header-categories-dropdown-menu-items">
                 @if($parentcategories)
                 @foreach($parentcategories as $parentcategory)
-                <a href="{{ route('offer.index', ['category' => $parentcategory->id]) }}" class="header-categories-dropdown-menu-item">
-                    <img src="{{asset('images/map-pin-icon.svg')}}" alt="" />
-                    <h3>{{$parentcategory['name']}}</h3>
-                </a>
+                <a href="{{ request()->is('offer.*') ? route('offer.index', ['category' => $parentcategory->id]) : route('alloffers.index', ['category' => $parentcategory->id]) }}" class="header-categories-dropdown-menu-item">
+    <img src="{{ asset('images/map-pin-icon.svg') }}" alt="" />
+    <h3>{{ $parentcategory['name'] }}</h3>
+</a>
+
                 @endforeach
                 @endif
+            </div>
+        </nav>
+        <nav id="header-filter-dropdown-menu">
+            <div class="header-filter-dropdown-menu-items">
+            <form action="{{ request()->is('offer.*') ? route('offer.index') : route('alloffers.index') }}" method="GET">
+            <label for="min_price">Min Price:</label>
+            <input type="number" name="min_price" id="min_price" />
+            <label for="max_price">Max Price:</label>
+            <input type="number" name="max_price" id="max_price" />
+    @if(request()->has('region'))
+        <input type="hidden" name="region" value="{{ request('region') }}">
+    @endif
+    @if(request()->has('category'))
+        <input type="hidden" name="category" value="{{ request('category') }}">
+    @endif
+    <button  id="filter" type="submit">
+        Filter
+    </button>
+</form>
             </div>
         </nav>
        

@@ -30,6 +30,9 @@ class OfferController extends Controller
         $department = $request->input('department');
         $region = $request->input('region');
         $type = $request->input('type');
+        $minPrice = $request->input('min_price');
+        $maxPrice = $request->input('max_price');
+        $sortOrder = $request->input('sort_by', 'latest'); // Default sorting order
 
     
         $queryBuilder = Offer::with('preposition.meetup')
@@ -51,6 +54,24 @@ class OfferController extends Controller
         }
         if ($region) {
             $queryBuilder->where('region_id', $region); // Filter by category ID
+        }
+        if ($minPrice) {
+            $queryBuilder->where('price', '>=', $minPrice);
+        }
+    
+        if ($maxPrice) {
+            $queryBuilder->where('price', '<=', $maxPrice);
+        }
+    
+        // Add sorting condition
+        if ($sortOrder === 'latest') {
+            $queryBuilder->orderBy('created_at', 'DESC');
+        } elseif ($sortOrder === 'oldest') {
+            $queryBuilder->orderBy('created_at', 'ASC');
+        } elseif ($sortOrder === 'price_low') {
+            $queryBuilder->orderBy('price', 'ASC');
+        } elseif ($sortOrder === 'price_high') {
+            $queryBuilder->orderBy('price', 'DESC');
         }
         $offers = $queryBuilder->paginate(10);
         $user = User::find(auth()->id());

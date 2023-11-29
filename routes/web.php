@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AllOffers;
+use App\Http\Controllers\AlloffersController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PropositionController;
@@ -7,8 +9,10 @@ use App\Http\Controllers\MyAccountController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\SocialShareButtonsController;
 use App\Http\Controllers\TypeController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MeetupController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -36,7 +40,13 @@ Route::get(
         return response()->file($url);
     }
 )->name('offer-pictures-file-path');
-
+Route::get(
+    'file/proposition-pictures/{name}',
+    function(Request $request){
+        $url=storage_path('app/public/proposition_pictures/'.$request->name);
+        return response()->file($url);
+    }
+)->name('proposition-pictures-file-path');
 Route::get(
     'file/profile_pictures/{name}',
     function(Request $request){
@@ -81,6 +91,7 @@ Route::get('/offres/{type}/{category}', [CategoryController::class, 'index'])->n
 Route::get('/offres/{offer}/{category_id}/{category_name}', [CategoryController::class, 'showSimilarOffers'])->name('category.showSimilarOffers');
 Route::get('/offres/{slug}', [CategoryController::class, 'showOffersByCategory'])->name('category.showOffersByCategory');
 
+Route::get('/alloffers', [AlloffersController::class, 'index'])->name('alloffers.index');
 
 
 Route::get('/offres/{type}', [TypeController::class, 'index'])->name('type.index');
@@ -91,7 +102,12 @@ Route::post('/update-proposition/{prepositionId}', [PropositionController::class
 Route::post('/update-proposition-status', [PropositionController::class, 'updateStatus']);
 Route::delete('/delete-proposition/{prepositionId}', [PropositionController::class, 'destroy'])->name('delete-proposition');
 Route::post('/schedule-meetup', [MeetupController::class, 'scheduleMeetup']);
+Route::post('/update-meet-status/{meetId}', [MeetupController::class, 'updateMeetStatus']);
+// transactions 
+Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
 
+Route::get('/contact', [ContactController::class, 'show']);
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -8,9 +8,8 @@ use Illuminate\View\View;
 use App\Models\Department;
 use App\Models\Offer;
 use App\Models\Type;
-class HomeController extends Controller
+class AlloffersController extends Controller
 {
-
     public function index(Request $request)
     {
         // Get the list of departments
@@ -63,8 +62,6 @@ class HomeController extends Controller
     }
         $offers = $queryBuilder->paginate(10);
         $categoryName = Category::where('id', $category)->value('name');
-        return view('home', compact('offers','departments','types','categoryName'));
+        return view('alloffers.index', compact('offers','departments','types','categoryName'));
     }
-    
-    }
-
+}

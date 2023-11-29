@@ -40,5 +40,17 @@ class MeetupController extends Controller
 
         return response()->json(['success' => true]);
     }
+    public function updateMeetStatus($meetId)
+{
+    // Get the meet instance by ID
+    $meet = Meetup::find($meetId);
+
+    // Assuming 'status' is a column in your 'meets' table
+    $meet->status = request('status');
+    $meet->save();
+
+    // Optionally, you can return a response or redirect
+    return response()->json(['message' => 'Meet status updated successfully']);
+}
 
 }

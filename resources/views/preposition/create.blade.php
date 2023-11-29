@@ -18,13 +18,13 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('propositions.store') }}">
+                        <form method="POST" action="{{ route('propositions.store') }}" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="offer_id" value="{{ $offer->id }}">
                             <input type="hidden" name="user_id" value="{{ $userid }}">
 
                             <div class="form-group">
-                                <label for="name">Your Name</label>
+                                <label for="name">Name</label>
                                 <input type="text" class="form-control" id="name" name="name" required>
                             </div>
 
@@ -32,6 +32,17 @@
                                 <label for="message">Your Proposition</label>
                                 <textarea class="form-control" id="message" name="negotiation" rows="4" required></textarea>
                             </div>
+                            <!-- Add these fields inside your form in the preposition.create view -->
+<div class="form-group">
+    <label for="price">Price</label>
+    <input type="text" class="form-control" id="price" name="price" value="{{ old('price') }}">
+</div>
+
+<div class="form-group">
+    <label for="images">Images</label>
+    <input type="file" class="form-control" id="images" name="image" >
+</div>
+
 
                             <button type="submit" class="btn btn-primary">Submit Proposition</button>
                         </form>

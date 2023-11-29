@@ -68,6 +68,19 @@ body {
     column-gap: 8px;
     font-size: 14px;
 }
+.header-filter-button-button {
+    border-radius: 4px;
+    border: 1px solid var(--line-color);
+    background: #FFF;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    column-gap: 8px;
+    font-size: 14px;
+}
 
 .header-categories-button-button:hover, 
 .header-categories-button-button:focus, 
@@ -77,6 +90,24 @@ body {
     -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
 }
 .header-categories-button-button-active {
+    border-radius: 4px;
+    border: 1px solid var(--primary-color);
+    background: var(--primary-color);
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    color:white;
+    column-gap: 8px;
+}
+.header-filter-button-button:active {
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
+    -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
+}
+.header-filter-button-button-active {
     border-radius: 4px;
     border: 1px solid var(--primary-color);
     background: var(--primary-color);
@@ -102,6 +133,19 @@ body {
 }
 
 #header-categories-dropdown-menu {
+    position: absolute;
+    display: none;
+    background-color: white;
+    width: calc( 100% - 48px );
+    height: auto;
+    top: 78px;
+    z-index: 50;
+
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
+    -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
+}
+#header-filter-dropdown-menu {
     position: absolute;
     display: none;
     background-color: white;
@@ -814,7 +858,23 @@ body {
     -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
     -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
 }                           
- 
+#filter {
+    border-radius: 4px;
+    min-width: 120px ;
+    border: 1px solid var(--primary-color);
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    margin-left:10px;
+    
+}
+#filter:hover {
+    border: 1px solid #28b2ad;
+    background: #28b2ad;
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
+    -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
+}       
 /* X-Small devices (portrait phones, less than 576px) */
 /* No media query for `xs` since this is the default in Bootstrap */
 
@@ -1092,6 +1152,20 @@ body {
         display: none;
     }
     .header-categories-dropdown-menu-items {
+        margin: 48px;
+        display: grid; 
+        grid-template-columns: 1fr 1fr; 
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr; 
+        gap: 0px 36px; 
+        grid-template-areas: 
+            ". ."
+            ". ."
+            ". ."
+            ". ."
+            ". ."
+            ". ."; 
+    }
+    .header-filter-dropdown-menu-items {
         margin: 48px;
         display: grid; 
         grid-template-columns: 1fr 1fr; 
