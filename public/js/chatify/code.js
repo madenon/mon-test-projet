@@ -8,7 +8,7 @@ var messenger,
   typingNow = 0,
   temporaryMsgId = 0,
   defaultAvatarInSettings = null,
-  messengerColor,
+  messengerColor="#4CAF50",
   dark_mode,
   messages_page = 1;
 

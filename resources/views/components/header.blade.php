@@ -88,12 +88,14 @@
                     </div>
                     <div id="header-user-avatar-icon" >
                         <div class="dropdown">
-                            @if (isset($user->profile_photo_path))
-
-                                <div class="" data-bs-toggle="dropdown" aria-expanded="false">
+                            
+                            <div class="" data-bs-toggle="dropdown" aria-expanded="false">
+                                    @if (isset($user->profile_photo_path))
                                     <img src="{{route('profile_pictures-file-path',$user->profile_photo_path)}}" alt="" class="header-user-avatar-icon-img rounded-full" />
+                                    @else 
+                                    <img src="{{route('profile_pictures-file-path',$user->avatar)}}" alt="" class="header-user-avatar-icon-img rounded-full" />
+                                    @endif
                                 </div>
-                            @endif
                             <ul class="dropdown-menu dropdown-menu-end header-user-avatar-dropdown">
                                 <li>
                                     <a class="header-user-avatar-dropdown-item" href="{{route('myaccount.index')}}">

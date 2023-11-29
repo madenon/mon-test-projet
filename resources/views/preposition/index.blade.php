@@ -12,7 +12,6 @@
                     <th>Offer</th>
                     <th>Meet</th>
                     <th>Actions</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -32,14 +31,18 @@
                             <button type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button " data-bs-toggle="modal" data-bs-target="#meetModal">
 <i class="fas fa-calendar" style="color: #24a19c;"></i></button>@endif</td>
                         <td>
-                       <!-- Edit button with icon --> @if($preposition->status!='accepted')
-<button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#editModal{{ $preposition->id }}">
-<i class="fas fa-edit" style="color: #24a19c;"></i></button>@endif
-
-<!-- Delete button with icon -->
-<button type="button" class="btn  delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $preposition->id }}" data-preposition-id="{{ $preposition->id }}">
-    <i class="fas fa-trash-alt" style="color: red"></i>
-</button>
+                            <!-- Chat button with icon -->
+                            <button type="button" class="btn  chat-button" href="{{getChatRoute($preposition)}}">
+                                <i class="fas fa-comment-dots" style="color: #24a19c;"></i>
+                            </button>
+                            <!-- Edit button with icon --> @if($preposition->status!='accepted')
+                            <button type="button" class="btn edit-button" data-bs-toggle="modal" data-bs-target="#editModal{{ $preposition->id }}">
+                                <i class="fas fa-edit" style="color: #ffc107;"></i>
+                            </button>@endif
+                            <!-- Delete button with icon -->
+                            <button type="button" class="btn  delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $preposition->id }}" data-preposition-id="{{ $preposition->id }}">
+                                <i class="fas fa-trash-alt" style="color: red"></i>
+                            </button>
 
       </td>
                     </tr>

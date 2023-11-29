@@ -7,7 +7,7 @@
     <div class="container">
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">{{ Breadcrumbs::render('offers') }}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ Diglactic\Breadcrumbs\Breadcrumbs::render('offers') }}</li>
                 <li class="breadcrumb-item active" aria-current="page">Déposer une offre</li>
             </ol>
         </nav>

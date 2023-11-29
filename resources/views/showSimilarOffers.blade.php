@@ -4,7 +4,7 @@
 {{-- <div class="container">
     <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
         <ol class="breadcrumb">
-        <li class="breadcrumb-item active" aria-current="page">{{ Breadcrumbs::render('category', $type, $category) }}</li>
+        <li class="breadcrumb-item active" aria-current="page">{{ Diglactic\Breadcrumbs\Breadcrumbs::render('category', $type, $category) }}</li>
         </ol>
     </nav>
 </div> --}}

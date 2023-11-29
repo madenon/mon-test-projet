@@ -79,13 +79,6 @@ Route::controller(PusherController::class)->prefix('/messages')->group(function 
     Route::post('/receive','receive');
 });
 
-// Define  Verification Routes
-Route::controller(VerificationController::class)->group(function() {
-    Route::get('/email/verify', 'notice')->middleware('auth')->name('verification.notice');
-    Route::get('/email/verify/{id}/{hash}', 'verify')->middleware(['auth', 'signed'])->name('verification.verify');
-    Route::post('/email/resend', 'resend')->middleware(['auth', 'throttle:6,1'])->name('verification.resend');
-});
-
 
 Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
 Route::get('/offres/search', [OfferController::class, 'search'])->name('offer.search');

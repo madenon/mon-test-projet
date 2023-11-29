@@ -125,4 +125,9 @@ public function update(Request $request, $prepositionId)
         
         return response()->json(['success' => true]);
     }
+
+    public function getChatRoute(P$preposition){
+        $id=1;
+        return ' moncompte/mesmessages/'.$id;
+    }
 }
