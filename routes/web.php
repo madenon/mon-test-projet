@@ -14,6 +14,9 @@ use App\Http\Controllers\SocialShareButtonsController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MeetupController;
+use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PusherController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -61,19 +64,28 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/email/verify', function () {
-    return view('auth.verify-email');
-})->middleware('auth')->name('verification.notice');
 
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-    return redirect('/dashboard');
-})->middleware(['auth', 'signed'])->name('verification.verify');
+//Define Admin Routes
+Route::controller(AdminController::class)->prefix('/admin')->group(function () {
+    Route::get('/',  'index')->middleware('admin')->name('admin.index');
+    Route::get('/login','login')->name('admin.login');
+    Route::post('/login','store');
+});
 
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-    return back()->with('message', 'Verification link sent!');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+//Define Admin Routes
+Route::controller(PusherController::class)->prefix('/messages')->group(function () {
+    Route::get('/',  'index')->middleware('admin')->name('messages.index');
+    Route::post('/broadcast','broadcast')->name('messages.login');
+    Route::post('/receive','receive');
+});
+
+// Define  Verification Routes
+Route::controller(VerificationController::class)->group(function() {
+    Route::get('/email/verify', 'notice')->middleware('auth')->name('verification.notice');
+    Route::get('/email/verify/{id}/{hash}', 'verify')->middleware(['auth', 'signed'])->name('verification.verify');
+    Route::post('/email/resend', 'resend')->middleware(['auth', 'throttle:6,1'])->name('verification.resend');
+});
+
 
 Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
 Route::get('/offres/search', [OfferController::class, 'search'])->name('offer.search');

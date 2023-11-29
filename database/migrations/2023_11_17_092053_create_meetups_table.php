@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('date');
             $table->time('time');
             $table->text('description');
-            $table->string('status')->default('pending');
+            $table->enum('status',['pending','completed'])->default('pending');
             $table->timestamps();
         });
     }

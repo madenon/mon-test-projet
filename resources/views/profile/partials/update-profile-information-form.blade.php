@@ -9,18 +9,20 @@
         </p>
     </header>
 
-    
+
 
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
-        
 
-        <div>
-            <x-input-label for="profile_photo_path" :value="__('Profile Picture')" />
-            <img src="{{route('profile_pictures-file-path',$user->profile_photo_path)}}" name="profile_photo_path" alt="Profile Picture" class="rounded-full h-16 w-16 mb-2" />
-            <input type="file" name="profile_photo_path"> 
-        </div>
+        @if (isset($user->profile_photo_path))
+            <div>
+                <x-input-label for="profile_photo_path" :value="__('Profile Picture')" />
+                <img src="{{route('profile_pictures-file-path',$user->profile_photo_path)}}" name="profile_photo_path" alt="Profile Picture" class="rounded-full h-16 w-16 mb-2" />
+                <input type="file" name="profile_photo_path">
+            </div>
+        @endif
+
 
         <div>
             <x-input-label for="last_name" :value="__('Nom')" />

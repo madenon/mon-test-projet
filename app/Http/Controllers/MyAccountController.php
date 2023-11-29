@@ -7,8 +7,10 @@ use App\Enums\ExperienceLevel;
 use App\Models\Category;
 use App\Models\Department;
 use App\Models\Offer;
+use App\Models\Preposition;
 use App\Models\Region;
 use App\Models\Type;
+use App\Models\UserInfos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -18,8 +20,14 @@ class MyAccountController extends Controller
 {
     public function index(){
         $user = Auth::user();
+        $userInfo = UserInfos::where('user_id', $user->id)->first();
+        $offer = Offer::where('user_id', $user->id)->first();
 
-        return view('myaccount.index', $user);
+        $offerPrepostion = Preposition::where('offer_id', $offer->id)->count();
+        $finishedOffers = Offer::whereNotNull('deleted_at')->count();
+        $offersInProgress = Offer::whereNull('deleted_at')->count();
+
+        return view('myaccount.index', compact('user','userInfo', 'offerPrepostion', 'finishedOffers', 'offersInProgress'));
     }
 
     public function showOffer()

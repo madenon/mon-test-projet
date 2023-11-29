@@ -52,14 +52,14 @@
                             <div class="header-user-notification-icon"></div>
                         @else
                         <div class="header-user-notification-icon-notified"></div>
-                        @endif 
+                        @endif
                         </div>
                         <ul class="dropdown-menu notification-dropdown">
                         @if(count($propositions) == 0)
                             <li>
                                 <div class="notification-dropdown-item">
-                                    <div class="notification-dropdown-item-content">  
-                                            <b>You have no notifications</b>  
+                                    <div class="notification-dropdown-item-content">
+                                            <b>You have no notifications</b>
                                     </div>
                                 </div>
                             </li>
@@ -88,9 +88,12 @@
                     </div>
                     <div id="header-user-avatar-icon" >
                         <div class="dropdown">
-                            <div class="" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{route('profile_pictures-file-path',$user->profile_photo_path)}}" alt="" class="header-user-avatar-icon-img rounded-full" />
-                            </div>
+                            @if (isset($user->profile_photo_path))
+
+                                <div class="" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{route('profile_pictures-file-path',$user->profile_photo_path)}}" alt="" class="header-user-avatar-icon-img rounded-full" />
+                                </div>
+                            @endif
                             <ul class="dropdown-menu dropdown-menu-end header-user-avatar-dropdown">
                                 <li>
                                     <a class="header-user-avatar-dropdown-item" href="{{route('myaccount.index')}}">
@@ -105,7 +108,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="header-user-avatar-dropdown-item" href="{{route('offer.index')}}">
+                                    <a class="header-user-avatar-dropdown-item" href="{{route('myaccount.offers')}}">
                                         <img src="{{asset('images/list-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
                                         Mes annonces
                                     </a>
