@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Support\Facades\Notification;
 
 class VerificationController extends Controller
 {
@@ -17,7 +21,7 @@ class VerificationController extends Controller
     public function notice(Request $request)
     {
         return $request->user()->hasVerifiedEmail()
-            ? redirect()->route('/dashboard') : view('auth.verify-email');
+        ? redirect()->route('/dashboard') : view('auth.verify-email');
     }
 
     /**

@@ -47,7 +47,9 @@ class RegisteredUserController extends Controller
             'profile_photo_path' => ['nullable','image', 'max:12288', 'mimes:jpeg,jpg,png'],
 
         ], [
-            'email' => 'Ce email exist dèja.',
+            'email' => 'Ce email existe dèja.',
+            'phone.unique' => 'Ce numero existe dèja.',
+            'phone.regex' => 'Le format est +33**********',
             'phone.min' => 'Le numéro de téléphone doit comporter au moins 7 chiffres et au maximum 11 chiffres.',
             'nickname' => 'Ce pseudonyme existe déjà.',
             'password' => 'Le mot de passe doit contenir au moins 6 caractères, une combinaison de majuscules et de minuscules, un chiffre et un symbole.',
@@ -77,7 +79,6 @@ class RegisteredUserController extends Controller
             event(new Registered($user));
 
         });
-        
         return redirect()->route('verification.notice');
 
         // return redirect(RouteServiceProvider::HOME);

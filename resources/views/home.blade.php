@@ -1,4 +1,22 @@
 <x-app-layout>
+    @if($categoryName)
+<div class="container">
+    <h2>{{$categoryName }} Page</h2>
+</div>
+@endif
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Offres') }}
+        </h2>
+    </x-slot>
+
+
+    <div class="container">
+        <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
+            <ol class="breadcrumb" class="no-underline bg-green-500 ">
+                <li class="breadcrumb-item active" aria-current="page">{{ Diglactic\Breadcrumbs\Breadcrumbs::render('offers') }}</li>
+            </ol>
+        </nav>
    <div class="mt-12 d-flex align-items-center justify-content-center">
 <div >
     <h1 class="title">Avez-vous un bien ou un service ?<br>cherchez, postez et troquez !</h1>

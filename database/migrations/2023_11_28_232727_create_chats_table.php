@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->unsignedBigInteger('type_id')->nullable()->change();
+        Schema::create('chats', function (Blueprint $table) {
+            $table->id();
+            $table->enum('state',['available','deleted','archived']);
+            $table->timestamps();
         });
     }
 
@@ -21,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
-            // $table->unsignedBigInteger('type_id')->nullable(false)->change();
-        });
+        Schema::dropIfExists('chats');
     }
 };
