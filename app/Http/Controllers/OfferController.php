@@ -120,6 +120,7 @@ class OfferController extends Controller
             'description' => ['string'],
             'default_image' => ['nullable','image','mimes:jpeg,png','max:4096'],
             'additional_images.*' => ['nullable','image','mimes:jpeg,png','max:4096'],
+        'valueInput' => 'numeric',
         ], [
             'title' => 'Le nom de l\'annonce doit contenir entre 10 et 100 caractères.',
             'default_image.max' => 'Vous ne pouvez pas télécharger plus de 4mb.',
@@ -138,6 +139,10 @@ class OfferController extends Controller
             $imageDefault = uniqid() . '.' . $extention;
             $experience = $request->has('experience')? $request->experience : null;
             $condition  = $request->has('condition')? $request->condition : null;
+            // Retrieve values from dynamic inputs
+    $dynamicInputs = $request->input('dynamicInputs');
+    // Serialize the values before saving to the database
+    $serializedInputs = json_encode($dynamicInputs);
 
             $id = DB::table('offers')
                 ->insertGetId(
@@ -154,6 +159,10 @@ class OfferController extends Controller
                         'department_id' => $department->id,
                         'experience' => $experience,
                        // 'condition' => $condition,
+                       'price'=>$request->valueInput,
+                       'buy_authorized' => $request->has('sellCheckbox') ? 1 : 0,
+                       'specify_proposition'=>$request->has('exchangeCheckbox')? 1 : 0 ,
+                       'dynamic_inputs' => $serializedInputs,
                         'created_at' => \Carbon\Carbon::now()
                     ]
                 );

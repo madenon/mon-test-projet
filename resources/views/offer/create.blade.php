@@ -182,6 +182,90 @@
                         </div>
                     </div>
                 </div>
+                <div class="border-b border-line py-4 mt-4">
+    <div class="container">
+        <div class="row">
+            <!-- Left Section: Your Troc Preferences -->
+            <div class="col-md-6">
+            <h3 class="text-lg font-bold text-titles mb-3">Votre troc (Contre quoi voulez-vous échanger ?)</h3>
+                <hr>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="exchangeCheckbox" name="exchangeCheckbox">
+                        <label class="form-check-label" for="exchangeCheckbox">Etudier toutes les propositions</label>
+                    </div>
+
+                    <!-- Input lines for adding values -->
+                    <div class="input-group mt-3">
+                        <input type="text" class="form-control" placeholder="Enter value">
+                        <button class="btn btn-outline-secondary" type="button" onclick="addInput()">+</button>
+                    </div>
+
+
+                    <!-- Container to hold dynamically added input lines -->
+                    <div id="dynamicInputsContainer"></div>
+            </div>
+
+            <!-- Right Section: Your Estimation -->
+            <div class="col-md-6">
+            <h3 class="text-lg font-bold text-titles mb-3">Votre estimation</h3>
+                <hr>
+                    <div class="form-group">
+                        <label for="valueInput">Valeur</label>
+                        <input type="text" class="form-control" id="valueInput" name="valueInput" placeholder="Enter value">
+                    </div>
+
+                    <!-- Checkbox for "autorise la vente" -->
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" name="sellCheckbox" id="sellCheckbox">
+                        <label class="form-check-label" for="sellCheckbox">Autorise la vente</label>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="border-b border-line py-4 mt-4">
+    <!-- Section 1: Compte à rebours -->
+    <div>
+        <h3>Compte à rebours</h3>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="countdownCheckbox" name="countdownCheckbox">
+            <label class="form-check-label" for="countdownCheckbox">Déclencher un compte à rebours</label>
+        </div>
+
+        <!-- Additional elements if countdownCheckbox is checked -->
+        <div id="countdownOptions" style="display: none;">
+            <!-- Elements related to countdown options -->
+            <!-- Add your countdown options here -->
+        </div>
+    </div>
+
+    <!-- Section 2: Mise en ligne de l'annonce -->
+    <div>
+        <h3>Mise en ligne de l'annonce</h3>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="immediatCheckbox" name="immediatCheckbox">
+            <label class="form-check-label" for="immediatCheckbox">Immédiat</label>
+        </div>
+
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="differeCheckbox" name="differeCheckbox">
+            <label class="form-check-label" for="differeCheckbox">Différé</label>
+        </div>
+
+        <!-- Additional elements if differeCheckbox is checked -->
+        <div id="differeOptions" style="display: none;">
+            <!-- Elements related to differe options -->
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="option6h" name="option6h">
+                <label class="form-check-label" for="option6h">6 heures</label>
+            </div>
+
+            <!-- Add more differe options here -->
+        </div>
+    </div>
+</div>
+
                 <div class="flex justify-end gap-2">
                     <button
                         class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-primary-color hover:bg-primary-hover"
@@ -198,6 +282,24 @@
 
 </x-app-layout>
 <script>
+     // Add event listeners to show/hide additional options based on checkbox state
+     document.getElementById('countdownCheckbox').addEventListener('change', function () {
+        document.getElementById('countdownOptions').style.display = this.checked ? 'block' : 'none';
+    });
+
+    document.getElementById('differeCheckbox').addEventListener('change', function () {
+        document.getElementById('differeOptions').style.display = this.checked ? 'block' : 'none';
+    });
+     function addInput() {
+        var container = document.getElementById("dynamicInputsContainer");
+        var input = document.createElement("input");
+        input.type = "text";
+        input.name = "dynamicInputs[]";
+        input.className = "form-control mt-3";
+        input.placeholder = "Enter value";
+        container.appendChild(input);
+    }
+    // 
     const conditionDropdownElement = document.getElementById('condition-dropdown')
     const yearsOfExperienceDropdownElement = document.getElementById('experience-dropdown')
 

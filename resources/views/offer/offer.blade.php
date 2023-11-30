@@ -122,7 +122,21 @@
                             $offer->department->name}}
                         </span>
                     </div>
-                </div>
+                </div> @if(auth()->check() && $offer->user_id === auth()->user()->id)
+                <div class="flex flex-col items-center pt-3">
+    <h2 class="text-center text-black">Propositions sur cette offre</h2>
+
+   
+        @foreach ($offer->preposition as $proposition)
+            <a href="#" style="background-color: #24a19c; color:white;" class="ml-5 w-50 mt-2 btn proposition-link" data-bs-toggle="modal" data-bs-target="#exampleModal" 
+            data-id="{{ $proposition->id }}" data-image="{{ route('proposition-pictures-file-path', $proposition->images ? $proposition->images : '') }}"  
+            data-status="{{ $proposition->status }}" data-user="{{ $proposition->user }}" data-offer="{{ $proposition->offer }}" data-meet="{{ $proposition->meetup }}">
+                {{ $proposition->name }}
+            </a>
+        @endforeach
+    @endif
+</div>
+
                 <div class=" pt-3">
                     <div class="px-12 flex justify-content-between  gap-2 items-center">
                         @if($offer->price)
@@ -130,10 +144,13 @@
                             {{$offer->price}} €
                         </span>
                         @endif
+                        @if ($offer->buy_authorized)
                         <span class="flex bg-red-100  rounded-full px-3 py-1 gap-2 text-red-500">
                             <span class="bg-red-500 px-2 rounded-full text-white">$</span>
-                            <span>Vente autorisé</span>
-                        </span>
+                            <span>Vente autorisé</span> 
+                            
+                           
+                        </span>@endif
                     </div>
                     <div class="m-4 bg-gray-100 p-4 rounded-lg">
                         <h5>À ÉCHANGER CONTRE :</h5>
@@ -141,16 +158,14 @@
                             <img src="/images/Icon.svg" alt="">
                             <span>
                                 Etudie toute proposition
-                                @if(auth()->check() && $offer->user_id === auth()->user()->id)
-                                @foreach ($offer->preposition as $proposition)
-    <a href="#" style="background-color: #24a19c; color:white;" class="ml-5 w-50 mt-2 btn proposition-link" data-bs-toggle="modal" data-bs-target="#exampleModal" 
-      data-id="{{ $proposition->id }}" data-image="{{route('proposition-pictures-file-path',$proposition->images ?$proposition->images :'' )}}"  data-status="{{ $proposition->status }}" data-user="{{ $proposition->user }}" data-offer="{{ $proposition->offer }}" data-meet="{{ $proposition->meetup }}">
-        {{ $proposition->name }}
-    </a>
-@endforeach
-@endif
                             </span>
                         </span>
+                        @if($offer->dynamic_inputs)
+                        @foreach (json_decode($offer->dynamic_inputs, true) as $prop )
+                        <span class="flex gap-2 px-5">
+                            <img src="/images/Icon.svg" alt="">  {{$prop}} </span>
+                                @endforeach
+                                @endif
                     </div>
                 </div>
             </div>

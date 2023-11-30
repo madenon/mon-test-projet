@@ -7,6 +7,8 @@
     </div>
 </div>
 </div>
+<h1 class="title text-center font-bold">Ne perdez plus votre temps et rejoignez notre réseau de troqueurs !</h1>
+
 <div class="grid-container">
 <!-- Top Users Column -->
 <div class="s">
@@ -58,7 +60,6 @@
 
 <style>/* Additional styles for the new content */
 .grid-container {
-    margin-top: 50px;
   display: grid;
   grid-template-columns: auto auto auto  ;
   grid-row-gap: 30px;
@@ -72,8 +73,7 @@
 
 .title {
     color: var(--titles-color);
-    
-    margin-bottom: 15px;
+    margin-top: 50px;
 }
 
 .title h1 {
