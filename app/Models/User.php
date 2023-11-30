@@ -6,6 +6,7 @@ use Orchid\Filters\Types\Like;
 use Orchid\Filters\Types\Where;
 use Orchid\Filters\Types\WhereDateStartEnd;
 use Orchid\Platform\Models\User as Authenticatable;
+use App\Models\ratings;
 
 class User extends Authenticatable
 {
@@ -67,4 +68,14 @@ class User extends Authenticatable
         'updated_at',
         'created_at',
     ];
+
+    public function ratingUser()
+    {
+        return $this->hasMany(Ratings::class, 'user_id');
+    }
+
+    public function receivedRatings()
+    {
+        return $this->hasMany(Ratings::class, 'rated_by_user_id');
+    }
 }
