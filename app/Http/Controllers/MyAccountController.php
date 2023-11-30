@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\Condition;
 use App\Enums\ExperienceLevel;
 use App\Models\Category;
+use App\Models\Ratings;
 use App\Models\Department;
 use App\Models\Offer;
 use App\Models\Preposition;
@@ -29,6 +30,38 @@ class MyAccountController extends Controller
 
         return view('myaccount.index', compact('user','userInfo', 'offerPrepostion', 'finishedOffers', 'offersInProgress'));
     }
+
+    public function rateUser(Request $request, $ratedUserId)
+    {
+        $request->validate([
+            'stars' => 'required|integer|between:1,5',
+        ]);
+
+        $ratedByUserId = auth()->user()->id;
+
+        if ($ratedUserId != $ratedByUserId) {
+            $existingRating = Ratings::where('user_id', $ratedUserId)
+                ->where('rated_by_user_id', $ratedByUserId)
+                ->first();
+
+            if ($existingRating) {
+                $existingRating->update([
+                    'stars' => $request->input('stars'),
+                ]);
+            } else {
+                Ratings::create([
+                    'user_id' => $ratedUserId,
+                    'rated_by_user_id' => $ratedByUserId,
+                    'stars' => $request->input('stars'),
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'Rating submitted successfully!');
+        } else {
+            return redirect()->back()->with('error', 'You cannot rate yourself!');
+        }
+    }
+
 
     public function showOffer()
     {

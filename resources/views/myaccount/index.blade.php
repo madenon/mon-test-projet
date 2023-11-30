@@ -74,12 +74,21 @@
                         <div class="mt-6 py-6 border-t border-slate-200 text-center">
                             <span class="text-xl font-bold block tracking-wide text-slate-700">Crédibilité</span>
                             <div class="p-3 text-center ml-4 flex flex-wrap justify-center ">
-                                <img src="{{asset('images/medal-gold.svg')}}" class="w-20 h-20 mx-auto block" alt="" />
-                                <img src="{{asset('images/medal-silver.svg')}}" class="w-20 h-20 mx-auto block" alt="" />
-                                <img src="{{asset('images/medal-bronze.svg')}}" class="w-20 h-20 mx-auto block" alt="" />
+                                @switch(true)
+                                    @case($finishedOffers >= 0 && $finishedOffers <= 30)
+                                    <img src="{{asset('images/medal-bronze.svg')}}" class="w-20 h-20 mx-auto block" alt="" />
+                                    @break
+                                    @case($finishedOffers >= 31 && $finishedOffers <= 60)
+                                        <img src="{{asset('images/medal-silver.svg')}}" class="w-20 h-20 mx-auto block" alt="" />
+                                        @break
+                                    @case($finishedOffers >= 61)
+                                        <img src="{{asset('images/medal-gold.svg')}}" class="w-20 h-20 mx-auto block" alt="" />
+                                        @break
+                                    @default
+                                        
+                                @endswitch
                             </div>
-                        </div>
-                        
+                        </div>                      
                         <div class="mt-6 py-6 border-t border-slate-200 text-center">
                             <div class="flex flex-wrap justify-center">
                                 <div class="w-full px-4">
@@ -88,12 +97,28 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="flex col-12 col-md-9 max-w-md mx-auto md:max-w-2xl mt-16 min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-xl">
+                            <form action="{{ route('user.rate', ['user_id'=>$user->id,'rated_by_user_id'=>$user->id]) }}" method="post">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="stars">Select Stars:</label>
+                                    <select name="stars" id="stars" class="form-control">
+                                        <option value="1">1 Star</option>
+                                        <option value="2">2 Stars</option>
+                                        <option value="3">3 Stars</option>
+                                        <option value="4">4 Stars</option>
+                                        <option value="5">5 Stars</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="bg-primary-color hover:bg-primary-hover text-white font-bold justify-center align-items-center w-30 h-16 rounded-xl">Submit Rating</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
+            
         </div>
         
-    </div>
    
         
 </x-app-layout>
