@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Offer;
 use App\Models\Preposition;
 use App\Models\User;
+use App\Models\Transaction;
+
 
 
 
@@ -34,9 +36,27 @@ class PropositionController extends Controller
             'name' => 'required',
             'offer_id' => 'required',
             'status' => 'required|in:refused,pending,accepted',
+            'price' => 'nullable|numeric',
+            
         ]);
 
-        Preposition::create($request->all());
+       
+  // Process the image upload
+  if ($request->hasFile('image')) {
+    $image = $request->file('image');
+    $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
+    $image->storeAs('public/proposition_pictures', $imageName);
+    // You can save $imageName to the database if needed
+}
+
+// Create the Preposition
+$preposition = Preposition::create($request->except('image'));
+
+// You can associate the image with the preposition if needed
+if (isset($imageName)) {
+    $preposition->update(['images' => $imageName]);
+}
+   
 
         // You can add a success message or redirect to a different page
         return redirect()->route('propositions.index')->with('success', 'Proposition created successfully');
@@ -45,9 +65,22 @@ class PropositionController extends Controller
 {
     $propositionId = $request->input('propositionId');
     $newStatus = $request->input('newStatus');
-
-    $proposition = Preposition::find($propositionId);
+    $proposition=Preposition::find($propositionId);
     if($proposition!=null){
+    if ($newStatus === 'accepted') {
+        // Create a transaction
+        $transaction = Transaction::create([
+            'proposition_id' => $proposition->id,
+            'status' => 'completed', 
+            'amount' => $proposition->price?$proposition->price:'0', 
+            'name' => $proposition->name, 
+            'date' => now()
+        ]);
+
+        // Associate the transaction with the proposition
+       
+    }
+   
     $proposition->status = $newStatus;
     $proposition->save();
 
@@ -91,5 +124,10 @@ public function update(Request $request, $prepositionId)
 
         
         return response()->json(['success' => true]);
+    }
+
+    public function getChatRoute(P$preposition){
+        $id=1;
+        return ' moncompte/mesmessages/'.$id;
     }
 }

@@ -5,35 +5,44 @@
             <thead class="bg-light">
                 <tr>
                     <th>Name</th>
+                    <th>Image</th>
+                    <th>Price</th>
                     <th>Status</th>
                     <th>User</th>
                     <th>Offer</th>
                     <th>Meet</th>
                     <th>Actions</th>
-
                 </tr>
             </thead>
             <tbody>
                 @foreach ($prepositions as $preposition)
                     <tr>
                         <td>{{ $preposition->name }}</td>
+                        <td> <img src="{{ route('proposition-pictures-file-path',$preposition->images ?$preposition->images :'' ) }}" alt=""
+                             /></td>
+                             <td>{{ $preposition->price }}</td>
                         <td ><span class="badge {{ getStatusBadgeClass($preposition->status) }} rounded-pill d-inline">
                 {{ $preposition->status }}
             </span></td>
+           
                         <td>{{ $preposition->user_name }}</td>
                         <td>{{ $preposition->offer_name }}</td>
                         <td>@if($preposition->meetup)
                             <button type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button " data-bs-toggle="modal" data-bs-target="#meetModal">
 <i class="fas fa-calendar" style="color: #24a19c;"></i></button>@endif</td>
                         <td>
-                       <!-- Edit button with icon -->
-<button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#editModal{{ $preposition->id }}">
-<i class="fas fa-edit" style="color: #24a19c;"></i></button>
-
-<!-- Delete button with icon -->
-<button type="button" class="btn  delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $preposition->id }}" data-preposition-id="{{ $preposition->id }}">
-    <i class="fas fa-trash-alt" style="color: red"></i>
-</button>
+                            <!-- Chat button with icon -->
+                            <button type="button" class="btn  chat-button" href="{{getChatRoute($preposition)}}">
+                                <i class="fas fa-comment-dots" style="color: #24a19c;"></i>
+                            </button>
+                            <!-- Edit button with icon --> @if($preposition->status!='accepted')
+                            <button type="button" class="btn edit-button" data-bs-toggle="modal" data-bs-target="#editModal{{ $preposition->id }}">
+                                <i class="fas fa-edit" style="color: #ffc107;"></i>
+                            </button>@endif
+                            <!-- Delete button with icon -->
+                            <button type="button" class="btn  delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $preposition->id }}" data-preposition-id="{{ $preposition->id }}">
+                                <i class="fas fa-trash-alt" style="color: red"></i>
+                            </button>
 
       </td>
                     </tr>
@@ -90,6 +99,7 @@
                         <th>Time</th>
                         <th>Description</th>
                         <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="meetupsTableBody">
@@ -97,6 +107,11 @@
                     <td id="meetTime"></td>
                     <td id="meetDescription"></td>
                    <td id="meetStatus"></td>
+<td id="meetActions">
+    <button class="btn btn-success accept-button" >Accept</button>
+    <button class="btn btn-danger decline-button" >Decline</button>
+</td>
+
                 </tbody>
             </table>
                 </div>
@@ -187,8 +202,9 @@
             }
         });
     }
+    var descriptionData;
     $(document).on('click', '.meet-button', function () {
-        var descriptionData=$(this).data('meet');
+        descriptionData=$(this).data('meet');
             console.log(descriptionData);
             var meetDescription=descriptionData.description;
             var meetDate=descriptionData.date;
@@ -199,6 +215,9 @@
             $('#meetDate').text(meetDate);
             $('#meetTime').text(meetTime);
             $('#meetStatus').text(meetStatus);
+            if(descriptionData.status=="accepted"){
+                $('#meetActions').hide();
+            }
             if(!descriptionData){
             $('#meetDescription').empty();
             $('#meetDate').empty();
@@ -206,5 +225,34 @@
             $('#meetStatus').empty();
             }
     });
+    //meet accept/decline 
+$(document).on('click', '.accept-button', function () {
+    var meetId = descriptionData.id;
+    updateMeetStatus(meetId, 'accepted');
+});
+
+$(document).on('click', '.decline-button', function () {
+    var meetId = descriptionData.id;
+    updateMeetStatus(meetId, 'refused');
+});
+
+function updateMeetStatus(meetId, status) {
+    // Perform an AJAX request to update the meet status
+    $.ajax({
+        url: '/update-meet-status/' + meetId,
+        method: 'POST',
+        data: { status: status },
+        success: function (response) {
+            // Handle success response
+
+            // Optionally, reload the page or update the UI
+            location.reload();
+        },
+        error: function (error) {
+            // Handle error response
+            console.error(error);
+        }
+    });
+}
 
 </script>

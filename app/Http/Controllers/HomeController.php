@@ -7,44 +7,41 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Department;
 use App\Models\Offer;
+use App\Models\Region;
+use App\Models\User;
 use App\Models\Type;
+use Illuminate\Support\Facades\DB;
+
 class HomeController extends Controller
 {
 
     public function index(Request $request)
     {
-        // Get the list of departments
-        $departments = Department::all();
-        $types=Type::all();
-        $query = $request->input('query');
-        $category = $request->input('category'); // Retrieve the selected category
-        $department = $request->input('department');
-        $region = $request->input('region');
-        $type = $request->input('type');
+   // Fetch top categories with offer counts
+   $topCategories = Category::select('categories.id', 'categories.name', DB::raw('COUNT(offers.id) as offer_count'))
+   ->leftJoin('offers', 'categories.id', '=', 'offers.category_id')
+   ->groupBy('categories.id', 'categories.name') // Include all selected columns in GROUP BY
+   ->orderByDesc('offer_count')
+   ->limit(5)
+   ->get();
 
 
-        $queryBuilder = Offer::with('preposition')
-        ->orderBy('created_at', 'DESC')
-        ->where('active_offer', 1);
-        if ($query) {
-            $queryBuilder->where('title', 'like', '%' . $query . '%');
-        }
+// Fetch top regions with offer counts
+$topRegions = Region::select('regions.id','regions.name', DB::raw('COUNT(offers.id) as offer_count'))
+   ->leftJoin('offers', 'regions.id', '=', 'offers.region_id')
+   ->groupBy('regions.id','regions.name')
+   ->orderByDesc('offer_count')
+   ->limit(5)
+   ->get();
+   // Fetch top 
+   $topUsers = User::select('users.id', 'users.name', 'users.profile_photo_path', DB::raw('COUNT(offers.id) as offer_count'))
+   ->leftJoin('offers', 'users.id', '=', 'offers.user_id')
+   ->groupBy('users.id', 'users.name', 'users.profile_photo_path')
+   ->orderByDesc('offer_count')
+   ->limit(5)
+   ->get();
 
-        if ($category) {
-            $queryBuilder->where('category_id', $category); // Filter by category ID
-        }
-        if ($department) {
-            $queryBuilder->where('department_id', $department); // Filter by category ID
-        }
-        if ($type) {
-            $queryBuilder->where('type_id', $type); // Filter by category ID
-        }
-        if ($region) {
-            $queryBuilder->where('region_id', $region); // Filter by category ID
-        }
-        $offers = $queryBuilder->paginate(10);
-        $categoryName = Category::where('id', $category)->value('name');
-        return view('home', compact('offers','departments','types','categoryName'));
+    return view('home', compact('topCategories', 'topRegions','topUsers'));
     }
 
     }

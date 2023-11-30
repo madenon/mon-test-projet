@@ -273,3 +273,8 @@ select:focus {
         height: 40%;
     }
 }
+.route-active {
+    background-color: #f0f0f0; /* Gray background for active route */
+    border-left-color: #000; /* Black border for active route */
+    font-weight: bold; /* Bold text for active route */
+}

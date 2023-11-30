@@ -16,6 +16,20 @@ headerCategoriesButtonElement.addEventListener('click', () => {
     }
     isHeaderCategoriesDropdownMenuOpen = !isHeaderCategoriesDropdownMenuOpen
 })
+// Header filter dropdown
+const headerFilterButtonElement = window.document.getElementById('header-filter-button-btn')
+const headerFilterDropdownElement = window.document.getElementById('header-filter-dropdown-menu')
+let isHeaderFilterDropdownMenuOpen = false
+headerFilterButtonElement.addEventListener('click', () => {
+    if(isHeaderFilterDropdownMenuOpen){
+        headerFilterDropdownElement.style.display = "none"
+        
+    } else {
+        headerFilterDropdownElement.style.display = "flex"
+       
+    }
+    isHeaderFilterDropdownMenuOpen = !isHeaderFilterDropdownMenuOpen
+})
 // header region dropdown
 const headerRegionsButtonElement = window.document.getElementById('header-search-location-btn')
 const headerRegionsDropdownElement = window.document.getElementById('header-regions-dropdown-menu')

@@ -12,7 +12,7 @@
     <div class="offre-page mx-9">
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">{{ Breadcrumbs::render('offers') }}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ Diglactic\Breadcrumbs\Breadcrumbs::render('offers') }}</li>
             </ol>
         </nav>
     </div>
@@ -141,6 +141,14 @@
                             <img src="/images/Icon.svg" alt="">
                             <span>
                                 Etudie toute proposition
+                                @if(auth()->check() && $offer->user_id === auth()->user()->id)
+                                @foreach ($offer->preposition as $proposition)
+    <a href="#" style="background-color: #24a19c; color:white;" class="ml-5 w-50 mt-2 btn proposition-link" data-bs-toggle="modal" data-bs-target="#exampleModal" 
+      data-id="{{ $proposition->id }}" data-image="{{route('proposition-pictures-file-path',$proposition->images ?$proposition->images :'' )}}"  data-status="{{ $proposition->status }}" data-user="{{ $proposition->user }}" data-offer="{{ $proposition->offer }}" data-meet="{{ $proposition->meetup }}">
+        {{ $proposition->name }}
+    </a>
+@endforeach
+@endif
                             </span>
                         </span>
                     </div>
@@ -281,12 +289,296 @@
         </div>
     </section>
 
-
-    <script>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal content remains the same -->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Offer</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table align-middle mb-0 bg-white">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Image</th>
+                            <th>User</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="modalName"></td>
+                            <td id="modalStatus"></td>
+                            <td>  <img id="modalImage" src="" alt="Image"> </td>
+                            <td id="modalUser"></td>
+                            <td>
+                             <button type="button"  class="btn btn-success" id="acceptButton">
+                                  Accept
+                             </button>
+                             <button type="button" class="btn btn-danger" id="declineButton">
+                                 Decline
+                             </button>
+                             <button type="button" class="btn" id="meetButton">
+                                 Add Meetup
+                             </button>
+                             <button type="button" class="btn" id="meetButton">
+                                 Chat
+                             </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- show meetups -->
+                <h2 id="meetHeader">Meetups</h2>
+            <table id="meetTable" class="table align-middle">
+                <thead class="bg-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="meetupsTableBody">
+                    <td id="meetDate"></td>
+                    <td id="meetTime"></td>
+                    <td id="meetDescription"></td>
+                   <td id="meetStatus"></td>
+                </tbody>
+            </table>
+                 <!-- Meetup Schedule Form -->
+                 <form id="meetupForm">
+                @csrf
+                <input type="hidden" id="prepositionId" name="prepositionId" value="">
+                <div class="mb-3">
+                    <label for="meetupDate" class="form-label">Meetup Date</label>
+                    <input type="date" class="form-control" id="meetupDate" name="meetupDate" required>
+                </div>
+                <div class="mb-3">
+                    <label for="meetupTime" class="form-label">Meetup Time</label>
+                    <input type="time" class="form-control" id="meetupTime" name="meetupTime" required>
+                </div>
+                <div class="mb-3">
+                    <label for="meetupDescription" class="form-label">Meetup Description</label>
+                    <textarea class="form-control" id="meetupDescription" name="meetupDescription" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Schedule Meetup</button>
+            </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
         function changeMainImage(newImage) {
             const mainImage = document.getElementById('mainImage');
                 mainImage.src = window.location.origin +'/file/offer-pictures/'+newImage;
         }
+   
+    $(document).ready(function () {
+        var departmentValue = "{{ request('department') }}";
+        var typeValue = "{{ request('type') }}";
+        // Set the selected attribute for the department dropdown
+        $("#departmentSelect").val(departmentValue).prop('selected', true);
+
+        // Set the selected attribute for the type dropdown
+        $("#typeSelect").val(typeValue).prop('selected', true);
+        $('#exampleModal').on('hidden.bs.modal', function () {
+            $("#meetupForm").hide();
+    });
+        $('.proposition-link').click(function () {
+            // Get data from the clicked link
+            var propositionName = $(this).text();
+            var propositionStatus = $(this).data('status'); // Adjust based on your data attributes
+            var propositionUser = $(this).data('user'); // Adjust based on your data attributes
+            var propositionId=$(this).data('id');
+            var propositionImage=$(this).data('image');
+            var user=propositionUser.first_name+" "+propositionUser.last_name;
+            var descriptionData=$(this).data('meet');
+            console.log(descriptionData);
+            var meetDescription=descriptionData.description;
+            var meetDate=descriptionData.date;
+            var meetTime=descriptionData.time;
+            var meetStatus=descriptionData.status;
+// Set the value of the hidden input in meetup form
+            $('#prepositionId').val(propositionId);
+            // Update modal content
+            $('#modalName').text(propositionName);
+            $('#modalStatus').text(propositionStatus);
+            $('#modalUser').text(user);
+            $('#modalImage').attr('src',propositionImage);
+            // Update propositionId in button data attributes
+            $('#acceptButton').data('proposition-id', propositionId);
+            $('#acceptButton').data('proposition-id', propositionId);
+            $('#declineButton').data('proposition-id', propositionId);
+            // add meetup in table 
+            if(descriptionData){
+            $('#meetDescription').text(meetDescription);
+            $('#meetDate').text(meetDate);
+            $('#meetTime').text(meetTime);
+            $('#meetStatus').text(meetStatus);
+            $('#meetButton').hide();
+            $('#meetHeader').show();
+            $('#meetTable').show();
+        } 
+            else {
+                $('#meetDescription').empty();
+            $('#meetDate').empty();
+            $('#meetTime').empty();
+            $('#meetStatus').empty();
+            $('#meetButton').show();
+            $('#meetHeader').hide();
+            $('#meetTable').hide();
+            }
+
+            if(propositionStatus=="accepted" || propositionStatus=="refused" ){
+                $('#acceptButton').hide();
+                $('#declineButton').hide();
+            }
+            else{
+                $('#acceptButton').show();
+                $('#declineButton').show();
+            }
+           
+        });
+          // Handle Accept button click
+          $('#acceptButton').click(function () {
+            var propositionId = $(this).data('proposition-id');
+            updatePropositionStatus(propositionId, 'accepted');
+        });
+
+        // Handle Decline button click
+        $('#declineButton').click(function () {
+            var propositionId = $(this).data('proposition-id');
+            updatePropositionStatus(propositionId, 'declined');
+        });
+ // Handle Meet button click
+ $("#meetupForm").hide();
+ $('#meetButton').click(function () {
+    $("#meetupForm").show();
+
+        });
+        // Function to update proposition status via AJAX
+        function updatePropositionStatus(propositionId, newStatus) {
+            // Send an AJAX request to update the status
+            $.ajax({
+                type: 'POST',
+                url: '/update-proposition-status', // Replace with your actual route
+                data: {
+                    propositionId: propositionId,
+                    newStatus: newStatus,
+                },
+                success: function (response) {
+            // Handle success response
+
+            // Show success message
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'The proposition status has been updated.',
+            }).then(function () {
+                // Reload the page after showing the success message
+                location.reload();
+            });
+        },
+        error: function (error) {
+            
+            // Show error message
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Failed to update proposition status.',
+            });
+        }
+            });
+        }
+    
+    });
+    // for meetup form
+    $(document).ready(function () {
+        // Handle form submission
+        $('#meetupForm').submit(function (e) {
+            e.preventDefault();
+
+            // Get form data
+            var formData = {
+                prepositionId: $('#prepositionId').val(),
+                meetupDate: $('#meetupDate').val(),
+                meetupTime: $('#meetupTime').val(),
+                meetupDescription: $('#meetupDescription').val(),
+            };
+            console.log(formData);
+
+            // Perform AJAX request to save meetup schedule
+            $.ajax({
+                url: '/schedule-meetup',
+                method: 'POST',
+                data: formData,
+                success: function (response) {
+                    // Handle success response
+                    console.log(response);
+
+                    // Optionally, close the modal after a successful update
+                    $('#meetupModal').modal('hide');
+                },
+                error: function (error) {
+                    // Handle error response
+                    console.error(error);
+                }
+            });
+        });
+
+        // Open the modal and set the prepositionId
+        $('#meetupModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var prepositionId = button.data('preposition-id'); // Extract info from data-* attributes
+            $('#prepositionId').val(prepositionId); // Set the prepositionId in the form
+        });
+    });
+
+var meetups = {};
+
+// Function to populate the meetups table
+function populateMeetupsTable() {
+    var meetupsTableBody = document.getElementById('meetupsTableBody');
+
+    // Clear existing rows
+    meetupsTableBody.innerHTML = '';
+
+    // Loop through meetups and add rows to the table
+    
+        var row = meetupsTableBody.insertRow();
+        var dateCell = row.insertCell(0);
+        var timeCell = row.insertCell(1);
+        var descriptionCell = row.insertCell(2);
+        var statusCell = row.insertCell(3);
+
+        // Set cell values based on meetup data
+        dateCell.innerHTML = meetup.date;
+        timeCell.innerHTML = meetup.time;
+        descriptionCell.innerHTML = meetup.description;
+        statusCell.innerHTML = meetup.status;
+    
+}
+
+// Event listener for modal show event
+$('#yourModalId').on('show.bs.modal', function (event) {
+   
+    document.getElementById('modalName').innerHTML = preposition.name;
+    document.getElementById('modalStatus').innerHTML = preposition.status;
+    document.getElementById('modalUser').innerHTML = preposition.user_name;
+
+    // Populate meetups table
+    populateMeetupsTable();
+});
+
+
+
 
     </script>
         

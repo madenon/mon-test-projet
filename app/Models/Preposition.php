@@ -19,8 +19,9 @@ class Preposition extends Model
         'negotiation',
         'confirmed_at',
         'user_id',
+        'price',
+        'images',
     ];
-
     public function offer(): BelongsTo
     {
         return $this->belongsTo(Offer::class);
@@ -33,4 +34,8 @@ class Preposition extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function transactions():HasMany
+{
+    return $this->hasMany(Transaction::class);
+}
 }

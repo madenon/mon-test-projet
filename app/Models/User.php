@@ -2,14 +2,23 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Orchid\Filters\Types\Like;
 use Orchid\Filters\Types\Where;
 use Orchid\Filters\Types\WhereDateStartEnd;
 use Orchid\Platform\Models\User as Authenticatable;
 use App\Models\ratings;
 
-class User extends Authenticatable
+
+class User extends Authenticatable  implements MustVerifyEmail
 {
+        use HasApiTokens, HasFactory, Notifiable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -20,6 +29,11 @@ class User extends Authenticatable
         'email',
         'password',
         'permissions',
+        'last_name',
+        'first_name',
+        'profile_photo_path',
+        'is_online',
+        'avatar'
     ];
 
     /**
@@ -39,6 +53,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
+        'password' => 'hashed',
         'permissions'          => 'array',
         'email_verified_at'    => 'datetime',
     ];
@@ -68,6 +83,24 @@ class User extends Authenticatable
         'updated_at',
         'created_at',
     ];
+
+    public function getIsOnlineAttribute()
+    {
+        return $this->attributes['is_online'] ? 'Online' : 'Offline';
+    }
+    public function userInfo(): HasOne
+    {
+        return $this->hasOne(UserInfos::class);
+    }
+
+    public function offer(): HasMany
+    {
+        return $this->hasMany(Offer::class);
+    }
+    public function prepositions(): HasMany
+    {
+        return $this->hasMany(Preposition::class);
+    }
 
     public function ratingUser()
     {
