@@ -1,48 +1,20 @@
-<x-app-layout>
+@php
+$user=App\Models\User::find(request()->id);
+if ($user){
+    $last_login=Carbon\Carbon::parse($user->last_login);
+    $last_login=$last_login->diffForHumans();
+}
+
+
+@endphp
+<x-app-layout class="w-screen">
     @include('Chatify::layouts.headLinks')
-    <div class="container my-5 mx-4">
-        <div class="row">
-            <div class="col-3">
-                <ul class="">
-                    <li class="{{ request()->is('myaccount/index') ? 'route-active' : '' }}">
-                        <a class="header-user-avatar-dropdown-item" href="{{ route('myaccount.index') }}">
-                            <img src="{{ asset('images/user-icon-16.svg') }}" class="header-user-avatar-dropdown-item-img" alt="" />
-                            Mon compte
-                        </a>
-                    </li>
-                    <li class="{{ request()->is('moncompte/mesmessages') ? 'route-active' : '' }}">
-                        <a class="header-user-avatar-dropdown-item" href="{{ route('moncompte/mesmessages') }}">
-                            <img src="{{ asset('images/mail-icon-16.svg') }}" alt="" class="header-user-avatar-dropdown-item-img" />
-                            Mes messages
-                        </a>
-                    </li>
-                    <li class="{{ request()->is('myaccount/offers') ? 'route-active' : '' }}">
-                        <a class="header-user-avatar-dropdown-item" href="{{ route('myaccount.offers') }}">
-                            <img src="{{ asset('images/list-icon-16.svg') }}" alt="" class="header-user-avatar-dropdown-item-img" />
-                            Mes annonces
-                        </a>
-                    </li>
-                    <li class="{{ request()->is('propositions/index') ? 'route-active' : '' }}">
-                        <a class="header-user-avatar-dropdown-item" href="{{ route('propositions.index') }}">
-                            <img src="{{ asset('images/list-icon-16.svg') }}" alt="" class="header-user-avatar-dropdown-item-img" />
-                            Mes propositions
-                        </a>
-                    </li>
-                    <li class="{{ request()->is('transactions') ? 'route-active' : '' }}">
-                        <a class="header-user-avatar-dropdown-item" href="#">
-                            <img src="{{ asset('images/shopping-bag-icon-16.svg') }}" alt="" class="header-user-avatar-dropdown-item-img" />
-                            Mes transactions
-                        </a>
-                    </li>
-                    <li class="{{ request()->is('credibilite') ? 'route-active' : '' }}">
-                        <a class="header-user-avatar-dropdown-item" href="#">
-                            <img src="{{ asset('images/shield-icon-16.svg') }}" alt="" class="header-user-avatar-dropdown-item-img" />
-                            Crédibilité
-                        </a>
-                    </li>
-                </ul>
+    <div class="container my-5 mx-4 h-screen">
+        <div class="flex content-start justify-around">
+            <div class=" col-3 col-md-3 bg-white w-full shadow-lg rounded-xl">
+                <x-mini-menu></x-mini-menu>
             </div>
-            <div class="col-9">
+            <div class="col-12 col-md-8 ">
                 <div class="messenger">
                     {{-- ----------------------Users/Groups lists side---------------------- --}}
                     <div class="messenger-listView {{ !!$id ? 'conversation-active' : '' }}">
@@ -70,16 +42,9 @@
                             {{-- Lists [Users/Group] --}}
                             {{-- ---------------- [ User Tab ] ---------------- --}}
                             <div class="show messenger-tab users-tab app-scroll" data-view="users">
-                            {{-- Favorites --}}
-                            <div class="favorites-section">
-                                <p class="messenger-title"><span>Favorites</span></p>
-                                <div class="messenger-favorites app-scroll-hidden"></div>
-                                </div>
-                                {{-- Saved Messages --}}
-                                <p class="messenger-title"><span>Your Space</span></p>
+    
                                 {!! view('Chatify::layouts.listItem', ['get' => 'saved']) !!}
                                 {{-- Contact --}}
-                                <p class="messenger-title"><span>All Messages</span></p>
                                 <div class="listOfContacts" style="width: 100%;height: calc(100% - 272px);position: relative;"></div>
                             </div>
                             {{-- ---------------- [ Search Tab ] ---------------- --}}
@@ -103,13 +68,27 @@
                                     <a href="#" class="show-listView"><i class="fas fa-arrow-left"></i></a>
                                     <div class="avatar av-s header-avatar" style="margin: 0px 10px; margin-top: -5px; margin-bottom: -5px;">
                                     </div>
-                                    <a href="#" class="user-name">{{ config('chatify.name') }}</a>
+                                    <div class="flex flex-column justify-start content-start" >
+                                        <a href="#" class="user-name">{{ config('chatify.name') }}</a>
+                                        <div style="position:relative">
+                                            @if($user)
+                                                <span class="activeStatus @if(!$user->activeStatus) !bg-gray-400 @endif" style="left:0;bottom:30%"></span>
+                                                <span class="me-2" style="position:relative;left:12px" >
+                                                Online
+                                                @if($user->activeStatus)
+                                                now
+                                                @else
+                                                {{$last_login}}
+                                                @endif
+                                            </span>                                            
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                                 {{-- header buttons --}}
                                 <nav class="m-header-right">
-                                    <a href="#" class="add-to-favorite"><i class="fas fa-star"></i></a>
-                                    <a href="/"><i class="fas fa-home"></i></a>
                                     <a href="#" class="show-infoSide"><i class="fas fa-info-circle"></i></a>
+                                    <a href="#" class="danger delete-conversation red-600"><i class="fas fa-trash-alt"></i></a>
                                 </nav>
                             </nav>
                             {{-- Internet connection --}}
@@ -135,7 +114,7 @@
                                             <span class="dot dot-3"></span>
                                         </span>
                                     </div>
-                                </div>
+                                </div>P
                             </div>
                             
                         </div>

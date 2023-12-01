@@ -41,7 +41,7 @@ class ChatSeeder extends Seeder
                 'created_at' => now(),
                 'permissions' => '{}',
                 'updated_at' => now(),
-                'active_status' => 'active',
+                'active_status' => $is_online,
                 'avatar' => config('chatify.user_avatar.default'),
                 'dark_mode' => false,
                 'name' => $faker->name(),
@@ -63,9 +63,7 @@ class ChatSeeder extends Seeder
             else if($i<5)$state='archived';
             else $state='available';
 
-            $chatId=DB::table('chats')->insertGetId([
-                'state' => $state,
-            ]);  
+
             for ($j = 1; $j <= $numberOfMessages; $j++) {
                 $fromUserId=$adminId;
                 $toUserId = $userId;
@@ -73,7 +71,6 @@ class ChatSeeder extends Seeder
                 $seen=$j<rand(1,$numberOfMessages)?true:false;
                 DB::table('ch_messages')->insert([
                     'id' => $faker->uuid(),
-                    'chat_id'=> $chatId,
                     'from_id' => $fromUserId,
                     'to_id' => $toUserId,
                     'body' => $faker->sentence,

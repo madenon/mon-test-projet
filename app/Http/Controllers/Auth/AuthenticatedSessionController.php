@@ -28,6 +28,9 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->user()->is_online=true;
+        $request->user()->active_status=true;
+        $request->user()->last_login=now();
+
         $request->user()->save();
 
         $request->session()->regenerate();
@@ -43,6 +46,8 @@ class AuthenticatedSessionController extends Controller
     {
 
         $request->user()->is_online=false;
+        $request->user()->active_status=false;
+        $request->user()->last_login=now();
         $request->user()->save();
 
         Auth::guard('web')->logout();

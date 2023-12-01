@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Offer;
 use App\Models\Preposition;
+use App\Models\ChMessage;
 use App\Models\User;
 use App\Models\Transaction;
+use Illuminate\Support\Str;
 
 
 
@@ -23,8 +25,21 @@ class PropositionController extends Controller
 
     return view('preposition.index', compact('prepositions'));
     }
-    public function create($offerid,$userid)
-    { $offer = Offer::find($offerid);
+    public function create(Request $request,$offerid,$userid)
+    { 
+        //create request and don't authorize autotroc
+        $offer = Offer::find($offerid);
+        $request->merge([
+            'other_id'=>  $offer->user_id,
+            'user_id'=>  auth()->id(),
+        ]);
+        $request->validate([
+            'other_id' =>'required|integer',
+            'user_id'=>   'required|integer|different:other_id',
+        ],[
+            'user_id.different' => 'Vous ne pouvez pas faire de trocs avec vous meme, veuillez svp choisir l\'offre d\'une personne tierce'
+        ]);
+
         return view('preposition.create', compact('offer','userid'));
     }
 
@@ -35,6 +50,7 @@ class PropositionController extends Controller
         $request->validate([
             'name' => 'required',
             'offer_id' => 'required',
+            'user_id' => 'required',
             'status' => 'required|in:refused,pending,accepted',
             'price' => 'nullable|numeric',
             
@@ -52,10 +68,21 @@ class PropositionController extends Controller
 // Create the Preposition
 $preposition = Preposition::create($request->except('image'));
 
+$offer=Offer::find($request->offer_id);
+$message = ChMessage::create([
+    'id' => Str::uuid()->toString(),
+    'from_id' => $request->user_id,
+    'to_id' =>$offer->user->id,
+    'body' => $request->negotiation,
+    'preposition_id' => $preposition->id,
+]);
+
+
 // You can associate the image with the preposition if needed
 if (isset($imageName)) {
-    $preposition->update(['images' => $imageName]);
+    $preposition->update(['images' => json_encode($imageName)]);
 }
+   //Create a message for proposition 
    
 
         // You can add a success message or redirect to a different page
@@ -126,8 +153,9 @@ public function update(Request $request, $prepositionId)
         return response()->json(['success' => true]);
     }
 
-    public function getChatRoute(P$preposition){
-        $id=1;
-        return ' moncompte/mesmessages/'.$id;
+    public function chat($prepositionId){
+        $preposition = Preposition::find($prepositionId);
+        $id=$preposition->offer->user->id;
+        return redirect()->route('user',$id);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Chatify\Http\Controllers;
+namespace App\Http\Controllers\vendor\Chatify;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -186,8 +186,31 @@ class MessagesController extends Controller
             $response['messages'] = '';
             return Response::json($response);
         }
-        $allMessages = null;
+        $allMessages =null;
+
+        $datetime=null;
+        $newdatetime=null;
+        $oldDate=null;
+        $newDate=null;
+        
         foreach ($messages->reverse() as $message) {
+            $newdatetime=$message->created_at;
+
+            if($newdatetime)$newDate = $newdatetime->format('Y-m-d');
+            if($datetime)$oldDate = $datetime->format('Y-m-d');
+            if(!$oldDate || $newDate!=$oldDate){
+                $datetime=$newdatetime;
+                $currentDate = now()->format('Y-m-d');
+                $givenDate = $datetime->format('Y-m-d');
+                if ($givenDate == $currentDate) {
+                    $datetimeString= 'Today';
+                } elseif ($givenDate == date('Y-m-d', strtotime('-1 day'))) {
+                    $datetimeString= 'Yesterday';
+                } else {
+                    $datetimeString= date('d F Y', strtotime($datetime));
+                }
+                $allMessages .= '<p class="messenger-title"><span>'.$datetimeString.'</span></p>';
+            }
             $allMessages .= Chatify::messageCard(
                 Chatify::parseMessage($message)
             );

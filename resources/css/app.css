@@ -278,3 +278,8 @@ select:focus {
     border-left-color: #000; /* Black border for active route */
     font-weight: bold; /* Bold text for active route */
 }
+
+
+.card-header{
+    background-color:#24A19C !important;
+}

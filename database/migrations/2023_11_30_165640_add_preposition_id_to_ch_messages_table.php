@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('ch_messages', function (Blueprint $table) {
-            $table->unsignedBigInteger('chat_id');
-
-            $table->foreign('chat_id')->references('id')->on('chats');
+            $table->unsignedBigInteger('preposition_id')->nullable();
+            $table->foreign('preposition_id')
+                ->references('id')
+                ->on('prepositions');
         });
     }
 
@@ -24,11 +25,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('ch_messages', function (Blueprint $table) {
-            // Drop the foreign key constraint
-            $table->dropForeign(['chat_id']);
-            
-            // Remove the column
-            $table->dropColumn('chat_id');
+            $table->dropForeign(['preposition_id']);
+            $table->dropColumn(['preposition_id']);
+
         });
     }
 };

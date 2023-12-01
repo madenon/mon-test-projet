@@ -56,6 +56,15 @@
             </div>
         </div>
         <div class="w-[38%] partie-detail">
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
             <h2 class="text-titles  font-semibold">{{ $offer->title }}</h2>
             @auth
     <form action="{{ route('propositions.create', ['offerid' => $offer->id,'userid'=>auth()->id()]) }}" method="get">
@@ -97,7 +106,7 @@
                             Mis en ligne le:
                         </span>
                         <span class="text-titles text-lg flex ">
-                            {{ $offer->user->created_at->format('d M Y | H:i:s') }}
+                            {{ $offer->created_at->format('d M Y | H:i:s') }}
                         </span>
                     </div>
                 </div>
@@ -377,7 +386,7 @@
 <script>
         function changeMainImage(newImage) {
             const mainImage = document.getElementById('mainImage');
-                mainImage.src = window.location.origin +'/file/offer-pictures/'+newImage;
+                mainImage.src = window.location.origin +'/storage/offer-pictures/'+newImage;
         }
    
     $(document).ready(function () {

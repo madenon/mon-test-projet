@@ -34,9 +34,9 @@ $topRegions = Region::select('regions.id','regions.name', DB::raw('COUNT(offers.
    ->limit(5)
    ->get();
    // Fetch top 
-   $topUsers = User::select('users.id', 'users.name', 'users.profile_photo_path', DB::raw('COUNT(offers.id) as offer_count'))
+   $topUsers = User::select('users.id', 'users.name', 'users.avatar', DB::raw('COUNT(offers.id) as offer_count'))
    ->leftJoin('offers', 'users.id', '=', 'offers.user_id')
-   ->groupBy('users.id', 'users.name', 'users.profile_photo_path')
+   ->groupBy('users.id', 'users.name', 'users.avatar')
    ->orderByDesc('offer_count')
    ->limit(5)
    ->get();
