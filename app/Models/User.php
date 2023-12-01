@@ -12,6 +12,7 @@ use Orchid\Filters\Types\Like;
 use Orchid\Filters\Types\Where;
 use Orchid\Filters\Types\WhereDateStartEnd;
 use Orchid\Platform\Models\User as Authenticatable;
+use App\Models\ratings;
 
 
 class User extends Authenticatable  implements MustVerifyEmail
@@ -99,5 +100,15 @@ class User extends Authenticatable  implements MustVerifyEmail
     public function prepositions(): HasMany
     {
         return $this->hasMany(Preposition::class);
+    }
+
+    public function ratingUser()
+    {
+        return $this->hasMany(Ratings::class, 'user_id');
+    }
+
+    public function receivedRatings()
+    {
+        return $this->hasMany(Ratings::class, 'rated_by_user_id');
     }
 }

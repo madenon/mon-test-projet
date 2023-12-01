@@ -79,6 +79,13 @@ Route::controller(PusherController::class)->prefix('/messages')->group(function 
     Route::post('/receive','receive');
 });
 
+route::middleware('auth')->group(function(){
+    Route::post('/{user_id}/{rated_by_user_id}/stars', [MyAccountController::class, 'rateUser'])->name('user.rate');
+});
+
+route::middleware('auth')->group(function(){
+    Route::post('/{user_id}/{rated_by_user_id}/stars', [MyAccountController::class, 'rateUser'])->name('user.rate');
+});
 
 Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
 Route::get('/offres/search', [OfferController::class, 'search'])->name('offer.search');
@@ -128,6 +135,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/moncompte/modifier/{offerId}', [MyAccountController::class, 'editOffer'])->name('myaccount.editOffer');
     Route::put('/moncompte/mettreajours/{offerId}', [MyAccountController::class, 'updateOffer'])->name('myaccount.updateOffer');
     Route::delete('/moncompte/offres/{offer}', [OfferController::class, 'destroyOffer'])->name('myaccount.deleteOffer');
+    
 });
 
 require __DIR__.'/auth.php';

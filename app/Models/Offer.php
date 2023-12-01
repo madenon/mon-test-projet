@@ -36,6 +36,7 @@ class Offer extends Model
 
     protected $casts = [
         'level' => ExperienceLevel::class,
+        'buy_authorized'=>'boolean'
     ];
 
     public function user(): BelongsTo
