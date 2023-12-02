@@ -17,9 +17,12 @@ use App\Http\Controllers\MeetupController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PusherController;
+use App\Http\Controllers\vendor\Chatify\MessagesController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Providers\RouteServiceProvider;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -31,32 +34,39 @@ use Illuminate\Http\Request;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('file/{name}',function(Request $request){
+Route::get('storage/{name}',function(Request $request){
     $url=storage_path('app/public/profile_pictures/'.$request->name);
     return response()->file($url);
  });
 
 Route::get(
-    'file/offer-pictures/{name}',
+    'storage/offer-pictures/{name}',
     function(Request $request){
         $url=storage_path('app/public/offer_pictures/'.$request->name);
         return response()->file($url);
     }
 )->name('offer-pictures-file-path');
 Route::get(
-    'file/proposition-pictures/{name}',
+    'storage/proposition-pictures/{name}',
     function(Request $request){
         $url=storage_path('app/public/proposition_pictures/'.$request->name);
         return response()->file($url);
     }
 )->name('proposition-pictures-file-path');
 Route::get(
-    'file/profile_pictures/{name}',
+    'storage/profile_pictures/{name}',
     function(Request $request){
         $url=storage_path('app/public/profile_pictures/'.$request->name);
         return response()->file($url);
     }
 )->name('profile_pictures-file-path');
+Route::get(
+    'storage/attachments/{name}',
+    function(Request $request){
+        $url=storage_path('app/public/attachments/'.$request->name);
+        return response()->file($url);
+    }
+)->name('attachments-file-path');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -136,6 +146,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/moncompte/mettreajours/{offerId}', [MyAccountController::class, 'updateOffer'])->name('myaccount.updateOffer');
     Route::delete('/moncompte/offres/{offer}', [OfferController::class, 'destroyOffer'])->name('myaccount.deleteOffer');
     
+});
+Route::middleware('auth')->group(function () {
+    Route::get(RouteServiceProvider::MYMESSAGES.'/{id}/{msgId}', [MessagesController::class,'viewMessage'])->name('messages.viewMessage');    
 });
 
 require __DIR__.'/auth.php';

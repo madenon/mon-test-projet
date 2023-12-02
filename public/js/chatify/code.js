@@ -472,9 +472,20 @@ function sendMessage() {
                 tempID
               )
             );
+          messagesContainer
+            .find(".message-replies")
+            .append(
+              sendTempMessageCard(
+                inputValue + "\n" + loadingSVG("28px"),
+                tempID
+              )
+            );
         } else {
           messagesContainer
             .find(".messages")
+            .append(sendTempMessageCard(inputValue, tempID));
+          messagesContainer
+            .find(".message-replies")
             .append(sendTempMessageCard(inputValue, tempID));
         }
         // scroll to bottom
@@ -1474,6 +1485,11 @@ $(document).ready(function () {
 
   // Delete Conversation button
   $(".messenger-infoView-btns .delete-conversation").on("click", function () {
+    app_modal({
+      name: "delete",
+    });
+  });
+  $(".m-header-right .delete-conversation").on("click", function () {
     app_modal({
       name: "delete",
     });

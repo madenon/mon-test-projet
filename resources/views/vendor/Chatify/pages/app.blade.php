@@ -14,7 +14,7 @@ if ($user){
             <div class=" col-3 col-md-3 bg-white w-full shadow-lg rounded-xl">
                 <x-mini-menu></x-mini-menu>
             </div>
-            <div class="col-12 col-md-8 ">
+            <div class="col-12 col-md-8 h-screen">
                 <div class="messenger">
                     {{-- ----------------------Users/Groups lists side---------------------- --}}
                     <div class="messenger-listView {{ !!$id ? 'conversation-active' : '' }}">
@@ -36,19 +36,25 @@ if ($user){
                                     <span class="far fa-user"></span> Contacts</a>
                             </div> --}}
                         </div>
-            
-                            {{-- tabs and lists --}}
-                            <div class="m-body contacts-container">
-                            {{-- Lists [Users/Group] --}}
-                            {{-- ---------------- [ User Tab ] ---------------- --}}
-                            <div class="show messenger-tab users-tab app-scroll" data-view="users">
-    
-                                {!! view('Chatify::layouts.listItem', ['get' => 'saved']) !!}
-                                {{-- Contact --}}
-                                <div class="listOfContacts" style="width: 100%;height: calc(100% - 272px);position: relative;"></div>
+                        {{-- tabs and lists --}}
+                        <div class="m-body contacts-container">
+                        {{-- Lists [Users/Group] --}}
+                        {{-- ---------------- [ User Tab ] ---------------- --}}
+                        <div class="show messenger-tab users-tab app-scroll" data-view="users">
+                            {{-- Favorites --}}
+                            <div class="favorites-section">
+                                <!-- <p class="messenger-title"><span>Favorites</span></p> -->
+                                <div class="messenger-favorites app-scroll-hidden"></div>
                             </div>
+                            {{-- Saved Messages --}}
+                            <!-- <p class="messenger-title"><span>Your Space</span></p> -->
+                            {!! view('Chatify::layouts.listItem', ['get' => 'saved']) !!}
+                            {{-- Contact --}}
+                            <!-- <p class="messenger-title"><span>All Messages</span></p> -->
+                            <div class="listOfContacts" style="width: 100%;height: calc(100% - 272px);position: relative;"></div>
+                        </div>
                             {{-- ---------------- [ Search Tab ] ---------------- --}}
-                            <div class="messenger-tab search-tab app-scroll" data-view="search">
+                        <div class="messenger-tab search-tab app-scroll" data-view="search">
                                 {{-- items --}}
                                 <p class="messenger-title"><span>Search</span></p>
                                 <div class="search-records">
@@ -57,7 +63,7 @@ if ($user){
                             </div>
                         </div>
                     </div>
-                    
+            
                     {{-- ----------------------Messaging side---------------------- --}}
                     <div class="messenger-messagingView">
                         {{-- header title [conversation name] amd buttons --}}
@@ -83,12 +89,11 @@ if ($user){
                                             </span>                                            
                                             @endif
                                         </div>
-                                    </div>
-                                </div>
+                                    </div>                                </div>
                                 {{-- header buttons --}}
                                 <nav class="m-header-right">
-                                    <a href="#" class="show-infoSide"><i class="fas fa-info-circle"></i></a>
                                     <a href="#" class="danger delete-conversation red-600"><i class="fas fa-trash-alt"></i></a>
+                                    <a href="#" class="show-infoSide"><i class="fas fa-info-circle"></i></a>
                                 </nav>
                             </nav>
                             {{-- Internet connection --}}
@@ -98,9 +103,11 @@ if ($user){
                                 <span class="ic-noInternet">No internet access</span>
                             </div>
                         </div>
-                        
+            
                         {{-- Messaging area --}}
                         <div class="m-body messages-container app-scroll">
+                            
+                            @if (!request()->msgId)
                             <div class="messages">
                                 <p class="message-hint center-el"><span>Please select a chat to start messaging</span></p>
                             </div>
@@ -114,9 +121,38 @@ if ($user){
                                             <span class="dot dot-3"></span>
                                         </span>
                                     </div>
-                                </div>P
+                                </div>
                             </div>
-                            
+                            @else
+                            <div class="max-w-3xl mx-auto">
+                                @php
+                                $message=App\Models\ChMessage::where('id',request()->msgId)->first();
+                                @endphp
+                                <div class="flex content-center ps-2">
+                                    <div class="m-0">
+                                        <a href="{{route('user',request()->id)}}" ><i class="fas fa-arrow-left fa-2x" style="color: {{$user->messenger_color}}"></i></a>
+                                    </div>
+                                    @include('Chatify::layouts.messageCard',Chatify::parseMessage($message))
+                                </div>
+                                <!-- Replies -->
+                                <div class="ms-20 me-2">
+                                    
+                                    <div class="message-replies">
+                                    @if ($message->replies && count($message->replies)>0)
+                                        @foreach($message->replies as $reply) 
+                                            @include('Chatify::layouts.messageCard',Chatify::parseMessage($reply->reply))
+                                        @endforeach        
+                                    @endif
+                                    </div>
+
+                                </div>
+                                    
+                            </div>
+
+
+                            @endif
+
+            
                         </div>
                         {{-- Send Message Form --}}
                         @include('Chatify::layouts.sendForm')
@@ -131,11 +167,11 @@ if ($user){
                         {!! view('Chatify::layouts.info')->render() !!}
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>
-    
+
     @include('Chatify::layouts.modals')
     @include('Chatify::layouts.footerLinks')
-    
 </x-app-layout>

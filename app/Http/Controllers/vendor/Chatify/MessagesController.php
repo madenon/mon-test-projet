@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Response;
 use App\Models\User;
 use App\Models\ChMessage as Message;
 use App\Models\ChFavorite as Favorite;
+use App\Models\Reply;
 use Chatify\Facades\ChatifyMessenger as Chatify;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -139,6 +140,13 @@ class MessagesController extends Controller
                     'old_name' => htmlentities(trim($attachment_title), ENT_QUOTES, 'UTF-8'),
                 ]) : null,
             ]);
+            //It is a reply
+            if( $request['msgId']){
+                $reply=Reply::create( [
+                    'message_id'=> $request['msgId'], 
+                    'reply_id'=> $message->id
+                ]);
+            }
             $messageData = Chatify::parseMessage($message);
             if (Auth::user()->id != $request['id']) {
                 Chatify::push("private-chatify.".$request['id'], 'messaging', [
@@ -194,6 +202,7 @@ class MessagesController extends Controller
         $newDate=null;
         
         foreach ($messages->reverse() as $message) {
+            if($message->parent)continue;
             $newdatetime=$message->created_at;
 
             if($newdatetime)$newDate = $newdatetime->format('Y-m-d');
@@ -503,4 +512,22 @@ class MessagesController extends Controller
             'status' => $status,
         ], 200);
     }
+
+
+    /**
+     * Returning the view of the message with the required data.
+     *
+     * @param int $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function viewMessage( $idUser=null,$idMsg=null)
+    {
+        $messenger_color = Auth::user()->messenger_color;
+        return view('Chatify::pages.app', [
+            'id' => $idUser ?? 0,
+            'messengerColor' => $messenger_color ? $messenger_color : Chatify::getFallbackColor(),
+            'dark_mode' => Auth::user()->dark_mode < 1 ? 'light' : 'dark',
+        ]);
+    }
+
 }

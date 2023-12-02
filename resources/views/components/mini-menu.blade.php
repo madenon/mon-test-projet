@@ -22,7 +22,7 @@
         </a>
     </li>
     <li>
-        <a href="{{ route('moncompte/mesmessages') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:w-56 group no-underline {{ request()->is('moncompte/mesmessages') ? 'font-bold' : '' }}">
+        <a href="{{ route('moncompte/mesmessages') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:w-56 group no-underline {{ request()->is('moncompte/mesmessages*') ? 'font-bold' : '' }}">
             <img src="{{ asset('images/exchange-44.svg') }}" class="header-user-avatar-dropdown-item-img w-4 h-4" alt="" />
             <span class="flex-1 ms-3 whitespace-nowrap">Mes messages</span>
         </a>
