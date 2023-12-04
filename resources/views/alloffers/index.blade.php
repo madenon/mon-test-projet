@@ -195,16 +195,4 @@
         $("#typeSelect").val(typeValue).prop('selected', true);
  });
 </script>
-@php
-    function getStatusBadgeClass($status) {
-        switch ($status) {
-            case 'validated':
-                return 'bg-success';
-            case 'pending':
-                return 'bg-warning';
-            case 'accepted':
-                return 'bg-primary';
-           
-        }
-    }
-    @endphp
+

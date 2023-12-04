@@ -654,7 +654,7 @@ body {
 
 .offer_image {
     display: flex;
-    width: 300px;
+    width: 40%;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;

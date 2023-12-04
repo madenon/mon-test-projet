@@ -15,10 +15,9 @@
     <h2 class="d-flex justify-content-center">Top Users</h2>
         <ul class="mt-4">
         @foreach ($topUsers as $user)
-        @foreach ($topUsers as $user)
             <li class="user-item">
                 <div class="media">
-                    <img src="{{ route('profile_pictures-file-path', $user->profile_photo_path) }}" class="rounded-full max-w-15 max-h-8" alt="{{ $user->name }} Avatar">
+                    <img src="{{ route('profile_pictures-file-path', $user->avatar) }}" class="rounded-full max-w-15 max-h-8" alt="{{ $user->name }} Avatar">
                 </div>
                 <div class="details">
                     <a class="sg-home-link" href="#" data-target="#LoginProfilModal104" data-toggle="modal">{{ $user->name }}</a>
@@ -28,7 +27,7 @@
                 </div>
             </li>
         @endforeach
-        @endforeach
+
         </ul>
 </div>
 

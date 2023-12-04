@@ -1,4 +1,5 @@
 <?php
+use App\Providers\RouteServiceProvider;
 
 return [
     /*
@@ -22,14 +23,14 @@ return [
     |-------------------------------------
     */
     'routes' => [
-        'prefix' => env('CHATIFY_ROUTES_PREFIX', 'moncompte/mesmessages'),
+        'prefix' => env('CHATIFY_ROUTES_PREFIX', RouteServiceProvider::MYMESSAGES),
         'middleware' => env('CHATIFY_ROUTES_MIDDLEWARE', ['web','auth']),
         'namespace' => env('CHATIFY_ROUTES_NAMESPACE', 'App\Http\Controllers\vendor\Chatify'),
     ],
     'api_routes' => [
-        'prefix' => env('CHATIFY_API_ROUTES_PREFIX', 'chatify/api'),
+        'prefix' => env('CHATIFY_API_ROUTES_PREFIX', RouteServiceProvider::MYMESSAGES.'/api'),
         'middleware' => env('CHATIFY_API_ROUTES_MIDDLEWARE', ['api']),
-        'namespace' => env('CHATIFY_API_ROUTES_NAMESPACE', 'Chatify\Http\Controllers\Api'),
+        'namespace' => env('CHATIFY_API_ROUTES_NAMESPACE', 'App\Http\Controllers\vendor\Chatify\Api'),
     ],
 
     /*

@@ -40,7 +40,7 @@
                         <div class="flex flex-wrap justify-center">
                             <div class="w-full flex justify-center">
                                 <div class="relative mt-4">
-                                    <img src="{{ route('profile_pictures-file-path',$user->profile_photo_path) }}" class="rounded-full w-36 h-36"/>
+                                    <img src="{{ route('profile_pictures-file-path',$user->avatar) }}" class="rounded-full w-36 h-36"/>
                                 </div>
                             </div>
                             <div class="text-center mt-2">

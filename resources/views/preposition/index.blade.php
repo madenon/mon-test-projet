@@ -1,3 +1,4 @@
+
 <x-app-layout>
 <div class="container">
         <h1 class="m-4">Prepositions List</h1>
@@ -8,7 +9,7 @@
                     <th>Image</th>
                     <th>Price</th>
                     <th>Status</th>
-                    <th>User</th>
+                    <th>Maker</th>
                     <th>Offer</th>
                     <th>Meet</th>
                     <th>Actions</th>
@@ -22,19 +23,19 @@
                              /></td>
                              <td>{{ $preposition->price }}</td>
                         <td ><span class="badge {{ getStatusBadgeClass($preposition->status) }} rounded-pill d-inline">
-                {{ $preposition->status }}
-            </span></td>
+                            {{ $preposition->status }}
+                        </span></td>
            
-                        <td>{{ $preposition->user_name }}</td>
+                        <td>{{ $preposition->offer->user->name }}</td>
                         <td>{{ $preposition->offer_name }}</td>
                         <td>@if($preposition->meetup)
                             <button type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button " data-bs-toggle="modal" data-bs-target="#meetModal">
 <i class="fas fa-calendar" style="color: #24a19c;"></i></button>@endif</td>
                         <td>
                             <!-- Chat button with icon -->
-                            <button type="button" class="btn  chat-button" href="">
+                            <a type="button" class="btn  chat-button" href="{{route('propositions.chat',$preposition->id)}}">
                                 <i class="fas fa-comment-dots" style="color: #24a19c;"></i>
-                            </button>
+                            </a>
                             <!-- Edit button with icon --> @if($preposition->status!='accepted')
                             <button type="button" class="btn edit-button" data-bs-toggle="modal" data-bs-target="#editModal{{ $preposition->id }}">
                                 <i class="fas fa-edit" style="color: #ffc107;"></i>
@@ -127,7 +128,7 @@
                 return 'bg-danger';
             case 'pending':
                 return 'bg-warning';
-            case 'accepted':
+            case 'completed':
                 return 'bg-success';
            
         }
