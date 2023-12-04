@@ -89,6 +89,7 @@ route::middleware('auth')->group(function(){
 
 Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
 Route::get('/offres/search', [OfferController::class, 'search'])->name('offer.search');
+Route::post('/update-transaction-status/{transactionId}/{status}', [TransactionController::class, 'updateTransactionStatus']);
 
 //Route::get('/offres/{categoryslug}', [OfferController::class, 'offersByCategory'])->name('offer.offersByCategory');
 Route::middleware('auth')->group(function () {

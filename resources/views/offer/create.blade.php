@@ -190,13 +190,13 @@
             <h3 class="text-lg font-bold text-titles mb-3">Votre troc (Contre quoi voulez-vous échanger ?)</h3>
                 <hr>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="exchangeCheckbox" name="exchangeCheckbox">
+                        <input type="checkbox" class="form-check-input" id="exchangeCheckbox" name="exchangeCheckbox" checked>
                         <label class="form-check-label" for="exchangeCheckbox">Etudier toutes les propositions</label>
                     </div>
 
                     <!-- Input lines for adding values -->
                     <div class="input-group mt-3">
-                        <input type="text" class="form-control" placeholder="Enter value">
+                        <input type="text" name="dynamicInputs[]" class="form-control" >
                         <button class="btn btn-outline-secondary" type="button" onclick="addInput()">+</button>
                     </div>
 
@@ -211,7 +211,7 @@
                 <hr>
                     <div class="form-group">
                         <label for="valueInput">Valeur</label>
-                        <input type="text" class="form-control" id="valueInput" name="valueInput" placeholder="Enter value">
+                        <input type="text" class="form-control" id="valueInput" name="valueInput" placeholder="Prix">
                     </div>
 
                     <!-- Checkbox for "autorise la vente" -->
@@ -224,8 +224,9 @@
         </div>
     </div>
 </div>
+    <!-- Section 1: Compte à rebours 
+
 <div class="border-b border-line py-4 mt-4">
-    <!-- Section 1: Compte à rebours -->
     <div>
         <h3>Compte à rebours</h3>
         <div class="form-check">
@@ -233,14 +234,10 @@
             <label class="form-check-label" for="countdownCheckbox">Déclencher un compte à rebours</label>
         </div>
 
-        <!-- Additional elements if countdownCheckbox is checked -->
         <div id="countdownOptions" style="display: none;">
-            <!-- Elements related to countdown options -->
-            <!-- Add your countdown options here -->
         </div>
     </div>
 
-    <!-- Section 2: Mise en ligne de l'annonce -->
     <div>
         <h3>Mise en ligne de l'annonce</h3>
         <div class="form-check">
@@ -253,18 +250,15 @@
             <label class="form-check-label" for="differeCheckbox">Différé</label>
         </div>
 
-        <!-- Additional elements if differeCheckbox is checked -->
         <div id="differeOptions" style="display: none;">
-            <!-- Elements related to differe options -->
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="option6h" name="option6h">
                 <label class="form-check-label" for="option6h">6 heures</label>
             </div>
 
-            <!-- Add more differe options here -->
         </div>
     </div>
-</div>
+</div> --> 
 
                 <div class="flex justify-end gap-2">
                     <button
@@ -283,13 +277,7 @@
 </x-app-layout>
 <script>
      // Add event listeners to show/hide additional options based on checkbox state
-     document.getElementById('countdownCheckbox').addEventListener('change', function () {
-        document.getElementById('countdownOptions').style.display = this.checked ? 'block' : 'none';
-    });
-
-    document.getElementById('differeCheckbox').addEventListener('change', function () {
-        document.getElementById('differeOptions').style.display = this.checked ? 'block' : 'none';
-    });
+    
      function addInput() {
         var container = document.getElementById("dynamicInputsContainer");
         var input = document.createElement("input");

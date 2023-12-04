@@ -122,7 +122,8 @@
                             $offer->department->name}}
                         </span>
                     </div>
-                </div> @if(auth()->check() && $offer->user_id === auth()->user()->id)
+                    @if(auth()->check() && $offer->user_id === auth()->user()->id)
+                            </div>
                 <div class="flex flex-col items-center pt-3">
     <h2 class="text-center text-black">Propositions sur cette offre</h2>
 
@@ -155,15 +156,19 @@
                     <div class="m-4 bg-gray-100 p-4 rounded-lg">
                         <h5>À ÉCHANGER CONTRE :</h5>
                         <span class="flex gap-2 px-5">
+                        @if($offer->specify_proposition)
                             <img src="/images/Icon.svg" alt="">
                             <span>
                                 Etudie toute proposition
                             </span>
+                            @endif
                         </span>
                         @if($offer->dynamic_inputs)
                         @foreach (json_decode($offer->dynamic_inputs, true) as $prop )
+                        @if($prop!=null)
                         <span class="flex gap-2 px-5">
                             <img src="/images/Icon.svg" alt="">  {{$prop}} </span>
+                            @endif
                                 @endforeach
                                 @endif
                     </div>

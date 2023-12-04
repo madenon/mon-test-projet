@@ -66,7 +66,7 @@
         @if(request()->has('region'))
             <input type="hidden" name="region" value="{{ request('region') }}">
         @endif
-        <button class="mt-1" id="button-filter">Appliquer les filtres</button>
+        <button class="mt-1 button-filter">Appliquer les filtres</button>
     </div>
 </form>
 

@@ -32,7 +32,7 @@
 <i class="fas fa-calendar" style="color: #24a19c;"></i></button>@endif</td>
                         <td>
                             <!-- Chat button with icon -->
-                            <button type="button" class="btn  chat-button" href="{{getChatRoute($preposition)}}">
+                            <button type="button" class="btn  chat-button" href="">
                                 <i class="fas fa-comment-dots" style="color: #24a19c;"></i>
                             </button>
                             <!-- Edit button with icon --> @if($preposition->status!='accepted')

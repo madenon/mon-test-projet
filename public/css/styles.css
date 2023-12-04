@@ -836,7 +836,7 @@ body {
 
 }
 
-#button-filter {
+.button-filter {
     border-radius: 4px;
     border: 1px solid var(--primary-color);
     background: var(--primary-color);
@@ -848,6 +848,20 @@ body {
     align-items: center;
     display: flex;
     color: white;
+    text-decoration: none;
+    
+}
+.reject {
+    border-radius: 4px;
+    border: 1px solid red;
+    min-width: 120px ;
+    height: 45px ;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: black;
     text-decoration: none;
     
 }

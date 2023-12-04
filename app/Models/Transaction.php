@@ -16,6 +16,7 @@ class Transaction extends Model
         'amount',
         'name',
         'date',
+        'reason'
     ];
 
     // Define relationship with Proposition model
