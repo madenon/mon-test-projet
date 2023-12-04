@@ -90,12 +90,9 @@ Route::controller(PusherController::class)->prefix('/messages')->group(function 
 });
 
 route::middleware('auth')->group(function(){
-    Route::post('/{user_id}/{rated_by_user_id}/stars', [MyAccountController::class, 'rateUser'])->name('user.rate');
+    Route::post('/stars/{user_id}/{rated_by_user_id}', [MyAccountController::class, 'rateUser'])->name('user.rate');
 });
 
-route::middleware('auth')->group(function(){
-    Route::post('/{user_id}/{rated_by_user_id}/stars', [MyAccountController::class, 'rateUser'])->name('user.rate');
-});
 
 Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
 Route::get('/offres/search', [OfferController::class, 'search'])->name('offer.search');
@@ -118,12 +115,18 @@ Route::get('/alloffers', [AlloffersController::class, 'index'])->name('alloffers
 
 
 Route::get('/offres/{type}', [TypeController::class, 'index'])->name('type.index');
-Route::get('/propositions/create/{offerid}/{userid}', [PropositionController::class, 'create'])->name('propositions.create');
-Route::post('/proposition', [PropositionController::class, 'store'])->name('propositions.store');
-Route::get('/propositions', [PropositionController::class, 'index'])->name('propositions.index');
-Route::post('/update-proposition/{prepositionId}', [PropositionController::class, 'update'])->name('update-proposition');
-Route::post('/update-proposition-status', [PropositionController::class, 'updateStatus']);
-Route::delete('/delete-proposition/{prepositionId}', [PropositionController::class, 'destroy'])->name('delete-proposition');
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/propositions/create/{offerid}/{userid}', [PropositionController::class, 'create'])->name('propositions.create');
+    Route::post('/propositions', [PropositionController::class, 'store'])->name('propositions.store');
+    Route::get('/propositions', [PropositionController::class, 'index'])->name('propositions.index');
+    Route::get('/propositions/chat/{prepositionId}', [PropositionController::class, 'chat'])->name('propositions.chat');
+    Route::post('/update-proposition/{prepositionId}', [PropositionController::class, 'update'])->name('update-proposition');
+    Route::post('/update-proposition-status', [PropositionController::class, 'updateStatus']);
+    Route::delete('/delete-proposition/{prepositionId}', [PropositionController::class, 'destroy'])->name('delete-proposition');
+});
 Route::post('/schedule-meetup', [MeetupController::class, 'scheduleMeetup']);
 Route::post('/update-meet-status/{meetId}', [MeetupController::class, 'updateMeetStatus']);
 // transactions 
