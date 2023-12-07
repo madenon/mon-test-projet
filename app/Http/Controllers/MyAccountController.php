@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Enums\Condition;
 use App\Enums\ExperienceLevel;
 use App\Models\Category;
-use App\Models\Ratings;
 use App\Models\Department;
 use App\Models\Offer;
 use App\Models\Preposition;
@@ -19,47 +18,37 @@ use App\Models\OfferImages;
 
 class MyAccountController extends Controller
 {
-    public function index(){
+    public function index($id=null){
         $user = Auth::user();
         $userInfo = UserInfos::where('user_id', $user->id)->first();
         $offer = Offer::where('user_id', $user->id)->first();
 
-        $offerPrepostion = Preposition::where('offer_id', $offer->id)->count();
-        $finishedOffers = Offer::whereNotNull('deleted_at')->count();
-        $offersInProgress = Offer::whereNull('deleted_at')->count();
+        $offerPrepostion = $offer?Preposition::where('offer_id', $offer->id)->count():0;
+        $finishedOffers = Offer::where('user_id', $user->id)
+        ->whereNotNull('deleted_at')->count();
+        $offersInProgress = Offer::where('user_id', $user->id)
+        ->whereNull('deleted_at')->count();
 
-        return view('myaccount.index', compact('user','userInfo', 'offerPrepostion', 'finishedOffers', 'offersInProgress'));
-    }
+        $medalBronzeSilver=30;
+        $medalSilverGold=60;
 
-    public function rateUser(Request $request, $ratedUserId)
-    {
-        $request->validate([
-            'stars' => 'required|integer|between:1,5',
-        ]);
+        $ratings=$user->ratings;
+        $ratingsCount=$ratings->count();
+        $ratingsAvg=$ratings->avg('stars');
+        $followersCount=$user->followings->count();
 
-        $ratedByUserId = auth()->user()->id;
-
-        if ($ratedUserId != $ratedByUserId) {
-            $existingRating = Ratings::where('user_id', $ratedUserId)
-                ->where('rated_by_user_id', $ratedByUserId)
-                ->first();
-
-            if ($existingRating) {
-                $existingRating->update([
-                    'stars' => $request->input('stars'),
-                ]);
-            } else {
-                Ratings::create([
-                    'user_id' => $ratedUserId,
-                    'rated_by_user_id' => $ratedByUserId,
-                    'stars' => $request->input('stars'),
-                ]);
-            }
-
-            return redirect()->back()->with('success', 'Rating submitted successfully!');
-        } else {
-            return redirect()->back()->with('error', 'You cannot rate yourself!');
-        }
+        return view('myaccount.index', compact(
+            'user',
+            'userInfo', 
+            'offerPrepostion', 
+            'finishedOffers', 
+            'offersInProgress',
+            'medalBronzeSilver',
+            'medalSilverGold',
+            'ratingsAvg',
+            'ratingsCount',
+            'followersCount',
+        ));
     }
 
 

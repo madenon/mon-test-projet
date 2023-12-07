@@ -12,7 +12,8 @@ use Orchid\Filters\Types\Like;
 use Orchid\Filters\Types\Where;
 use Orchid\Filters\Types\WhereDateStartEnd;
 use Orchid\Platform\Models\User as Authenticatable;
-use App\Models\ratings;
+use App\Models\Rating;
+use App\Models\Following;
 
 
 class User extends Authenticatable  implements MustVerifyEmail
@@ -102,13 +103,13 @@ class User extends Authenticatable  implements MustVerifyEmail
         return $this->hasMany(Preposition::class);
     }
 
-    public function ratingUser()
-    {
-        return $this->hasMany(Ratings::class, 'user_id');
-    }
 
-    public function receivedRatings()
+    public function ratings()
     {
-        return $this->hasMany(Ratings::class, 'rated_by_user_id');
+        return $this->hasMany(Rating::class, 'user_id');
+    }
+    public function followings()
+    {
+        return $this->hasMany(Following::class, 'followed_id');
     }
 }

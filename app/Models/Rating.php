@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ratings extends Model
+class Rating extends Model
 {
     use HasFactory;
 
@@ -13,14 +13,16 @@ class Ratings extends Model
         'user_id', 
         'rated_by_user_id', 
         'stars',
+        'feedback',
+        'preposition_id'
     ];
 
-    public function user()
+    public function rated()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function ratedByUser()
+    public function rater()
     {
         return $this->belongsTo(User::class, 'rated_by_user_id');
     }

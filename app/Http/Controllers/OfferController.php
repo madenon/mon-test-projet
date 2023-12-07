@@ -94,15 +94,7 @@ class OfferController extends Controller
         $experienceLevels = ExperienceLevel::toArray();
         $conditions = Condition::toArray();
 
-        return view('offer.create')->with([
-            'types' => $types,
-            'departments' => $departments,
-            'regions' => $regions,
-            'categories' => $categories,
-            'subcategories' => $subcategories,
-            'experienceLevels' => $experienceLevels,
-            'conditions' => $conditions
-        ]);
+        return redirect()->route('alloffers.index');
     }
 
 

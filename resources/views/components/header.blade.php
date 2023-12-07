@@ -54,7 +54,7 @@
                         <div class="header-user-notification-icon-notified"></div>
                         @endif
                         </div>
-                        <ul class="dropdown-menu notification-dropdown">
+                        <ul class="dropdown-menu notification-dropdown overflow-auto">
                         @if(count($propositions) == 0)
                             <li>
                                 <div class="notification-dropdown-item">

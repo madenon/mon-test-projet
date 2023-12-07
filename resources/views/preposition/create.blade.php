@@ -19,7 +19,7 @@
 
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-gray-600">Name</label>
-                    <input type="text" class="form-input mt-1 block w-full" id="name" name="name" required value="{{ auth()->user()->name }}">
+                    <input type="text" class="form-input mt-1 block w-full" id="name" name="name" required value="">
                 </div>
 
                 <div class="mb-4">

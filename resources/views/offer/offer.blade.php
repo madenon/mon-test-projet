@@ -138,7 +138,7 @@
 
    
         @foreach ($offer->preposition as $proposition)
-            <a href="#" style="background-color: #24a19c; color:white;" class="ml-5 w-50 mt-2 btn proposition-link" data-bs-toggle="modal" data-bs-target="#exampleModal" 
+            <a href="#" style="color:white;" class="ml-5 w-50 mt-2 btn proposition-link badge {{ getStatusBadgeClass($proposition->status) }}" data-bs-toggle="modal" data-bs-target="#exampleModal" 
             data-id="{{ $proposition->id }}" data-image="{{ route('proposition-pictures-file-path', $proposition->images ? $proposition->images : '') }}"  
             data-status="{{ $proposition->status }}" data-user="{{ $proposition->user }}" data-offer="{{ $proposition->offer }}" data-meet="{{ $proposition->meetup }}">
                 {{ $proposition->name }}
@@ -241,11 +241,12 @@
                         </div>
                     </div>
                     <div class=" flex px-3 gap-4">
-                        <button
+                        <button onclick="location.href='/compte/{{$offer->user_id}}'"
                             class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-primary-color hover:bg-primary-hover">
                             Voir Profil
                         </button>
-                        <button class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-black ">
+                        <button onclick="location.href='/moncompte/mesmessages/{{$offer->user_id}}'"
+                            class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-black ">
                             Contact
                         </button>
                     </div>
@@ -344,10 +345,10 @@
                             <td>  <img id="modalImage" src="" alt="Image"> </td>
                             <td id="modalUser"></td>
                             <td>
-                             <button type="button"  class="btn btn-success" id="acceptButton">
+                             <button type="button"  class="btn btn-success" id="acceptButton" data-bs-dismiss="modal" aria-label="Close">
                                   Accept
                              </button>
-                             <button type="button" class="btn btn-danger" id="declineButton">
+                             <button type="button" class="btn btn-danger" id="declineButton" data-bs-dismiss="modal" aria-label="Close">
                                  Decline
                              </button>
                              <button type="button" class="btn" id="meetButton">
@@ -491,43 +492,118 @@
  $('#meetButton').click(function () {
     $("#meetupForm").show();
 
-        });
+});
         // Function to update proposition status via AJAX
-        function updatePropositionStatus(propositionId, newStatus) {
-            // Send an AJAX request to update the status
-            $.ajax({
-                type: 'POST',
-                url: '/update-proposition-status', // Replace with your actual route
-                data: {
-                    propositionId: propositionId,
-                    newStatus: newStatus,
-                },
-                success: function (response) {
-            // Handle success response
+    function updatePropositionStatus(propositionId, newStatus) {
+        // Send an AJAX request to update the status
+        $.ajax({
+            type: 'POST',
+            url: '/update-proposition-status', // Replace with your actual route
+            data: {
+                propositionId: propositionId,
+                newStatus: newStatus,
+            },
+            success: function (response) {
+                // Handle success response
 
-            // Show success message
-            Swal.fire({
-                icon: 'success',
-                title: 'Success!',
-                text: 'The proposition status has been updated.',
-            }).then(function () {
-                // Reload the page after showing the success message
-                location.reload();
+if(newStatus=="declined")
+  Swal.fire({
+    title: 'Success',
+    icon: 'success',
+    text: 'You have declined the proposition.',
+  }).then(function () {
+                    location.reload();
+                });
+    else if(newStatus=="accepted")
+    Swal.fire({
+        title: 'Success',
+        icon: 'success',
+        html: '<div class="flex items-center justify-center space-x-2">' +
+        '<input type="radio" id="star1" name="rating" value="1" class="hidden" /><label for="star1" title="1 star" class="cursor-pointer text-2xl text-yellow-500">&#9734;</label>' +
+        '<input type="radio" id="star2" name="rating" value="2" class="hidden" /><label for="star2" title="2 stars" class="cursor-pointer text-2xl text-yellow-500">&#9734;</label>' +
+        '<input type="radio" id="star3" name="rating" value="3" class="hidden" /><label for="star3" title="3 stars" class="cursor-pointer text-2xl text-yellow-500">&#9734;</label>' +
+        '<input type="radio" id="star4" name="rating" value="4" class="hidden" /><label for="star4" title="4 stars" class="cursor-pointer text-2xl text-yellow-500">&#9734;</label>' +
+        '<input type="radio" id="star5" name="rating" value="5" class="hidden" /><label for="star5" title="5 stars" class="cursor-pointer text-2xl text-yellow-500">&#9734;</label>' +
+        '</div>' +
+            '<div id="feedback-container" style="display:none">' +
+            '<textarea id="feedback" name="feedback" class="swal2-textarea" rows="4" cols="35" placeholder="Give Feedback"></textarea>' +
+            '</div>',
+        showCancelButton: true,
+        confirmButtonText: 'Rate',
+        cancelButtonText: 'Cancel',
+        showLoaderOnConfirm: true,
+        preConfirm: (result) => {
+        const rating=document.querySelector('input[name="rating"]:checked');
+        const ratingValue = rating? rating.value:0;
+        const feedbackValue = document.getElementById('feedback').value;
+
+        return fetch('/ratings/rateOfferTaker', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                propositionId: propositionId,
+                stars: ratingValue,
+                feedback: feedbackValue,
+                _token: '{{csrf_token()}}'
+            }),
+        })
+            .then((response) => {
+            if (!response.ok) {
+                throw new Error('Failed to submit rating');
+            }
+            return response.json();
+            })
+            .catch((error) => {
+            Swal.showValidationMessage(`Request failed: ${error}`);
             });
         },
-        error: function (error) {
-            
-            // Show error message
-            Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                text: 'Failed to update proposition status.',
+        didOpen: () => {
+        const stars = document.querySelectorAll('input[name="rating"]');
+        stars.forEach((star) => {
+            star.addEventListener('click', () => {
+                stars.forEach((starAll) => {
+                    starAll.nextElementSibling.innerHTML = '&#9734;'; // Empty star
+                });
+                stars.forEach((starInf) => {
+                    if (starInf.value <= star.value) {
+                        starInf.nextElementSibling.innerHTML = '&#9733;'; // Filled star
+                    }
+                });
+
+                const feedback=document.getElementById('feedback-container');
+                feedback.style.display="block";
+
             });
-        }
-            });
-        }
-    
-    });
+
+        });
+        },
+    }).then(function () {
+                    location.reload();
+                });
+
+else 
+Swal.fire({
+    title: 'Success',
+    icon: 'success',
+    text: 'The proposition status has been updated.',
+  }).then(function () {
+                    location.reload();
+                });
+            },
+            error: function (error) {    
+                // Show error message
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Failed to update proposition status.',
+                });
+            }
+        });
+    }
+
+});
     // for meetup form
     $(document).ready(function () {
         // Handle form submission
@@ -612,3 +688,16 @@ $('#yourModalId').on('show.bs.modal', function (event) {
     </script>
         
 </x-app-layout>
+@php
+    function getStatusBadgeClass($status) {
+        switch ($status) {
+            case 'refused':
+                return 'bg-danger';
+            case 'pending':
+                return 'bg-warning';
+            case 'accepted':
+                return 'bg-success';
+           
+        }
+    }
+    @endphp

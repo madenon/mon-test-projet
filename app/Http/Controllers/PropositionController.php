@@ -51,7 +51,7 @@ class PropositionController extends Controller
             'name' => 'required',
             'offer_id' => 'required',
             'user_id' => 'required',
-            'status' => 'required|in:refused,pending,accepted',
+            'status' => 'required|in:declined,pending,accepted',
             'price' => 'nullable|numeric',
             
         ]);
@@ -104,8 +104,8 @@ if (isset($imageName)) {
             'date' => now()
         ]);
 
-        // Associate the transaction with the proposition
-       
+        //TODO:Notify propsition maker so he can rating the order
+        
     }
    
     $proposition->status = $newStatus;

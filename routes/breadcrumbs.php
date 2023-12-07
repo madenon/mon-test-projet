@@ -28,3 +28,11 @@ Breadcrumbs::for('category', function (BreadcrumbTrail $trail, $type, $category)
     $trail->parent('type', $type);
     $trail->push($category, route('category.index', ['type' => $type, 'category' => $category]));
 });
+Breadcrumbs::for('account', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('account', route('myaccount.index'));
+});
+Breadcrumbs::for('ratings', function (BreadcrumbTrail $trail) {
+    $trail->parent('ratings');
+    $trail->push('ratings', route('ratings.index'));
+});

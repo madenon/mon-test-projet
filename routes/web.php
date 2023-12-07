@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PropositionController;
 use App\Http\Controllers\MyAccountController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionController;
@@ -17,6 +18,8 @@ use App\Http\Controllers\MeetupController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PusherController;
+use App\Http\Controllers\RatingController;
+use App\Http\Controllers\FollowingController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -151,8 +154,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/moncompte/offres/{offer}', [OfferController::class, 'destroyOffer'])->name('myaccount.deleteOffer');
     
 });
+Route::get('/compte/{id}', [AccountController::class, 'index'])->name('account.index');
+Route::get('/ratings/{id}', [RatingController::class, 'index'])->name('ratings.index');
 Route::middleware('auth')->group(function () {
     Route::get(RouteServiceProvider::MYMESSAGES.'/{id}/{msgId}', [MessagesController::class,'viewMessage'])->name('messages.viewMessage');    
+});
+Route::middleware('auth')->group(function () {
+    Route::post('/ratings/rateOfferTaker', [RatingController::class,'rateTaker'])->name('ratings.rateTaker');    
+    Route::post('/ratings/rateOfferMaker', [RatingController::class,'rateMaker'])->name('ratings.rateMaker');    
+    Route::get('/followings/{followedId}', [FollowingController::class,'follow'])->name('followings.follow');    
+    Route::get('/unfollowings/{followedId}', [FollowingController::class,'unfollow'])->name('followings.unfollow');    
 });
 
 require __DIR__.'/auth.php';
