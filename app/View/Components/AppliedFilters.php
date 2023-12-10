@@ -12,6 +12,7 @@ use App\Models\Region;
 use App\Models\Offer;
 use App\Models\Type;
 use App\Models\Preposition;
+use App\Models\User;
 
 class AppliedFilters extends Component
 {
@@ -73,6 +74,12 @@ class AppliedFilters extends Component
             "name"=> $priceRange,
             "icon"=>'fa-money-bill',
         ]);
+        if($online)array_push($filters,[
+            "type"=>"online",
+            "name"=> $online=="online"?"En ligne":"Hors ligne",
+            "icon"=>'fa-user',
+        ]);
+
 
 
         $queryBuilder = Offer::with('preposition')
@@ -101,13 +108,12 @@ class AppliedFilters extends Component
         if ($maxPrice) {
             $queryBuilder->where('price', '<=', $maxPrice);
         }
-        $isOnline=true;
         if($online) {
-            $completedOffersId=Preposition::where('status','!=','pending')->pluck('offer_id')->toArray();
+            $onlineUsers=User::where('is_online',true)->pluck('id')->toArray();
             if($online=="online")
-            $queryBuilder->whereNotIn('id',$completedOffersId);
+            $queryBuilder->whereIn('user_id',$onlineUsers);
             else
-            $queryBuilder->whereIn('id',$completedOffersId);
+            $queryBuilder->whereNotIn('user_id',$onlineUsers);
         }
             // Add sorting condition
         if ($sortOrder === 'latest') {
@@ -119,7 +125,7 @@ class AppliedFilters extends Component
         } elseif ($sortOrder === 'price_high') {
             $queryBuilder->orderBy('price', 'DESC');
         }
-        $offersCount=$queryBuilder->count();
+        $offersCount=$queryBuilder->get()->count();
             
 
 

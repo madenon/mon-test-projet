@@ -55,12 +55,12 @@
                 </div>
                 <div class="mt-1 hidden elements">
                     <div class="my-1">
-                        <input type="radio" id="online" name="online" value="online">
+                        <input type="radio" id="online" name="online" value="online" {{ "online" == request()->input('online') ? 'checked' : '' }}>
                         <label for="1" class="text-sm">En ligne</label><br>
                     </div>
                     <div class="my-1">
-                        <input type="radio" id="useds" name="online" value="useds">
-                        <label for="0"class="text-sm">Useds</label><br>
+                        <input type="radio" id="offline" name="online" value="offline" {{ "offline" == request()->input('online') ? 'checked' : '' }}>
+                        <label for="0"class="text-sm">Hors ligne</label><br>
                     </div>
                 </div>
             </li>
@@ -84,7 +84,7 @@
 
                     @for($i=0; $i<10; $i++)
                     <div class="my-1 region-item flex flex-row" data-name="{{ $departments[$i]->name.', '.$departments[$i]->region->name.', France' }}">
-                        <input type="checkbox" id="name_{{ $departments[$i]->id }}" name="{{ $departments[$i]->name }}" value="{{ $departments[$i]->id }}" {{ request()->input($departments[$i]->name) ? 'checked' : '' }}>
+                         type="checkbox" id="name_{{ $departments[$i]->id }}" name="{{ $departments[$i]->name }}" value="{{ $departments[$i]->id }}" {{ request()->input($departments[$i]->name) ? 'checked' : '' }}>
                         <label for="name_{{ $departments[$i]->id }}" class="text-sm ps-1">{{ $departments[$i]->name.', '.$departments[$i]->region->name.', France' }}</label><br>
                     </div>
                     @endfor

@@ -9,6 +9,7 @@ use App\Models\Department;
 use App\Models\Offer;
 use App\Models\Type;
 use App\Models\Preposition;
+use App\Models\User;
 
 class AlloffersController extends Controller
 {
@@ -53,9 +54,8 @@ class AlloffersController extends Controller
         if ($maxPrice) {
             $queryBuilder->where('price', '<=', $maxPrice);
         }
-        $isOnline=true;
         if($online) {
-            $onlineUsers=User::where('online','==',true)->pluck('id')->toArray();
+            $onlineUsers=User::where('is_online',true)->pluck('id')->toArray();
             if($online=="online")
             $queryBuilder->whereIn('user_id',$onlineUsers);
             else
