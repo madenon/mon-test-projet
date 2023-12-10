@@ -8,6 +8,8 @@ use Illuminate\View\View;
 use App\Models\Department;
 use App\Models\Offer;
 use App\Models\Type;
+use App\Models\Preposition;
+
 class AlloffersController extends Controller
 {
     public function index(Request $request)
@@ -23,6 +25,7 @@ class AlloffersController extends Controller
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
         $sortOrder = $request->input('sort_by', 'latest'); // Default sorting order
+        $online=$request->input('online');
  
         $queryBuilder = Offer::with('preposition')
         ->orderBy('created_at', 'DESC')
@@ -49,6 +52,14 @@ class AlloffersController extends Controller
     
         if ($maxPrice) {
             $queryBuilder->where('price', '<=', $maxPrice);
+        }
+        $isOnline=true;
+        if($online) {
+            $onlineUsers=User::where('online','==',true)->pluck('id')->toArray();
+            if($online=="online")
+            $queryBuilder->whereIn('user_id',$onlineUsers);
+            else
+            $queryBuilder->whereNotIn('user_id',$onlineUsers);
         }
          // Add sorting condition
     if ($sortOrder === 'latest') {

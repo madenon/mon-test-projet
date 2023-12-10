@@ -74,7 +74,7 @@ if ($user){
                                         {{$offer->type->name}}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{$offer->category->name}}
+                                        {{$offer->subcategory->parent->name}}
                                     </td>
                                     <td class="px-6 py-4">
                                         {{$offer->price}}

@@ -99,9 +99,9 @@ class MyAccountController extends Controller
             'type' => ['required_if:old_type, $offer->type_id'],
             'experience' => ['nullable'],
             'condition' => ['nullable'],
-            'category' => ['required_if:old_category, $offer->category_id'],
+            'category' => ['required_if:old_category, $offer->subcategory->parent_id'],
             'subcategory' => ['required_if:old_subcategory, $offer->subcategory_id'],
-            'region' => ['required_if:old_region, $offer->region_id'],
+            'region' => ['required_if:old_region, $offer->department->region_id'],
             'department' => ['required_if:old_department, $offer->department_id'],
             'title' => ['required', 'string', 'between:10,100'],
             'description' => ['string'],
@@ -116,9 +116,9 @@ class MyAccountController extends Controller
         $offer->title = $request->title;
         $offer->type_id = $request->type_id;
         $offer->subcategory_id = $request->category_id;
-        $offer->category_id = $request->category_id;
+        $offer->subcategory->parent_id = $request->category_id;
         $offer->department_id = $request->department_id;
-        $offer->region_id = $request->region_id;
+        $offer->department->region_id = $request->region_id;
         $offer->description = $request->description;
         $offer->price = $request->price;
         $offer->perimeter = $request->perimeter;

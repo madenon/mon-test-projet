@@ -76,12 +76,12 @@ class OfferController extends Controller
         $offers = $queryBuilder->paginate(10);
         $user = User::find(auth()->id());
         $categoryName = Category::where('id', $category)->value('name');
-  // check if user is connected
-    if( $user!=null){
-        $onlineStatus = $user->is_online;
-        return view('offer.index', compact('offers', 'onlineStatus','departments','types','categoryName'));
-    }
-    
+        // check if user is connected
+        if( $user!=null){
+            $onlineStatus = $user->is_online;
+            return view('offer.index', compact('offers', 'onlineStatus','departments','types','categoryName'));
+        }
+        
     }
 
     public function create()
@@ -94,7 +94,15 @@ class OfferController extends Controller
         $experienceLevels = ExperienceLevel::toArray();
         $conditions = Condition::toArray();
 
-        return redirect()->route('alloffers.index');
+        return view('offer.create',compact(
+            'types',
+            'categories',
+            'subcategories',
+            'regions',
+            'departments',
+            'experienceLevels',
+            'conditions',
+        ));
     }
 
 
@@ -145,9 +153,7 @@ class OfferController extends Controller
                         'slug' => $slug,
                         'user_id' => $user->id,
                         'type_id' => $type->id,
-                        'category_id' => $category->id,
                         'subcategory_id' => $subcategory->id,
-                        'region_id' => $region->id,
                         'department_id' => $department->id,
                         'experience' => $experience,
                        // 'condition' => $condition,
@@ -181,13 +187,14 @@ class OfferController extends Controller
     protected function show($offerid, $slug)
     {
         $offer = Offer::find($offerid);
-        $similaroffers = Offer::where('category_id', $offer->category_id)->where('id', '!=', $offer->id)->Paginate(3);
+        $subcategoryIds=$offer->subcategory->parent->children->pluck('id')->toArray();
+        $similaroffers = Offer::whereIn('subcategory_id', $subcategoryIds)->where('id', '!=', $offer->id)->Paginate(3);
         if(!$similaroffers){
             $similaroffers = [];
         }
         $type = Type::where('id', $offer->type_id)->first();
         $images = OfferImages::where('offer_id',$offer->id)->get();
-        $category = Category::where('id', $offer->category_id)->first();
+        $category = Category::where('id', $offer->subcategory->parent_id)->first();
         $subcategory = Category::where('id', $offer->subcategory_id)->first();
         
 

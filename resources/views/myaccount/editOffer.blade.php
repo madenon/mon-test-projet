@@ -56,7 +56,7 @@
                         <select required name='category_id' class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover" onchange="changerCategory(this)">
                             <option value="0" selected hidden>Choisir la Catégorie *</option>
                             @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ $category->id == $offer->category_id ? 'selected' : '' }}>{{ $category->name }}</option>
+                            <option value="{{ $category->id }}" {{ $category->id == $offer->subcategory->parent_id ? 'selected' : '' }}>{{ $category->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -80,7 +80,7 @@
                             <select required name='region_id' onchange="changerDepartement(this)" class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
                                 <option value="" selected hidden>Choisir une région *</option>
                                 @foreach($regions as $region)
-                                <option value="{{ $region->id }}" {{ $region->id == $offer->region_id ? 'selected' : '' }}>{{ $region->name }}</option>
+                                <option value="{{ $region->id }}" {{ $region->id == $offer->department->region_id ? 'selected' : '' }}>{{ $region->name }}</option>
                                 @endforeach
                             </select>
                         </div>

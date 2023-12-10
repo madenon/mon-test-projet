@@ -53,11 +53,11 @@ class Offer extends Model
     {
         return $this->belongsTo(Category::class);
     }
-
-    public function region(): BelongsTo
+    public function subcategory(): BelongsTo
     {
-        return $this->belongsTo(Region::class);
+        return $this->belongsTo(Category::class,'subcategory_id');
     }
+
 
     public function department(): BelongsTo
     {

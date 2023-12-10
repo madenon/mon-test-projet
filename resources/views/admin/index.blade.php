@@ -20,7 +20,7 @@
             <form action="{{ route('offer.index') }}" method="GET">
     <div class="form-group">
         <div>
-            <label for="min_price">Department :</label>
+                <label for="min_price">Department :</label>
         </div>
         <div class="mt-1">
             <select name="department">
@@ -64,7 +64,7 @@
                         </div>
                         <div class="flex gap-2 items-center  ">
                             <img src="/images/Stack.svg" alt="" class="">
-                            {{$offer->category->name}}
+                            {{$offer->subcategory->parent->name}}
                             <img src="/images/chevron-right.svg" alt="" class="">
                             <img src="/images/Stack.svg" alt="" class="">
                             {{-- {{$subcategory->name}} --}}
@@ -76,7 +76,7 @@
                             <div class=" w-[40%] flex gap-2 items-center">
                                 <img src="/images/map-pin.svg" alt="">
                                 <span class="">
-                                    {{$offer->region->name . ", " .
+                                    {{$offer->department->region->name . ", " .
                                     $offer->department->name}}
                                 </span>
                             </div>
@@ -98,6 +98,7 @@
                                 @endif
                             </div>
                         </div>
+                        @if($offer->countdownTo)
                         <div class=" pb-12 mt-2" >
                             <div class="flex gap-2 pr-3 ">
                                <div class="w-1/4">
@@ -130,6 +131,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                         <div class="offer_owner mb-3" >
                             <div class="flex gap-3 ">
                                 @if (!$offer->user->profile_photo_path)

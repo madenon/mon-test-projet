@@ -9,12 +9,12 @@ if ($user){
 @endphp
 <x-app-layout class="w-screen">
     @include('Chatify::layouts.headLinks')
-    <div class="container my-5 mx-4 h-screen">
+    <div class="container my-5 mx-4 pe-2 h-screen">
         <div class="flex content-start justify-around">
             <div class=" col-3 col-md-3 bg-white w-full shadow-lg rounded-xl">
                 <x-mini-menu></x-mini-menu>
             </div>
-            <div class="col-12 col-md-8 h-screen">
+            <div class="col-12 col-md-9 ps-4 h-screen">
                 <div class="messenger">
                     {{-- ----------------------Users/Groups lists side---------------------- --}}
                     <div class="messenger-listView {{ !!$id ? 'conversation-active' : '' }}">

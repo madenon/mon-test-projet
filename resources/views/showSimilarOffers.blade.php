@@ -31,10 +31,10 @@
                     </div>
                     <div class="flex gap-2 items-center  ">
                         <img src="/images/Stack.svg" alt="" class="">
-                        {{$offer->category->name}}
+                        {{$offer->subcategory->parent->name}}
                         <img src="/images/chevron-right.svg" alt="" class="">
                         {{--  {{-- <img src="images/category-8.svg" alt="Category" />  --}}
-                        {{--  <p>{{$offer->category->name}}</p> --}} 
+                        {{--  <p>{{$offer->subcategory->parent->name}}</p> --}} 
                     </div>
                     <div class=" text-titles text-xs mt-3">
                         <h6 class=" font-normal ">A ECHANGER CONTRE</h6>
@@ -47,7 +47,7 @@
                         <div class=" w-[40%] flex gap-2 items-center">
                             <img src="/images/map-pin.svg" alt="">
                             <span class="">
-                                {{$offer->region->name . ", " .
+                                {{$offer->department->region->name . ", " .
                                 $offer->department->name}}
                             </span>
                         </div>

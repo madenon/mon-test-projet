@@ -20,60 +20,17 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-3 col-md-3">
-            <h3>Filters</h3>
-            <form action="{{ request()->is('offer.*') ? route('offer.index') : route('alloffers.index') }}" method="GET">
-    <div class="form-group">
-    <div>
-            <label for="sort_by">Trier par :</label>
-        </div>
-        <div class="mt-1">
-            <select name="sort_by">
-                <option value="latest" {{ request('sort_by') == 'latest' ? 'selected' : '' }}>Plus récents</option>
-                <option value="oldest" {{ request('sort_by') == 'oldest' ? 'selected' : '' }}>Plus anciens</option>
-                <option value="price_desc" {{ request('sort_by') == 'price_desc' ? 'selected' : '' }}>Prix décroissant</option>
-                <option value="price_asc" {{ request('sort_by') == 'price_asc' ? 'selected' : '' }}>Prix croissant</option>
-            </select>
-        </div>
-        <div>
-            <label for="department">Department:</label>
-        </div>
-        <div class="mt-1">
-            <select name="department" id="departmentSelect">
-            <option value="" selected>Sélectionnez le département</option>
-                @foreach($departments as $department)
-                    <option value="{{ $department->id }}">{{ $department->name }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div>
-            <label for="type">Type:</label>
-        </div>
-        <div class="mt-1">
-            <select name="type" id="typeSelect">
-            <option value="" selected>Sélectionnez le type</option>
-                @foreach($types as $type)
-                    <option value="{{ $type->id }}">{{ $type->name }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        {{-- Check if the 'category' query parameter is present --}}
-        @if(request()->has('category'))
-            <input type="hidden" name="category" value="{{ request('category') }}">
-        @endif
-        @if(request()->has('region'))
-            <input type="hidden" name="region" value="{{ request('region') }}">
-        @endif
-        <button class="mt-1 button-filter">Appliquer les filtres</button>
-    </div>
-</form>
-
+            <div class="col">
+                <x-applied-filters></x-applied-filters>
             </div>
-            <div class="col-12 col-md-9">
+        </div>
+        <div class="row mt-4">
+            <div class="col-3 col-md-3">
+                <x-filters></x-filters>      
+            </div>
+            <div class="col-9 col-md-9 ps-2">
                 @foreach ($offers as $offer)
-                <div class="offer_list_card">
+                <div class="offer_list_card mt-0 mb-4">
                     <div class="offer_image relative">
                         <img src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}" alt=""
                             class="object-cover h-full w-full rounded-tl-lg rounded-bl-lg " />
@@ -87,7 +44,7 @@
                         </div>
                         <div class="flex gap-2 items-center  ">
                             <img src="/images/Stack.svg" alt="" class="">
-                            {{$offer->category->name}}
+                            {{$offer->subcategory->parent->name}}
                             <img src="/images/chevron-right.svg" alt="" class="">
                             <img src="/images/Stack.svg" alt="" class="">
                             {{-- {{$subcategory->name}} --}}
@@ -99,7 +56,7 @@
                             <div class=" w-[40%] flex gap-2 items-center">
                                 <img src="/images/map-pin.svg" alt="">
                                 <span class="">
-                                    {{$offer->region->name . ", " .
+                                    {{$offer->department->region->name . ", " .
                                     $offer->department->name}}
                                 </span>
                             </div>
