@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             DepartmentSeeder::class,
             AdminSeeder::class,
             ChatSeeder::class,
+            OfferSeeder::class,
         ]);
     }
 }

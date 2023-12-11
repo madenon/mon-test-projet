@@ -76,7 +76,7 @@ if($mes->replies){
                 </div>
                 <div class="flex gap-2 items-center  ">
                     <img src="/images/Stack.svg" alt="" class="">
-                    {{$offer->category->name}}
+                    {{$offer->subcategory->parent->name}}
                     <img src="/images/chevron-right.svg" alt="" class="">
                     <img src="/images/Stack.svg" alt="" class="">
                     {{-- {{$subcategory->name}} --}}
@@ -85,7 +85,7 @@ if($mes->replies){
                     <div class=" w-[40%] flex gap-2 items-center">
                         <img src="/images/map-pin.svg" alt="">
                         <span class="">
-                            {{$offer->region->name . ", " .
+                            {{$offer->department->region->name . ", " .
                             $offer->department->name}}
                         </span>
                     </div>

@@ -54,7 +54,7 @@
                         <div class="header-user-notification-icon-notified"></div>
                         @endif
                         </div>
-                        <ul class="dropdown-menu notification-dropdown">
+                        <ul class="dropdown-menu notification-dropdown overflow-auto">
                         @if(count($propositions) == 0)
                             <li>
                                 <div class="notification-dropdown-item">
@@ -247,7 +247,7 @@
                 @if($parentcategories)
                 @foreach($parentcategories as $parentcategory)
                 <a href="{{ request()->is('offer.*') ? route('offer.index', ['category' => $parentcategory->id]) : route('alloffers.index', ['category' => $parentcategory->id]) }}" class="header-categories-dropdown-menu-item">
-    <img src="{{ asset('images/map-pin-icon.svg') }}" alt="" />
+    <i class="fa {{$parentcategory['icon']}}"></i>
     <h3>{{ $parentcategory['name'] }}</h3>
 </a>
 

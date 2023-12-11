@@ -19,16 +19,19 @@ class HomeController extends Controller
     {
    // Fetch top categories with offer counts
    $topCategories = Category::select('categories.id', 'categories.name', DB::raw('COUNT(offers.id) as offer_count'))
-   ->leftJoin('offers', 'categories.id', '=', 'offers.category_id')
+   ->leftJoin('categories as SubC', 'categories.id', '=', 'SubC.parent_id')
+   ->leftJoin('offers', 'SubC.id', '=', 'offers.subcategory_id')
    ->groupBy('categories.id', 'categories.name') // Include all selected columns in GROUP BY
    ->orderByDesc('offer_count')
    ->limit(5)
    ->get();
 
 
+
 // Fetch top regions with offer counts
 $topRegions = Region::select('regions.id','regions.name', DB::raw('COUNT(offers.id) as offer_count'))
-   ->leftJoin('offers', 'regions.id', '=', 'offers.region_id')
+   ->leftJoin('departments', 'regions.id', '=', 'departments.region_id')
+   ->leftJoin('offers', 'regions.id', '=', 'offers.department_id')
    ->groupBy('regions.id','regions.name')
    ->orderByDesc('offer_count')
    ->limit(5)

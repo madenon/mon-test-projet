@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PropositionController;
 use App\Http\Controllers\MyAccountController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegionController;
@@ -18,6 +19,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PusherController;
+use App\Http\Controllers\RatingController;
+use App\Http\Controllers\FollowingController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -102,12 +105,9 @@ Route::controller(PusherController::class)->prefix('/messages')->group(function 
 });
 
 route::middleware('auth')->group(function(){
-    Route::post('/{user_id}/{rated_by_user_id}/stars', [MyAccountController::class, 'rateUser'])->name('user.rate');
+    Route::post('/stars/{user_id}/{rated_by_user_id}', [MyAccountController::class, 'rateUser'])->name('user.rate');
 });
 
-route::middleware('auth')->group(function(){
-    Route::post('/{user_id}/{rated_by_user_id}/stars', [MyAccountController::class, 'rateUser'])->name('user.rate');
-});
 
 Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
 Route::get('/offres/search', [OfferController::class, 'search'])->name('offer.search');
@@ -130,12 +130,18 @@ Route::get('/alloffers', [AlloffersController::class, 'index'])->name('alloffers
 
 
 Route::get('/offres/{type}', [TypeController::class, 'index'])->name('type.index');
-Route::get('/propositions/create/{offerid}/{userid}', [PropositionController::class, 'create'])->name('propositions.create');
-Route::post('/proposition', [PropositionController::class, 'store'])->name('propositions.store');
-Route::get('/propositions', [PropositionController::class, 'index'])->name('propositions.index');
-Route::post('/update-proposition/{prepositionId}', [PropositionController::class, 'update'])->name('update-proposition');
-Route::post('/update-proposition-status', [PropositionController::class, 'updateStatus']);
-Route::delete('/delete-proposition/{prepositionId}', [PropositionController::class, 'destroy'])->name('delete-proposition');
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/propositions/create/{offerid}/{userid}', [PropositionController::class, 'create'])->name('propositions.create');
+    Route::post('/propositions', [PropositionController::class, 'store'])->name('propositions.store');
+    Route::get('/propositions', [PropositionController::class, 'index'])->name('propositions.index');
+    Route::get('/propositions/chat/{prepositionId}', [PropositionController::class, 'chat'])->name('propositions.chat');
+    Route::post('/update-proposition/{prepositionId}', [PropositionController::class, 'update'])->name('update-proposition');
+    Route::post('/update-proposition-status', [PropositionController::class, 'updateStatus']);
+    Route::delete('/delete-proposition/{prepositionId}', [PropositionController::class, 'destroy'])->name('delete-proposition');
+});
 Route::post('/schedule-meetup', [MeetupController::class, 'scheduleMeetup']);
 Route::post('/update-meet-status/{meetId}', [MeetupController::class, 'updateMeetStatus']);
 // transactions 
@@ -162,8 +168,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/moncompte/offres/{offer}', [OfferController::class, 'destroyOffer'])->name('myaccount.deleteOffer');
     
 });
+Route::get('/compte/{id}', [AccountController::class, 'index'])->name('account.index');
+Route::get('/ratings/{id}', [RatingController::class, 'index'])->name('ratings.index');
 Route::middleware('auth')->group(function () {
     Route::get(RouteServiceProvider::MYMESSAGES.'/{id}/{msgId}', [MessagesController::class,'viewMessage'])->name('messages.viewMessage');    
+});
+Route::middleware('auth')->group(function () {
+    Route::post('/ratings/rateOfferTaker', [RatingController::class,'rateTaker'])->name('ratings.rateTaker');    
+    Route::post('/ratings/rateOfferMaker', [RatingController::class,'rateMaker'])->name('ratings.rateMaker');    
+    Route::get('/followings/{followedId}', [FollowingController::class,'follow'])->name('followings.follow');    
+    Route::get('/unfollowings/{followedId}', [FollowingController::class,'unfollow'])->name('followings.unfollow');    
 });
 
 require __DIR__.'/auth.php';

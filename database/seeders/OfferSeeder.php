@@ -1,0 +1,48 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use App\Models\Offer;
+use Faker\Factory as Faker;
+
+
+class OfferSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $faker = Faker::create();
+        for ($i = 1; $i <= 100; $i++) {
+            Offer::create([
+                'title' => $faker->sentence,
+                'description' => $faker->paragraph,
+                'condition' => $faker->word,
+                'experience' => $faker->word,
+                'offer_default_photo' => '656ddc92f2ad6.png',
+                'slug' => $faker->slug,
+                'countdown' => $faker->randomNumber(2),
+                'countdownTo' =>  $faker->randomElement([null, $faker->dateTimeBetween('now', '+1 month')]),
+                'active_offer' => $faker->boolean,
+                'archive_offer' => $faker->boolean,
+                'published_at' => $faker->dateTimeThisMonth,
+                'buy_authorized' => $faker->boolean,
+                'price' => $faker->randomNumber(3),
+                'perimeter_authorized' => $faker->boolean,
+                'perimeter' => $faker->word,
+                'specify_proposition' => $faker->sentence,
+                'user_id' => $faker->numberBetween(1, 10),
+                'type_id' => $faker->numberBetween(1, 5),
+                'department_id' => $faker->numberBetween(1, 10),
+                'created_at' => $faker->dateTimeThisMonth,
+                'updated_at' => $faker->dateTimeThisMonth,
+                'subcategory_id' => $faker->numberBetween(25, 40),
+                'deleted_at' => null,
+                'dynamic_inputs' => $faker->text,
+            ]);    
+        }
+    }
+}

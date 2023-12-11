@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Enums\Condition;
 use App\Enums\ExperienceLevel;
 use App\Models\Category;
-use App\Models\Ratings;
 use App\Models\Department;
 use App\Models\Offer;
 use App\Models\Preposition;
@@ -20,7 +19,7 @@ use App\Models\Transaction;
 
 class MyAccountController extends Controller
 {
-    public function index(){
+    public function index($id=null){
         $user = Auth::user();
         $offers = $user->offer;
         $mesPropositions=$user->prepositions;
@@ -42,42 +41,34 @@ $totalTransactionsFromMesPropositions = $mesPropositions->flatMap->transactions
 $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPropositions;
 
         $userInfo = UserInfos::where('user_id', $user->id)->first();
-        $offerPrepostion = $mesPropositions->count();
-        $finishedOffers =$totalTransactions ;
-         $offersInProgress = $user->offer()->whereNull('deleted_at')->get()->count();
+        $offer = Offer::where('user_id', $user->id)->first();
 
-        return view('myaccount.index', compact('user','userInfo', 'offerPrepostion', 'finishedOffers', 'offersInProgress'));
-    }
+        $offerPrepostion = $offer?Preposition::where('offer_id', $offer->id)->count():0;
+        $finishedOffers = Offer::where('user_id', $user->id)
+        ->whereNotNull('deleted_at')->count();
+        $offersInProgress = Offer::where('user_id', $user->id)
+        ->whereNull('deleted_at')->count();
 
-    public function rateUser(Request $request, $ratedUserId)
-    {
-        $request->validate([
-            'stars' => 'required|integer|between:1,5',
-        ]);
+        $medalBronzeSilver=30;
+        $medalSilverGold=60;
 
-        $ratedByUserId = auth()->user()->id;
+        $ratings=$user->ratings;
+        $ratingsCount=$ratings->count();
+        $ratingsAvg=$ratings->avg('stars');
+        $followersCount=$user->followings->count();
 
-        if ($ratedUserId != $ratedByUserId) {
-            $existingRating = Ratings::where('user_id', $ratedUserId)
-                ->where('rated_by_user_id', $ratedByUserId)
-                ->first();
-
-            if ($existingRating) {
-                $existingRating->update([
-                    'stars' => $request->input('stars'),
-                ]);
-            } else {
-                Ratings::create([
-                    'user_id' => $ratedUserId,
-                    'rated_by_user_id' => $ratedByUserId,
-                    'stars' => $request->input('stars'),
-                ]);
-            }
-
-            return redirect()->back()->with('success', 'Rating submitted successfully!');
-        } else {
-            return redirect()->back()->with('error', 'You cannot rate yourself!');
-        }
+        return view('myaccount.index', compact(
+            'user',
+            'userInfo', 
+            'offerPrepostion', 
+            'finishedOffers', 
+            'offersInProgress',
+            'medalBronzeSilver',
+            'medalSilverGold',
+            'ratingsAvg',
+            'ratingsCount',
+            'followersCount',
+        ));
     }
 
 
@@ -128,9 +119,9 @@ $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPro
             'type' => ['required_if:old_type, $offer->type_id'],
             'experience' => ['nullable'],
             'condition' => ['nullable'],
-            'category' => ['required_if:old_category, $offer->category_id'],
+            'category' => ['required_if:old_category, $offer->subcategory->parent_id'],
             'subcategory' => ['required_if:old_subcategory, $offer->subcategory_id'],
-            'region' => ['required_if:old_region, $offer->region_id'],
+            'region' => ['required_if:old_region, $offer->department->region_id'],
             'department' => ['required_if:old_department, $offer->department_id'],
             'title' => ['required', 'string', 'between:10,100'],
             'description' => ['string'],
@@ -141,6 +132,18 @@ $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPro
             'default_image.max' => 'Vous ne pouvez pas télécharger plus de 4mb.',
             'default_image.mimes' => 'Les fichiers téléchargés doivent être au format jpg ou png.',
         ]);
+
+        $offer->title = $request->title;
+        $offer->type_id = $request->type_id;
+        $offer->subcategory_id = $request->category_id;
+        $offer->subcategory->parent_id = $request->category_id;
+        $offer->department_id = $request->department_id;
+        $offer->department->region_id = $request->region_id;
+        $offer->description = $request->description;
+        $offer->price = $request->price;
+        $offer->perimeter = $request->perimeter;
+        $offer->experience = $request->experience;
+        $offer->condition = $request->condition;
 
         if ($request->hasFile('default_image')) {
             
