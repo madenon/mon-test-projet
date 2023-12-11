@@ -1,5 +1,6 @@
+@extends('admin.index')
 
-<x-app-layout>
+@section('admin-content') 
 <div class="container">
         <h1 class="m-4">Prepositions List</h1>
         <table class="table align-middle mb-0 bg-white">
@@ -120,7 +121,6 @@
         
 </div>
 </div>
-</x-app-layout>
 @php
     function getStatusBadgeClass($status) {
         switch ($status) {
@@ -257,3 +257,5 @@ function updateMeetStatus(meetId, status) {
 }
 
 </script>
+
+@endsection

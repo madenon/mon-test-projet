@@ -22,6 +22,6 @@ class Transaction extends Model
     // Define relationship with Proposition model
     public function proposition():BelongsTo
     {
-        return $this->belongsTo(Preposition::class);
+        return $this->belongsTo(Preposition::class, 'proposition_id', 'id');
     }
 }

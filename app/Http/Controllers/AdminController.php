@@ -10,71 +10,155 @@ use Illuminate\Http\RedirectResponse;
 use App\Models\Category;
 use App\Models\Department;
 use App\Models\Offer;
+use App\Models\Transaction;
+use App\Models\Preposition;
+use App\Models\UserInfos;
 use App\Models\Type;
+use App\Models\User;
+use App\Models\Role;
 class AdminController extends Controller
 {
     public function index(Request $request)
     {
-        // Get the list of departments
-        $departments = Department::all();
-        $types=Type::all();
-        $query = $request->input('query');
-        $category = $request->input('category'); // Retrieve the selected category
-        $department = $request->input('department');
-        $region = $request->input('region');
-        $type = $request->input('type');
-
-
-        $queryBuilder = Offer::with('preposition')
-        ->orderBy('created_at', 'DESC')
-        ->where('active_offer', 1);
-        if ($query) {
-            $queryBuilder->where('title', 'like', '%' . $query . '%');
-        }
-
-        if ($category) {
-            $queryBuilder->where('category_id', $category); // Filter by category ID
-        }
-        if ($department) {
-            $queryBuilder->where('department_id', $department); // Filter by category ID
-        }
-        if ($type) {
-            $queryBuilder->where('type_id', $type); // Filter by category ID
-        }
-        if ($region) {
-            $queryBuilder->where('region_id', $region); // Filter by category ID
-        }
-        $offers = $queryBuilder->paginate(10);
-        $categoryName = Category::where('id', $category)->value('name');
-        return redirect()->route('platform.main');
+        
+        return view('admin.index');
 
     }
+    public function users(Request $request)
+    {
+        $roles = Role::all();
+        $query = User::query();
+    
+        // Filter by role
+        if ($request->has('role')) {
+            $query->where('role', $request->role);
+        }
+    
+        // Filter by recent added
+        if ($request->has('recent_added') & $request->recent_added ) {
+        }
+    
+        $users = $query->paginate(10);
+    
+    
+        return view('admin.user-list', compact('users', 'roles'));
+    }
+public function offers(Request $request){
+    $query = Offer::query();
+    
+    if ($request->has('userId')) {
+        $query->where('user_id', $request->userId);
+    }
+   $offers= $query->orderBy('created_at', 'DESC')->paginate(10);
+   
 
-    /**
-     * Display the login view.
-     */
+
+    
+    return view('admin.offer-list', compact('offers'));
+}  
+public function transactions(Request $request){
+    $transactions = Transaction::with('proposition.user');
+    if ($request->has('userId')) {
+        $offers = Offer::where('user_id', $request->userId)->get();
+        $prepositions = Preposition::where('user_id', $request->userId)->get();
+        
+        $transactionsFromOffers = $offers->flatMap(function ($offer) {
+            if($offer->prepositions){
+            return $offer->prepositions->flatMap->transactions;}
+        });
+        
+        $transactionsFromPrepositions = $prepositions->flatMap->transactions;
+        
+        $transactions = $transactionsFromOffers->concat($transactionsFromPrepositions);
+
+    }
+return view('admin.transaction-list', compact('transactions'));
+}
+
     public function login(): View
     {
         return view('admin.login');
     }
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+        $offers = $user->offer;
+        $mesPropositions=$user->prepositions;
+$totalTransactions = 0;
+$totalTransactionsFromOffers = 0;
+foreach ($offers as $offer) {
+    // Count transactions from propositions of the offer
+    $totalTransactionsFromOffers += $offer->preposition->flatMap->transactions
+        ->where('status', 'Réussi')
+        ->count();
+}
 
+// Count transactions from propositions
+$totalTransactionsFromMesPropositions = $mesPropositions->flatMap->transactions
+    ->where('status', 'Réussi')
+    ->count();
+
+// Total transactions
+$totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPropositions;
+
+        $userInfo = UserInfos::where('user_id', $user->id)->first();
+        $offerPrepostion = $mesPropositions->count();
+        $finishedOffers =$totalTransactions ;
+         $offersInProgress = $user->offer()->whereNull('deleted_at')->get()->count();
+
+        return view('admin.user-details', compact('offer','user','userInfo', 'offerPrepostion', 'finishedOffers', 'offersInProgress'));
+    }
         /**
      * Handle an incoming authentication request.
      */
-    public function store(/* `LoginRequest` is a custom request class that handles the validation and
-    authorization logic for the login form submission. It extends the
-    `Illuminate\Foundation\Http\FormRequest` class and defines the validation
-    rules and authorization logic in its `rules()` and `authorize()` methods,
-    respectively. The `LoginRequest` class is used in the `store()` method of
-    the `AdminController` to validate the login form data before attempting
-    authentication. */
-    LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
 
         $request->session()->regenerate();
 
         return redirect()->route('admin.index');
+    }
+
+    public function editTransaction($id)
+    {
+        $transaction = Transaction::findOrFail($id);
+        // Add logic to fetch any additional data needed for editing
+
+        return view('admin.edit-transaction', compact('transaction'));
+    }
+
+    public function updateTransaction(Request $request, $id)
+    {
+        // Add validation as needed
+        $transaction = Transaction::findOrFail($id);
+        $transaction->update($request->all());
+
+        return redirect()->route('admin.transactions')->with('success', 'Transaction updated successfully');
+    }
+
+    public function deleteTransaction($id)
+    {
+        $transaction = Transaction::findOrFail($id);
+       $transaction->delete();
+
+        //return redirect()->route('admin.transactions')->with('success', 'Transaction deleted successfully');
+    }
+    public function propositions(Request $request){
+        $prepositions = Preposition::with('user', 'offer')
+        ->select('prepositions.*', 'users.first_name as user_name', 'offers.title as offer_name')
+        ->join('users', 'users.id', '=', 'prepositions.user_id')
+        ->join('offers', 'offers.id', '=', 'prepositions.offer_id');
+    
+    if ($request->has('userId')) {
+        $prepositions->where('prepositions.user_id', $request->userId);
+    }
+    
+    $prepositions = $prepositions->get();
+    
+        
+
+    return view('admin.proposition-list', compact('prepositions'));
     }
 
 }

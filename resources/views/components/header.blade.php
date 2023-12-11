@@ -47,8 +47,8 @@
                 <!-- Authenticated User -->
                 <div id="header-authenticated-user" class="">
                     <div class="dropdown" class="header-authenticated-user-content">
-                        <div id="header-user-notification-icon" class="" data-bs-toggle="dropdown" aria-expanded="false">
-                        @if(count($propositions) == 0)
+                    <div id="header-user-notification-icon" class="" data-bs-toggle="dropdown" aria-expanded="false">
+                        @if(count($propositions) == 0 && count($notifications))
                             <div class="header-user-notification-icon"></div>
                         @else
                         <div class="header-user-notification-icon-notified"></div>
@@ -80,9 +80,25 @@
                                 </div>
                             </li>
                             @endforeach
-                            @endif
-                        </ul>
+       
+
+        @foreach ($notifications as $notification)
+            <li>
+                <div class="notification-dropdown-item">
+                    <div class="notification-dropdown-item-image">
+                        <img src="{{asset('images/circle-user-icon.svg')}}" alt="" />
                     </div>
+                    <div class="notification-dropdown-item-content">
+                        <button class="notification-mark-as-seen" data-notification-id="{{$notification->id}}">
+                            <span>{{$notification->content}}</span>
+</button>
+                        <button class="notification-delete-icon" data-notification-id="{{$notification->id}}">🗑️</button>
+                    </div>
+                </div>
+            </li>
+        @endforeach
+    @endif
+</ul></div>
                     <div id="header-user-messages-icon" class="">
                         <div class="header-user-messages-icon-newmessages"></div>
                     </div>
@@ -260,3 +276,38 @@
         </nav>
        
     </header>
+<!-- Add a script to handle marking as seen and deletion -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add event listeners for marking as seen and deletion
+        document.querySelectorAll('.notification-mark-as-seen').forEach(function (element) {
+            element.addEventListener('click', function () {
+                const notificationId = this.getAttribute('data-notification-id');
+
+                // AJAX request to mark as seen
+                $.post("{{ route('notifications.markAsSeen') }}", { notification_id: notificationId }, function (response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+alert('Error') ;                  }
+                });
+            });
+        });
+
+        document.querySelectorAll('.notification-delete-icon').forEach(function (element) {
+            element.addEventListener('click', function () {
+                const notificationId = this.getAttribute('data-notification-id');
+
+                // AJAX request to delete notification
+                $.post("{{ route('notifications.delete') }}", { notification_id: notificationId }, function (response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+alert('Error') ;                  
+                    }
+                });
+            });
+        });
+    });
+</script>

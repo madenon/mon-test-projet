@@ -16,17 +16,35 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\OfferImages;
+use App\Models\Transaction;
 
 class MyAccountController extends Controller
 {
     public function index(){
         $user = Auth::user();
-        $userInfo = UserInfos::where('user_id', $user->id)->first();
-        $offer = Offer::where('user_id', $user->id)->first();
+        $offers = $user->offer;
+        $mesPropositions=$user->prepositions;
+$totalTransactions = 0;
+$totalTransactionsFromOffers = 0;
+foreach ($offers as $offer) {
+    // Count transactions from propositions of the offer
+    $totalTransactionsFromOffers += $offer->preposition->flatMap->transactions
+        ->where('status', 'Réussi')
+        ->count();
+}
 
-        $offerPrepostion = Preposition::where('offer_id', $offer->id)->count();
-        $finishedOffers = Offer::whereNotNull('deleted_at')->count();
-        $offersInProgress = Offer::whereNull('deleted_at')->count();
+// Count transactions from propositions
+$totalTransactionsFromMesPropositions = $mesPropositions->flatMap->transactions
+    ->where('status', 'Réussi')
+    ->count();
+
+// Total transactions
+$totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPropositions;
+
+        $userInfo = UserInfos::where('user_id', $user->id)->first();
+        $offerPrepostion = $mesPropositions->count();
+        $finishedOffers =$totalTransactions ;
+         $offersInProgress = $user->offer()->whereNull('deleted_at')->get()->count();
 
         return view('myaccount.index', compact('user','userInfo', 'offerPrepostion', 'finishedOffers', 'offersInProgress'));
     }
@@ -104,7 +122,7 @@ class MyAccountController extends Controller
     public function updateOffer(Request $request, $offerId)
     {
         $user = Auth::user();
-        $offer = Offer::find($offerId)->with('user_id', $user->id);
+        $offer = Offer::find($offerId)->where('user_id', $user->id);
 
         $request->validate([
             'type' => ['required_if:old_type, $offer->type_id'],
@@ -124,34 +142,22 @@ class MyAccountController extends Controller
             'default_image.mimes' => 'Les fichiers téléchargés doivent être au format jpg ou png.',
         ]);
 
-        $offer->title = $request->title;
-        $offer->type_id = $request->type_id;
-        $offer->subcategory_id = $request->category_id;
-        $offer->category_id = $request->category_id;
-        $offer->department_id = $request->department_id;
-        $offer->region_id = $request->region_id;
-        $offer->description = $request->description;
-        $offer->price = $request->price;
-        $offer->perimeter = $request->perimeter;
-        $offer->experience = $request->experience;
-        $offer->condition = $request->condition;
-
         if ($request->hasFile('default_image')) {
             
             $ext = $request->file('default_image')->getClientOriginalExtension();
             $imageDefault = uniqid() . '.' . $ext;
             $request->file('default_image')->storeAs('public/offer_pictures', $imageDefault);
-            $offer->offer_default_photo = $imageDefault;
+
         }
 
         if ($request->hasFile('additional_images')) {
-            
-            if ($offer->additionalImages) {
-                foreach ($offer->additionalImages as $image) {
+            $offerImages=OfferImages::where('offer_id',$offerId)->get();
+           
+                foreach ($offerImages as $image) {
                     Storage::delete('public/offer_pictures/' . $image->offer_photo);
                     $image->delete();
                 }
-            }
+            
  
             foreach ($request->file('additional_images') as $file) {
                 $ext = $file->getClientOriginalExtension();
@@ -159,14 +165,19 @@ class MyAccountController extends Controller
                 $file->storeAs('public/offer_pictures', $name);
                 OfferImages::create([
                     'offer_photo' => $name,
-                    'offer_id' => $offer->id,
+                    'offer_id' => $offerId,
                 ]);
             }
         }
-
-        $offer->update();
-        
-        return redirect(route('myaccount.offers'))->with(['success', 'Annonce mis à jours', ['offerId']]);
+        if ($request->hasFile('default_image')) {
+        $offer->update(array_merge(
+            $request->except('_token', '_method', 'condition','default_image','additional_images'),
+            ['offer_default_photo' => $imageDefault]
+        ));}
+        else { $offer->update(array_merge(
+            $request->except('_token', '_method', 'condition','default_image','additional_images')
+        ));}
+                return redirect(route('myaccount.offers'))->with(['success', 'Annonce mis à jours', ['offerId']]);
     }
 
 }

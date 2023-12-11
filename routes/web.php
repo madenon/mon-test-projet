@@ -14,6 +14,7 @@ use App\Http\Controllers\SocialShareButtonsController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MeetupController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PusherController;
@@ -78,9 +79,20 @@ Route::get('/dashboard', function () {
 //Define Admin Routes
 Route::controller(AdminController::class)->prefix('/admin')->group(function () {
     Route::get('/',  'index')->middleware('admin')->name('admin.index');
+    Route::get('/userss',  'users')->middleware('admin')->name('admin.users');
+    Route::get('/userss/{id}',  'show')->middleware('admin')->name('admin.user-details');
+    Route::get('/offers',  'offers')->middleware('admin')->name('admin.offers');
+    Route::get('/transactions',  'transactions')->middleware('admin')->name('admin.transactions');
+    Route::get('/transactions/{id}',  'editTransaction')->middleware('admin')->name('admin.edit-transaction');
+    Route::put('/transactions/{id}',  'updateTransaction')->middleware('admin')->name('admin.update-transaction');
+    Route::delete('/transactions/delete-transaction/{id}',  'deleteTransaction')->middleware('admin')->name('admin.delete-transaction');
+   // propositions 
+   Route::get('/propositions',  'propositions')->middleware('admin')->name('admin.propositions');
+
     Route::get('/login','login')->name('admin.login');
     Route::post('/login','store');
 });
+
 
 //Define Admin Routes
 Route::controller(PusherController::class)->prefix('/messages')->group(function () {
@@ -128,7 +140,9 @@ Route::post('/schedule-meetup', [MeetupController::class, 'scheduleMeetup']);
 Route::post('/update-meet-status/{meetId}', [MeetupController::class, 'updateMeetStatus']);
 // transactions 
 Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
-
+//notifications
+Route::post('/mark-as-seen', [NotificationController::class, 'markAsSeen'])->name('notifications.markAsSeen');
+Route::post('/delete-notification', [NotificationController::class, 'delete'])->name('notifications.delete');
 Route::get('/contact', [ContactController::class, 'show']);
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 

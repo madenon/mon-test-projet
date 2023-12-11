@@ -5,6 +5,7 @@ namespace App\View\Components;
 use App\Models\Category;
 use App\Models\Preposition;
 use App\Models\Region;
+use App\Models\Notification;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,7 @@ class Header extends Component
     public $regions;
     public $user;
     public $propositions;
+    public $notifications;
 
     /**
      * Create a new component instance.
@@ -32,6 +34,9 @@ class Header extends Component
         $this->user = User::find(Auth::user()->id);
         $this->propositions = Preposition::with('offer', 'user')->where('user_id', Auth::user()->id)            
         ->where('status', 'pending')
+        ->get();
+        $this->notifications=Notification::where('user_id', Auth::user()->id)            
+        ->where('seen', 0)
         ->get();
     }
     }

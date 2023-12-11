@@ -554,10 +554,25 @@
 
                     // Optionally, close the modal after a successful update
                     $('#meetupModal').modal('hide');
-                },
-                error: function (error) {
-                    // Handle error response
-                    console.error(error);
+
+                    Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'The proposition status has been updated.',
+            }).then(function () {
+                // Reload the page after showing the success message
+                location.reload();
+            });
+        },
+        error: function (error) {
+            
+            // Show error message
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Failed to update proposition status.',
+            });
+               
                 }
             });
         });
