@@ -117,6 +117,8 @@ Route::post('/update-transaction-status/{transactionId}/{status}', [TransactionC
 Route::middleware('auth')->group(function () {
     Route::get('/offres/creer', [OfferController::class, 'create'])->name('offer.create');
     Route::post('/offer', [OfferController::class, 'store'])->name('offer.store');
+    Route::get('/offer/chat/{offerId}', [OfferController::class, 'chat'])->name('offer.chat');
+
 });
 
 

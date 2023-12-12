@@ -14,6 +14,7 @@ use Orchid\Filters\Types\WhereDateStartEnd;
 use Orchid\Platform\Models\User as Authenticatable;
 use App\Models\Rating;
 use App\Models\Following;
+use App\Models\Transactions;
 
 
 class User extends Authenticatable  implements MustVerifyEmail
@@ -101,6 +102,10 @@ class User extends Authenticatable  implements MustVerifyEmail
     public function prepositions(): HasMany
     {
         return $this->hasMany(Preposition::class);
+    }
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transactions::class);
     }
 
 

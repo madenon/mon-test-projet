@@ -215,35 +215,40 @@
                         </div>
                         <div class="flex flex-col ">
                             <span>
-                                4/5 (6 avis)
+                                {{$offer->user->ratings->avg('stars')}} ({{$offer->user->ratings->count()}} avis)
                             </span>
                             <span class="flex">
-                                <i class="fa-solid fa-star text-orange-600"></i>
-                                <i class="fa-solid fa-star text-orange-600"></i>
-                                <i class="fa-solid fa-star text-orange-600"></i>
-                                <i class="fa-solid fa-star text-orange-600"></i>
-                                <i class="fa-solid fa-star text-gray-200"></i>
+                            @for ($i =1; $i <= 5; $i++)
+                                    <input type="radio" id="star{{$i}}" name="rating" value="{{$i}}" class="hidden rate" />
+                                    <label for="star{{$i}}" title="{{$i}} star" class="cursor-pointer text-2xl text-yellow-500 rate" >
+                                        @if($offer->user->ratings->avg('stars')>=$i)
+                                        &#9733;
+                                        @else
+                                        &#9734;
+                                        @endif
+                                    </label>
+                                @endfor               
                             </span>
                         </div>
                     </div>
                     <div class="m-4 flex gap-4 justify-content-between">
                         <div>
-                            <span class="bg-gray-200 rounded-full px-2">1</span>
+                            <span class="bg-gray-200 rounded-full px-2">{{$offer->user->prepositions->count()}}</span>
                             Trocs
                         </div>
                         <div>
-                            <span class="bg-gray-200 rounded-full px-2">1</span>
+                            <span class="bg-gray-200 rounded-full px-2">{{$offer->user->offer->count()}}</span>
                             Offres
                         </div>
                         <div>
-                            <span class="bg-gray-200 rounded-full px-2">1</span>
+                            <span class="bg-gray-200 rounded-full px-2">{{$offer->user->ratings->count()}}</span>
                             Avis
                         </div>
                     </div>
                     <div class=" flex px-3 gap-4">
                         <button onclick="location.href='/compte/{{$offer->user_id}}'"
                             class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-primary-color hover:bg-primary-hover">
-                            Voir Profil
+                            Voir Profile
                         </button>
                         <button onclick="location.href='/moncompte/mesmessages/{{$offer->user_id}}'"
                             class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-black ">
@@ -355,7 +360,9 @@
                                  Add Meetup
                              </button>
                              <button type="button" class="btn" id="meetButton">
-                                 Chat
+                                <a href="{{route('offer.chat',$offer->id)}}">
+                                                    Chat
+                                </a>
                              </button>
                             </td>
                         </tr>

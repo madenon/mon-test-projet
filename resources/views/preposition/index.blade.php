@@ -30,11 +30,14 @@
                         <td>{{ $preposition->offer? $preposition->offer->user->name :'' }}</td>
                         <td>{{ $preposition->offer_name }}</td>
                         <td>@if($preposition->meetup)
-                            <button type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button " data-bs-toggle="modal" data-bs-target="#meetModal">
-<i class="fas fa-calendar" style="color: #24a19c;"></i></button>@endif</td>
+                            <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button " data-bs-toggle="modal" data-bs-target="#meetModal">
+                            <i class="fas fa-calendar" style="color: #24a19c;"></i>
+                            </a>
+                            @endif
+                        </td>
                         <td>
                             <!-- Chat button with icon -->
-                            <a type="button" class="btn  chat-button" href="">
+                            <a type="button" class="btn  chat-button" href="{{route('propositions.chat',$preposition->id)}}">
                                 <i class="fas fa-comment-dots" style="color: #24a19c;"></i>
                             </a>
                             <!-- Edit button with icon --> @if($preposition->status!='accepted')

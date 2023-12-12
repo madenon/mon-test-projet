@@ -30,7 +30,7 @@
                 {{$offersCount}} items
             </div>
             <div class="ms-3">
-                <select name="sort_by">
+                <select name="sort_by" id="sort_by">
                     <option value="latest" {{ request('sort_by') == 'latest' ? 'selected' : '' }}>Plus récents</option>
                     <option value="oldest" {{ request('sort_by') == 'oldest' ? 'selected' : '' }}>Plus anciens</option>
                     <option value="price_desc" {{ request('sort_by') == 'price_desc' ? 'selected' : '' }}>Prix décroissant</option>

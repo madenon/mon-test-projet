@@ -150,6 +150,29 @@
 
         // Set the selected attribute for the type dropdown
         $("#typeSelect").val(typeValue).prop('selected', true);
+
+        $("#sort_by").change(function(){
+            var selectedValue = $(this).val();
+
+            var currentUrl = window.location.href;
+            var urlWithSortOption = updateQueryStringParameter(currentUrl, "sort_by", selectedValue);
+
+            // Redirect to the updated URL
+            window.location.href = urlWithSortOption;
+
+        } )
+
+        function updateQueryStringParameter(uri, key, value) {
+                var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+                var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+                if (uri.match(re)) {
+                    return uri.replace(re, '$1' + key + "=" + value + '$2');
+                } else {
+                    return uri + separator + key + "=" + value;
+                }
+            }
+
  });
+
 </script>
 
