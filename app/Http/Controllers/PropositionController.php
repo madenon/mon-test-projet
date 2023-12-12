@@ -45,13 +45,13 @@ class PropositionController extends Controller
 
     public function store(Request $request)
     {
-        $request->merge(['status' => 'pending']);
+        $request->merge(['status' => 'ُEn cours']);
 
         $request->validate([
             'name' => 'required',
             'offer_id' => 'required',
             'user_id' => 'required',
-            'status' => 'required|in:declined,pending,accepted',
+            'status' => 'required',
             'price' => 'nullable|numeric',
             
         ]);
@@ -125,8 +125,12 @@ public function destroy($prepositionId)
         return response()->json(['error' => 'Preposition not found'], 404);
     }
 
-    // Delete the preposition
-    $preposition->delete();
+    // Delete associated records in ch_messages
+$preposition->chMessages()->delete();
+$preposition->transactions()->delete();
+
+// Now delete the preposition
+$preposition->delete();
 
     // Optionally, you can return a success response
     return response()->json(['success' => true]);

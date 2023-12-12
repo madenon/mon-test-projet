@@ -6,14 +6,16 @@
         <table class="table align-middle mb-0 bg-white">
             <thead class="bg-light">
                 <tr>
-                    <th>Name</th>
-                    <th>Image</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th>Maker</th>
-                    <th>Offer</th>
-                    <th>Meet</th>
-                    <th>Actions</th>
+                <th>Nom</th>
+<th>Image</th>
+<th>Prix</th>
+<th>Description</th>
+<th>Statut</th>
+<th>Créateur</th>
+<th>Offre</th>
+<th>Rencontre</th>
+<th>Actions</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -23,6 +25,7 @@
                         <td> <img src="{{ route('proposition-pictures-file-path',$preposition->images ?$preposition->images :'' ) }}" alt=""
                              /></td>
                              <td>{{ $preposition->price }}</td>
+                             <td>{{ $preposition->negotiation }}</td>
                         <td ><span class="badge {{ getStatusBadgeClass($preposition->status) }} rounded-pill d-inline">
                             {{ $preposition->status }}
                         </span></td>
@@ -61,19 +64,32 @@
                         <form id="editForm{{ $preposition->id }}">
                             @csrf
                             <div class="mb-3">
-                                <label for="editName" class="form-label">Name</label>
+                                <label for="editName" class="form-label">Nom de la proposition</label>
                                 <input type="text" class="form-control" id="editName" name="name" value="{{ $preposition->name }}">
                             </div>
                             <div class="mb-3">
-                                <label for="editNegotiation" class="form-label">Negotiation</label>
+        <label for="editStatus" class="form-label">Statut</label>
+        <select class="form-select" id="editStatus" name="status">
+            <option value="En cours" {{ $preposition->status === 'En cours' ? 'selected' : '' }}>En cours</option>
+            <option value="Accépte" {{ $preposition->status === 'Accépte' ? 'selected' : '' }}>Accépte</option>
+            <option value="Refusé" {{ $preposition->status === 'Refusé' ? 'selected' : '' }}>Refusé</option>
+        </select>
+    </div>
+                            <div class="mb-3">
+                                <label for="editNegotiation" class="form-label">Négotiation</label>
                                 <textarea class="form-control" id="editNegotiation" name="negotiation">{{ $preposition->negotiation }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editPrice" class="form-label">Prix</label>
+                                <input type="number" class="form-control" id="editPrice" name="price" value="{{ $preposition->price }}">
+
                             </div>
                             <!-- Add other form fields as needed -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                         <button type="button" class="btn btn-primary edit-button" data-preposition-id="{{ $preposition->id }}">
-    Save changes
+    Sauvegarder
 </button>
                     </div></form>
                 </div>
@@ -110,8 +126,8 @@
                     <td id="meetDescription"></td>
                    <td id="meetStatus"></td>
 <td id="meetActions">
-    <button class="btn btn-success accept-button" >Accept</button>
-    <button class="btn btn-danger decline-button" >Decline</button>
+    <button class="btn btn-success accept-button" >Accepter</button>
+    <button class="btn btn-danger decline-button" >Rejeter</button>
 </td>
 
                 </tbody>
@@ -124,11 +140,11 @@
 @php
     function getStatusBadgeClass($status) {
         switch ($status) {
-            case 'refused':
+            case 'Refusé':
                 return 'bg-danger';
-            case 'pending':
+            case 'En cours':
                 return 'bg-warning';
-            case 'completed':
+            case 'Accepté':
                 return 'bg-success';
            
         }

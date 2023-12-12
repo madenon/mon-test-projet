@@ -70,4 +70,8 @@ class Preposition extends Model
 {
     return $this->hasMany(Transaction::class, 'proposition_id', 'id');
 }
+public function chmessages(): HasMany
+{
+    return $this->hasMany(ChMessage::class);
+}
 }

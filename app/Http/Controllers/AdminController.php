@@ -71,7 +71,10 @@ public function transactions(Request $request){
         
         $transactions = $transactionsFromOffers->concat($transactionsFromPrepositions);
 
+    }else {
+        $transactions=$transactions->get();
     }
+
 return view('admin.transaction-list', compact('transactions'));
 }
 

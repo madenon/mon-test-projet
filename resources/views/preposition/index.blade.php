@@ -49,7 +49,7 @@
                         </td>
                         <td>
                             @php 
-                                $rating=App\Models\Rating::where('user_id',$preposition->offer->user_id)
+                                $rating=App\Models\Rating::where('user_id', Auth::user()->id)
                                 ->where('rated_by_user_id',$preposition->user_id)->first();
                             @endphp 
                             <button type="button" class="btn rating-button">
