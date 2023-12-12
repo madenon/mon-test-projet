@@ -76,6 +76,11 @@ class OfferController extends Controller
         $offers = $queryBuilder->paginate(10);
         $user = User::find(auth()->id());
         $categoryName = Category::where('id', $category)->value('name');
+
+        $ratings=$offer->ratings;
+        $ratingsCount=$ratings->count();
+        $ratingsAvg=$ratings->avg('stars');
+
         // check if user is connected
         if( $user!=null){
             $onlineStatus = $user->is_online;
@@ -236,5 +241,11 @@ class OfferController extends Controller
         $offer = Offer::where('name', 'like', '%'. $search .'%')->get();
 
         return view('offer.search', compact('offer'));
+    }
+
+    public function chat($offerId){
+        $offer = Offer::find($offerId);
+        $id=$offer->user->id;
+        return redirect()->route('user',$id);
     }
 }

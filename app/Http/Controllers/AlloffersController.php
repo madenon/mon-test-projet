@@ -29,7 +29,6 @@ class AlloffersController extends Controller
         $online=$request->input('online');
  
         $queryBuilder = Offer::with('preposition')
-        ->orderBy('created_at', 'DESC')
         ->where('active_offer', 1);
         if ($query) {
             $queryBuilder->where('title', 'like', '%' . $query . '%');
@@ -61,16 +60,17 @@ class AlloffersController extends Controller
             else
             $queryBuilder->whereNotIn('user_id',$onlineUsers);
         }
+
          // Add sorting condition
-    if ($sortOrder === 'latest') {
-        $queryBuilder->orderBy('created_at', 'DESC');
-    } elseif ($sortOrder === 'oldest') {
-        $queryBuilder->orderBy('created_at', 'ASC');
-    } elseif ($sortOrder === 'price_low') {
-        $queryBuilder->orderBy('price', 'ASC');
-    } elseif ($sortOrder === 'price_high') {
-        $queryBuilder->orderBy('price', 'DESC');
-    }
+        if ($sortOrder === 'latest') {
+            $queryBuilder->orderBy('created_at', 'DESC');
+        } else if ($sortOrder === 'oldest') {
+            $queryBuilder->orderBy('created_at', 'ASC');
+        } else if ($sortOrder === 'price_desc') {
+            $queryBuilder->orderBy('price', 'DESC');
+        } else if ($sortOrder === 'price_asc') {
+            $queryBuilder->orderBy('price', 'ASC');
+        }
         $offers = $queryBuilder->paginate(10);
         $categoryName = Category::where('id', $category)->value('name');
         return view('alloffers.index', compact('offers','departments','types','categoryName'));
