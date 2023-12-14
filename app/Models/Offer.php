@@ -29,6 +29,7 @@ class Offer extends Model
         'user_id',
         'type_id',
         'category_id',
+        'subcategory_id',
         'region_id',
         'department_id',
         'active_offer'

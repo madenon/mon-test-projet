@@ -412,6 +412,7 @@
     </div>
 </div>
 <script>
+
         function changeMainImage(newImage) {
             const mainImage = document.getElementById('mainImage');
                 mainImage.src = window.location.origin +'/storage/offer-pictures/'+newImage;
@@ -473,7 +474,7 @@
             $('#meetTable').hide();
             }
 
-            if(propositionStatus=="accepted" || propositionStatus=="refused" ){
+            if(propositionStatus=="Acceptée" || propositionStatus=="Rejetée" ){
                 $('#acceptButton').hide();
                 $('#declineButton').hide();
             }
@@ -486,13 +487,13 @@
           // Handle Accept button click
           $('#acceptButton').click(function () {
             var propositionId = $(this).data('proposition-id');
-            updatePropositionStatus(propositionId, 'accepted');
+            updatePropositionStatus(propositionId, 'Acceptée');
         });
 
         // Handle Decline button click
         $('#declineButton').click(function () {
             var propositionId = $(this).data('proposition-id');
-            updatePropositionStatus(propositionId, 'declined');
+            updatePropositionStatus(propositionId, 'Rejetée');
         });
  // Handle Meet button click
  $("#meetupForm").hide();
@@ -513,15 +514,15 @@
             success: function (response) {
                 // Handle success response
 
-if(newStatus=="declined")
+if(newStatus=="Rejetée")
   Swal.fire({
     title: 'Success',
     icon: 'success',
-    text: 'You have declined the proposition.',
+    text: 'Vous avez refusé la proposition.',
   }).then(function () {
                     location.reload();
                 });
-    else if(newStatus=="accepted")
+    else if(newStatus=="Acceptée")
     Swal.fire({
         title: 'Success',
         icon: 'success',
@@ -713,11 +714,11 @@ $('#yourModalId').on('show.bs.modal', function (event) {
 @php
     function getStatusBadgeClass($status) {
         switch ($status) {
-            case 'refused':
+            case 'Rejetée':
                 return 'bg-danger';
-            case 'pending':
+            case 'En cours':
                 return 'bg-warning';
-            case 'accepted':
+            case 'Acceptée':
                 return 'bg-success';
            
         }

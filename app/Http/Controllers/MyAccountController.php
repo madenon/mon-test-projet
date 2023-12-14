@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\OfferImages;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\DB;
+
 
 class MyAccountController extends Controller
 {
@@ -83,7 +85,8 @@ $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPro
     }
 
     public function editOffer($offerId)
-    {
+    {    
+        $this->authorize('modify-offer', Offer::find($offerId));
         $user = Auth::user();
         $categories = Category::whereNull("parent_id")->get();
         $subcategories = Category::where("parent_id", '!=', NULL)->get();
@@ -111,10 +114,14 @@ $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPro
     }
 
     public function updateOffer(Request $request, $offerId)
-    {
+    {    
         $user = Auth::user();
-        $offer = Offer::find($offerId)->where('user_id', $user->id);
-
+        $offer = Offer::with('category') 
+        ->where('id', $offerId)
+        ->where('user_id', $user->id)
+        ->first();
+       
+    
         $request->validate([
             'type' => ['required_if:old_type, $offer->type_id'],
             'experience' => ['nullable'],
@@ -135,15 +142,22 @@ $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPro
 
         $offer->title = $request->title;
         $offer->type_id = $request->type_id;
-        $offer->subcategory_id = $request->category_id;
-        $offer->subcategory->parent_id = $request->category_id;
+        $offer->category_id=$request->category_id;
+        $offer->subcategory_id=$request->subcategory_id;
+
+        
         $offer->department_id = $request->department_id;
         $offer->department->region_id = $request->region_id;
         $offer->description = $request->description;
         $offer->price = $request->price;
         $offer->perimeter = $request->perimeter;
-        $offer->experience = $request->experience;
-        $offer->condition = $request->condition;
+        if($request->type_id==2){
+        $offer->condition = $request->condition;}
+        else {        $offer->condition = null;}
+        if($request->type_id==7){
+            $offer->experience = $request->experience;}
+            else {        $offer->experience = null;}
+
 
         if ($request->hasFile('default_image')) {
             
@@ -174,12 +188,25 @@ $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPro
         }
         if ($request->hasFile('default_image')) {
         $offer->update(array_merge(
-            $request->except('_token', '_method', 'condition','default_image','additional_images'),
+            $request->except('_token', '_method', 'CONDITION','default_image','additional_images'),
             ['offer_default_photo' => $imageDefault]
-        ));}
-        else { $offer->update(array_merge(
-            $request->except('_token', '_method', 'condition','default_image','additional_images')
-        ));}
+        ));} else{
+            // Save the changes
+DB::beginTransaction();
+
+try {
+    $offer->save();
+   
+
+    // Commit the transaction
+    DB::commit();
+} catch (\Exception $e) {
+    // Rollback the transaction if an exception occurs
+    DB::rollback();
+    throw $e;
+}
+        }
+       
                 return redirect(route('myaccount.offers'))->with(['success', 'Annonce mis à jours', ['offerId']]);
     }
 

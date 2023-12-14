@@ -40,7 +40,7 @@
                             <a type="button" class="btn  chat-button" href="{{route('propositions.chat',$preposition->id)}}">
                                 <i class="fas fa-comment-dots" style="color: #24a19c;"></i>
                             </a>
-                            <!-- Edit button with icon --> @if($preposition->status!='accepted')
+                            <!-- Edit button with icon --> @if($preposition->status!='Acceptée')
                             <button type="button" class="btn edit-button" data-bs-toggle="modal" data-bs-target="#editModal{{ $preposition->id }}">
                                 <i class="fas fa-edit" style="color: #ffc107;"></i>
                             </button>@endif
@@ -56,7 +56,7 @@
                                 ->where('rated_by_user_id',$preposition->user_id)->first();
                             @endphp 
                             <button type="button" class="btn rating-button">
-                                @if($preposition->status!='accepted')
+                                @if($preposition->status!='Acceptée')
                                 <span>Not accepted yet</span>
                                 @elseif(!$rating || $rating->stars==0 || $rating->preposition_id!=$preposition->id)
                                 <span class="rate" data-preposition-id="{{ $preposition->id }}" data-preposition-name="{{ $preposition->name }}">Click to rate</span>
@@ -154,11 +154,11 @@
 @php
     function getStatusBadgeClass($status) {
         switch ($status) {
-            case 'refused':
+            case 'Rejetée':
                 return 'bg-danger';
-            case 'pending':
+            case 'En cours':
                 return 'bg-warning';
-            case 'accepted':
+            case 'Acceptée':
                 return 'bg-success';
            
         }
@@ -246,7 +246,7 @@
             $('#meetDate').text(meetDate);
             $('#meetTime').text(meetTime);
             $('#meetStatus').text(meetStatus);
-            if(descriptionData.status=="accepted"){
+            if(descriptionData.status=="Confirmé"){
                 $('#meetActions').hide();
             }
             if(!descriptionData){
@@ -259,12 +259,12 @@
     //meet accept/decline 
 $(document).on('click', '.accept-button', function () {
     var meetId = descriptionData.id;
-    updateMeetStatus(meetId, 'accepted');
+    updateMeetStatus(meetId, 'Confirmé');
 });
 
 $(document).on('click', '.decline-button', function () {
     var meetId = descriptionData.id;
-    updateMeetStatus(meetId, 'refused');
+    updateMeetStatus(meetId, 'Annulé');
 });
 
 function updateMeetStatus(meetId, status) {

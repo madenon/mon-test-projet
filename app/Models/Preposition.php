@@ -33,10 +33,10 @@ class Preposition extends Model
     
         static::updated(function ($preposition) {
             // Notification when a preposition is updated
-            if ($preposition->status == 'accepted') {
-                $message = 'La proposition :'.$preposition->name. ' est accepté';
+            if ($preposition->status == 'Acceptée') {
+                $message = 'La proposition :'.$preposition->name. ' est acceptée';
             } else {
-                $message = 'La proposition :'.$preposition->name. ' est rejeté';
+                $message = 'La proposition :'.$preposition->name. ' est rejetée';
             }
             $preposition->createNotification($preposition->user_id, $message);
         });

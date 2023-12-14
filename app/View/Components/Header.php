@@ -8,6 +8,8 @@ use App\Models\Region;
 use App\Models\Notification;
 
 use App\Models\User;
+use App\Models\Offer;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
@@ -32,9 +34,10 @@ class Header extends Component
 
         if(Auth::user()!=null){
         $this->user = User::find(Auth::user()->id);
-        $this->propositions = Preposition::with('offer', 'user')->where('user_id', Auth::user()->id)            
-        ->where('status', 'pending')
-        ->get();
+        $offers = Offer::where('user_id', Auth::user()->id)->get();
+        $this->propositions = $offers->flatMap(function ($offer) {
+            return $offer->preposition->where('status', 'En cours');
+        });
         $this->notifications=Notification::where('user_id', Auth::user()->id)            
         ->where('seen', 0)
         ->get();

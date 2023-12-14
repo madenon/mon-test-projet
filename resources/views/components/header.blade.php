@@ -48,14 +48,14 @@
                 <div id="header-authenticated-user" class="">
                     <div class="dropdown" class="header-authenticated-user-content">
                     <div id="header-user-notification-icon" class="" data-bs-toggle="dropdown" aria-expanded="false">
-                        @if(count($propositions) == 0 && count($notifications))
+                        @if(count($propositions) == 0 && count($notifications)==0)
                             <div class="header-user-notification-icon"></div>
                         @else
                         <div class="header-user-notification-icon-notified"></div>
                         @endif
                         </div>
                         <ul class="dropdown-menu notification-dropdown overflow-auto">
-                        @if(count($propositions) == 0)
+                        @if(count($propositions) == 0 && count($notifications)==0)
                             <li>
                                 <div class="notification-dropdown-item">
                                     <div class="notification-dropdown-item-content">
@@ -277,7 +277,6 @@
        
     </header>
 <!-- Add a script to handle marking as seen and deletion -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Add event listeners for marking as seen and deletion

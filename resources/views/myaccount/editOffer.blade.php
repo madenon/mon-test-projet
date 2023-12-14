@@ -65,7 +65,9 @@
                         <select required name='subcategory_id' id="select_category" class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
                             <option value="0" selected hidden>Choisir la sous catégorie *</option>
                             @foreach($subcategories as $subcategory)
-                            <option value="{{ $subcategory->id }}" {{ $subcategory->id == $offer->subcategory_id ? 'selected' : '' }}>{{ $category->name }}</option>
+                            @if($subcategory->parent_id==$offer->category_id)
+                            <option value="{{ $subcategory->id }}" {{ $subcategory->id == $offer->subcategory_id ? 'selected' : '' }}>{{ $subcategory->name }}</option>
+                            @endif
                             @endforeach
                         </select>
                     </div>
@@ -249,7 +251,7 @@
         }
         subcategory.map((item)=>{
                 const option=document.createElement("option");
-                option.setAttribute("value",item.parent_id);
+                option.setAttribute("value",item.id);
                 option.innerHTML=item.name;
                 select_category.append(option);
         });

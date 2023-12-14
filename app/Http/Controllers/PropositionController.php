@@ -45,7 +45,7 @@ class PropositionController extends Controller
 
     public function store(Request $request)
     {
-        $request->merge(['status' => 'ُEn cours']);
+        $request->merge(['status' => 'En cours']);
 
         $request->validate([
             'name' => 'required',
@@ -94,11 +94,11 @@ if (isset($imageName)) {
     $newStatus = $request->input('newStatus');
     $proposition=Preposition::find($propositionId);
     if($proposition!=null){
-    if ($newStatus === 'accepted') {
+    if ($newStatus === 'Acceptée') {
         // Create a transaction
         $transaction = Transaction::create([
             'proposition_id' => $proposition->id,
-            'status' => 'completed', 
+            'status' => 'En cours', 
             'amount' => $proposition->price?$proposition->price:'0', 
             'name' => $proposition->name, 
             'date' => now()

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1acd35281939bf767e4f246401bf91ed",
+    "content-hash": "01f2383efdb311e8dcff8b14ef59cc00",
     "packages": [
         {
             "name": "brick/math",
@@ -1765,16 +1765,16 @@
         },
         {
             "name": "laravel/scout",
-            "version": "v10.6.0",
+            "version": "v10.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/scout.git",
-                "reference": "f9bc115d253de8d3f3f2c201651174f6a5f1a357"
+                "reference": "fc9bc0c2061eb54b31d9dba0999755177a8f1a0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/scout/zipball/f9bc115d253de8d3f3f2c201651174f6a5f1a357",
-                "reference": "f9bc115d253de8d3f3f2c201651174f6a5f1a357",
+                "url": "https://api.github.com/repos/laravel/scout/zipball/fc9bc0c2061eb54b31d9dba0999755177a8f1a0e",
+                "reference": "fc9bc0c2061eb54b31d9dba0999755177a8f1a0e",
                 "shasum": ""
             },
             "require": {
@@ -1836,7 +1836,7 @@
                 "issues": "https://github.com/laravel/scout/issues",
                 "source": "https://github.com/laravel/scout"
             },
-            "time": "2023-11-28T15:58:23+00:00"
+            "time": "2023-12-05T19:44:31+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -2983,16 +2983,16 @@
         },
         {
             "name": "orchid/platform",
-            "version": "14.15.0",
+            "version": "14.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchidsoftware/platform.git",
-                "reference": "85d92970d40dee473f3271ff5cd07c282d746d0d"
+                "reference": "6b0320979e994dc369fddff83733d54de4702199"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchidsoftware/platform/zipball/85d92970d40dee473f3271ff5cd07c282d746d0d",
-                "reference": "85d92970d40dee473f3271ff5cd07c282d746d0d",
+                "url": "https://api.github.com/repos/orchidsoftware/platform/zipball/6b0320979e994dc369fddff83733d54de4702199",
+                "reference": "6b0320979e994dc369fddff83733d54de4702199",
                 "shasum": ""
             },
             "require": {
@@ -3086,7 +3086,7 @@
                     "type": "opencollective"
                 }
             ],
-            "time": "2023-10-22T02:54:46+00:00"
+            "time": "2023-12-11T05:04:14+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -9735,5 +9735,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

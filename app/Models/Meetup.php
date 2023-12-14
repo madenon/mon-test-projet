@@ -34,7 +34,7 @@ class Meetup extends Model
 
         static::updated(function ($meetup) {
             // Notify about meetup status update
-$message = 'La rencontre pour la proposition "' . $meetup->preposition->name . '" a été ' . ($meetup->status == 'accepted' ? 'Accepté' : 'Rejeté');
+$message = 'La rencontre pour la proposition "' . $meetup->preposition->name . '" a été ' . $meetup->status . '".' ;
             $meetup->createNotification($meetup->preposition->offer->user_id, $message);
 
             // You can add additional checks here for specific status changes if needed
