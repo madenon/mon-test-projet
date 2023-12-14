@@ -33,9 +33,10 @@ class AlloffersController extends Controller
         if ($query) {
             $queryBuilder->where('title', 'like', '%' . $query . '%');
         }
-    
+        
         if ($category) {
-            $queryBuilder->where('category_id', $category); // Filter by category ID
+            $subcategoryIds = Category::find($category)->children->pluck('id')->toArray();
+            $queryBuilder->whereIn('subcategory_id', $subcategoryIds); // Filter by category ID
         }
         if ($department) {
             $queryBuilder->where('department_id', $department); // Filter by category ID

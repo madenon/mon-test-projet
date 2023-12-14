@@ -289,37 +289,8 @@
         </div>
         <div class="mx-auto grid max-w-screen-xl grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
                 @foreach ($similaroffers as $similar)
-                        <article class="rounded-xl bg-white p-3 shadow-lg hover:shadow-xl " >
-                            <a class="no-underline" href="{{route('offer.offer', [$similar->id, $similar->slug])}}">
-                                <div class="relative flex items-end overflow-hidden rounded-xl">
-                                    <img class="w-full h-96" src="{{ route('offer-pictures-file-path',$similar->offer_default_photo)}}" alt="Offer Photo" />
-                                </div>
-                                <div class="mt-1 p-2">
-                                    <span class="text-gray-500 text-lg flex items-center div-categorie pb-2">
-                                        <img src="/images/Stack.svg" alt="" class="mr-2 ">
-                                        {{$similar->subcategory->parent->name}}
-                                    </span>
-                                    <span class="text-titles font-bold text-3xl overflow-hidden">
-                                        {{$similar->title }}
-                                    </span>
-                                    <hr class="w-full text-titles">
-                                    <div class="mt-3 flex items-end justify-between">
-                                        <div class="flex gap-2 items-center">
-                                            <img src="/images/map-pin.svg" alt="">
-                                            <span class="text-gray-500">
-                                                {{$similar->department->region->name . ", " .
-                                                $similar->department->name}}
-                                            </span>
-                                        </div>
-                                        <div class="group inline-flex rounded-xl">
-                                            <span class="text-red-500 text-lg">
-                                                {{$similar->type->name }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </article>
+                <x-offer-present-card :offer=$similar></x-offer-present-card>
+                  
                 @endforeach
         </div>
     </section>

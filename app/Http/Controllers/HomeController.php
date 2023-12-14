@@ -44,7 +44,23 @@ $topRegions = Region::select('regions.id','regions.name', DB::raw('COUNT(offers.
    ->limit(5)
    ->get();
 
-    return view('home', compact('topCategories', 'topRegions','topUsers'));
+   $featuredOffers = Offer::select('offers.*', DB::raw('COUNT(prepositions.id) as proposition_count'))
+   ->leftJoin('prepositions', 'offers.id', '=', 'prepositions.offer_id')
+   ->groupBy('offers.id', 'offers.title')
+   ->orderByDesc('proposition_count')
+   ->limit(6)
+   ->get();
+
+   $recentOffers = Offer::select('offers.*')
+   ->groupBy('offers.id', 'offers.title')
+   ->orderByDesc('created_at')
+   ->limit(6)
+   ->get();
+
+   $categories=Category::all();
+
+    return view('home', compact('topCategories', 'topRegions',
+      'topUsers','categories','featuredOffers','recentOffers'));
     }
 
     }

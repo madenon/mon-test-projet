@@ -52,7 +52,8 @@ class AppliedFilters extends Component
         }
         
         if ($category) {
-            $queryBuilder->where('category_id', $category); // Filter by category ID
+            $subcategoryIds = Category::find($category)->children->pluck('id')->toArray();
+            $queryBuilder->whereIn('subcategory_id', $subcategoryIds); // Filter by category ID
         }
         if ($department) {
             $queryBuilder->where('department_id', $department); // Filter by category ID
@@ -107,6 +108,14 @@ class AppliedFilters extends Component
             "icon"=>$subcategory->parent->icon,
         ]);
         
+    }
+    if ($category){
+        $category=Category::find($category);
+        array_push($filters,[
+        "type"=>"category",
+        "name"=> $category->name,
+        "icon"=>$category->icon,
+    ]);
     }
     $priceRange=($minPrice?$minPrice:0)." EUR~".($maxPrice?$maxPrice:4000)." EUR";
     if(($maxPrice || $minPrice) && ($minPrice!=0 || $maxPrice!=4000))array_push($filters,[
