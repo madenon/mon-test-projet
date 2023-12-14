@@ -65,7 +65,7 @@
                         <select required name='subcategory_id' id="select_category" class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
                             <option value="0" selected hidden>Choisir la sous catégorie *</option>
                             @foreach($subcategories as $subcategory)
-                            @if($subcategory->parent_id==$offer->category_id)
+                            @if($subcategory->id==$offer->subcategory_id)
                             <option value="{{ $subcategory->id }}" {{ $subcategory->id == $offer->subcategory_id ? 'selected' : '' }}>{{ $subcategory->name }}</option>
                             @endif
                             @endforeach

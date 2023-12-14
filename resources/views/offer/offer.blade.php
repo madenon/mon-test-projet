@@ -295,22 +295,21 @@
         </div>
     </section>
 
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <!-- Modal content remains the same -->
-    <div class="modal-dialog">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg"> <!-- Set modal-lg class for larger width -->
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Offer</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Offre</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
             </div>
             <div class="modal-body">
                 <table class="table align-middle mb-0 bg-white">
                     <thead class="bg-light">
                         <tr>
-                            <th>Name</th>
-                            <th>Status</th>
+                            <th>Nom</th>
+                            <th>Statut</th>
                             <th>Image</th>
-                            <th>User</th>
+                            <th>Utilisateur</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -318,70 +317,69 @@
                         <tr>
                             <td id="modalName"></td>
                             <td id="modalStatus"></td>
-                            <td>  <img id="modalImage" src="" alt="Image"> </td>
+                            <td> <img id="modalImage" src="" alt="Image"> </td>
                             <td id="modalUser"></td>
                             <td>
-                             <button type="button"  class="btn btn-success" id="acceptButton" data-bs-dismiss="modal" aria-label="Close">
-                                  Accept
-                             </button>
-                             <button type="button" class="btn btn-danger" id="declineButton" data-bs-dismiss="modal" aria-label="Close">
-                                 Decline
-                             </button>
-                             <button type="button" class="btn" id="meetButton">
-                                 Add Meetup
-                             </button>
-                             <button type="button" class="btn" id="meetButton">
-                                <a href="{{route('offer.chat',$offer->id)}}">
-                                                    Chat
-                                </a>
-                             </button>
+                                <button type="button" class="btn btn-success" id="acceptButton" data-bs-dismiss="modal" aria-label="Fermer">
+                                    Accepter
+                                </button>
+                                <button type="button" class="btn btn-danger" id="declineButton" data-bs-dismiss="modal" aria-label="Fermer">
+                                    Refuser
+                                </button>
+                                <button type="button" class="btn btn-primary m-1" id="meetButton">
+    <i class="fa fa-calendar"></i> Ajouter un rendez-vous
+</button>
+
+<button type="button" class="btn btn-primary m-1" id="chatButton">
+<i class="fas fa-comment"></i> Chat
+</button>
+
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <!-- show meetups -->
-                <h2 id="meetHeader">Meetups</h2>
-            <table id="meetTable" class="table align-middle">
-                <thead class="bg-light">
-                    <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="meetupsTableBody">
-                    <td id="meetDate"></td>
-                    <td id="meetTime"></td>
-                    <td id="meetDescription"></td>
-                   <td id="meetStatus"></td>
-                </tbody>
-            </table>
-                 <!-- Meetup Schedule Form -->
-                 <form id="meetupForm">
-                @csrf
-                <input type="hidden" id="prepositionId" name="prepositionId" value="">
-                <div class="mb-3">
-                    <label for="meetupDate" class="form-label">Meetup Date</label>
-                    <input type="date" class="form-control" id="meetupDate" name="meetupDate" required>
-                </div>
-                <div class="mb-3">
-                    <label for="meetupTime" class="form-label">Meetup Time</label>
-                    <input type="time" class="form-control" id="meetupTime" name="meetupTime" required>
-                </div>
-                <div class="mb-3">
-                    <label for="meetupDescription" class="form-label">Meetup Description</label>
-                    <textarea class="form-control" id="meetupDescription" name="meetupDescription" rows="3" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Schedule Meetup</button>
-            </form>
+                <h2 id="meetHeader">Rendez-vous</h2>
+                <table id="meetTable" class="table align-middle">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Heure</th>
+                            <th>Description</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody id="meetupsTableBody">
+                        <td id="meetDate"></td>
+                        <td id="meetTime"></td>
+                        <td id="meetDescription"></td>
+                        <td id="meetStatus"></td>
+                    </tbody>
+                </table>
+                <form id="meetupForm">
+                    @csrf
+                    <input type="hidden" id="prepositionId" name="prepositionId" value="">
+                    <div class="mb-3">
+                        <label for="meetupDate" class="form-label">Date du rendez-vous</label>
+                        <input type="date" class="form-control" id="meetupDate" name="meetupDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="meetupTime" class="form-label">Heure du rendez-vous</label>
+                        <input type="time" class="form-control" id="meetupTime" name="meetupTime" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="meetupDescription" class="form-label">Description du rendez-vous</label>
+                        <textarea class="form-control" id="meetupDescription" name="meetupDescription" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Planifier le rendez-vous</button>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
             </div>
         </div>
     </div>
 </div>
+
 <script>
 
         function changeMainImage(newImage) {

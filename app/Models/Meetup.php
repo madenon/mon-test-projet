@@ -28,13 +28,13 @@ class Meetup extends Model
 
         static::created(function ($meetup) {
             // Notify about meetup creation
-            $message = 'Une nouvelle rencontre a été créée pour l\'échange' . $meetup->preposition->name . '".';
+            $message = 'Une nouvelle rencontre a été créée pour l\'échange :' . $meetup->preposition->name . '".';
             $meetup->createNotification($meetup->preposition->user_id, $message);
         });
 
         static::updated(function ($meetup) {
             // Notify about meetup status update
-$message = 'La rencontre pour la proposition "' . $meetup->preposition->name . '" a été ' . $meetup->status . '".' ;
+$message = 'La rencontre pour la proposition : "' . $meetup->preposition->name . '" a été ' . $meetup->status . '".' ;
             $meetup->createNotification($meetup->preposition->offer->user_id, $message);
 
             // You can add additional checks here for specific status changes if needed

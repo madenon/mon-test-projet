@@ -4,13 +4,13 @@
         <table class="table align-middle mb-0 bg-white">
             <thead class="bg-light">
                 <tr>
-                    <th>Name</th>
-                    <th>Utilisateur</th>
-                    <th>Amount</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Raison</th>
-                    <th>Action</th>
+                <th>Nom</th>
+                 <th>Utilisateur</th>
+                <th>Montant</th>
+                <th>Date</th>
+                <th>Statut</th>
+                <th>Raison</th>
+                <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,12 +25,12 @@
                                 {{ $transaction->status }}
                             </span>
                         </td>
-                        @if($transaction->status=='Échoué')
+                       
                     <td> {{ $transaction->reason }}</td>
-                    @endif
+                
                         @if($transaction->status=='En cours')
-                        <td> <button type="button" class="reject"  data-toggle="modal" data-target="#statusModal" data-id="{{ $transaction->id }}" data-status="Échoué">
-                        Échoué
+                        <td> <button type="button" class="reject"  data-toggle="modal" data-target="#statusModal" data-id="{{ $transaction->id }}" data-status="Échouée">
+                        Échouée
         <i class="fa-solid fa-ban ml-2" style="color: red;" ></i>    </button>
     <button type="button" class="button-filter" data-toggle="modalCompleted" data-target="#statusModal" data-id="{{ $transaction->id }}" data-status="Réussi">
         Terminé
@@ -49,7 +49,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="reasonModalLabel">Confirmation de statut</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -60,8 +60,8 @@
                 <input type="text" id="statusToUpdate" class="form-control" hidden>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="updateStatus">Save</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" id="updateStatus">Sauvegarder</button>
             </div>
         </div>
     </div>
@@ -70,7 +70,7 @@
 @php
     function getStatusBadgeClass($status) {
         switch ($status) {
-            case 'Échoué':
+            case 'Échouée':
                 return 'bg-danger';
             case 'En cours':
                 return 'bg-warning';

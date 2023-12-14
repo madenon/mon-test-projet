@@ -142,7 +142,6 @@ $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPro
 
         $offer->title = $request->title;
         $offer->type_id = $request->type_id;
-        $offer->category_id=$request->category_id;
         $offer->subcategory_id=$request->subcategory_id;
 
         
@@ -188,7 +187,7 @@ $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPro
         }
         if ($request->hasFile('default_image')) {
         $offer->update(array_merge(
-            $request->except('_token', '_method', 'CONDITION','default_image','additional_images'),
+            $request->except('_token','category_id','region_id', '_method', 'CONDITION','default_image','additional_images'),
             ['offer_default_photo' => $imageDefault]
         ));} else{
             // Save the changes

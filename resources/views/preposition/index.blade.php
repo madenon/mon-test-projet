@@ -5,15 +5,15 @@
         <table class="table align-middle mb-0 bg-white">
             <thead class="bg-light">
                 <tr>
-                    <th>Name</th>
-                    <th>Image</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th>Maker</th>
-                    <th>Offer</th>
-                    <th>Meet</th>
-                    <th>Actions</th>
-                    <th>Rate</th>
+                <th>Nom</th>
+<th>Image</th>
+<th>Prix</th>
+<th>Statut</th>
+<th>Créateur</th>
+<th>Offre</th>
+<th>Rencontre</th>
+<th>Actions</th>
+<th>Évaluation</th>
                 </tr>
             </thead>
             <tbody>
@@ -57,7 +57,7 @@
                             @endphp 
                             <button type="button" class="btn rating-button">
                                 @if($preposition->status!='Acceptée')
-                                <span>Not accepted yet</span>
+                                <span>Pas encore acceptée</span>
                                 @elseif(!$rating || $rating->stars==0 || $rating->preposition_id!=$preposition->id)
                                 <span class="rate" data-preposition-id="{{ $preposition->id }}" data-preposition-name="{{ $preposition->name }}">Click to rate</span>
                                 @else
@@ -81,7 +81,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLabel{{ $preposition->id }}">Edit Proposition</h5>
+                        <h5 class="modal-title" id="editModalLabel{{ $preposition->id }}">Modifier la proposition</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -90,7 +90,7 @@
                         <form id="editForm{{ $preposition->id }}">
                             @csrf
                             <div class="mb-3">
-                                <label for="editName" class="form-label">Name</label>
+                                <label for="editName" class="form-label">Nom de la proposition</label>
                                 <input type="text" class="form-control" id="editName" name="name" value="{{ $preposition->name }}">
                             </div>
                             <div class="mb-3">
@@ -100,7 +100,7 @@
                             <!-- Add other form fields as needed -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                         <button type="button" class="btn btn-primary edit-button" data-preposition-id="{{ $preposition->id }}">
     Save changes
 </button>
@@ -119,18 +119,18 @@
 <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h2 id="meetHeader">Meetups</h2>
+                    <h2 id="meetHeader">Rencontres</h2>
 
                     </div>
                     <div class="modal-body">
             <table id="meetTable" class="table align-middle">
                 <thead class="bg-light">
                     <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                    <th>Date</th>
+<th>Heure</th>
+<th>Description</th>
+<th>Statut</th>
+<th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="meetupsTableBody">
@@ -139,8 +139,8 @@
                     <td id="meetDescription"></td>
                    <td id="meetStatus"></td>
 <td id="meetActions">
-    <button class="btn btn-success accept-button" >Accept</button>
-    <button class="btn btn-danger decline-button" >Decline</button>
+    <button class="btn btn-success accept-button" >Accepter</button>
+    <button class="btn btn-danger decline-button" >Refuser</button>
 </td>
 
                 </tbody>
