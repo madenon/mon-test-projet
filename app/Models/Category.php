@@ -21,7 +21,7 @@ class Category extends Model
 
     public function offer(): HasMany
     {
-        return $this->hasMany(Offer::class);
+        return $this->hasMany(Offer::class,'subcategory_id');
     }
 
     public function type(): BelongsTo
