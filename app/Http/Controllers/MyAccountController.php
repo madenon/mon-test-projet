@@ -43,13 +43,9 @@ $totalTransactionsFromMesPropositions = $mesPropositions->flatMap->transactions
 $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPropositions;
 
         $userInfo = UserInfos::where('user_id', $user->id)->first();
-        $offer = Offer::where('user_id', $user->id)->first();
-
-        $offerPrepostion = $offer?Preposition::where('offer_id', $offer->id)->count():0;
-        $finishedOffers = Offer::where('user_id', $user->id)
-        ->whereNotNull('deleted_at')->count();
-        $offersInProgress = Offer::where('user_id', $user->id)
-        ->whereNull('deleted_at')->count();
+        $offerPrepostion = $mesPropositions->count();
+        $finishedOffers =$totalTransactions ;
+         $offersInProgress = $user->offer()->whereNull('deleted_at')->get()->count();
 
         $medalBronzeSilver=30;
         $medalSilverGold=60;

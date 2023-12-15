@@ -35,6 +35,8 @@ class Preposition extends Model
             // Notification when a preposition is updated
             if ($preposition->status == 'Acceptée') {
                 $message = 'La proposition :'.$preposition->name. ' est acceptée';
+                $preposition->createNotification($preposition->user_id, 'Vous avez une nouvelle transaction sur l\'offre: ' . $preposition->offer->title  );
+                $preposition->createNotification($preposition->offer->user_id, 'Vous avez une nouvelle transaction sur l\'offre: ' . $preposition->offer->title  );
             } else {
                 $message = 'La proposition :'.$preposition->name. ' est rejetée';
             }

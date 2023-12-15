@@ -109,8 +109,26 @@ $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPro
         $finishedOffers =$totalTransactions ;
          $offersInProgress = $user->offer()->whereNull('deleted_at')->get()->count();
 
-        return view('admin.user-details', compact('offer','user','userInfo', 'offerPrepostion', 'finishedOffers', 'offersInProgress'));
-    }
+         $medalBronzeSilver=30;
+         $medalSilverGold=60;
+ 
+         $ratings=$user->ratings;
+         $ratingsCount=$ratings->count();
+         $ratingsAvg=$ratings->avg('stars');
+         $followersCount=$user->followings->count();
+ 
+         return view('admin.user-details', compact(
+             'user',
+             'userInfo', 
+             'offerPrepostion', 
+             'finishedOffers', 
+             'offersInProgress',
+             'medalBronzeSilver',
+             'medalSilverGold',
+             'ratingsAvg',
+             'ratingsCount',
+             'followersCount',
+         ));    }
         /**
      * Handle an incoming authentication request.
      */
