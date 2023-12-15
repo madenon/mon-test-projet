@@ -12,6 +12,7 @@ use App\Models\Department;
 use App\Models\Offer;
 use App\Models\Transaction;
 use App\Models\Preposition;
+use App\Models\Region;
 use App\Models\UserInfos;
 use App\Models\Type;
 use App\Models\User;
@@ -30,12 +31,20 @@ class AdminController extends Controller
         $query = User::query();
     
         // Filter by role
-        if ($request->has('role')) {
+        if ($request->has('role') && $request->role!='') {
             $query->where('role', $request->role);
         }
     
-        // Filter by recent added
-        if ($request->has('recent_added') & $request->recent_added ) {
+        if ($request->has('sort_created_at')) {
+            $sortOrder = $request->input('sort_created_at');
+            $query->orderBy('created_at', $sortOrder);
+        }
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', "%$searchTerm%")
+                      ->orWhere('email', 'like', "%$searchTerm%");
+            });
         }
     
         $users = $query->paginate(10);
@@ -49,12 +58,30 @@ public function offers(Request $request){
     if ($request->has('userId')) {
         $query->where('user_id', $request->userId);
     }
+    if ($request->has('category')  && $request->category!='') {
+        $categoryId = $request->input('category');
+        $query->with('subcategory.parent') // Load the subcategory and its parent
+        ->whereHas('subcategory.parent', function ($query) use ($categoryId) {
+            $query->where('id', $categoryId);
+        });    }
+
+    if ($request->has('type')  && $request->type!='') {
+        $query->where('type_id', $request->input('type'));
+    }
+
+    if ($request->has('region') && $request->region!='' ) {
+        $regionId = $request->input('region');
+        
+        $query->whereHas('department.region', function ($query) use ($regionId) {
+            $query->where('id', $regionId);
+        });    }
    $offers= $query->orderBy('created_at', 'DESC')->paginate(10);
+   $categories=Category::all();
+   $types=Type::all();
+   $regions=Region::all();
+   $departments=Department::all();
    
-
-
-    
-    return view('admin.offer-list', compact('offers'));
+    return view('admin.offer-list', compact('offers','categories','types','regions','departments'));
 }  
 public function transactions(Request $request){
     $transactions = Transaction::with('proposition.user');

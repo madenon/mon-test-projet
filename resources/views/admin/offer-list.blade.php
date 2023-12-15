@@ -9,7 +9,48 @@
     </x-slot>
     
     <h1>My Offers Space</h1>
+    <form action="{{ route('admin.offers') }}" method="GET">
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Filter by:</label>
 
+        <!-- Category/Subcategory -->
+        <select name="category" class="mt-1 p-2 border rounded-md" onchange="this.form.submit()">
+            <option value="">All Categories</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                    {{ $category->name }}
+                </option>
+            @endforeach
+        </select>
+
+        <!-- Type -->
+        <select name="type" class="mt-1 p-2 border rounded-md" onchange="this.form.submit()">
+            <option value="">All Types</option>
+            @foreach ($types as $type)
+                <option value="{{ $type->id }}" {{ request('type') == $type->id ? 'selected' : '' }}>
+                    {{ $type->name }}
+                </option>
+            @endforeach
+        </select>
+
+        <!-- Region/Department (Assuming these are related to offers) -->
+        <select name="region" class="mt-1 p-2 border rounded-md" onchange="this.form.submit()">
+            <option value="">All Regions/Departments</option>
+            @foreach ($regions as $region)
+                <option value="{{ $region->id }}" {{ request('region') == $region->id ? 'selected' : '' }}>
+                    {{ $region->name }}
+                </option>
+            @endforeach
+        </select>
+
+        <!-- Countdown -->
+        <input type="checkbox" name="countdown" value="1" {{ request('countdown') == '1' ? 'checked' : '' }} onchange="this.form.submit()">
+        <label class="inline-block text-sm text-gray-700">Countdown</label>
+
+        <!-- Online Only -->
+        <input type="checkbox" name="online_only" value="1" {{ request('online_only') == '1' ? 'checked' : '' }} onchange="this.form.submit()">
+        <label class="inline-block text-sm text-gray-700">Online Only</label>
+    </div> </form>
     <div class="container">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             @if(count($offers) > 0 && !$offers->every('deleted_at'))

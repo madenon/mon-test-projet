@@ -5,6 +5,18 @@
         <h3 class="text-lg font-semibold mb-2">View List of All Users</h3>
 
         <form action="{{ route('admin.users') }}" method="GET">
+        <div class="mb-4 ">
+                <label class="block text-sm font-medium text-gray-700">Search:</label>
+                <input type="text" name="search" value="{{ request('search') }}" class="mt-1 p-2 border rounded-md">
+                
+                <!-- Use an icon (e.g., from FontAwesome or another icon library) as a link to submit the form -->
+                <button type="submit" class="ml-2 text-blue-500 hover:text-blue-700">
+                    <!-- Replace the content inside the span with your preferred search icon -->
+                    <i class="fa fa-search" aria-hidden="true"></i>
+
+                </button>
+            </div>
+            <div class="flex space-x-4 ">
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700">Filter by Role:</label>
                 <select name="role" id="filterRole" class="mt-1 p-2 border rounded-md" onchange="this.form.submit()">
@@ -16,13 +28,14 @@
                     @endforeach
                 </select>
             </div>
-
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Filter by Recent Added:</label>
-                <select name="recent_added" id="filterRecentAdded" class="mt-1 p-2 border rounded-md" onchange="this.form.submit()">
-                    <option value="0">All Users</option>
-                    <option value="1" {{ request('recent_added') == '1' ? 'selected' : '' }}>Recent Added</option>
+                <label class="block text-sm font-medium text-gray-700">Sort by Created Date:</label>
+                <select name="sort_created_at" id="sortCreatedAt" class="mt-1 p-2 border rounded-md" onchange="this.form.submit()">
+                    <option value="asc">Default</option>
+                    <option value="asc" {{ request('sort_created_at') == 'asc' ? 'selected' : '' }}>Oldest First</option>
+                    <option value="desc" {{ request('sort_created_at') == 'desc' ? 'selected' : '' }}>Newest First</option>
                 </select>
+            </div>
             </div>
         </form>
 

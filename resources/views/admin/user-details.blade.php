@@ -22,17 +22,16 @@
                                         <img src="{{asset('images/in-progress.svg')}}" class="w-14 h-14 mx-auto block" alt="" />
                                         <span class=" text-slate-400 font-bold">{{$offersInProgress}}</span>
 </a>
-                                    <div class="p-3 text-center mr-4 ml-4">
+<a href="{{ route('admin.propositions', ['userId' => $user->id]) }}" class="p-3 text-center mr-4 ml-4"> 
                                         <span class="text-lg font-bold block tracking-wide text-slate-700">Propositions</span>
                                         <img src="{{asset('images/proposition.svg')}}" class="w-14 h-14 mx-auto block" alt="" />
                                         <span class=" text-slate-400 font-bold">{{$offerPrepostion}}</span>
-                                    </div>
+</a>
 
-                                    <div class="p-3 text-center ml-4">
-                                        <span class="text-lg font-bold block tracking-wide text-slate-700">Trocs realisés</span>
+                                    <a href="{{ route('admin.transactions', ['userId' => $user->id]) }}" class="p-3 text-center ml-4">                                         <span class="text-lg font-bold block tracking-wide text-slate-700">Trocs realisés</span>
                                         <img src="{{asset('images/success.svg')}}" class="w-14 h-14 mx-auto block" alt="" />
                                         <span class=" text-slate-400 font-bold">{{$finishedOffers}}</span>
-                                    </div>
+</a>
                                 </div>
                             </div>
 
