@@ -47,15 +47,18 @@
                 <!-- Authenticated User -->
                 <div id="header-authenticated-user" class="">
                     <div class="dropdown" class="header-authenticated-user-content">
-                    <div id="header-user-notification-icon" class="" data-bs-toggle="dropdown" aria-expanded="false">
-                        @if(count($propositions) == 0 && count($notifications)==0)
-                            <div class="header-user-notification-icon"></div>
-                        @else
-                        <div class="header-user-notification-icon-notified"></div>
-                        @endif
+                        <div id="header-user-notification-icon" class="" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div wire:click="read(0)">
+                                @if(count($notifications)==0)
+                                <div class="header-user-notification-icon"></div>
+                                @else
+                                <div class="header-user-notification-icon-notified"></div>
+                                @endif
+                            </div>
+
                         </div>
-                        <ul class="dropdown-menu notification-dropdown overflow-auto">
-                        @if(count($propositions) == 0 && count($notifications)==0)
+                        <ul class="dropdown-menu notification-dropdown overflow-auto" style="max-height:60vh">
+                            @if(count($notifications)==0)
                             <li>
                                 <div class="notification-dropdown-item">
                                     <div class="notification-dropdown-item-content">
@@ -64,107 +67,129 @@
                                 </div>
                             </li>
                             @else
-                        @foreach ($propositions as $preposition)
+                            @foreach ($notifications as $notification)
                             <li>
-                                <div class="notification-dropdown-item">
+                                <div class="notification-dropdown-item @if($notification->read_at==NULL) bg-gray-800 hover:bg-gray-600 @endif">
                                     <div class="notification-dropdown-item-image">
                                         <img src="{{asset('images/circle-user-icon.svg')}}" alt="" />
                                     </div>
-                                    <div class="notification-dropdown-item-content">
-                                        <a href="{{route('offer.offer', [$preposition->offer, urlencode($preposition->offer->slug)])}}">
-                                            <b>{{$preposition->user->first_name}} {{$preposition->user->last_name}}</b>
-                                            <span>Send you a proposition in </span>
-                                            <strong>{{$preposition->offer->title}}</strong>
+                                    <div class="notification-dropdown-item-content ">
+                                        <a >
+                                            <b>{{$notification->data["id"]}}</b>
+                                            <span>{{$notification->data["content"]}}</span>
+                                            <strong>{{$notification->data["id"]}}</strong>
                                         </a>
+                                        <button class="notification-delete-icon" data-notification-id="{{$notification->id}}">🗑️</button>
                                     </div>
                                 </div>
                             </li>
                             @endforeach
-       
-
-        @foreach ($notifications as $notification)
-            <li>
-                <div class="notification-dropdown-item">
-                    <div class="notification-dropdown-item-image">
-                        <img src="{{asset('images/circle-user-icon.svg')}}" alt="" />
+                            @endif
+                        </ul>
+                        
                     </div>
-                    <div class="notification-dropdown-item-content">
-                        <button class="notification-mark-as-seen" data-notification-id="{{$notification->id}}">
-                            <span>{{$notification->content}}</span>
-</button>
-                        <button class="notification-delete-icon" data-notification-id="{{$notification->id}}">🗑️</button>
-                    </div>
-                </div>
-            </li>
-        @endforeach
-    @endif
-</ul></div>
-                    <div id="header-user-messages-icon" class="">
-                        <div class="header-user-messages-icon-newmessages"></div>
-                    </div>
-                    <div id="header-user-avatar-icon" >
-                        <div class="dropdown">
-                            
-                            <div class="" data-bs-toggle="dropdown" aria-expanded="false">
-                                    @if (isset($user->profile_photo_path))
-                                    <img src="{{route('profile_pictures-file-path',$user->profile_photo_path)}}" alt="" class="header-user-avatar-icon-img rounded-full" />
-                                    @else 
-                                    <img src="{{route('profile_pictures-file-path',$user->avatar)}}" alt="" class="header-user-avatar-icon-img rounded-full" />
-                                    @endif
-                                </div>
-                            <ul class="dropdown-menu dropdown-menu-end header-user-avatar-dropdown">
-                                <li>
-                                    <a class="header-user-avatar-dropdown-item" href="{{route('myaccount.index')}}">
-                                        <img src="{{asset('images/user-icon-16.svg')}}" class="header-user-avatar-dropdown-item-img" alt="" />
-                                        Mon compte
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="header-user-avatar-dropdown-item" href="{{route('moncompte/mesmessages')}}">
-                                        <img src="{{asset('images/mail-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
-                                        Mes messages
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="header-user-avatar-dropdown-item" href="{{route('myaccount.offers')}}">
-                                        <img src="{{asset('images/list-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
-                                        Mes annonces
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="header-user-avatar-dropdown-item" href="{{route('propositions.index')}}">
-                                        <img src="{{asset('images/exchange-44.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
-                                        Mes propositions
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="header-user-avatar-dropdown-item" href="{{route('transactions.index')}}">
-                                        <img src="{{asset('images/shopping-bag-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
-                                        Mes transactions
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="header-user-avatar-dropdown-item" href="#">
-                                        <img src="{{asset('images/shield-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
-                                        Crédibilité
-                                    </a>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <!-- Authentication -->
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <a
-                                            class="header-user-avatar-dropdown-item" href="route('logout')"
-                                            onclick="event.preventDefault();
-                                                            this.closest('form').submit();">
-                                            <img src="{{asset('images/log-out-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
-                                            Se déconnecter
-                                        </a>
-                                    </form>
-                                </li>
-                            </ul>
+                    <div class="dropdown" class="header-authenticated-user-content">
+                        <div id="header-user-messages-icon" class="" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div wire:click="read(1)">
+                                @if(count($messages->where('read_at',NULL))==0)
+                                <div class="header-user-messages-icon"></div>
+                                @else
+                                <div class="header-user-messages-icon-newmessages"></div>
+                                @endif
+                            </div>
                         </div>
+                        <ul class="dropdown-menu notification-dropdown overflow-auto" style="max-height:60vh">
+                            @if(count($messages)==0)
+                            <li>
+                                <div class="notification-dropdown-item">
+                                    <div class="notification-dropdown-item-content">
+                                            <b>You have no messages</b>
+                                    </div>
+                                </div>
+                            </li>
+                            @else
+                            @foreach ($messages as $notification)
+                            <li>
+                                <div class="notification-dropdown-item @if($notification->read_at==NULL) bg-gray-800 hover:bg-gray-600 @endif">
+                                    <div class="notification-dropdown-item-image">
+                                        <img src="{{asset('images/circle-user-icon.svg')}}" alt="" />
+                                    </div>
+                                    <div class="notification-dropdown-item-content">
+                                        <a >
+                                            <b>{{$notification->data["from_id"]}}</b>
+                                            <span>{{$notification->data["content"]}}</span>
+                                            <strong>{{$notification->data["from_id"]}}</strong>
+                                        </a>
+                                        <div wire:click="delete('{{$notification->id}}')">
+                                            <button class="notification-delete-icon">🗑️</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            @endforeach
+                            @endif
+                        </ul>
+                    </div>
+                    <div id="header-user-avatar-icon" class="">
+                        <div class="" data-bs-toggle="dropdown" aria-expanded="false">
+                            @if (isset($user->profile_photo_path))
+                            <img src="{{route('profile_pictures-file-path',$user->profile_photo_path)}}" alt="" class="header-user-avatar-icon-img rounded-full" />
+                            @else 
+                            <img src="{{route('profile_pictures-file-path',$user->avatar)}}" alt="" class="header-user-avatar-icon-img rounded-full" />
+                            @endif
+                        </div>
+                        <ul class="dropdown-menu dropdown-menu-end header-user-avatar-dropdown">
+                            <li>
+                                <a class="header-user-avatar-dropdown-item" href="{{route('myaccount.index')}}">
+                                    <img src="{{asset('images/user-icon-16.svg')}}" class="header-user-avatar-dropdown-item-img" alt="" />
+                                    Mon compte
+                                </a>
+                            </li>
+                            <li>
+                                <a class="header-user-avatar-dropdown-item" href="{{route('moncompte/mesmessages')}}">
+                                    <img src="{{asset('images/mail-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
+                                    Mes messages
+                                </a>
+                            </li>
+                            <li>
+                                <a class="header-user-avatar-dropdown-item" href="{{route('myaccount.offers')}}">
+                                    <img src="{{asset('images/list-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
+                                    Mes annonces
+                                </a>
+                            </li>
+                            <li>
+                                <a class="header-user-avatar-dropdown-item" href="{{route('propositions.index')}}">
+                                    <img src="{{asset('images/exchange-44.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
+                                    Mes propositions
+                                </a>
+                            </li>
+                            <li>
+                                <a class="header-user-avatar-dropdown-item" href="{{route('transactions.index')}}">
+                                    <img src="{{asset('images/shopping-bag-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
+                                    Mes transactions
+                                </a>
+                            </li>
+                            <li>
+                                <a class="header-user-avatar-dropdown-item" href="#">
+                                    <img src="{{asset('images/shield-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
+                                    Crédibilité
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <!-- Authentication -->
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <a
+                                        class="header-user-avatar-dropdown-item" href="route('logout')"
+                                        onclick="event.preventDefault();
+                                                        this.closest('form').submit();">
+                                        <img src="{{asset('images/log-out-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
+                                        Se déconnecter
+                                    </a>
+                                </form>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 @endauth
@@ -278,35 +303,5 @@
     </header>
 <!-- Add a script to handle marking as seen and deletion -->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Add event listeners for marking as seen and deletion
-        document.querySelectorAll('.notification-mark-as-seen').forEach(function (element) {
-            element.addEventListener('click', function () {
-                const notificationId = this.getAttribute('data-notification-id');
 
-                // AJAX request to mark as seen
-                $.post("{{ route('notifications.markAsSeen') }}", { notification_id: notificationId }, function (response) {
-                    if (response.success) {
-                        location.reload();
-                    } else {
-alert('Error') ;                  }
-                });
-            });
-        });
-
-        document.querySelectorAll('.notification-delete-icon').forEach(function (element) {
-            element.addEventListener('click', function () {
-                const notificationId = this.getAttribute('data-notification-id');
-
-                // AJAX request to delete notification
-                $.post("{{ route('notifications.delete') }}", { notification_id: notificationId }, function (response) {
-                    if (response.success) {
-                        location.reload();
-                    } else {
-alert('Error') ;                  
-                    }
-                });
-            });
-        });
-    });
-</script>
+ </script>

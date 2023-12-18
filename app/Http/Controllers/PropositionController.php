@@ -9,9 +9,7 @@ use App\Models\ChMessage;
 use App\Models\User;
 use App\Models\Transaction;
 use Illuminate\Support\Str;
-
-
-
+use App\Notifications\NewPreposition;
 
 class PropositionController extends Controller
 {
@@ -68,6 +66,8 @@ class PropositionController extends Controller
 // Create the Preposition
 $preposition = Preposition::create($request->except('image'));
 
+
+
 $offer=Offer::find($request->offer_id);
 $message = ChMessage::create([
     'id' => Str::uuid()->toString(),
@@ -76,13 +76,16 @@ $message = ChMessage::create([
     'body' => $request->negotiation,
     'preposition_id' => $preposition->id,
 ]);
+$receiver=User::find($preposition->offer->user_id);
+
+$receiver->notify(new NewPreposition($preposition));
+
 
 
 // You can associate the image with the preposition if needed
 if (isset($imageName)) {
     $preposition->update(['images' => json_encode($imageName)]);
 }
-   //Create a message for proposition 
    
 
         // You can add a success message or redirect to a different page

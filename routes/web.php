@@ -149,8 +149,6 @@ Route::post('/update-meet-status/{meetId}', [MeetupController::class, 'updateMee
 // transactions 
 Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
 //notifications
-Route::post('/mark-as-seen', [NotificationController::class, 'markAsSeen'])->name('notifications.markAsSeen');
-Route::post('/delete-notification', [NotificationController::class, 'delete'])->name('notifications.delete');
 Route::get('/contact', [ContactController::class, 'show']);
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 

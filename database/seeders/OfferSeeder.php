@@ -20,8 +20,8 @@ class OfferSeeder extends Seeder
             Offer::create([
                 'title' => $faker->sentence,
                 'description' => $faker->paragraph,
-                'condition' => $faker->word,
-                'experience' => $faker->word,
+                'condition' => $faker->randomElement(["NEW", "VERY_GOOD", "GOOD", "MEDIUM", "BAD", "BROKEN"]),
+                'experience' => $faker->randomElement( ['NO_EXPERIENCE', 'LESS_THAN_5_YEARS', 'BETWEEN_5_AND_10_YEARS', 'BETWEEN_10_AND_25_YEARS', 'MORE_THAN_25_YEARS']),
                 'offer_default_photo' => '656ddc92f2ad6.png',
                 'slug' => $faker->slug,
                 'countdown' => $faker->randomNumber(2),

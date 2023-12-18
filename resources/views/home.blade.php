@@ -54,7 +54,7 @@
 </div> -->
 
     <div class="grid grid-cols-6 justify-content center my-4 mx-32">
-        @for($i=0; $i< 12 ;$i++ )
+        @for($i=0; $i< min(12,count($categories)) ;$i++ )
         <a class="no-underline text-black block " href="{{route('alloffers.index',['category'=> $categories[$i]->id])}}">
             <div class="flex flex-col justify-center items-center border shadow py-2 mx-2 mb-4">
                 <div class="bg-slate-100 rounded-full p-1 aspect-square"><i class="fa {{$categories[$i]['icon']}}"></i></div>
@@ -281,8 +281,8 @@
 
     <div id="newsletter-container" class="flex justify-center space-x-20 bg-primary-color text-white mx-32 rounded p-8">
         <div class="w-2/5">
-            <h2 class="mb-4 text-2xl tracking-tight font-medium sm:text-4xl dark:text-white">Sign up for our newsletter</h2>
-            <p class="mx-auto max-w-2xl font-light sm:text-sm dark:text-gray-400">Stay up to date with the roadmap progress, announcements and exclusive discounts feel free to sign up with your email.</p>
+            <h2 class="mb-4 text-2xl tracking-tight font-medium sm:text-4xl dark:text-white">Abonnez vous à notre newsletter</h2>
+            <p class="mx-auto max-w-2xl font-light sm:text-sm dark:text-gray-400">Inscrivez vous à notre newsletter pour recevoir nos offres et promotions</p>
         </div>
         <form action="#">
             <div class="items-center mx-auto mb-3 space-y-4 max-w-screen-sm sm:flex sm:space-y-0">
@@ -297,7 +297,8 @@
                     </div>
                 </div>
             </div>
-            <div class="mx-auto max-w-screen-sm text-sm text-left newsletter-form-footer dark:text-gray-300">We care about the protection of your data. <a href="#" class="font-medium text-primary-600 dark:text-primary-500 hover:underline">Read our Privacy Policy</a>.</div>
+            <div class="mx-auto max-w-screen-sm text-sm text-left newsletter-form-footer dark:text-gray-300">Nous nous soucions de la protection de vos données. 
+                <a href="#" class="font-medium text-primary-600 dark:text-primary-500 hover:underline">Lisez notre politique de confidentialité</a>.</div>
         </form>
     </div>
 
@@ -418,7 +419,6 @@
     $(document).ready(function () {
         ['featured','recent'].forEach((el)=>{
             var scrollDistance = $(`#${el}-offers-container`).width()/3;
-            console.log({el});
             $(`#${el}-offers-title .fa-long-arrow-right`).css(`-webkit-text-stroke`," 2px");
             
             $(`#${el}-offers-title .fa-long-arrow-left`).click(function () {

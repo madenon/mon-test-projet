@@ -11,8 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
+
         Schema::table('offers', function (Blueprint $table) {
-            $table->string('condition')->nullable();
+
+            $table->dropColumn('condition');
+  
+        });
+        Schema::table('offers', function (Blueprint $table) {
+            $table->enum('condition', ['NEW', 'VERY_GOOD', 'GOOD', 'MEDIUM', 'BAD', 'BROKEN'])
+                ->default('NEW');
 
         });
     }
@@ -22,9 +29,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        
         Schema::table('offers', function (Blueprint $table) {
-            $table->dropColumn('condition');
 
+            $table->string('condition')->nullable();
         });
     }
 };

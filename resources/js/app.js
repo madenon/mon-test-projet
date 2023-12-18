@@ -25,3 +25,4 @@ FilePond.create(inputElement, {
         },
     },
 });
+

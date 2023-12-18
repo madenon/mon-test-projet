@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Support\Str;
+use App\Notifications\NewMessage;
+
+
+
 class MessagesController extends Controller
 {
     protected $perPage = 30;
@@ -147,6 +151,9 @@ class MessagesController extends Controller
                     'reply_id'=> $message->id
                 ]);
             }
+            $receiver=User::find($request['id']);
+            
+            
             $messageData = Chatify::parseMessage($message);
             if (Auth::user()->id != $request['id']) {
                 Chatify::push("private-chatify.".$request['id'], 'messaging', [
@@ -154,6 +161,8 @@ class MessagesController extends Controller
                     'to_id' => $request['id'],
                     'message' => Chatify::messageCard($messageData, true)
                 ]);
+                //Send notifcations
+                $receiver->notify(new NewMessage($message));
             }
         }
 

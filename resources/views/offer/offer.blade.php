@@ -18,13 +18,20 @@
     </div>
     @php
     $conditionMapping = [
-    'NEW' => 'Neuf',
-    'VERY_GOOD' => 'Très bon état',
-    'GOOD' => 'Bon état',
-    'MEDIUM' => 'Etat moyen',
-    'BAD' => 'Mauvais état',
-    'BROKEN' => 'En panne',
-    ];
+    'NEW' => '🙂 Neuf',          
+    'VERY_GOOD' => '😊 Très bon état',  
+    'GOOD' => '👍 Bon état',     
+    'MEDIUM' => '😐 Etat moyen', 
+    'BAD' => '👎 Mauvais état', 
+    'BROKEN' => '😞 En panne',
+    ]; 
+    $experienceMapping = [
+        'NO_EXPERIENCE' => '🌱 Débutant',
+        'LESS_THAN_5_YEARS' => '👦 Junior',
+        'BETWEEN_5_AND_10_YEARS' => '🧑 Intermédiaire',
+        'BETWEEN_10_AND_25_YEARS' => '🧔 Senior',
+        'MORE_THAN_25_YEARS' => '🔥 Expert',
+    ];  
     @endphp
     <div class="flex gap-5 offre-page">
         <div class="w-[50%] ml-12 partie-slide">
@@ -49,9 +56,13 @@
                 </div>
                 <div id="map" class=" mt-5">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5916333.136450014!2d-1.3992720794176445!3d43.60998660794066!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b6af0725dd9db1%3A0xad8756742894e802!2sMontpellier%2C%20France!5e0!3m2!1sfr!2sma!4v1697796341376!5m2!1sfr!2sma"
+                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCh3N9L9mNF9a2pBg_ZkhK03DfLKt87tY0&q={{str_replace(' ', '+', $offer->department)}}"
                         class="h-[400px] w-[100%]" style="border:0;" allowfullscreen="" loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <!-- <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5916333.136450014!2d-1.3992720794176445!3d43.60998660794066!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b6af0725dd9db1%3A0xad8756742894e802!2sMontpellier%2C%20France!5e0!3m2!1sfr!2sma!4v1697796341376!5m2!1sfr!2sma"
+                        class="h-[400px] w-[100%]" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe> -->
                 </div>
             </div>
         </div>
@@ -110,15 +121,26 @@
                         </span>
                     </div>
                 </div>
-                @if($offer->condition)
+                @if($offer->condition && $offer->type->name=="Bien")
                 <div class=" border-y py-3 ">
-                    <div class=" px-12 flex    items-center">
+                    <div class=" px-8 flex    items-center">
                         <span class="w-[35%]">
                             L’etat:
                         </span>
                         <span class="text-titles text-lg flex gap-2 ">
-                            &#128578;
                             <p>{{ $conditionMapping[$offer->condition] }}</p>
+                        </span>
+                    </div>
+                </div>
+                @endif
+                @if($offer->experience && $offer->type->name=="Service")
+                <div class=" border-y py-3 ">
+                    <div class=" px-8 flex    items-center">
+                        <span class="w-[35%]">
+                            Le niveau:
+                        </span>
+                        <span class="text-titles text-lg flex gap-2 ">
+                            <p>{{ $experienceMapping[$offer->condition] }}</p>
                         </span>
                     </div>
                 </div>
@@ -173,7 +195,7 @@
                             @endif
                         </span>
                         @if($offer->dynamic_inputs)
-                        @foreach (json_decode($offer->dynamic_inputs, true) as $prop )
+                        @foreach (json_decode($offer->dynamic_inputs, true)?? [] as $prop )
                         @if($prop!=null)
                         <span class="flex gap-2 px-5">
                             <img src="/images/Icon.svg" alt="">  {{$prop}} </span>
