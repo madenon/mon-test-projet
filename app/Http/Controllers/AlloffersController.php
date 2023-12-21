@@ -29,7 +29,9 @@ class AlloffersController extends Controller
         $online=$request->input('online');
  
         $queryBuilder = Offer::with('preposition')
-        ->where('active_offer', 1);
+        ->where('active_offer', 1)
+        ->where('launch_date', null);
+
         if ($query) {
             $queryBuilder->where('title', 'like', '%' . $query . '%');
         }

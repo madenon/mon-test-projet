@@ -75,9 +75,9 @@
                                     </div>
                                     <div class="notification-dropdown-item-content ">
                                         <a >
-                                            <b>{{$notification->data["id"]}}</b>
+                                            <b>{{$notification->data["taker"]}}</b>
                                             <span>{{$notification->data["content"]}}</span>
-                                            <strong>{{$notification->data["id"]}}</strong>
+                                            <strong>{{$notification->data["name"]}}</strong>
                                         </a>
                                         <button class="notification-delete-icon" data-notification-id="{{$notification->id}}">🗑️</button>
                                     </div>
@@ -246,7 +246,7 @@
         <img src="{{ asset('images/map-pin-icon.svg') }}" alt="" />
         <h3>{{ $region['name'] }}</h3>
     </a>
-    @endif()
+    @endif
 @else
    
     @if(request()->has('category'))
@@ -259,7 +259,7 @@
         <img src="{{ asset('images/map-pin-icon.svg') }}" alt="" />
         <h3>{{ $region['name'] }}</h3>
     </a>
-    @endif()
+    @endif
 @endif
 
                 @endforeach

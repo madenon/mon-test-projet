@@ -13,7 +13,13 @@ Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
 // Home > Offres
 Breadcrumbs::for('offers', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('offers', route('offer.index'));
+    $trail->push('offers', route('alloffers.index'));
+    
+});
+// Home > Offres>Create
+Breadcrumbs::for('create', function (BreadcrumbTrail $trail) {
+    $trail->parent('offers');
+    $trail->push('create', route('offer.create'));
     
 });
 

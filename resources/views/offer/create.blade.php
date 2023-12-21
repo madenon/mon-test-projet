@@ -7,8 +7,7 @@
     <div class="container">
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">{{ Diglactic\Breadcrumbs\Breadcrumbs::render('offers') }}</li>
-                <li class="breadcrumb-item active" aria-current="page">Déposer une offre</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ Diglactic\Breadcrumbs\Breadcrumbs::render('create') }}</li>
             </ol>
         </nav>
     </div>
@@ -31,7 +30,7 @@
                     <div class="flex gap-4 lg:gap-8 flex-wrap ">
                         <div class="md:flex-1 w-full">
                             <label for="" class="text-sm text-text block">Type</label>
-                            <select required name='type'
+                            <select  name='type'
                                 class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover"
                                 id="type-dropdown">
                                 <option value="0" selected hidden>Choisir le type de troc *</option>
@@ -44,7 +43,7 @@
                             <label for="" class="text-sm text-text block">Expérience du service</label>
                             <select name='experience'
                                 class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
-                                <option value="0" selected>Choisir l’expérience</option>
+                                <option value="0" selected>Choisir l'expérience</option>
                                 @foreach ($experienceLevels as $key => $value)
                                 <option value="{{ $value }}">{{ $key }}</option>
                                 @endforeach
@@ -65,7 +64,7 @@
 
                         <div class="md:flex-1 w-full">
                             <label for="" class="text-sm text-text block">Catégorie du troc</label>
-                            <select required name='category'
+                            <select  name='category'
                                 class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover"
                                 onchange="changerCategory(this)">
                                 <option value="0" selected hidden>Choisir la Catégorie *</option>
@@ -76,7 +75,7 @@
                         </div>
                         <div class="md:flex-1 w-full">
                             <label for="" class="text-sm text-text block">Sous catégorie du troc</label>
-                            <select required name='subcategory' id="select_category"
+                            <select  name='subcategory' id="select_category"
                                 class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
                                 <option value="0" selected hidden>Choisir la sous catégorie *</option>
                                 @foreach($subcategories as $subcategory)
@@ -92,7 +91,7 @@
                         <div class="col-md-4 col-12">
                             <div class="flex flex-col  w-full mb-3">
                                 <label for="" class="text-sm text-text block">Région</label>
-                                <select required name='region' onchange="changerDepartement(this)"
+                                <select  name='region' onchange="changerDepartement(this)"
                                     class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
                                     <option value="" selected hidden>Choisir une région *</option>
                                     @foreach($regions as $region)
@@ -104,7 +103,7 @@
                         <div class="col-md-4 col-12">
                             <div class="flex flex-col w-full mbdropdown-3">
                                 <label for="" class="text-sm text-text block">Département</label>
-                                <select required name='department' id="select_department"
+                                <select  name='department' id="select_department"
                                     onchange="changerNumDepartement(this)"
                                     class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
                                     <option value="0" selected hidden>Choisir un département *</option>
@@ -114,7 +113,7 @@
                         <div class="col-md-4 col-12">
                             <div class="flex flex-col w-full">
                                 <label for="" class="text-sm text-text block">N° département</label>
-                                <input type="text" required
+                                <input type="text" 
                                     class="focus:border-primary-color w-full rounded-md border-line text-sm text-titles  focus:ring-primary-hover"
                                     readonly id="num-departement" />
                             </div>
@@ -128,16 +127,16 @@
                         <div class="col-md-6 col-12">
                             <div class="w-full">
                                 <label for="title" class="text-sm text-text block">Titre</label>
-                                <input id="title" name="title" placeholder="Titre d’annonce ici" type="text"
+                                <input id="title" name="title" placeholder="Titre d'annonce ici" type="text"
                                     class="w-full rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover"
-                                    required autofocus />
+                                     autofocus />
                                 <x-input-error class="mt-2" :messages="$errors->get('title')" />
                             </div>
                             <div class="py-3">
                                 <label for="description" class="text-sm text-text">Description</label>
                                 <textarea id="description" name="description" type="text"
                                     class="w-full min-h-[200px] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover"
-                                    required></textarea>
+                                    ></textarea>
                                 <x-input-error class="mt-2" :messages="$errors->get('description')" />
                             </div>
                         </div>
@@ -146,7 +145,7 @@
                                 <span for="" class="text-sm text-text">
                                     {{ __('Parcourir l\'image par défaut depuis votre machine') }}</span>
                                 <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 ">
-                                    <label for="default_image" class="cursor-pointer w-full" required>
+                                    <label for="default_image" class="cursor-pointer w-full" >
                                         <input id="default_image" type="file" name="default_image"
                                             class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
                                             style="width: 0; height: 0;">
@@ -164,7 +163,7 @@
                                 <span for="" class="text-sm text-text mt-4">
                                     {{ __('Parcourir d\'autres images') }}</span>
                                 <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 ">
-                                    <label for="additional_images" class="cursor-pointer w-full" required>
+                                    <label for="additional_images" class="cursor-pointer w-full" >
                                         <input id="additional_images" type="file" name="additional_images[]" multiple
                                             class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
                                             style="width: 0; height: 0;" />
@@ -224,41 +223,103 @@
         </div>
     </div>
 </div>
-    <!-- Section 1: Compte à rebours 
-
 <div class="border-b border-line py-4 mt-4">
     <div>
-        <h3>Compte à rebours</h3>
+        <h3 class="text-lg font-bold text-titles mb-3">Compte à rebours</h3>
         <div class="form-check">
             <input type="checkbox" class="form-check-input" id="countdownCheckbox" name="countdownCheckbox">
             <label class="form-check-label" for="countdownCheckbox">Déclencher un compte à rebours</label>
         </div>
 
         <div id="countdownOptions" style="display: none;">
+         <div class="flex space-x-4">
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="option2" name="countdown_option" value="2">
+                <label class="form-check-label" for="option2">2 heures</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="option4" name="countdown_option" value="4">
+                <label class="form-check-label" for="option4">4 heures</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="option6" name="countdown_option" value="6">
+                <label class="form-check-label" for="option6">6 heures</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="option6" name="countdown_option" value="6">
+                <label class="form-check-label" for="option6">12 heures</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="option6" name="countdown_option" value="6">
+                <label class="form-check-label" for="option6">24 heures</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="option6" name="countdown_option" value="6">
+                <label class="form-check-label" for="option6">48 heures</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="option6" name="countdown_option" value="6">
+                <label class="form-check-label" for="option6">72 heures</label>
+            </div>
+         </div>
         </div>
     </div>
+</div>
 
-    <div>
-        <h3>Mise en ligne de l'annonce</h3>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="immediatCheckbox" name="immediatCheckbox">
-            <label class="form-check-label" for="immediatCheckbox">Immédiat</label>
-        </div>
+<!-- Add this input field for the expiration date -->
+<input type="datetime-local" name="expiration_date" id="expiration_date" hidden>
 
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="differeCheckbox" name="differeCheckbox">
-            <label class="form-check-label" for="differeCheckbox">Différé</label>
-        </div>
-
-        <div id="differeOptions" style="display: none;">
+<div class="border-b border-line py-4 mt-4">
+            <h3 class="text-lg font-bold text-titles mb-3">Mise en ligne de l'annonce</h3>
+    <div class="flex space-x-4">
             <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="option6h" name="option6h">
-                <label class="form-check-label" for="option6h">6 heures</label>
+                <input type="checkbox" class="form-check-input" id="immediatCheckbox" name="launchOption" value="immediat">
+                <label class="form-check-label" for="immediatCheckbox">Immédiat</label>
             </div>
 
-        </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="differeCheckbox" name="launchOption" value="differe">
+                <label class="form-check-label" for="differeCheckbox">Différé</label>
+            </div>
     </div>
-</div> --> 
+            <div id="differeOptions" style="display: none;">
+            <label class="form-check-label m-3" for="countdownCheckbox">Choisir le délai de mise en ligne de l'annonce :
+</label>
+            <div class="flex space-x-4">
+
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="option2h" name="launchTime" value="6h">
+                    <label class="form-check-label" for="option2h">6 heures</label>
+                </div>
+
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="12h">
+                    <label class="form-check-label" for="option4h">12 heures</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="1j">
+                    <label class="form-check-label" for="option4h">1J</label>
+                </div>  
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="3j">
+                    <label class="form-check-label" for="option4h">3J</label>
+                </div>  
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="5j">
+                    <label class="form-check-label" for="option4h">5J</label>
+                </div>  <div class="form-check">
+                    <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="7j">
+                    <label class="form-check-label" for="option4h">7J</label>
+                </div>   
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="30j">
+                    <label class="form-check-label" for="option4h">30J</label>
+                </div>        
+             </div>
+
+        
+    </div>
+</div> 
 
                 <div class="flex justify-end gap-2">
                     <button
@@ -398,6 +459,64 @@ const changerNumDepartement = (e) => {
     numDepartment.value = department ? department.department_number : '';
 };
 
+
+// compte a rebours
+    document.addEventListener('DOMContentLoaded', function () {
+        const countdownCheckbox = document.getElementById('countdownCheckbox');
+        const countdownOptions = document.getElementById('countdownOptions');
+        const expirationDateInput = document.getElementById('expiration_date');
+
+        // Show/hide countdown options based on checkbox
+        countdownCheckbox.addEventListener('change', function () {
+            countdownOptions.style.display = this.checked ? 'block' : 'none';
+        });
+
+        // Update the expiration date input based on the selected countdown option
+        document.querySelectorAll('input[name="countdown_option"]').forEach(function (option) {
+            option.addEventListener('change', function () {
+                const selectedOption = document.querySelector('input[name="countdown_option"]:checked');
+                const countdownValue = selectedOption ? selectedOption.value : null;
+
+                if (countdownValue) {
+                    const expirationDate = calculateExpirationDate(countdownValue);
+                    expirationDateInput.value = expirationDate;
+                }
+            });
+        });
+
+        // Function to calculate the expiration date based on the selected countdown option
+        function calculateExpirationDate(countdownOption) {
+            const now = new Date();
+            const expirationDate = new Date(now.getTime() + countdownOption * 60 * 60 * 1000); // Add hours
+
+            // Format the date as 'YYYY-MM-DDTHH:mm'
+            const formattedDate = expirationDate.toISOString().slice(0, 16);
+            return formattedDate;
+        }
+        // compte a rebours
+        // Add event listeners to show/hide deferred options based on user selection
+        var immediatCheckbox = document.getElementById('immediatCheckbox');
+            var differeCheckbox = document.getElementById('differeCheckbox');
+            var differeOptions = document.getElementById('differeOptions');
+
+            immediatCheckbox.addEventListener('change', function () {
+                if (immediatCheckbox.checked) {
+                    differeCheckbox.checked = false;
+                    differeOptions.style.display = 'none';
+                }
+            });
+
+            differeCheckbox.addEventListener('change', function () {
+                if (differeCheckbox.checked) {
+                    immediatCheckbox.checked = false;
+                    differeOptions.style.display = 'block';
+                } else {
+                    differeOptions.style.display = 'none';
+                }
+            });
+        c
+
+    });
 
 
 

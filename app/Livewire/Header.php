@@ -37,9 +37,10 @@ class Header extends Component
             return $offer->preposition->where('status', 'En cours');
         });
         }
+        if($this->user){
         $this->notifications=$this->user->notifications->where('type','!=','App\Notifications\NewMessage');
         $this->messages=$this->user->notifications->where('type','==','App\Notifications\NewMessage');
-    }
+    }}
 
     public function render()
     {

@@ -27,7 +27,7 @@
                             {{ $preposition->status }}
                         </span></td>
            
-                        <td>{{ $preposition->offer? $preposition->offer->user->name :'' }}</td>
+                        <td>{{ $preposition->offer? $preposition->offer->user->first_name . ' ' . $preposition->offer->user->last_name :'' }}</td>
                         <td>{{ $preposition->offer_name }}</td>
                         <td>@if($preposition->meetup)
                             <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button " data-bs-toggle="modal" data-bs-target="#meetModal">
@@ -59,7 +59,7 @@
                                 @if($preposition->status!='Acceptée')
                                 <span>Pas encore acceptée</span>
                                 @elseif(!$rating || $rating->stars==0 || $rating->preposition_id!=$preposition->id)
-                                <span class="rate" data-preposition-id="{{ $preposition->id }}" data-preposition-name="{{ $preposition->name }}">Click to rate</span>
+                                <span class="rate" data-preposition-id="{{ $preposition->id }}" data-preposition-name="{{ $preposition->name }}">Cliquez pour noter</span>
                                 @else
                                 @for ($i =1; $i <= 5; $i++)
                                     <input type="radio" id="star{{$i}}" name="rating" value="{{$i}}" class="hidden rate" data-preposition-id="{{ $preposition->id }}" data-preposition-name="{{ $preposition->name }}"/>

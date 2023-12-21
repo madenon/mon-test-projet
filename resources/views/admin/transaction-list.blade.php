@@ -3,6 +3,28 @@
 @section('admin-content')    
 <div class="container">
         <h1 class="m-4">Transactions</h1>
+        <form action="{{ route('admin.transactions') }}" method="GET">
+        <div class="mb-4 ">
+                <label class="block text-sm font-medium text-gray-700">Search:</label>
+                <input type="text" name="search" value="{{ request('search') }}" class="mt-1 p-2 border rounded-md">
+                
+                <!-- Use an icon (e.g., from FontAwesome or another icon library) as a link to submit the form -->
+                <button type="submit" class="ml-2 text-blue-500 hover:text-blue-700">
+                    <!-- Replace the content inside the span with your preferred search icon -->
+                    <i class="fa fa-search" aria-hidden="true"></i>
+
+                </button>
+            </div>
+            <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Filtrer par statut :</label>
+            <select name="status" class="mt-1 p-2 border rounded-md" onchange="this.form.submit()">
+                <option value="">Statut</option>
+                <option value="accepted" {{ request('status') == 'accepted' ? 'selected' : '' }}>Réussie</option>
+                <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>En cours</option>
+                <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Échouée</option>
+            </select>
+        </div>
+        </form>
         <table class="table align-middle mb-0 bg-white">
             <thead class="bg-light">
                 <tr>

@@ -2,7 +2,30 @@
 
 @section('admin-content') 
 <div class="container">
-        <h1 class="m-4">Prepositions List</h1>
+        <h1 class="m-4">Propositions</h1>
+        <!-- Filter by Status Dropdown -->
+    <form action="{{ route('admin.propositions') }}" method="GET">
+    <div class="mb-4 ">
+                <label class="block text-sm font-medium text-gray-700">Recherche :</label>
+                <input type="text" name="search" value="{{ request('search') }}" class="mt-1 p-2 border rounded-md">
+                
+                <!-- Use an icon (e.g., from FontAwesome or another icon library) as a link to submit the form -->
+                <button type="submit" class="ml-2 text-blue-500 hover:text-blue-700">
+                    <!-- Replace the content inside the span with your preferred search icon -->
+                    <i class="fa fa-search" aria-hidden="true"></i>
+
+                </button>
+            </div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Filtrer par statut :</label>
+            <select name="status" class="mt-1 p-2 border rounded-md" onchange="this.form.submit()">
+                <option value="">Statut</option>
+                <option value="accepted" {{ request('status') == 'accepted' ? 'selected' : '' }}>Acceptée</option>
+                <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>En cours</option>
+                <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejetée</option>
+            </select>
+        </div>
+    </form>
         <table class="table align-middle mb-0 bg-white">
             <thead class="bg-light">
                 <tr>
@@ -30,7 +53,7 @@
                             {{ $preposition->status }}
                         </span></td>
            
-                        <td>{{ $preposition->offer? $preposition->offer->user->name :'' }}</td>
+                        <td>{{ $preposition->offer? $preposition->offer->user->first_name:'' }}</td>
                         <td>{{ $preposition->offer_name }}</td>
                         <td>@if($preposition->meetup)
                             <button type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button " data-bs-toggle="modal" data-bs-target="#meetModal">
@@ -40,10 +63,9 @@
                             <a type="button" class="btn  chat-button" href="">
                                 <i class="fas fa-comment-dots" style="color: #24a19c;"></i>
                             </a>
-                            <!-- Edit button with icon --> @if($preposition->status!='accepted')
                             <button type="button" class="btn edit-button" data-bs-toggle="modal" data-bs-target="#editModal{{ $preposition->id }}">
                                 <i class="fas fa-edit" style="color: #ffc107;"></i>
-                            </button>@endif
+                            </button>
                             <!-- Delete button with icon -->
                             <button type="button" class="btn  delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $preposition->id }}" data-preposition-id="{{ $preposition->id }}">
                                 <i class="fas fa-trash-alt" style="color: red"></i>
@@ -55,7 +77,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLabel{{ $preposition->id }}">Edit Proposition</h5>
+                        <h5 class="modal-title" id="editModalLabel{{ $preposition->id }}">Modifier la proposition</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -71,8 +93,8 @@
         <label for="editStatus" class="form-label">Statut</label>
         <select class="form-select" id="editStatus" name="status">
             <option value="En cours" {{ $preposition->status === 'En cours' ? 'selected' : '' }}>En cours</option>
-            <option value="Accépte" {{ $preposition->status === 'Accépte' ? 'selected' : '' }}>Accépte</option>
-            <option value="Refusé" {{ $preposition->status === 'Refusé' ? 'selected' : '' }}>Refusé</option>
+            <option value="Acceptée" {{ $preposition->status === 'Acceptée' ? 'selected' : '' }}>Acceptée</option>
+            <option value="Rejetée" {{ $preposition->status === 'Rejetée' ? 'selected' : '' }}>Rejetée</option>
         </select>
     </div>
                             <div class="mb-3">
@@ -113,11 +135,12 @@
             <table id="meetTable" class="table align-middle">
                 <thead class="bg-light">
                     <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                    <th>Date</th>
+<th>Heure</th>
+<th>Description</th>
+<th>Statut</th>
+<th>Actions</th>
+
                     </tr>
                 </thead>
                 <tbody id="meetupsTableBody">
@@ -140,11 +163,11 @@
 @php
     function getStatusBadgeClass($status) {
         switch ($status) {
-            case 'Refusé':
+            case 'Rejetée':
                 return 'bg-danger';
             case 'En cours':
                 return 'bg-warning';
-            case 'Accepté':
+            case 'Acceptée':
                 return 'bg-success';
            
         }
@@ -232,7 +255,7 @@
             $('#meetDate').text(meetDate);
             $('#meetTime').text(meetTime);
             $('#meetStatus').text(meetStatus);
-            if(descriptionData.status=="accepted"){
+            if(descriptionData.status=="Acceptée"){
                 $('#meetActions').hide();
             }
             if(!descriptionData){
@@ -245,12 +268,12 @@
     //meet accept/decline 
 $(document).on('click', '.accept-button', function () {
     var meetId = descriptionData.id;
-    updateMeetStatus(meetId, 'accepted');
+    updateMeetStatus(meetId, 'Confirmé');
 });
 
 $(document).on('click', '.decline-button', function () {
     var meetId = descriptionData.id;
-    updateMeetStatus(meetId, 'refused');
+    updateMeetStatus(meetId, 'Annulé');
 });
 
 function updateMeetStatus(meetId, status) {

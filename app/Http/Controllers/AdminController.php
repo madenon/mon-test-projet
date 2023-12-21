@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Campaign;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use App\Models\Category;
@@ -17,6 +18,8 @@ use App\Models\UserInfos;
 use App\Models\Type;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Sponsor;
+
 class AdminController extends Controller
 {
     public function index(Request $request)
@@ -54,7 +57,14 @@ class AdminController extends Controller
     }
 public function offers(Request $request){
     $query = Offer::query();
-    
+    if ($request->has('search')) {
+        $searchTerm = $request->input('search');
+        $query->where(function ($query) use ($searchTerm) {
+            $query->where('title', 'like', "%$searchTerm%")
+                  ->orWhere('description', 'like', "%$searchTerm%")
+                  ->orWhere('slug', 'like', "%$searchTerm%");
+        });
+    }
     if ($request->has('userId')) {
         $query->where('user_id', $request->userId);
     }
@@ -85,6 +95,33 @@ public function offers(Request $request){
 }  
 public function transactions(Request $request){
     $transactions = Transaction::with('proposition.user');
+    if ($request->has('search')) {
+        $searchTerm = $request->input('search');
+        $transactions->where(function ($query) use ($searchTerm) {
+            $query->where('name', 'like', "%$searchTerm%");
+        });
+    }
+   
+    // Filter by status
+    if ($request->has('status')) {
+        $status = $request->input('status');
+
+        switch ($status) {
+            case 'accepted':
+                $transactions->where('status', 'Réussie');
+                break;
+
+            case 'in_progress':
+                $transactions->where('status', 'En cours');
+                break;
+
+            case 'rejected':
+                $transactions->where('status', 'Échouée');
+                break;
+            default:
+                // show all
+        }
+    }
     if ($request->has('userId')) {
         $offers = Offer::where('user_id', $request->userId)->get();
         $prepositions = Preposition::where('user_id', $request->userId)->get();
@@ -197,7 +234,33 @@ $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPro
         ->select('prepositions.*', 'users.first_name as user_name', 'offers.title as offer_name')
         ->join('users', 'users.id', '=', 'prepositions.user_id')
         ->join('offers', 'offers.id', '=', 'prepositions.offer_id');
-    
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $prepositions->where(function ($query) use ($searchTerm) {
+                $query->where('prepositions.name', 'like', "%$searchTerm%")
+                      ->orWhere('prepositions.negotiation', 'like', "%$searchTerm%");
+            });
+        }
+        // Filter by status
+        if ($request->has('status')) {
+            $status = $request->input('status');
+
+            switch ($status) {
+                case 'accepted':
+                    $prepositions->where('status', 'Acceptée');
+                    break;
+
+                case 'in_progress':
+                    $prepositions->where('status', 'En cours');
+                    break;
+
+                case 'rejected':
+                    $prepositions->where('status', 'Rejetée');
+                    break;
+                default:
+                    // show all
+            }
+        }
     if ($request->has('userId')) {
         $prepositions->where('prepositions.user_id', $request->userId);
     }
@@ -208,5 +271,35 @@ $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPro
 
     return view('admin.proposition-list', compact('prepositions'));
     }
+    public function campaigns(Request $request){
+        $campaigns = Campaign::all();
+        $sponsors = Sponsor::all();
+        
+    return view('admin.campaign-list', compact('campaigns','sponsors'));
+    }
+    public function addCampaign(Request $request){
+        $campaigns = Campaign::all();
+        $sponsors = Sponsor::all();
+        
+    return view('admin.add-campaign', compact('campaigns','sponsors'));
+    }
+    public function storeCampaign(Request $request){
+       
+    // Validate the form data
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'required|string',
+        'start_date' => 'required|date',
+        'end_date' => 'required|date|after_or_equal:start_date',
+        'discount_percentage' => 'nullable|numeric|min:0|max:100',
+        'products_included' => 'nullable|string',
+        'sponsor_id' => 'nullable|exists:sponsors,id',
+    ]);
 
+    // Create a new campaign
+    Campaign::create($request->all());
+
+    // Redirect back with a success message
+    return redirect()->route('admin.campaigns')->with('success', 'La campagne a été ajoutée avec succès.');
+    }
 }

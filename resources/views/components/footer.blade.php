@@ -46,7 +46,7 @@
                                                 <a href="">A propos</a>
                                             </li>
                                             <li>
-                                                <a href="">Contact</a>
+                                                <a href="/contact">Contact</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -60,7 +60,7 @@
                                             @if($parentcategories)
                                             @foreach($parentcategories as $parentcategory)
                                             <li>
-                                                <a href="">{{$parentcategory['name']}}</a>
+                                                <a href="{{route('alloffers.index',['category'=> $parentcategory['id']])}}">{{$parentcategory['name']}}</a>
                                             </li>
                                             @endforeach                                        
                                             @endif
@@ -77,7 +77,7 @@
             <div class="container">
                 <div class="footer-copyright-content">
                     <div class="footer-copyright-text">
-                        Faistroquer.fr © 2023. Developed by <a href="">SEOMANIAK</a>
+                        Faistroquer.fr © 2023. Developed by <a href="https://seomaniak.ma">SEOMANIAK</a>
                     </div>
                     <div class="footer-links">
                         <ul>

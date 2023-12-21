@@ -84,13 +84,16 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
     Route::get('/',  'index')->middleware('admin')->name('admin.index');
     Route::get('/userss',  'users')->middleware('admin')->name('admin.users');
     Route::get('/userss/{id}',  'show')->middleware('admin')->name('admin.user-details');
-    Route::get('/offers',  'offers')->middleware('admin')->name('admin.offers');
+    Route::get('/offers',  'offers')->middleware('admin','check.offers')->name('admin.offers');
     Route::get('/transactions',  'transactions')->middleware('admin')->name('admin.transactions');
     Route::get('/transactions/{id}',  'editTransaction')->middleware('admin')->name('admin.edit-transaction');
     Route::put('/transactions/{id}',  'updateTransaction')->middleware('admin')->name('admin.update-transaction');
     Route::delete('/transactions/delete-transaction/{id}',  'deleteTransaction')->middleware('admin')->name('admin.delete-transaction');
    // propositions 
    Route::get('/propositions',  'propositions')->middleware('admin')->name('admin.propositions');
+   Route::get('/campaigns',  'campaigns')->middleware('admin')->name('admin.campaigns');
+   Route::get('/campaigns/add',  'addCampaign')->middleware('admin')->name('admin.add-campaign');
+   Route::post('/campaigns/add',  'storeCampaign')->middleware('admin')->name('admin.storeCampaign');
 
     Route::get('/login','login')->name('admin.login');
     Route::post('/login','store');
@@ -109,19 +112,18 @@ route::middleware('auth')->group(function(){
 });
 
 
-Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
-Route::get('/offres/search', [OfferController::class, 'search'])->name('offer.search');
+
 Route::post('/update-transaction-status/{transactionId}/{status}', [TransactionController::class, 'updateTransactionStatus']);
 
 //Route::get('/offres/{categoryslug}', [OfferController::class, 'offersByCategory'])->name('offer.offersByCategory');
-Route::middleware('auth')->group(function () {
+Route::middleware('auth','check.offers')->group(function () {
     Route::get('/offres/creer', [OfferController::class, 'create'])->name('offer.create');
     Route::post('/offer', [OfferController::class, 'store'])->name('offer.store');
     Route::get('/offer/chat/{offerId}', [OfferController::class, 'chat'])->name('offer.chat');
 
 });
 
-
+Route::middleware('check.offers')->group(function () {
 Route::get('/offres/{offerId}/{slug}', [OfferController::class, 'show'])->name('offer.offer');
 
 Route::get('/offres/{type}/{category}', [CategoryController::class, 'index'])->name('category.index');
@@ -132,7 +134,9 @@ Route::get('/alloffers', [AlloffersController::class, 'index'])->name('alloffers
 
 
 Route::get('/offres/{type}', [TypeController::class, 'index'])->name('type.index');
-
+Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
+Route::get('/offres/search', [OfferController::class, 'search'])->name('offer.search');
+});
 
 
 Route::middleware('auth')->group(function () {
@@ -158,7 +162,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth','check.offers')->group(function () {
     Route::get('/moncompte', [MyAccountController::class, 'index'])->name('myaccount.index');
     Route::get('/moncompte/offres', [MyAccountController::class, 'showOffer'])->name('myaccount.offers');
     Route::post('/moncompte/offres/{offer}/activate', [OfferController::class, 'activate'])->name('myaccount.activate');

@@ -10,6 +10,17 @@
     
     <h1>My Offers Space</h1>
     <form action="{{ route('admin.offers') }}" method="GET">
+    <div class="mb-4 ">
+                <label class="block text-sm font-medium text-gray-700">Search:</label>
+                <input type="text" name="search" value="{{ request('search') }}" class="mt-1 p-2 border rounded-md">
+                
+                <!-- Use an icon (e.g., from FontAwesome or another icon library) as a link to submit the form -->
+                <button type="submit" class="ml-2 text-blue-500 hover:text-blue-700">
+                    <!-- Replace the content inside the span with your preferred search icon -->
+                    <i class="fa fa-search" aria-hidden="true"></i>
+
+                </button>
+            </div>
     <div class="mb-4">
         <label class="block text-sm font-medium text-gray-700">Filter by:</label>
 

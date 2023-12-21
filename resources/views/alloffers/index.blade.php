@@ -78,38 +78,35 @@
                                 @endif
                             </div>
                         </div>
-                        <div class=" pb-12 mt-2" >
-                            <div class="flex gap-2 pr-3 ">
-                               <div class="w-1/4">
-                                <span class="flex text-center justify-center">Jours</span>
-                                <div
-                                    class="flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
-                                    00
-                                </div>
-                            </div>
-                                <div class="w-1/4">
-                                    <span class="flex text-center justify-center">Heurs</span>
-                                     <div
-                                    class="flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
-                                    00
-                                </div>
-                                </div>
-                                <div class="w-1/4">
-                                    <span class="flex text-center justify-center">Minutes</span>
-                                     <div
-                                    class="flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
-                                    00
-                                </div>
-                                </div>
-                                <div class="w-1/4">
-                                    <span class="flex text-center justify-center">Secs</span>
-                                     <div
-                                    class="flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
-                                    00
-                                </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="pb-12 mt-2 offer-container" data-expiration="{{ $offer->expiration_date }}">
+        <div class="flex gap-2 pr-3">
+            <div class="w-1/4">
+                <span class="flex text-center justify-center">Jours</span>
+                <div class="days-countdown flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
+                    00
+                </div>
+            </div>
+            <div class="w-1/4">
+                <span class="flex text-center justify-center">Heurs</span>
+                <div class="hours-countdown flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
+                    00
+                </div>
+            </div>
+            <div class="w-1/4">
+                <span class="flex text-center justify-center">Minutes</span>
+                <div class="minutes-countdown flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
+                    00
+                </div>
+            </div>
+            <div class="w-1/4">
+                <span class="flex text-center justify-center">Secs</span>
+                <div class="seconds-countdown flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
+                    00
+                </div>
+            </div>
+        </div>
+    </div>
+
                         <div class="offer_owner mb-3" >
                             <div class="flex gap-3 ">
                                 @if (!$offer->user->profile_photo_path)
@@ -171,6 +168,57 @@
                     return uri + separator + key + "=" + value;
                 }
             }
+            //countdown 
+            function formatTime(milliseconds) {
+        var seconds = Math.floor(milliseconds / 1000);
+        var minutes = Math.floor(seconds / 60);
+        var hours = Math.floor(minutes / 60);
+        var days = Math.floor(hours / 24);
+
+        hours %= 24;
+        minutes %= 60;
+        seconds %= 60;
+
+        return {
+            days: days,
+            hours: hours,
+            minutes: minutes,
+            seconds: seconds
+        };
+    }
+
+    // Function to update the countdown for each offer
+    function updateCountdown(offerContainer) {
+        var expirationDate = offerContainer.dataset.expiration;
+var now = new Date();
+var expirationTime = new Date(expirationDate + "Z").getTime(); // Append "Z" to indicate UTC
+var timeRemaining = expirationTime - now.getTime();
+var time = formatTime(timeRemaining);
+        // Display the countdown in the specified offer container
+        function show(time){
+    offerContainer.querySelector('.days-countdown').innerText= time.days.toString().padStart(2, '0') ;
+        offerContainer.querySelector('.hours-countdown').innerText= time.hours.toString().padStart(2, '0');
+        offerContainer.querySelector('.minutes-countdown').innerText= time.minutes.toString().padStart(2, '0');
+        offerContainer.querySelector('.seconds-countdown').innerText= time.seconds.toString().padStart(2, '0');
+}
+        show(time);
+
+
+        // Update the time remaining every second
+        if (timeRemaining > 0) {
+            timeRemaining -= 1000;
+            setTimeout(function () {
+                updateCountdown(offerContainer);
+            }, 1000);
+        } else {
+            // Display a message when the countdown reaches zero
+show({days:'00',hours:'00',minutes:'00',seconds:'00'})        }
+    }
+
+    // Start the countdown for each offer
+    document.querySelectorAll('.offer-container').forEach(function (offerContainer) {
+        updateCountdown(offerContainer);
+    });
 
  });
 

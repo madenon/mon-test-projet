@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Enums\ExperienceLevel;
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 
 
 class OfferController extends Controller
@@ -38,6 +39,7 @@ class OfferController extends Controller
         $queryBuilder = Offer::with('preposition.meetup')
         ->orderBy('created_at', 'DESC')
         ->where('active_offer', 1)
+        ->where('launch_date',null)
         ->where('user_id',auth()->id());  // to get my offers   
         if ($query) {
             $queryBuilder->where('title', 'like', '%' . $query . '%');
@@ -122,8 +124,8 @@ class OfferController extends Controller
             'region' => ['required'],
             'department' => ['required'],
             'title' => ['required', 'string', 'between:10,100'],
-            'description' => ['string'],
-            'default_image' => ['nullable','image','mimes:jpeg,png','max:4096'],
+            'description' => ['required','string'],
+            'default_image' => ['required','image','mimes:jpeg,png','max:4096'],
             'additional_images.*' => ['nullable','image','mimes:jpeg,png','max:4096'],
         'valueInput' => 'nullable|numeric',
         ], [
@@ -148,6 +150,36 @@ class OfferController extends Controller
     $dynamicInputs = $request->input('dynamicInputs');
     // Serialize the values before saving to the database
     $serializedInputs = json_encode($dynamicInputs);
+// Calculate expiration date based on countdown option and region timezone
+if($request->expiration_date){
+$carbonDate = Carbon::parse($request->expiration_date);
+        // Format the date as needed for database storage
+        $expirationDate = $carbonDate->format('Y-m-d H:i:s');
+} else {$expirationDate =null;}
+        $launchOption = $request->input('launchOption');
+        $launchTime = $request->input('launchTime');
+        $launchDate = null;
+        if ($launchOption === 'differe') {
+            if ($launchTime === '6h') {
+                $launchDate = now()->addHours(6);
+            } elseif ($launchTime === '12h') {
+                $launchDate = now()->addHours(12);
+            }
+            elseif ($launchTime === '1j') {
+                $launchDate = now()->addDay();
+            }    
+            elseif ($launchTime === '3j') {
+                $launchDate = now()->addDays(3);
+            }   
+            elseif ($launchTime === '5j') {
+                $launchDate = now()->addDays(5);
+            } 
+            elseif ($launchTime === '7j') {
+                $launchDate = now()->addDays(7);
+            }
+            elseif ($launchTime === '30j') {
+                $launchDate = now()->addDays(30);
+            } }
 
             $id = DB::table('offers')
                 ->insertGetId(
@@ -161,7 +193,9 @@ class OfferController extends Controller
                         'subcategory_id' => $subcategory->id,
                         'department_id' => $department->id,
                         'experience' => $experience,
-                       // 'condition' => $condition,
+                       'condition' => $condition,
+                       'expiration_date'=>$expirationDate,
+                       'launch_date'=>$launchDate,
                        'price'=>$request->valueInput,
                        'buy_authorized' => $request->has('sellCheckbox') ? 1 : 0,
                        'specify_proposition'=>$request->has('exchangeCheckbox')? 1 : 0 ,
