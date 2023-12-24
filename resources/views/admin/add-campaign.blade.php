@@ -2,6 +2,15 @@
 
 @section('admin-content')
 <div class="container">
+@if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
     <h1 class="m-4">Ajouter une campagne</h1>
     <form action="{{ route('admin.storeCampaign') }}" method="post">
         @csrf
@@ -19,12 +28,12 @@
 
         <div class="form-group">
             <label for="start_date">Date de début</label>
-            <input type="date" name="start_date" class="form-control" required>
+            <input type="date" name="start_date" class="form-control" >
         </div>
 
         <div class="form-group">
             <label for="end_date">Date de fin</label>
-            <input type="date" name="end_date" class="form-control" required>
+            <input type="date" name="end_date" class="form-control" >
         </div>
 
         <div class="form-group">
@@ -40,13 +49,15 @@
         <div class="form-group">
             <label for="sponsor_id">Sponsor</label>
             <select name="sponsor_id" class="form-control">
+            <option ></option>
                 @foreach ($sponsors as $sponsor)
                     <option value="{{ $sponsor->id }}">{{ $sponsor->name }}</option>
                 @endforeach
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Ajouter la campagne</button>
+        <div class="flex justify-end mt-2">
+        <button type="submit" class="btn text-white " style="background:var(--primary-color);">Ajouter la campagne</button></div>
     </form>
 </div>
 @endsection

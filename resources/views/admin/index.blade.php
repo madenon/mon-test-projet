@@ -43,8 +43,7 @@
             <li class="mb-2 border-t-2 border-gray-700">
     <a href="#" id="toggleCampaigns" class="flex items-center text-white hover:text-gray-300 py-2 no-underline">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-6 h-6 mx-2">
-            <!-- Add a suitable icon for "Campagnes" -->
-            <!-- Example: Campaign Icon -->
+           
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s-4-1.5-8-4V6s3-3.5 8-3.5s8 3.5 8 3.5v12c-4 2.5-8 4-8 4Z" />
         </svg>
         <div class="d-flex  md:gap-10 lg:gap-20" >
@@ -78,14 +77,49 @@
         </li>
     </ul>
 </li>
+<li class="mb-2 border-t-2 border-gray-700">
+    <a href="#" id="toggleSponsors" class="flex items-center text-white hover:text-gray-300 py-2 no-underline">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-6 h-6 mx-2">
+           
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s-4-1.5-8-4V6s3-3.5 8-3.5s8 3.5 8 3.5v12c-4 2.5-8 4-8 4Z" />
+        </svg>
+        <div class="d-flex  md:gap-10 lg:gap-20" >
+    <span >Sponsors</span>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+    </svg>
+</div>
+
+
+
+    </a>
+    <ul id="sponsorsList" class="ml-4" style="display: none;">
+        <li class="mb-2 border-t-2 border-gray-700">
+            <a href="{{route('admin.sponsors')}}" class="text-white hover:text-gray-300 py-2 no-underline">
+                <!-- Add a suitable icon for "Liste des campagnes" -->
+                <!-- Example: List Icon -->
+               
+                Liste des sponsors
+            </a>
+        </li>
+        <li class="mb-2 border-t-2 border-gray-700">
+            <a href="{{route('admin.add-sponsor')}}" class="text-white hover:text-gray-300 py-2 no-underline">
+                <!-- Add a suitable icon for "Ajouter Campagne" -->
+                <!-- Example: Add Icon -->
+               <div class="flex">
+               <div>Ajouter Sponsor </div>  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-6 h-6 mx-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg></div>
+            </a>
+        </li>
+    </ul>
+</li>
       
                </ul>
       </div>
       <!-- Main Content -->
       <div class="w-3/4 p-4">
          <h2 class="text-2xl font-semibold mb-4">Bienvenue sur le tableau de bord de l'administrateur</h2>
-         <!-- Your main content goes here -->
-         <!-- Content from other pages -->
          @yield('admin-content')
       </div>
    </div>
@@ -93,6 +127,10 @@
 <script>
     document.getElementById('toggleCampaigns').addEventListener('click', function() {
         var campaignsList = document.getElementById('campaignsList');
+        campaignsList.style.display = (campaignsList.style.display === 'none' || campaignsList.style.display === '') ? 'block' : 'none';
+    });
+    document.getElementById('toggleSponsors').addEventListener('click', function() {
+        var campaignsList = document.getElementById('sponsorsList');
         campaignsList.style.display = (campaignsList.style.display === 'none' || campaignsList.style.display === '') ? 'block' : 'none';
     });
 </script>

@@ -19,6 +19,7 @@ use App\Models\Type;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Sponsor;
+use Illuminate\Contracts\Cache\Store;
 
 class AdminController extends Controller
 {
@@ -289,8 +290,8 @@ $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPro
     $request->validate([
         'name' => 'required|string|max:255',
         'description' => 'required|string',
-        'start_date' => 'required|date',
-        'end_date' => 'required|date|after_or_equal:start_date',
+        'start_date' => 'date',
+        'end_date' => 'date|after_or_equal:start_date',
         'discount_percentage' => 'nullable|numeric|min:0|max:100',
         'products_included' => 'nullable|string',
         'sponsor_id' => 'nullable|exists:sponsors,id',
@@ -302,4 +303,80 @@ $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPro
     // Redirect back with a success message
     return redirect()->route('admin.campaigns')->with('success', 'La campagne a été ajoutée avec succès.');
     }
+    public function editCampaign($id)
+    {
+        $campaign = Campaign::findOrFail($id);
+        $sponsors = Sponsor::all();
+        return view('admin.edit-campaign', compact('campaign','sponsors'));
+    }
+
+    public function updateCampaign(Request $request, $id)
+    {
+        // Validation logic here
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'discount_percentage' => 'nullable|numeric|min:0|max:100',
+            'products_included' => 'nullable|string',
+            'sponsor_id' => 'nullable|exists:sponsors,id',        ]);
+
+        // Update the campaign
+        $campaign = Campaign::findOrFail($id);
+        $campaign->update($request->all());
+
+        return redirect()->route('admin.edit-campaign')->with('success', 'Campaign updated successfully!');
+    }
+
+    public function deleteCampaign($id)
+    {
+        // Delete the campaign
+        $campaign = Campaign::findOrFail($id);
+        $campaign->delete();
+
+        return redirect()->route('admin.campaigns')->with('success', 'Campaign deleted successfully!');
+    }
+   
+//sponsors
+public function sponsors(Request $request){
+    $sponsors = Sponsor::all();
+    
+return view('admin.sponsor-list', compact('sponsors'));
+}
+public function addSponsor(Request $request){
+    
+return view('admin.add-sponsor');
+}
+public function storeSponsor(Request $request){
+   
+// Validate the form data
+$request->validate([
+    'name' => 'required|string|max:255',
+    'description' => 'required|string',
+    'website_url' => 'nullable|string|max:255',
+    'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Example: Allow only image files with a maximum size of 2MB
+    
+]);
+
+// Handle logo upload if present
+if ($request->hasFile('logo')) {
+    $logoPath = $request->file('logo')->store('logos', 'public');
+    $request->merge(['logo_path' => $logoPath]);
+}
+
+// Create a new sponsor
+$sponsor = Sponsor::create($request->all());
+// Redirect back with a success message
+return redirect()->route('admin.sponsors')->with('success', 'ajouté avec succès.');
+}
+public function deleteSponsor($id)
+{
+    // Delete the campaign
+    $sponsor = Sponsor::findOrFail($id);
+    $sponsor->delete();
+
+    return redirect()->route('admin.sponsors')->with('success', 'Campaign deleted successfully!');
+}
+
 }

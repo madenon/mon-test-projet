@@ -65,6 +65,13 @@ Route::get(
     }
 )->name('profile_pictures-file-path');
 Route::get(
+    'storage/logos/{name}',
+    function(Request $request){
+        $url=storage_path('app/public/'.$request->name);
+        return response()->file($url);
+    }
+)->name('logo_pictures-file-path');
+Route::get(
     'storage/attachments/{name}',
     function(Request $request){
         $url=storage_path('app/public/attachments/'.$request->name);
@@ -94,7 +101,14 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
    Route::get('/campaigns',  'campaigns')->middleware('admin')->name('admin.campaigns');
    Route::get('/campaigns/add',  'addCampaign')->middleware('admin')->name('admin.add-campaign');
    Route::post('/campaigns/add',  'storeCampaign')->middleware('admin')->name('admin.storeCampaign');
+   Route::get('/campaigns/{id}',  'editCampaign')->middleware('admin')->name('admin.edit-campaign');
+   Route::put('/campaigns/{id}',  'updateCampaign')->middleware('admin')->name('admin.update-campaign');
+   Route::delete('/campaigns/delete-campaign/{id}',  'deleteCampaign')->middleware('admin')->name('admin.delete-campaign');
 
+    Route::get('/sponsors',  'sponsors')->middleware('admin')->name('admin.sponsors');
+   Route::get('/sponsors/add',  'addSponsor')->middleware('admin')->name('admin.add-sponsor');
+   Route::post('/sponsors/add',  'storeSponsor')->middleware('admin')->name('admin.storeSponsor');
+   Route::delete('/sponsors/delete-sponsor/{id}',  'deleteSponsor')->middleware('admin')->name('admin.delete-sponsor');
     Route::get('/login','login')->name('admin.login');
     Route::post('/login','store');
 });

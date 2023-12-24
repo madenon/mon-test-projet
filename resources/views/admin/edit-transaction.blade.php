@@ -32,7 +32,7 @@
     <input type="text" class="form-control" id="reason" name="reason" value="{{ $transaction->reason }}">
 </div>
 
-        <button type="submit" class="btn btn-primary">Update Transaction</button>
-    </form>
+<div class="flex justify-end mt-2">
+        <button type="submit" class="btn text-white " style="background:var(--primary-color);">Update </button></div>    </form>
 </div>
 @endsection
