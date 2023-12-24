@@ -20,8 +20,6 @@ class NewPreposition extends Notification
     public function __construct($prep)
     {
         $this->preposition=$prep;
-        $this->taker=User::find($prep->user_id);
-        $this->maker=User::find($prep->offer->user_id);
     }
 
     /**
@@ -31,7 +29,8 @@ class NewPreposition extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database','broadcast'];
+        return [ 'database','broadcast'];
+        // return ['mail', 'database','broadcast'];
     }
     /**
      * Get the mail representation of the notification.
@@ -51,26 +50,17 @@ class NewPreposition extends Notification
      *
      * @return array<string, mixed>
      */
-    public function toDatabase(object $notifiable): array
+    public function toArray(object $notifiable): array
     {
         return [
             'id' => $this->preposition->id,
-            'taker' =>   $this->taker->name,
-            'name' =>   $this->preposition->name,
-            'content' => ' send you a proposition'
+            'name' =>   $this->preposition->offer->user->name,
+            'title' =>   $this->preposition->name,
+            'content' => ' send you a proposition',
+            'link' => url('/offres/'.$this->preposition->offer->id.'/'.$this->preposition->offer->slug)
             
         ];
     }
     
-    public function toBroadcast(object $notifiable): BroadcastMessage
-    {
-        return new BroadcastMessage([
-            'id' => $this->preposition->id,
-            'taker' =>   $this->taker->name,
-            'name' =>   $this->preposition->name,
-            'content' => ' send you a proposition'
-        ]);
-    }
 
-    
 }

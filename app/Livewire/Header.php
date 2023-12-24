@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On; 
 use App\Models\Category;
 use App\Models\Preposition;
 use App\Models\Region;
@@ -38,25 +39,33 @@ class Header extends Component
         });
         }
         if($this->user){
-        $this->notifications=$this->user->notifications->where('type','!=','App\Notifications\NewMessage');
-        $this->messages=$this->user->notifications->where('type','==','App\Notifications\NewMessage');
+        $this->notifications=$this->user->unreadNotifications->where('type','!=','App\Notifications\NewMessage');
+        $this->messages=$this->user->unreadNotifications->where('type','==','App\Notifications\NewMessage');
     }}
-
+    
     public function render()
     {
         return view('livewire.header');
     }
 
-    public function read($isMessages){
-        if($isMessages==1)$this->user->notifications
-            ->where('type','==','App\Notifications\NewMessage')->markAsRead();
-        else $this->user->notifications
-            ->where('type','!=','App\Notifications\NewMessage')->markAsRead();
+    public function read($messageId){
+        $notif=$this->user->notifications
+        ->where('id','==',$messageId)->first();
+        $notif->markAsRead();
+        return redirect($notif->data["link"]);
     }
     public function delete($notifId){
         $this->user->notifications
             ->where('id','==',$notifId)->first()->delete();
-        header("Refresh:0");
-
+        $this->dispatch('refreshData');
     }
+
+    #[On('echo:private-App.Models.User.{user.id},.Illuminate\Notifications\Events\BroadcastNotificationCreated')] 
+    #[On('refreshData')] 
+    public function refreshData()
+    {
+        $this->notifications=$this->user->unreadNotifications->where('type','!=','App\Notifications\NewMessage');
+        $this->messages=$this->user->unreadNotifications->where('type','==','App\Notifications\NewMessage');
+    }
+
 }

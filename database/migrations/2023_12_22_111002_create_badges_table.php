@@ -11,20 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('offers', function (Blueprint $table) {
-            $table->timestamp('expiration_date')->nullable();
-            $table->timestamp('launch_date')->nullable();
+        Schema::create('badges', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
-    
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::table('offers', function (Blueprint $table) {
-            $table->dropColumn('expiration_date');
-            $table->dropColumn('launch_date');
-        });
+        Schema::dropIfExists('badges');
     }
 };

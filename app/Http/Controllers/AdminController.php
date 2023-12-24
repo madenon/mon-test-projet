@@ -18,7 +18,11 @@ use App\Models\UserInfos;
 use App\Models\Type;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Badge;
+use App\Models\Report;
 use App\Models\Sponsor;
+use Illuminate\Support\Facades\Auth;
+
 
 class AdminController extends Controller
 {
@@ -151,22 +155,22 @@ return view('admin.transaction-list', compact('transactions'));
         $user = User::findOrFail($id);
         $offers = $user->offer;
         $mesPropositions=$user->prepositions;
-$totalTransactions = 0;
-$totalTransactionsFromOffers = 0;
-foreach ($offers as $offer) {
-    // Count transactions from propositions of the offer
-    $totalTransactionsFromOffers += $offer->preposition->flatMap->transactions
-        ->where('status', 'Réussi')
-        ->count();
-}
+        $totalTransactions = 0;
+        $totalTransactionsFromOffers = 0;
+        foreach ($offers as $offer) {
+            // Count transactions from propositions of the offer
+            $totalTransactionsFromOffers += $offer->preposition->flatMap->transactions
+                ->where('status', 'Réussi')
+                ->count();
+        }
 
-// Count transactions from propositions
-$totalTransactionsFromMesPropositions = $mesPropositions->flatMap->transactions
-    ->where('status', 'Réussi')
-    ->count();
+        // Count transactions from propositions
+        $totalTransactionsFromMesPropositions = $mesPropositions->flatMap->transactions
+            ->where('status', 'Réussi')
+            ->count();
 
-// Total transactions
-$totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPropositions;
+        // Total transactions
+        $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPropositions;
 
         $userInfo = UserInfos::where('user_id', $user->id)->first();
         $offerPrepostion = $mesPropositions->count();
@@ -261,45 +265,143 @@ $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPro
                     // show all
             }
         }
-    if ($request->has('userId')) {
-        $prepositions->where('prepositions.user_id', $request->userId);
-    }
-    
-    $prepositions = $prepositions->get();
-    
+        if ($request->has('userId')) {
+            $prepositions->where('prepositions.user_id', $request->userId);
+        }
         
+        $prepositions = $prepositions->get();
+        
+            
 
-    return view('admin.proposition-list', compact('prepositions'));
+        return view('admin.proposition-list', compact('prepositions'));
     }
     public function campaigns(Request $request){
         $campaigns = Campaign::all();
         $sponsors = Sponsor::all();
         
-    return view('admin.campaign-list', compact('campaigns','sponsors'));
+        return view('admin.campaign-list', compact('campaigns','sponsors'));
     }
     public function addCampaign(Request $request){
         $campaigns = Campaign::all();
         $sponsors = Sponsor::all();
-        
-    return view('admin.add-campaign', compact('campaigns','sponsors'));
+            
+        return view('admin.add-campaign', compact('campaigns','sponsors'));
     }
     public function storeCampaign(Request $request){
        
-    // Validate the form data
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'description' => 'required|string',
-        'start_date' => 'required|date',
-        'end_date' => 'required|date|after_or_equal:start_date',
-        'discount_percentage' => 'nullable|numeric|min:0|max:100',
-        'products_included' => 'nullable|string',
-        'sponsor_id' => 'nullable|exists:sponsors,id',
-    ]);
+        // Validate the form data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'discount_percentage' => 'nullable|numeric|min:0|max:100',
+            'products_included' => 'nullable|string',
+            'sponsor_id' => 'nullable|exists:sponsors,id',
+        ]);
 
-    // Create a new campaign
-    Campaign::create($request->all());
+        // Create a new campaign
+        Campaign::create($request->all());
 
-    // Redirect back with a success message
-    return redirect()->route('admin.campaigns')->with('success', 'La campagne a été ajoutée avec succès.');
+        // Redirect back with a success message
+        return redirect()->route('admin.campaigns')->with('success', 'La campagne a été ajoutée avec succès.');
     }
+
+
+    public function messages(Request $request,$id=null)
+    {
+        if ($request->has('me_id')) {
+            // dd("me_id");
+            session(['me_id' => $request->input('me_id')]);
+            $me_id=session('me_id');
+        }
+        $messenger_color = Auth::user()->messenger_color;
+        return view('admin.message-list', [
+            'id' => $id ?? 0,
+            'messengerColor' => $messenger_color ? $messenger_color : $this->chatify->getFallbackColor(),
+            'dark_mode' => Auth::user()->dark_mode < 1 ? 'light' : 'dark',
+        ]);
+    }
+
+    public function reports(Request $request)
+    {
+        $query = Report::query();
+    
+        // Filter by role
+        if ($request->has('isOpen') && $request->isOpen!='') {
+            $query->where('isOpen', $request->isOpen);
+        }
+    
+        if ($request->has('sort_created_at')) {
+            $sortOrder = $request->input('sort_created_at');
+            $query->orderBy('created_at', $sortOrder);
+        }
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('title', 'like', "%$searchTerm%")
+                      ->orWhere('description', 'like', "%$searchTerm%");
+            });
+        }
+    
+        $reports = $query->paginate(10);
+    
+    
+        return view('admin.report-list', compact('reports'));
+    }
+    public function badges(Request $request)
+    {
+        $roles = Role::all();
+        $query = User::query();
+    
+        // Filter by role
+        if ($request->has('role') && $request->role!='') {
+            $query->where('role', $request->role);
+        }
+    
+        if ($request->has('sort_created_at')) {
+            $sortOrder = $request->input('sort_created_at');
+            $query->orderBy('created_at', $sortOrder);
+        }
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', "%$searchTerm%")
+                      ->orWhere('email', 'like', "%$searchTerm%");
+            });
+        }
+    
+        $users = $query->paginate(10);
+    
+    
+        return view('admin.badge-list', compact('users', 'roles'));
+    }
+    public function disputes(Request $request)
+    {
+        $roles = Role::all();
+        $query = User::query();
+    
+        // Filter by role
+        if ($request->has('role') && $request->role!='') {
+            $query->where('role', $request->role);
+        }
+    
+        if ($request->has('sort_created_at')) {
+            $sortOrder = $request->input('sort_created_at');
+            $query->orderBy('created_at', $sortOrder);
+        }
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', "%$searchTerm%")
+                      ->orWhere('email', 'like', "%$searchTerm%");
+            });
+        }
+    
+        $users = $query->paginate(10);
+    
+    
+        return view('admin.dispute-list', compact('users', 'roles'));
+    }
+
 }

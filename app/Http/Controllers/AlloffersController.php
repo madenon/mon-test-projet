@@ -27,6 +27,10 @@ class AlloffersController extends Controller
         $maxPrice = $request->input('max_price');
         $sortOrder = $request->input('sort_by', 'latest'); // Default sorting order
         $online=$request->input('online');
+        $deps=request()->input('departments');
+        $subs=request()->input('subcategories');
+
+        
  
         $queryBuilder = Offer::with('preposition')
         ->where('active_offer', 1)
@@ -63,6 +67,12 @@ class AlloffersController extends Controller
             else
             $queryBuilder->whereNotIn('user_id',$onlineUsers);
         }
+        if($deps){
+            $queryBuilder->whereIn('department_id', $deps);
+        }
+        if($subs){
+            $queryBuilder->whereIn('subcategory_id', $subs);   
+        }
 
          // Add sorting condition
         if ($sortOrder === 'latest') {
@@ -74,7 +84,19 @@ class AlloffersController extends Controller
         } else if ($sortOrder === 'price_asc') {
             $queryBuilder->orderBy('price', 'ASC');
         }
-        $offers = $queryBuilder->paginate(10);
+        $offers = $queryBuilder->paginate(10)->appends([
+            'query' => $query,
+            'category' => $category,
+            'department' => $department,
+            'region' => $region,
+            'type' => $type,
+            'min_price' => $minPrice,
+            'max_price' => $maxPrice,
+            'sort_by' => $sortOrder,
+            'online' => $online,
+            'departments' => $deps,
+            'subcategories' => $subs,
+        ]);
         $categoryName = Category::where('id', $category)->value('name');
         return view('alloffers.index', compact('offers','departments','types','categoryName'));
     }

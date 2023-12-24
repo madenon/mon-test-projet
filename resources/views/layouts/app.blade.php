@@ -30,16 +30,18 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen">
+            @if(!request()->routeIs('admin.*'))
             <livewire:header/>
+            @endif
 
             <!-- Page Heading -->
-             @if (isset($header))
+             <!-- @if (isset($header))
                 <header class="bg-white">
                     <div class="container pt-6">
                         {{ $header }}
                     </div>
                 </header>
-            @endif 
+            @endif  -->
 
             <!-- Page Content -->
 

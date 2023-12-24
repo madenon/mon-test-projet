@@ -31,7 +31,8 @@ class NewMessage extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database','broadcast'];
+        return['database','broadcast'];
+        // return ['mail', 'database','broadcast'];
     }
     /**
      * Get the mail representation of the notification.
@@ -51,26 +52,16 @@ class NewMessage extends Notification implements ShouldQueue
      *
      * @return array<string, mixed>
      */
-    public function toDatabase(object $notifiable): array
+    public function toArray(object $notifiable): array
     {
         return [
             'id' => $this->message->id,
             'from_id' => $this->sender->id,
             'name' =>   $this->sender->name,
-            'content' => ' send you a message'
+            'content' => ' send you a message',
+            'link' => url('/moncompte/mesmessages/'.$this->message->from_id)
         ];
     }
-    
-    public function toBroadcast(object $notifiable): BroadcastMessage
-    {
-        return new BroadcastMessage([
-            'id' => $this->message->id,
-            'from_id' => $this->sender->id,
-            'name' =>   $this->sender->name,
-            'content' => ' send you a message'
-        ]);
-    }
-
     
 
 }

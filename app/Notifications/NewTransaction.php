@@ -5,18 +5,19 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
+use App\Models\Transaction;
+use App\Models\User;
 
 class NewTransaction extends Notification
 {
     use Queueable;
+    private Transaction $transaction; 
 
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct()
+    public function __construct($trans)
     {
-        //
+        $this->transaction=$trans;
     }
 
     /**
@@ -26,18 +27,20 @@ class NewTransaction extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return [ 'database','broadcast'];
+        // return ['mail', 'database','broadcast'];
     }
-
     /**
      * Get the mail representation of the notification.
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $url = url('/transactions');
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->subject('New Transaction')
+                    ->line('You have receiveid a new transaction.')
+                    ->action('View Transaction', $url)
+                    ->line($this->transaction->name);
     }
 
     /**
@@ -48,7 +51,14 @@ class NewTransaction extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'id' => $this->transaction->id,
+            'name' =>   $this->transaction->preposition->offer->user->name,
+            'title' =>   $this->transaction->name,
+            'content' => ' accept your transaction',
+            'link' => url('/transactions')   
         ];
     }
+    
+    
+    
 }
