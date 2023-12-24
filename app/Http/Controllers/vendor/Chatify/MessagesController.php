@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Models\ChMessage as Message;
 use App\Models\ChFavorite as Favorite;
 use App\Models\Reply;
-use Chatify\Facades\ChatifyMessenger as Chatify;
+use App\Http\Controllers\vendor\Chatify\CustomChatifyMessenger as Chatify;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request as FacadesRequest;
@@ -22,6 +22,14 @@ use App\Notifications\NewMessage;
 class MessagesController extends Controller
 {
     protected $perPage = 30;
+    protected Chatify $chatify;
+    protected $me_id;
+
+
+    public function __construct(){
+        $this->chatify=new Chatify;
+   
+    }
 
     /**
      * Authenticate the connection for pusher
@@ -31,7 +39,7 @@ class MessagesController extends Controller
      */
     public function pusherAuth(Request $request)
     {
-        return Chatify::pusherAuth(
+        return $this->chatify->pusherAuth(
             $request->user(),
             Auth::user(),
             $request['channel_name'],
@@ -47,13 +55,26 @@ class MessagesController extends Controller
      */
     public function index( $id = null)
     {
+        session()->forget('me_id');
+    
         $messenger_color = Auth::user()->messenger_color;
-        return view('Chatify::pages.app', [
+        return view('vendor.Chatify.pages.app', [
             'id' => $id ?? 0,
-            'messengerColor' => $messenger_color ? $messenger_color : Chatify::getFallbackColor(),
+            'messengerColor' => $messenger_color ? $messenger_color : $this->chatify->getFallbackColor(),
             'dark_mode' => Auth::user()->dark_mode < 1 ? 'light' : 'dark',
         ]);
     }
+    public function adminIndex( $id = null)
+    {
+        $user=User::find($id);
+        $messenger_color = $user->messenger_color;
+        return view('vendor.Chatify.pages.app', [
+            'id' => $id ?? 0,
+            'messengerColor' => $messenger_color ? $messenger_color : $this->chatify->getFallbackColor(),
+            'dark_mode' => $user->dark_mode < 1 ? 'light' : 'dark',
+        ]);
+    }
+    
 
 
     /**
@@ -64,10 +85,10 @@ class MessagesController extends Controller
      */
     public function idFetchData(Request $request)
     {
-        $favorite = Chatify::inFavorite($request['id']);
+        $favorite = $this->chatify->inFavorite($request['id']);
         $fetch = User::where('id', $request['id'])->first();
         if($fetch){
-            $userAvatar = Chatify::getUserWithAvatar($fetch)->avatar;
+            $userAvatar = $this->chatify->getUserWithAvatar($fetch)->avatar;
         }
         return Response::json([
             'favorite' => $favorite,
@@ -86,8 +107,8 @@ class MessagesController extends Controller
     public function download($fileName)
     {
         $filePath = config('chatify.attachments.folder') . '/' . $fileName;
-        if (Chatify::storage()->exists($filePath)) {
-            return Chatify::storage()->download($filePath);
+        if ($this->chatify->storage()->exists($filePath)) {
+            return $this->chatify->storage()->download($filePath);
         }
         return abort(404, "Sorry, File does not exist in our server or may have been deleted!");
     }
@@ -100,6 +121,11 @@ class MessagesController extends Controller
      */
     public function send(Request $request)
     {
+        $this->me_id=session('me_id');
+        if(!$this->me_id)$this->me_id=Auth::user()->id;
+        
+        if($this->me_id!=Auth::user()->id) return;
+    
         // default variables
         $error = (object)[
             'status' => 0,
@@ -111,13 +137,13 @@ class MessagesController extends Controller
         // if there is attachment [file]
         if ($request->hasFile('file')) {
             // allowed extensions
-            $allowed_images = Chatify::getAllowedImages();
-            $allowed_files  = Chatify::getAllowedFiles();
+            $allowed_images = $this->chatify->getAllowedImages();
+            $allowed_files  = $this->chatify->getAllowedFiles();
             $allowed        = array_merge($allowed_images, $allowed_files);
 
             $file = $request->file('file');
             // check file size
-            if ($file->getSize() < Chatify::getMaxUploadSize()) {
+            if ($file->getSize() < $this->chatify->getMaxUploadSize()) {
                 if (in_array(strtolower($file->extension()), $allowed)) {
                     // get attachment name
                     $attachment_title = $file->getClientOriginalName();
@@ -134,9 +160,9 @@ class MessagesController extends Controller
             }
         }
 
-        if (!$error->status) {
-            $message = Chatify::newMessage([
-                'from_id' => Auth::user()->id,
+        if (!$error->status ) {
+            $message = $this->chatify->newMessage([
+                'from_id' => $this->me_id,
                 'to_id' => $request['id'],
                 'body' => htmlentities(trim($request['message']), ENT_QUOTES, 'UTF-8'),
                 'attachment' => ($attachment) ? json_encode((object)[
@@ -154,12 +180,12 @@ class MessagesController extends Controller
             $receiver=User::find($request['id']);
             
             
-            $messageData = Chatify::parseMessage($message);
-            if (Auth::user()->id != $request['id']) {
-                Chatify::push("private-chatify.".$request['id'], 'messaging', [
-                    'from_id' => Auth::user()->id,
+            $messageData = $this->chatify->parseMessage($message);
+            if ($this->me_id != $request['id']) {
+                $this->chatify->push("private-chatify.".$request['id'], 'messaging', [
+                    'from_id' => $this->me_id,
                     'to_id' => $request['id'],
-                    'message' => Chatify::messageCard($messageData, true)
+                    'message' => $this->chatify->messageCard($messageData, true)
                 ]);
                 //Send notifcations
                 $receiver->notify(new NewMessage($message));
@@ -170,7 +196,7 @@ class MessagesController extends Controller
         return Response::json([
             'status' => '200',
             'error' => $error,
-            'message' => Chatify::messageCard(@$messageData),
+            'message' => $this->chatify->messageCard(@$messageData),
             'tempID' => $request['temporaryMsgId'],
         ]);
     }
@@ -183,7 +209,7 @@ class MessagesController extends Controller
      */
     public function fetch(Request $request)
     {
-        $query = Chatify::fetchMessagesQuery($request['id'])->latest();
+        $query = $this->chatify->fetchMessagesQuery($request['id'])->latest();
         $messages = $query->paginate($request->per_page ?? $this->perPage);
         $totalMessages = $messages->total();
         $lastPage = $messages->lastPage();
@@ -229,8 +255,8 @@ class MessagesController extends Controller
                 }
                 $allMessages .= '<p class="messenger-title"><span>'.$datetimeString.'</span></p>';
             }
-            $allMessages .= Chatify::messageCard(
-                Chatify::parseMessage($message)
+            $allMessages .= $this->chatify->messageCard(
+                $this->chatify->parseMessage($message)
             );
         }
         $response['messages'] = $allMessages;
@@ -246,7 +272,7 @@ class MessagesController extends Controller
     public function seen(Request $request)
     {
         // make as seen
-        $seen = Chatify::makeSeen($request['id']);
+        $seen = $this->chatify->makeSeen($request['id']);
         // send the response
         return Response::json([
             'status' => $seen,
@@ -261,16 +287,19 @@ class MessagesController extends Controller
      */
     public function getContacts(Request $request)
     {
+        $this->me_id=session('me_id');
+        if(!$this->me_id)$this->me_id=Auth::user()->id;
+
         // get all users that received/sent message from/to [Auth user]
         $users = Message::join('users',  function ($join) {
             $join->on('ch_messages.from_id', '=', 'users.id')
                 ->orOn('ch_messages.to_id', '=', 'users.id');
         })
         ->where(function ($q) {
-            $q->where('ch_messages.from_id', Auth::user()->id)
-            ->orWhere('ch_messages.to_id', Auth::user()->id);
+            $q->where('ch_messages.from_id', $this->me_id)
+            ->orWhere('ch_messages.to_id', $this->me_id);
         })
-        ->where('users.id','!=',Auth::user()->id)
+        ->where('users.id','!=',$this->me_id)
         ->select('users.*',DB::raw('MAX(ch_messages.created_at) max_created_at'))
         ->orderBy('max_created_at', 'desc')
         ->groupBy('users.id')
@@ -281,7 +310,7 @@ class MessagesController extends Controller
         if (count($usersList) > 0) {
             $contacts = '';
             foreach ($usersList as $user) {
-                $contacts .= Chatify::getContactItem($user);
+                $contacts .= $this->chatify->getContactItem($user);
             }
         } else {
             $contacts = '<p class="message-hint center-el"><span>Your contact list is empty</span></p>';
@@ -309,7 +338,7 @@ class MessagesController extends Controller
                 'message' => 'User not found!',
             ], 401);
         }
-        $contactItem = Chatify::getContactItem($user);
+        $contactItem = $this->chatify->getContactItem($user);
 
         // send the response
         return Response::json([
@@ -327,8 +356,8 @@ class MessagesController extends Controller
     {
         $userId = $request['user_id'];
         // check action [star/unstar]
-        $favoriteStatus = Chatify::inFavorite($userId) ? 0 : 1;
-        Chatify::makeInFavorite($userId, $favoriteStatus);
+        $favoriteStatus = $this->chatify->inFavorite($userId) ? 0 : 1;
+        $this->chatify->makeInFavorite($userId, $favoriteStatus);
 
         // send the response
         return Response::json([
@@ -349,7 +378,7 @@ class MessagesController extends Controller
         foreach ($favorites->get() as $favorite) {
             // get user data
             $user = User::where('id', $favorite->favorite_id)->first();
-            $favoritesList .= view('Chatify::layouts.favorite', [
+            $favoritesList .= view('$this->chatify->layouts.favorite', [
                 'user' => $user,
             ]);
         }
@@ -370,15 +399,18 @@ class MessagesController extends Controller
      */
     public function search(Request $request)
     {
+        $this->me_id=session('me_id');
+        if(!$this->me_id)$this->me_id=Auth::user()->id;
+
         $getRecords = null;
         $input = trim(filter_var($request['input']));
-        $records = User::where('id','!=',Auth::user()->id)
+        $records = User::where('id','!=',$this->me_id)
                     ->where('name', 'LIKE', "%{$input}%")
                     ->paginate($request->per_page ?? $this->perPage);
         foreach ($records->items() as $record) {
-            $getRecords .= view('Chatify::layouts.listItem', [
+            $getRecords .= view('$this->chatify->layouts.listItem', [
                 'get' => 'search_item',
-                'user' => Chatify::getUserWithAvatar($record),
+                'user' => $this->chatify->getUserWithAvatar($record),
             ])->render();
         }
         if($records->total() < 1){
@@ -400,14 +432,14 @@ class MessagesController extends Controller
      */
     public function sharedPhotos(Request $request)
     {
-        $shared = Chatify::getSharedPhotos($request['user_id']);
+        $shared = $this->chatify->getSharedPhotos($request['user_id']);
         $sharedPhotos = null;
 
         // shared with its template
         for ($i = 0; $i < count($shared); $i++) {
-            $sharedPhotos .= view('Chatify::layouts.listItem', [
+            $sharedPhotos .= view('$this->chatify->layouts.listItem', [
                 'get' => 'sharedPhoto',
-                'image' => Chatify::getAttachmentUrl($shared[$i]),
+                'image' => $this->chatify->getAttachmentUrl($shared[$i]),
             ])->render();
         }
         // send the response
@@ -425,7 +457,7 @@ class MessagesController extends Controller
     public function deleteConversation(Request $request)
     {
         // delete
-        $delete = Chatify::deleteConversation($request['id']);
+        $delete = $this->chatify->deleteConversation($request['id']);
 
         // send the response
         return Response::json([
@@ -442,7 +474,7 @@ class MessagesController extends Controller
     public function deleteMessage(Request $request)
     {
         // delete
-        $delete = Chatify::deleteMessage($request['id']);
+        $delete = $this->chatify->deleteMessage($request['id']);
 
         // send the response
         return Response::json([
@@ -452,41 +484,44 @@ class MessagesController extends Controller
 
     public function updateSettings(Request $request)
     {
+        $this->me_id=session('me_id');
+        if(!$this->me_id)$this->me_id=Auth::user()->id;
+
         $msg = null;
         $error = $success = 0;
 
         // dark mode
         if ($request['dark_mode']) {
             $request['dark_mode'] == "dark"
-                ? User::where('id', Auth::user()->id)->update(['dark_mode' => 1])  // Make Dark
-                : User::where('id', Auth::user()->id)->update(['dark_mode' => 0]); // Make Light
+                ? User::where('id', $this->me_id)->update(['dark_mode' => 1])  // Make Dark
+                : User::where('id', $this->me_id)->update(['dark_mode' => 0]); // Make Light
         }
 
         // If messenger color selected
         if ($request['messengerColor']) {
             $messenger_color = trim(filter_var($request['messengerColor']));
-            User::where('id', Auth::user()->id)
+            User::where('id', $this->me_id)
                 ->update(['messenger_color' => $messenger_color]);
         }
         // if there is a [file]
         if ($request->hasFile('avatar')) {
             // allowed extensions
-            $allowed_images = Chatify::getAllowedImages();
+            $allowed_images = $this->chatify->getAllowedImages();
 
             $file = $request->file('avatar');
             // check file size
-            if ($file->getSize() < Chatify::getMaxUploadSize()) {
+            if ($file->getSize() < $this->chatify->getMaxUploadSize()) {
                 if (in_array(strtolower($file->extension()), $allowed_images)) {
                     // delete the older one
                     if (Auth::user()->avatar != config('chatify.user_avatar.default')) {
                         $avatar = Auth::user()->avatar;
-                        if (Chatify::storage()->exists($avatar)) {
-                            Chatify::storage()->delete($avatar);
+                        if ($this->chatify->storage()->exists($avatar)) {
+                            $this->chatify->storage()->delete($avatar);
                         }
                     }
                     // upload
                     $avatar = Str::uuid() . "." . $file->extension();
-                    $update = User::where('id', Auth::user()->id)->update(['avatar' => $avatar]);
+                    $update = User::where('id', $this->me_id)->update(['avatar' => $avatar]);
                     $file->storeAs(config('chatify.user_avatar.folder'), $avatar, config('chatify.storage_disk_name'));
                     $success = $update ? 1 : 0;
                 } else {
@@ -515,8 +550,11 @@ class MessagesController extends Controller
      */
     public function setActiveStatus(Request $request)
     {
+        $this->me_id=session('me_id');
+        if(!$this->me_id)$this->me_id=Auth::user()->id;
+
         $activeStatus = $request['status'] > 0 ? 1 : 0;
-        $status = User::where('id', Auth::user()->id)->update(['active_status' => $activeStatus]);
+        $status = User::where('id', $this->me_id)->update(['active_status' => $activeStatus]);
         return Response::json([
             'status' => $status,
         ], 200);
@@ -532,9 +570,9 @@ class MessagesController extends Controller
     public function viewMessage( $idUser=null,$idMsg=null)
     {
         $messenger_color = Auth::user()->messenger_color;
-        return view('Chatify::pages.app', [
+        return view('vendor.Chatify.pages.app', [
             'id' => $idUser ?? 0,
-            'messengerColor' => $messenger_color ? $messenger_color : Chatify::getFallbackColor(),
+            'messengerColor' => $messenger_color ? $messenger_color : $this->chatify->getFallbackColor(),
             'dark_mode' => Auth::user()->dark_mode < 1 ? 'light' : 'dark',
         ]);
     }

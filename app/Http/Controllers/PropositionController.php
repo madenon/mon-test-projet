@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\Transaction;
 use Illuminate\Support\Str;
 use App\Notifications\NewPreposition;
+use App\Notifications\NewTransaction;
+use App\Notifications\PropositionResult;
 
 class PropositionController extends Controller
 {
@@ -63,60 +65,62 @@ class PropositionController extends Controller
     // You can save $imageName to the database if needed
 }
 
-// Create the Preposition
-$preposition = Preposition::create($request->except('image'));
+        // Create the Preposition
+        $preposition = Preposition::create($request->except('image'));
 
 
 
-$offer=Offer::find($request->offer_id);
-$message = ChMessage::create([
-    'id' => Str::uuid()->toString(),
-    'from_id' => $request->user_id,
-    'to_id' =>$offer->user->id,
-    'body' => $request->negotiation,
-    'preposition_id' => $preposition->id,
-]);
-$receiver=User::find($preposition->offer->user_id);
+        $offer=Offer::find($request->offer_id);
+        $message = ChMessage::create([
+            'id' => Str::uuid()->toString(),
+            'from_id' => $request->user_id,
+            'to_id' =>$offer->user->id,
+            'body' => $request->negotiation,
+            'preposition_id' => $preposition->id,
+        ]);
+        $receiver=User::find($preposition->offer->user_id);
+        
+        $receiver->notify(new NewPreposition($preposition));
+        
+        
 
-$receiver->notify(new NewPreposition($preposition));
-
-
-
-// You can associate the image with the preposition if needed
-if (isset($imageName)) {
-    $preposition->update(['images' => json_encode($imageName)]);
-}
+        // You can associate the image with the preposition if needed
+        if (isset($imageName)) {
+            $preposition->update(['images' => json_encode($imageName)]);
+        }
    
 
         // You can add a success message or redirect to a different page
         return redirect()->route('propositions.index')->with('success', 'Proposition created successfully');
     }
     public function updateStatus(Request $request)
-{
-    $propositionId = $request->input('propositionId');
-    $newStatus = $request->input('newStatus');
-    $proposition=Preposition::find($propositionId);
-    if($proposition!=null){
-    if ($newStatus === 'Acceptée') {
-        // Create a transaction
-        $transaction = Transaction::create([
-            'proposition_id' => $proposition->id,
-            'status' => 'En cours', 
-            'amount' => $proposition->price?$proposition->price:'0', 
-            'name' => $proposition->name, 
-            'date' => now()
-        ]);
-
-        //TODO:Notify propsition maker so he can rating the order
+    {
+        $propositionId = $request->input('propositionId');
+        $newStatus = $request->input('newStatus');
+        $proposition=Preposition::find($propositionId);
+        if($proposition!=null){
+            $taker=User::find($preposition->user_id);
+            $proposition->status = $newStatus;
+            if ($newStatus === 'Acceptée') {
+                // Create a transaction
+                $transaction = Transaction::create([
+                    'proposition_id' => $proposition->id,
+                    'status' => 'En cours', 
+                    'amount' => $proposition->price?$proposition->price:'0', 
+                    'name' => $proposition->name, 
+                    'date' => now()
+                ]);
+                $taker->notify(new NewTransaction($transaction));   
+            }else{
+                $taker->notify(new PropositionResult($transaction));   
+            }
         
-    }
-   
-    $proposition->status = $newStatus;
-    $proposition->save();
+            $proposition->save();
 
-    return response()->json(['success' => true]);}
-    return response()->json(['id'=>$propositionId]);
-}
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['id'=>$propositionId]);
+    }
 
 public function destroy($prepositionId)
 {

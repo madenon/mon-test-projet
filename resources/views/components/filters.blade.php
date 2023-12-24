@@ -22,7 +22,7 @@
                             <div class="mt-1 hidden elements">
                                 @foreach($parentcategories[$i]->children as $subcategory)
                                 <div class="my-1">
-                                    <input type="checkbox" id="name" name="{{$subcategory->name}}" value="{{ $subcategory->id }}" {{ request()->input($subcategory->name) ? 'checked' : '' }}>
+                                    <input type="checkbox" id="{{$subcategory->name}}" name="subcategories[]" value="{{ $subcategory->id }}" {{ request()->input($subcategory->name) ? 'checked' : '' }}>
                                     <label for="{{ $subcategory->id }}"class="text-sm">{{ $subcategory->name }}</label><br>
                                 </div>
                                 @endforeach
@@ -82,9 +82,9 @@
                         </div>
                     </form>
 
-                    @for($i=0; $i<2; $i++)
+                    @for($i=0; $i<7; $i++)
                     <div class="my-1 region-item flex flex-row" data-name="{{ $departments[$i]->name.', '.$departments[$i]->region->name.', France' }}">
-                         type="checkbox" id="name_{{ $departments[$i]->id }}" name="{{ $departments[$i]->name }}" value="{{ $departments[$i]->id }}" {{ request()->input($departments[$i]->name) ? 'checked' : '' }}>
+                        <input type="checkbox" id="name_{{ $departments[$i]->id }}" name="departments[]" value="{{ $departments[$i]->id }}" {{ request()->input($departments[$i]->name) ? 'checked' : '' }}>
                         <label for="name_{{ $departments[$i]->id }}" class="text-sm ps-1">{{ $departments[$i]->name.', '.$departments[$i]->region->name.', France' }}</label><br>
                     </div>
                     @endfor

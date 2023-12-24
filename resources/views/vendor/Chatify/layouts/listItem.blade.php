@@ -6,7 +6,7 @@
 $lastMessageBody = mb_convert_encoding($lastMessage->body, 'UTF-8', 'UTF-8');
 $lastMessageBody = strlen($lastMessageBody) > 20 ? mb_substr($lastMessageBody, 0, 20, 'UTF-8').'..' : $lastMessageBody;
 ?>
-<table class="messenger-list-item" data-contact="{{ $user->id }}">
+<table class="messenger-list-item" data-contact="{{ $user->id }}" wire:click="route('admin.usermessages',$user->id)">
     <tr data-action="0">
         {{-- Avatar side --}}
         <td style="position: relative">
@@ -21,7 +21,8 @@ $lastMessageBody = strlen($lastMessageBody) > 20 ? mb_substr($lastMessageBody, 0
         <td>
         <p data-id="{{ $user->id }}" data-type="user">
             {{ strlen($user->name) > 12 ? trim(substr($user->name,0,12)).'..' : $user->name }}
-            <span class="contact-item-time" data-time="{{$lastMessage->created_at}}">{{ $lastMessage->timeAgo }}</span></p>
+            <span class="contact-item-time" data-time="{{$lastMessage->created_at}}">{{ $lastMessage->timeAgo }}</span>
+        </p>
         <span>
             {{-- Last Message user indicator --}}
             {!!

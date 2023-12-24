@@ -93,6 +93,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="mt-6 py-6 border-t border-slate-200 text-center">
+                            <div >
+                            <form method="post" action="{{ route('admin.usercontacts') }}">
+                                @csrf
+                                <input type="hidden" name="me_id" value="{{ $user->id }}">
+                                <!-- Other form fields here -->
+                                <button type="submit" class="no-underline inline-block px-4 py-2 font-normal text-slate-700 bg-gray-200 hover:bg-gray-300 rounded-md transition duration-300 ease-in-out">
+                                    View his messages
+                                </button>
+                            </form>
+
+                            </div>
+
+                        </div>
 
                         <div class="mt-6 py-6 border-t border-slate-200 text-center">
                             <span class="text-xl font-bold block tracking-wide text-slate-700">Crédibilité</span>

@@ -205,7 +205,8 @@
                     </div>
                 </div>
             </div>
-            <div class=" my-4  justify-center border-black py-2 border-b rounded-lg flex gap-2 w-52">
+            <div class="report-button my-4 text-red-700 justify-center border-black py-2 border-b rounded-lg flex gap-2 w-52"
+                data-offer-id="{{ $offer->id }}" data-offer-name="{{ $offer->name }}">
                 <img src="/images/flag_FILL0_wght200_GRAD-25_opsz20 1.svg" alt="">
                 <span>
                     Signalez ce troc
@@ -697,8 +698,58 @@ $('#yourModalId').on('show.bs.modal', function (event) {
 });
 
 
+$(document).on('click', '.report-button', function () {
+        // Retrieve the prepositionId from the data attribute
+        var offerId = $(this).data('offer-id');
+        var offerName = $(this).data('offer-name');
+        
+        // Call the updateProposition function with the prepositionId
+        reportOffer(offerId,offerName);
+    });
+    function reportOffer(offerId,offerName) {
+    Swal.fire({
+        title: 'offer '+offerName,
+        html: '<div class="flex justify-start">' +
+        '<input id="report-title" name="title" class="swal2-input ms-auto w-full"  placeholder="Title">' +
+        '</div>' +
+            '<div id="flex justify-start description-container">' +
+            '<textarea id="report-description" name="description" class="swal2-textarea ms-auto w-full" rows="4"  placeholder="Give description"></textarea>' +
+            '</div>',
+        showCancelButton: true,
+        confirmButtonText: 'Report',
+        cancelButtonText: 'Cancel',
+        showLoaderOnConfirm: true,
+        preConfirm: (result) => {
+        const titleValue = document.getElementById('report-title').value;
+        const descriptionValue = document.getElementById('report-description').value;
+        return fetch('/offer/report/'+offerId, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: titleValue,
+                description: descriptionValue,
+                _token: '{{csrf_token()}}'
+            }),
+        })
+            .then((response) => {
+            if (!response.ok) {
+                throw new Error('Failed to submit report');
+            }
+            return response.json();
+            })
+            .catch((error) => {
+            Swal.showValidationMessage(`Request failed: ${error}`);
+            });
+        },
+        
+    }).then(function () {
+                    location.reload();
+                });
 
-
+                
+    }
     </script>
         
 </x-app-layout>

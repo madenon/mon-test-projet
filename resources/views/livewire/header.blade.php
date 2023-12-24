@@ -1,5 +1,6 @@
 @props(['parentcategories'])
-<header id="main-header">
+<header id="main-header" wire:poll.30000ms="refreshData">
+<!--  -->
         <div class="h-container">
             <div id="header-logo" class="">
                 <a href="{{ route('home') }}">
@@ -48,7 +49,7 @@
                 <div id="header-authenticated-user" class="">
                     <div class="dropdown" class="header-authenticated-user-content">
                         <div id="header-user-notification-icon" class="" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div wire:click="read(0)">
+                            <div>
                                 @if(count($notifications)==0)
                                 <div class="header-user-notification-icon"></div>
                                 @else
@@ -62,7 +63,7 @@
                             <li>
                                 <div class="notification-dropdown-item">
                                     <div class="notification-dropdown-item-content">
-                                            <b>You have no notifications</b>
+                                            <b>You have no new notification</b>
                                     </div>
                                 </div>
                             </li>
@@ -73,11 +74,11 @@
                                     <div class="notification-dropdown-item-image">
                                         <img src="{{asset('images/circle-user-icon.svg')}}" alt="" />
                                     </div>
-                                    <div class="notification-dropdown-item-content ">
+                                    <div class="notification-dropdown-item-content" wire:click="read('{{$notification->id}}')">
                                         <a >
-                                            <b>{{$notification->data["taker"]}}</b>
+                                            <b>{{$notification->data["name"]}}</b>
                                             <span>{{$notification->data["content"]}}</span>
-                                            <strong>{{$notification->data["name"]}}</strong>
+                                            <strong>{{$notification->data["title"]}}</strong>
                                         </a>
                                         <button class="notification-delete-icon" data-notification-id="{{$notification->id}}">🗑️</button>
                                     </div>
@@ -103,7 +104,7 @@
                             <li>
                                 <div class="notification-dropdown-item">
                                     <div class="notification-dropdown-item-content">
-                                            <b>You have no messages</b>
+                                            <b>You have no new message</b>
                                     </div>
                                 </div>
                             </li>
@@ -114,9 +115,9 @@
                                     <div class="notification-dropdown-item-image">
                                         <img src="{{asset('images/circle-user-icon.svg')}}" alt="" />
                                     </div>
-                                    <div class="notification-dropdown-item-content">
+                                    <div class="notification-dropdown-item-content" wire:click="read('{{$notification->id}}')">
                                         <a >
-                                            <b>{{$notification->data["from_id"]}}</b>
+                                            <b>{{$notification->data["name"]}}</b>
                                             <span>{{$notification->data["content"]}}</span>
                                             <strong>{{$notification->data["from_id"]}}</strong>
                                         </a>

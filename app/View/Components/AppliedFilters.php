@@ -40,6 +40,9 @@ class AppliedFilters extends Component
         $maxPrice = request()->input('max_price');
         $sortOrder = request()->input('sort_by', 'latest'); // Default sorting order
         $online=request()->input('online');
+        $deps=request()->input('departments');
+        $subs=request()->input('subcategories');
+
 
        
 
@@ -78,6 +81,13 @@ class AppliedFilters extends Component
         else
             $queryBuilder->whereNotIn('user_id',$onlineUsers);
         }
+        if($deps){
+            $queryBuilder->whereIn('department_id', $deps);
+        }
+        if($subs){
+            $queryBuilder->whereIn('subcategory_id', $subs);   
+        }
+
 
         $offersCount=$queryBuilder->count();
 
@@ -89,25 +99,23 @@ class AppliedFilters extends Component
         "type"=>"type",
         "name"=> Type::find($type)->name
     ]);
-    
-    foreach($departments as $department){
-        $dep=request()->input($department->name);
-        if($dep)array_push($filters,[
+    if(request()->input('departments'))
+    foreach(request()->input('departments') as $dep){
+        array_push($filters,[
             "type"=>"department",
-            "name"=> $department->name,
+            "name"=> Department::find($dep)->name,
             "icon"=>'fa-map-marker-alt',
         ]);
     }
     $parentcategories = Category::whereNull('parent_id')->get();
     $subcategories = Category::whereNull('type_id')->get();
-    foreach($subcategories as $subcategory){
-        $sub=request()->input($subcategory->name);
-        if($sub)array_push($filters,[
+    if(request()->input('subcategories'))
+    foreach(request()->input('subcategories') as $sub){
+        array_push($filters,[
             "type"=>"subcategory",
-            "name"=> $subcategory->name,
-            "icon"=>$subcategory->parent->icon,
-        ]);
-        
+            "name"=> Category::find($sub)->name,
+            "icon"=> Category::find($sub)->parent->icon,
+        ]);  
     }
     if ($category){
         $category=Category::find($category);

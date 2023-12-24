@@ -18,6 +18,7 @@ const messagesContainer = $(".messenger-messagingView .m-body"),
   messageInput = $("#message-form .m-send"),
   auth_id = $("meta[name=url]").attr("data-user"),
   url = $("meta[name=url]").attr("content"),
+  adminUrl = $("meta[name=adminUrl]").attr("content"),
   messengerTheme = $("meta[name=messenger-theme]").attr("content"),
   defaultMessengerColor = $("meta[name=messenger-color]").attr("content"),
   csrfToken = $('meta[name="csrf-token"]').attr("content");
@@ -756,7 +757,7 @@ function isTyping(status) {
  *-------------------------------------------------------------
  */
 function makeSeen(status) {
-  if (document?.hidden) {
+  if (document?.hidden || window.location.href.includes("admin")) {
     return;
   }
   // remove unseen counter for the user from the contacts list
@@ -1311,7 +1312,8 @@ $(document).ready(function () {
     $(".messenger-list-item").removeClass("m-list-active");
     $(this).addClass("m-list-active");
     const userID = $(this).attr("data-contact");
-    routerPush(document.title, `${url}/${userID}`);
+    if (window.location.href.includes("admin")) routerPush(document.title, `${adminUrl}/${userID}`);
+    else routerPush(document.title, `${url}/${userID}`);
     updateSelectedContact(userID);
   });
 

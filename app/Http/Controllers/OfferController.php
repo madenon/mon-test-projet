@@ -11,6 +11,7 @@ use App\Models\Region;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Report;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -281,5 +282,15 @@ $carbonDate = Carbon::parse($request->expiration_date);
         $offer = Offer::find($offerId);
         $id=$offer->user->id;
         return redirect()->route('user',$id);
+    }
+    public function report(Request $request,$offerId){
+        $report=Report::create([
+            'title' => $request->title,
+            'reporter_id' => Auth::user()->id, // Replace with the actual reporter user ID
+            'offer_id' => $offerId, // Replace with the actual offer ID
+            'description' => $request->description,
+        
+        ]);
+        return $report;
     }
 }

@@ -5,18 +5,19 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
+use App\Models\Preposition;
+use App\Models\User;
 
 class PropositionResult extends Notification
 {
     use Queueable;
+    private Preposition $preposition; 
 
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct()
+    public function __construct($prep)
     {
-        //
+        $this->preposition=$prep;
     }
 
     /**
@@ -26,18 +27,20 @@ class PropositionResult extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return [ 'database','broadcast'];
+        // return ['mail', 'database','broadcast'];
     }
-
     /**
      * Get the mail representation of the notification.
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $url = url('/propositions');
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->subject('Proposition result')
+                    ->line('Your proposition state has been updated')
+                    ->action('View Proposition', $url)
+                    ->line($this->preposition->name);
     }
 
     /**
@@ -48,7 +51,15 @@ class PropositionResult extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'id' => $this->preposition->id,
+            'name' =>   $this->preposition->offer->user->name,
+            'title' =>   $this->preposition->name,
+            'content' => 'has '.$this->preposition->status.' your proposition',
+            'link' => url('/propositions')
+
         ];
     }
+
+
+
 }

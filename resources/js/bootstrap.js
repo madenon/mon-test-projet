@@ -37,12 +37,8 @@ window.Echo = new Echo({
 });
 
 
-window.Echo.private(`private-App.Models.User.${userId}`)
+window.Echo.private(`App.Models.User.${userId}`)
     .notification((notification) => {
         console.log(notification.type);
-        if(notification.type=="App\Notifications\NewMessage"){
-            //Add to message
-        }else{
-            //Add to notifications
-        }
+        Livewire.dispatch('refreshData');
     });

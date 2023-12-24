@@ -101,7 +101,14 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
    Route::get('/campaigns',  'campaigns')->middleware('admin')->name('admin.campaigns');
    Route::get('/campaigns/add',  'addCampaign')->middleware('admin')->name('admin.add-campaign');
    Route::post('/campaigns/add',  'storeCampaign')->middleware('admin')->name('admin.storeCampaign');
-   Route::get('/campaigns/{id}',  'editCampaign')->middleware('admin')->name('admin.edit-campaign');
+   
+   Route::post('/messages',  'messages')->middleware('admin')->name('admin.usercontacts');
+   Route::post('/messages/{id}',  'messages')->middleware('admin')->name('admin.usermessages');
+   
+   Route::get('/reports',  'reports')->middleware('admin')->name('admin.reports');
+   Route::get('/badges',  'badges')->middleware('admin')->name('admin.badges');
+   
+      Route::get('/campaigns/{id}',  'editCampaign')->middleware('admin')->name('admin.edit-campaign');
    Route::put('/campaigns/{id}',  'updateCampaign')->middleware('admin')->name('admin.update-campaign');
    Route::delete('/campaigns/delete-campaign/{id}',  'deleteCampaign')->middleware('admin')->name('admin.delete-campaign');
 
@@ -109,7 +116,7 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
    Route::get('/sponsors/add',  'addSponsor')->middleware('admin')->name('admin.add-sponsor');
    Route::post('/sponsors/add',  'storeSponsor')->middleware('admin')->name('admin.storeSponsor');
    Route::delete('/sponsors/delete-sponsor/{id}',  'deleteSponsor')->middleware('admin')->name('admin.delete-sponsor');
-    Route::get('/login','login')->name('admin.login');
+   Route::get('/login','login')->name('admin.login');
     Route::post('/login','store');
 });
 
@@ -134,6 +141,7 @@ Route::middleware('auth','check.offers')->group(function () {
     Route::get('/offres/creer', [OfferController::class, 'create'])->name('offer.create');
     Route::post('/offer', [OfferController::class, 'store'])->name('offer.store');
     Route::get('/offer/chat/{offerId}', [OfferController::class, 'chat'])->name('offer.chat');
+    Route::post('/offer/report/{offerId}', [OfferController::class, 'report'])->name('offer.report');
 
 });
 

@@ -22,38 +22,7 @@ class Preposition extends Model
         'price',
         'images',
     ];
-    public static function boot()
-    {
-        parent::boot();
-    
-        static::created(function ($preposition) {
-            // Notification when a preposition is added
-           // $preposition->createNotification('', 'Your proposition has been added.');
-        });
-    
-        static::updated(function ($preposition) {
-            // Notification when a preposition is updated
-            if ($preposition->status == 'Acceptée') {
-                $message = 'La proposition :'.$preposition->name. ' est acceptée';
-                $preposition->createNotification($preposition->user_id, 'Vous avez une nouvelle transaction sur l\'offre: ' . $preposition->offer->title  );
-                $preposition->createNotification($preposition->offer->user_id, 'Vous avez une nouvelle transaction sur l\'offre: ' . $preposition->offer->title  );
-            } else {
-                $message = 'La proposition :'.$preposition->name. ' est rejetée';
-            }
-            $preposition->createNotification($preposition->user_id, $message);
-        });
-    
-        // You can add similar logic for accepted and rejected events
-    }    
-
-    public function createNotification($userId, $content)
-    {
-        Notification::create([
-            'user_id' => $userId,
-            'content' => $content,
-            'seen' => false,
-        ]);
-    }
+     
 
     
     public function offer(): BelongsTo
