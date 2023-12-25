@@ -43,6 +43,16 @@ class Header extends Component
         $this->messages=$this->user->unreadNotifications->where('type','==','App\Notifications\NewMessage');
     }}
     
+    public function getListeners()
+    {
+        if (auth()->check()) {
+            return [
+                "echo:private-App.Models.User.{user.id},.Illuminate\Notifications\Events\BroadcastNotificationCreated" => 'refreshData',
+                "refreshData" => 'refreshData',
+            ];
+        }else return [];
+    }
+    
     public function render()
     {
         return view('livewire.header');
@@ -60,8 +70,6 @@ class Header extends Component
         $this->dispatch('refreshData');
     }
 
-    #[On('echo:private-App.Models.User.{user.id},.Illuminate\Notifications\Events\BroadcastNotificationCreated')] 
-    #[On('refreshData')] 
     public function refreshData()
     {
         $this->notifications=$this->user->unreadNotifications->where('type','!=','App\Notifications\NewMessage');
