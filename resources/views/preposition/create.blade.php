@@ -61,7 +61,8 @@
                     </div>
                 </div>
 
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit Proposition</button>
+                <div class="flex justify-center mt-2">
+        <button type="submit" class="btn text-white px-4 py-2 " style="background:var(--primary-color);">Ajouter la proposition </button></div>
             </form>
         </div>
     </div>

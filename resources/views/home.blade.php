@@ -216,28 +216,28 @@
         <div class="flex items-center">
             <div class="m-3"><i class="fa fa-cube fa-2x"></i></div>
             <div class="flex flex-col justify-center items-center space-y-1">
-                <div class="text-lg font-meduim">95,0K+</div>
+                <div class="text-lg font-meduim">{{count($offers)}}+</div>
                 <div class="text-xs">Annonces</div>
             </div>
         </div>
         <div class="flex items-center">
             <div class="m-3"><i class="fa fa-users fa-2x"></i></div>
             <div class="flex flex-col justify-center items-center space-y-1">
-                <div class="text-lg font-meduim">361,0K+</div>
+                <div class="text-lg font-meduim">{{count($users)}}+</div>
                 <div class="text-xs">Utilisateurs</div>
             </div>
         </div>
         <div class="flex items-center">
             <div class="m-3"><i class="fa fa-handshake fa-2x"></i></div>
             <div class="flex flex-col justify-center items-center space-y-1">
-                <div class="text-lg font-meduim">67,0K+</div>
+                <div class="text-lg font-meduim">{{count($transactions)}}+</div>
                 <div class="text-xs">Transactions</div>
             </div>
         </div>
         <div class="flex items-center">
             <div class="m-3"><i class="fa fa-map-marker-alt fa-2x"></i></div>
             <div class="flex flex-col justify-center items-center space-y-1">
-                <div class="text-lg font-meduim">150+</div>
+                <div class="text-lg font-meduim">{{count($regions)}}+</div>
                 <div class="text-xs">Regions</div>
             </div>
         </div>
@@ -245,35 +245,32 @@
 
     <div id="description-website" class="flex flex-col justify-center space-y-20 my-12 mx-24">
         <div class="flex items-center">
-            <div class="image" style="height:35%;width:40%"><img src="c:/Users/Lenovo/Pictures/Home.png"/></div>
+            <div class="image" style="height:35%;width:40%"><img src="{{ asset('storage/Home/Avantage-troc.jpg') }}"/></div>
             <div class="div" style="width:10%"></div>
             <div style="width:40%"class="flex flex-col justify-start items-start space-y-3">
                 <div class="text-2xl font-meduim">Echanger ses affaires pour creer un monde meilleur</div>
                 <div class="text-sm">
-                    Lorem ipsum at sed ad fusce faucibus primis, potenti inceptos ad taciti nisi tristique
-                    urna etiam, primis ut lacus habitasse malesuada ut
+                   
                 </div>
             </div>
         </div>
         <div class="flex items-center">
-            <div class="image" style="height:35%;width:40%"><img src="c:/Users/Lenovo/Pictures/Home.png"/></div>
+            <div class="image" style="height:35%;width:40%"><img src="{{ asset('storage/Home/comportement-troqueur.jpg') }}"/></div>
             <div class="div" style="width:10%"></div>
             <div style="width:40%" class="flex flex-col justify-start items-start space-y-3">
                 <div class="text-2xl font-meduim">Troquer pour favoriser la solidarité et les contacts sociaux</div>
                 <div class="text-sm">
-                    Lorem ipsum at sed ad fusce faucibus primis, potenti inceptos ad taciti nisi tristique
-                    urna etiam, primis ut lacus habitasse malesuada ut
+                   
                 </div>
             </div>
         </div>
         <div class="flex items-center">
-            <div class="image" style="height:35%;width:40%"><img src="c:/Users/Lenovo/Pictures/Home.png"/></div>
+            <div class="image" style="height:35%;width:40%"><img src="{{ asset('storage/Home/troqueur.jpg') }}"/></div>
             <div class="div" style="width:10%"></div>
             <div style="width:40%" class="flex flex-col justify-start items-start space-y-3">
                 <div class="text-2xl font-meduim">Ici c'est aussi un site d'echange de services et bien plus encore</div>
                 <div class="text-sm">
-                    Lorem ipsum at sed ad fusce faucibus primis, potenti inceptos ad taciti nisi tristique
-                    urna etiam, primis ut lacus habitasse malesuada ut
+                    
                 </div>
             </div>
         </div>
