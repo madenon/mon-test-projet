@@ -48,8 +48,10 @@
             <main>
                 {{ $slot }}
             </main>
-
+            
+            @if(!request()->routeIs('admin.*'))
             <x-footer />
+            @endif
 
         </div>
 

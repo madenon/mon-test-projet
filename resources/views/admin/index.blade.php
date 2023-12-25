@@ -1,8 +1,8 @@
-<x-app-layout>
+!<x-app-layout>
    <!-- resources/views/admin/dashboard.blade.php -->
    <div class="flex">
       <!-- Sidebar -->
-      <div class="w-1/4 bg-gray-800 p-4 h-screen" >
+      <div class="w-1/4 bg-gray-800 p-4 h-screen relative" >
          <h1 class="text-white text-2xl font-semibold mb-4">Tableau de bord de l'administrateur</h1>
          <ul class="p-0 lg:p-2">
             <li class="mb-2 border-t-2 border-gray-700">
@@ -136,7 +136,7 @@
                     </li>
                 </ul>
             </li>
-            <li class=" absolute bottom-2 mb-2 border-gray-70">
+            <li class="absolute bottom-0 border-gray-70">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
