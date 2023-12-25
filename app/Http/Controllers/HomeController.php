@@ -8,6 +8,7 @@ use Illuminate\View\View;
 use App\Models\Department;
 use App\Models\Offer;
 use App\Models\Region;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Type;
 use Illuminate\Support\Facades\DB;
@@ -58,9 +59,13 @@ $topRegions = Region::select('regions.id','regions.name', DB::raw('COUNT(offers.
    ->get();
 
    $categories=Category::all();
+   $offers=Offer::all();
+   $users=User::all();
+   $transactions=Transaction::all();
+   $regions=Region::all();
 
     return view('home', compact('topCategories', 'topRegions',
-      'topUsers','categories','featuredOffers','recentOffers'));
+      'topUsers','categories','featuredOffers','recentOffers','offers','users','transactions','regions'));
     }
 
     }

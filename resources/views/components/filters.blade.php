@@ -82,7 +82,7 @@
                         </div>
                     </form>
 
-                    @for($i=0; $i<7; $i++)
+                    @for($i=0; $i<count($departments); $i++)
                     <div class="my-1 region-item flex flex-row" data-name="{{ $departments[$i]->name.', '.$departments[$i]->region->name.', France' }}">
                         <input type="checkbox" id="name_{{ $departments[$i]->id }}" name="departments[]" value="{{ $departments[$i]->id }}" {{ request()->input($departments[$i]->name) ? 'checked' : '' }}>
                         <label for="name_{{ $departments[$i]->id }}" class="text-sm ps-1">{{ $departments[$i]->name.', '.$departments[$i]->region->name.', France' }}</label><br>

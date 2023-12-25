@@ -60,7 +60,6 @@ class Header extends Component
         $this->dispatch('refreshData');
     }
 
-    #[On('echo:private-App.Models.User.{user.id},.Illuminate\Notifications\Events\BroadcastNotificationCreated')] 
     #[On('refreshData')] 
     public function refreshData()
     {
