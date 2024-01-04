@@ -76,7 +76,30 @@
             </ul>
         </div>
         @endif
+        <div class="flex justify-between">
             <h2 class="text-titles  font-semibold">{{ $offer->title }}</h2>
+            @if ($offer->favoritedBy->contains(auth()->user()))
+    <!-- If offer is favorited, show remove from favorites form -->
+    <form method="POST" action="{{ route('offers.removeFromFavorites', ['offer' => $offer]) }}">
+        @csrf
+        @method('DELETE')
+        <button type="submit">
+        Retirer des favoris            <!-- Display active (favorited) icon -->
+            <i class="fas fa-heart"></i>
+        </button>
+    </form>
+@else
+    <!-- If offer is not favorited, show add to favorites form -->
+    <form method="POST" action="{{ route('offers.addToFavorites', ['offer' => $offer]) }}">
+        @csrf
+        <button type="submit">
+        Ajouter aux favoris            <!-- Display inactive (not favorited) icon -->
+            <i class="far fa-heart"></i>
+        </button>
+    </form>
+@endif
+</div>
+
             @auth
     <form action="{{ route('propositions.create', ['offerid' => $offer->id,'userid'=>auth()->id()]) }}" method="get">
         <button class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-primary-color hover:bg-primary-hover " type="submit">
@@ -353,9 +376,9 @@
     <i class="fa fa-calendar"></i> Ajouter un rendez-vous
 </button>
 
-<button type="button" class="btn btn-primary m-1" id="chatButton">
+<a href="{{route('propositions.chat-sender',['prepositionId' => 'PROPOSITION_ID_PLACEHOLDER'] )}}" type="button" class="btn btn-primary m-1" id="chatButton">
 <i class="fas fa-comment"></i> Chat
-</button>
+                                    </a>
 
                             </td>
                         </tr>
@@ -446,6 +469,9 @@
             $('#acceptButton').data('proposition-id', propositionId);
             $('#acceptButton').data('proposition-id', propositionId);
             $('#declineButton').data('proposition-id', propositionId);
+            //chatbutton
+            var chatButton = document.getElementById('chatButton');
+    chatButton.href = chatButton.href.replace('PROPOSITION_ID_PLACEHOLDER', propositionId);
             // add meetup in table 
             if(descriptionData){
             $('#meetDescription').text(meetDescription);

@@ -89,19 +89,19 @@
     <div class="separator small center"></div>
     <h5>Suivez nous sur les réseaux sociaux et soyez à la une de toutes nos promotions.</h5>
     <div class="d-flex justify-content-center">
-        <a class="circle_social" href="https://www.facebook.com/fraistroquer.fr/" target="_blank">
+        <a class="circle_social" href="{{$information->facebook}}" target="_blank">
             <span class="fa-stack">
                 <i class="fas fa-circle fa-stack-2x"></i>
                 <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
             </span>
         </a>
-        <a class="circle_social" href="https://www.instagram.com/?hl=fr" target="_blank">
+        <a class="circle_social" href="{{$information->instagram}}" target="_blank">
             <span class="fa-stack">
                 <i class="fas fa-circle fa-stack-2x"></i>
                 <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
             </span>
         </a>
-        <a class="circle_social" href="https://www.youtube.com/channel/UCAPv8iQcz4dmhZfHUizP46Q/videos" target="_blank">
+        <a class="circle_social" href="{{$information->youtube}}" target="_blank">
             <span class="fa-stack">
                 <i class="fas fa-circle fa-stack-2x"></i>
                 <i class="fab fa-youtube fa-stack-1x fa-inverse"></i>

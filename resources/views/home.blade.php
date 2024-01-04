@@ -1,5 +1,23 @@
 <x-app-layout>
+@foreach ($banners as $banner)
+        @if ($banner->is_active && ($banner->page === 'home' || $banner->page ==='all') && $banner->position === 'top')
+        <a href="{{$banner->description}}" target="_blank" >
+            <img src="{{ asset('storage/'. $banner->banner ) }}" alt="Banner" style="width:100%;max-height:210px;">
+            </a>
+            @endif
+            @if ($banner->is_active && ($banner->page === 'home' || $banner->page ==='all') && $banner->position === 'left')
+        <a href="{{$banner->description}}" target="_blank" >
+            <img src="{{ asset('storage/'. $banner->banner ) }}" id="left" alt="Banner" style="width:100px;  height:70%; position:fixed; margin-top:20px; ">
+        </a>
+            @endif
+        @if ($banner->is_active && ($banner->page === 'home' || $banner->page ==='all') && $banner->position === 'right')
+        <a href="{{$banner->description}}" target="_blank" >
+            <img src="{{ asset('storage/'. $banner->banner ) }}" id="right" alt="Banner" style="width:100px; height:70%; position:fixed; margin-top:20px;  right:0;">
+        </a>
+        @endif
+    @endforeach
     <div class="flex flex-col justify-center space-y-10 bg-primary-color" style="height:80vh" >
+   
         <div class="d-flex align-items-center justify-content-center">
             <div >
                 <h1 class="title">Avez-vous un bien ou un service ?<br>cherchez, postez et troquez !</h1>
@@ -299,7 +317,15 @@
         </form>
     </div>
 
-    
+                            @foreach ($banners as $banner)
+        @if ($banner->is_active && ($banner->page === 'home' || $banner->page ==='all') && $banner->position === 'bottom')
+        <div class="flex justify-center mt-4">
+        <a href="{{$banner->description}}" target="_blank" >
+            <img src="{{ asset('storage/'. $banner->banner ) }}" alt="Banner" style="width:820px;height:70px;">
+</a>
+        </div>
+            @endif
+    @endforeach
 </x-app-layout>
 
 <style>/* Additional styles for the new content */
@@ -414,6 +440,20 @@
 
 <script>
     $(document).ready(function () {
+        $(window).scroll(function() {
+    var scrollPosition = $(window).scrollTop();
+    var left = $('#left');
+    var right = $('#right');
+
+if (scrollPosition > 250) {
+    left.css('top', '80px');
+    right.css('top', '80px');
+} else {
+  left.css('top', '');
+  right.css('top', '');
+
+}}); 
+// 
         ['featured','recent'].forEach((el)=>{
             var scrollDistance = $(`#${el}-offers-container`).width()/3;
             $(`#${el}-offers-title .fa-long-arrow-right`).css(`-webkit-text-stroke`," 2px");

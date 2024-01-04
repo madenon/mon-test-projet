@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Campaign extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'description', 'start_date', 'end_date', 'discount_percentage', 'products_included', 'sponsor_id'];
+// Inside the Campaign model
+protected $fillable = ['name', 'description', 'start_date', 'end_date', 'discount_percentage', 'products_included', 'sponsor_id', 'banner', 'page', 'position','timezone'];
 
     // Define the relationship with the Sponsor model
     public function sponsor()

@@ -72,8 +72,10 @@ class Header extends Component
 
     public function refreshData()
     {
+        // for the refresh timer
+        if(auth()->check()){
         $this->notifications=$this->user->unreadNotifications->where('type','!=','App\Notifications\NewMessage');
         $this->messages=$this->user->unreadNotifications->where('type','==','App\Notifications\NewMessage');
-    }
+    }}
 
 }

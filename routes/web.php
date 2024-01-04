@@ -84,6 +84,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/help', function () {
+    return view('help');
+})->name('help');
 
 
 //Define Admin Routes
@@ -98,9 +101,9 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
     Route::delete('/transactions/delete-transaction/{id}',  'deleteTransaction')->middleware('admin')->name('admin.delete-transaction');
    // propositions 
    Route::get('/propositions',  'propositions')->middleware('admin')->name('admin.propositions');
-   Route::get('/campaigns',  'campaigns')->middleware('admin')->name('admin.campaigns');
-   Route::get('/campaigns/add',  'addCampaign')->middleware('admin')->name('admin.add-campaign');
-   Route::post('/campaigns/add',  'storeCampaign')->middleware('admin')->name('admin.storeCampaign');
+   Route::get('/campaigns',  'campaigns')->middleware('admin','check.offers')->name('admin.campaigns');
+   Route::get('/campaigns/add',  'addCampaign','check.offers')->middleware('admin')->name('admin.add-campaign');
+   Route::post('/campaigns/add',  'storeCampaign','check.offers')->middleware('admin')->name('admin.storeCampaign');
    
    Route::post('/messages',  'messages')->middleware('admin')->name('admin.usercontacts');
    Route::post('/messages/{id}',  'messages')->middleware('admin')->name('admin.usermessages');
@@ -118,6 +121,8 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
    Route::delete('/sponsors/delete-sponsor/{id}',  'deleteSponsor')->middleware('admin')->name('admin.delete-sponsor');
    Route::get('/login','login')->name('admin.login');
     Route::post('/login','store');
+    Route::get('/information', 'editInformation')->middleware('admin')->name('admin.edit-information');
+    Route::put('/information', 'updateInformation')->middleware('admin')->name('admin.update-information');
 });
 
 
@@ -151,6 +156,8 @@ Route::get('/offres/{offerId}/{slug}', [OfferController::class, 'show'])->name('
 Route::get('/offres/{type}/{category}', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/offres/{offer}/{category_id}/{category_name}', [CategoryController::class, 'showSimilarOffers'])->name('category.showSimilarOffers');
 Route::get('/offres/{slug}', [CategoryController::class, 'showOffersByCategory'])->name('category.showOffersByCategory');
+Route::post('/offres/{offer}/addToFavorites', [OfferController::class, 'addToFavorites'])->name('offers.addToFavorites');
+Route::delete('/offres/{offer}/removeFromFavorites', [OfferController::class, 'removeFromFavorites'])->name('offers.removeFromFavorites');
 
 Route::get('/alloffers', [AlloffersController::class, 'index'])->name('alloffers.index');
 
@@ -166,6 +173,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/propositions', [PropositionController::class, 'store'])->name('propositions.store');
     Route::get('/propositions', [PropositionController::class, 'index'])->name('propositions.index');
     Route::get('/propositions/chat/{prepositionId}', [PropositionController::class, 'chat'])->name('propositions.chat');
+    Route::get('/propositions/chat-sender/{prepositionId}', [PropositionController::class, 'chat_proposition_sender'])->name('propositions.chat-sender');
     Route::post('/update-proposition/{prepositionId}', [PropositionController::class, 'update'])->name('update-proposition');
     Route::post('/update-proposition-status', [PropositionController::class, 'updateStatus']);
     Route::delete('/delete-proposition/{prepositionId}', [PropositionController::class, 'destroy'])->name('delete-proposition');
@@ -192,7 +200,8 @@ Route::middleware('auth','check.offers')->group(function () {
     Route::get('/moncompte/modifier/{offerId}', [MyAccountController::class, 'editOffer'])->name('myaccount.editOffer');
     Route::put('/moncompte/mettreajours/{offerId}', [MyAccountController::class, 'updateOffer'])->name('myaccount.updateOffer');
     Route::delete('/moncompte/offres/{offer}', [OfferController::class, 'destroyOffer'])->name('myaccount.deleteOffer');
-    
+    Route::get('/moncompte/favoris', [MyAccountController::class, 'showFavorite'])->name('myaccount.favorites');
+
 });
 Route::get('/compte/{id}', [AccountController::class, 'index'])->name('account.index');
 Route::get('/ratings/{id}', [RatingController::class, 'index'])->name('ratings.index');

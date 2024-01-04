@@ -15,9 +15,16 @@ class TransactionController extends Controller
     public function updateTransactionStatus($transactionId, $status)
     {
         $transaction = Transaction::where('id', $transactionId)->firstOrFail();
+        $user = $transaction->proposition->user;
+        
+        if (auth()->check() && auth()->user()->id === $user->id) {
+            $transaction->applicant_status=$status;
+        } else {
+            $transaction->offeror_status=$status;
+        }
+        
         $failureReason = request()->input('failure_reason', null);
-            // Update the status based on $status
-            $transaction->status = $status;
+           
             $transaction->reason = $failureReason;
             $transaction->save();
        

@@ -16,6 +16,7 @@
 
                 </button>
             </div>
+            <div class="flex space-x-4 ">
         <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700">Filtrer par statut :</label>
             <select name="status" class="mt-1 p-2 border rounded-md" onchange="this.form.submit()">
@@ -25,6 +26,9 @@
                 <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejetée</option>
             </select>
         </div>
+        <div class="mt-8">
+                {{count($prepositions)}} items
+            </div> </div>
     </form>
         <table class="table align-middle mb-0 bg-white">
             <thead class="bg-light">

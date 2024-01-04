@@ -21,14 +21,28 @@
                         <td>{{ $transaction->amount }}</td>
                         <td>{{ $transaction->date }}</td>
                         <td>
-                            <span class="badge {{ getStatusBadgeClass($transaction->status) }} rounded-pill d-inline">
-                                {{ $transaction->status }}
-                            </span>
+                        @php
+                        $applicant = $transaction->proposition->user;
+    $statusToShow = '';
+
+    if ($transaction->offeror_status == 'Réussi' && $transaction->applicant_status == 'Réussi') {
+        $statusToShow = 'Réussi';
+    } elseif ($transaction->offeror_status == 'Échouée' || $transaction->applicant_status == 'Échouée') {
+        $statusToShow = 'Échouée';
+    } else {
+        $statusToShow = 'En cours';
+    }
+@endphp
+
+<span class="badge {{ getStatusBadgeClass($statusToShow) }} rounded-pill d-inline">
+    {{ $statusToShow }}
+</span>
+
                         </td>
                        
                     <td> {{ $transaction->reason }}</td>
                 
-                        @if($transaction->status=='En cours')
+                        @if(auth()->check() && ( (auth()->user()->id ===$applicant->id && $transaction->applicant_status==='En cours') || (auth()->user()->id !=$applicant->id && $transaction->offeror_status==='En cours')))
                         <td> <button type="button" class="reject"  data-toggle="modal" data-target="#statusModal" data-id="{{ $transaction->id }}" data-status="Échouée">
                         Échouée
         <i class="fa-solid fa-ban ml-2" style="color: red;" ></i>    </button>

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Campaign;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Department;
+use App\Models\Information;
 use App\Models\Offer;
 use App\Models\Region;
 use App\Models\Transaction;
@@ -63,8 +65,9 @@ $topRegions = Region::select('regions.id','regions.name', DB::raw('COUNT(offers.
    $users=User::all();
    $transactions=Transaction::all();
    $regions=Region::all();
-
-    return view('home', compact('topCategories', 'topRegions',
+$banners=Campaign::all();
+$information = Information::first(); // only one row in the table
+    return view('home', compact('information','banners','topCategories', 'topRegions',
       'topUsers','categories','featuredOffers','recentOffers','offers','users','transactions','regions'));
     }
 

@@ -15,6 +15,7 @@
 
                 </button>
             </div>
+            <div class="flex space-x-4 ">
             <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700">Filtrer par statut :</label>
             <select name="status" class="mt-1 p-2 border rounded-md" onchange="this.form.submit()">
@@ -23,6 +24,10 @@
                 <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>En cours</option>
                 <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Échouée</option>
             </select>
+        </div>
+        <div class="mt-8">
+                {{count($transactions)}} items
+            </div>
         </div>
         </form>
         <table class="table align-middle mb-0 bg-white">
@@ -45,9 +50,21 @@
                         <td>{{ $transaction->amount }}</td>
                         <td>{{ $transaction->date }}</td>
                         <td>
-                            <span class="badge {{ getStatusBadgeClass($transaction->status) }} rounded-pill d-inline">
-                                {{ $transaction->status }}
-                            </span>
+                        @php
+    $statusToShow = '';
+
+    if ($transaction->offeror_status == 'Réussi' && $transaction->applicant_status == 'Réussi') {
+        $statusToShow = 'Réussi';
+    } elseif ($transaction->offeror_status == 'Échouée' || $transaction->applicant_status == 'Échouée') {
+        $statusToShow = 'Échouée';
+    } else {
+        $statusToShow = 'En cours';
+    }
+@endphp
+
+<span class="badge {{ getStatusBadgeClass($statusToShow) }} rounded-pill d-inline">
+    {{ $statusToShow }}
+</span>
                         </td>
                     <td> {{ $transaction->reason }}</td>
                     

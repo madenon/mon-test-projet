@@ -12,11 +12,11 @@
                             <ul>
                                 <li>
                                     <span>Email:</span>
-                                    <a href="">contact@faistroquer.fr</a>
+                                    <a href="">{{$information->email}}</a>
                                 </li>
                                 <li>
                                     <span>Tel:</span>
-                                    <a href="">+343-33-32-40-43</a>
+                                    <a href="">{{$information->phone}}</a>
                                 </li>
                             </ul>
                             <div class="footer-socialmedias">
@@ -37,7 +37,7 @@
                                     <nav>
                                         <ul>
                                             <li>
-                                                <a href="">Contrat d'échange</a>
+                                                <a href="{{$information->contrat}}" target="_blank">Contrat d'échange</a>
                                             </li>
                                             <li>
                                                 <a href="">Aide</a>

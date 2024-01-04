@@ -99,20 +99,21 @@ class PropositionController extends Controller
         $newStatus = $request->input('newStatus');
         $proposition=Preposition::find($propositionId);
         if($proposition!=null){
-            $taker=User::find($preposition->user_id);
+            $taker=User::find($proposition->user_id);
             $proposition->status = $newStatus;
             if ($newStatus === 'Acceptée') {
                 // Create a transaction
                 $transaction = Transaction::create([
                     'proposition_id' => $proposition->id,
-                    'status' => 'En cours', 
+                    'offeror_status' => 'En cours', 
+                    'applicant_status' => 'En cours', 
                     'amount' => $proposition->price?$proposition->price:'0', 
                     'name' => $proposition->name, 
                     'date' => now()
                 ]);
-                $taker->notify(new NewTransaction($transaction));   
+               // $taker->notify(new NewTransaction($transaction));   
             }else{
-                $taker->notify(new PropositionResult($transaction));   
+                //$taker->notify(new PropositionResult($transaction));   
             }
         
             $proposition->save();
@@ -167,6 +168,11 @@ public function update(Request $request, $prepositionId)
     public function chat($prepositionId){
         $preposition = Preposition::find($prepositionId);
         $id=$preposition->offer->user->id;
+        return redirect()->route('user',$id);
+    }
+    public function chat_proposition_sender($prepositionId){
+        $preposition = Preposition::find($prepositionId);
+        $id=$preposition->user_id;
         return redirect()->route('user',$id);
     }
 }

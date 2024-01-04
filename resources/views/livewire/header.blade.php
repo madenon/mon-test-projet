@@ -159,6 +159,12 @@
                                 </a>
                             </li>
                             <li>
+                                <a class="header-user-avatar-dropdown-item" href="{{route('myaccount.favorites')}}">
+                                    <img src="{{asset('images/favourite-2765.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
+                                    Mes favoris
+                                </a>
+                            </li>
+                            <li>
                                 <a class="header-user-avatar-dropdown-item" href="{{route('propositions.index')}}">
                                     <img src="{{asset('images/exchange-44.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
                                     Mes propositions

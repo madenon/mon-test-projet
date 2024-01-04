@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Campaign;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -98,6 +99,7 @@ class AlloffersController extends Controller
             'subcategories' => $subs,
         ]);
         $categoryName = Category::where('id', $category)->value('name');
-        return view('alloffers.index', compact('offers','departments','types','categoryName'));
+        $banners=Campaign::all();
+        return view('alloffers.index', compact('offers','banners','departments','types','categoryName'));
     }
 }

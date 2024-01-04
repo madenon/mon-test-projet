@@ -293,4 +293,21 @@ $carbonDate = Carbon::parse($request->expiration_date);
         ]);
         return $report;
     }
+    // favoris 
+    // Example of adding an offer to favorites
+public function addToFavorites(Offer $offer)
+{
+    auth()->user()->favorites()->attach($offer->id);
+
+    return redirect()->back()->with('success', 'Offer added to favorites.');
+}
+
+// Example of removing an offer from favorites
+public function removeFromFavorites(Offer $offer)
+{
+    auth()->user()->favorites()->detach($offer->id);
+
+    return redirect()->back()->with('success', 'Offer removed from favorites.');
+}
+
 }

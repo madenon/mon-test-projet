@@ -1,4 +1,22 @@
 <x-app-layout>
+@foreach ($banners as $banner)
+        @if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all') && $banner->position === 'top')
+        <a href="{{$banner->description}}" target="_blank" >
+        <img src="{{ asset('storage/'. $banner->banner ) }}" alt="Banner" style="width:99%;max-height:210px; margin:10px;">
+        </a>
+        @endif
+        @if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all') && $banner->position === 'left')
+        <a href="{{$banner->description}}" target="_blank" >
+            <img src="{{ asset('storage/'. $banner->banner ) }}" id="left" alt="Banner" style="width:100px;  height:70%; position:fixed; margin-top:20px; ">
+        </a>
+            @endif
+        @if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all') && $banner->position === 'right')
+        <a href="{{$banner->description}}" target="_blank" >
+            <img src="{{ asset('storage/'. $banner->banner ) }}" id="right" alt="Banner" style="width:100px; height:70%; position:fixed; margin-top:20px;  right:0;">
+        </a>
+        @endif
+    @endforeach
+       
     @if($categoryName)
 <div class="container">
     <h2>{{$categoryName }} Page</h2>
@@ -29,6 +47,16 @@
                 <x-filters></x-filters>      
             </div>
             <div class="col-9 col-md-9 ps-2">
+            @foreach ($banners as $banner)
+        @if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all') && $banner->position === 'content')
+        <div class="offer_list_card mt-0 mb-4">
+        <a href="{{$banner->description}}" target="_blank" > 
+        <img src="{{ asset('storage/'. $banner->banner ) }}" alt="Banner" style="width:100%;max-height:250px;">
+        </a>        
+    </div>
+        @endif
+    @endforeach
+           
                 @foreach ($offers as $offer)
                 <div class="offer_list_card mt-0 mb-4">
                     <div class="offer_image relative">
@@ -132,14 +160,39 @@
                     </div>
                 </div>
                 @endforeach
+                
             </div>
         </div>
         {{ $offers->links() }}
+       
     </div>
-    
+    @foreach ($banners as $banner)
+        @if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all')  && $banner->position === 'bottom')
+        <div class="flex justify-center mt-4">
+        <a href="{{$banner->description}}" target="_blank" >
+            <img src="{{ asset('storage/'. $banner->banner ) }}" alt="Banner" style="width:80%;max-height:150px;">
+        </a>
+        </div>
+            @endif
+    @endforeach
 </x-app-layout>
 <script> 
  $(document).ready(function () {
+
+$(window).scroll(function() {
+    var scrollPosition = $(window).scrollTop();
+    var left = $('#left');
+    var right = $('#right');
+
+if (scrollPosition > 250) {
+    left.css('top', '80px');
+    right.css('top', '80px');
+} else {
+  left.css('top', '');
+  right.css('top', '');
+
+}}); 
+//
  var departmentValue = "{{ request('department') }}";
         var typeValue = "{{ request('type') }}";
         // Set the selected attribute for the department dropdown

@@ -22,7 +22,8 @@ use App\Models\Badge;
 use App\Models\Report;
 use App\Models\Sponsor;
 use Illuminate\Support\Facades\Auth;
-
+use App\Charts;
+use App\Models\Information;
 
 class AdminController extends Controller
 {
@@ -82,6 +83,14 @@ public function offers(Request $request){
     if ($request->has('type')  && $request->type!='') {
         $query->where('type_id', $request->input('type'));
     }
+    if ($request->has('countdown')  && $request->countdown==1) {
+        $query->whereNotNull('expiration_date');
+    }
+    if ($request->has('online_only')  && $request->online_only==1) {
+        $query->whereHas('user', function ($query) {
+            $query->where('is_online', '=', 1);
+        });
+    }
 
     if ($request->has('region') && $request->region!='' ) {
         $regionId = $request->input('region');
@@ -112,15 +121,15 @@ public function transactions(Request $request){
 
         switch ($status) {
             case 'accepted':
-                $transactions->where('status', 'Réussie');
-                break;
+                $transactions->where('offeror_status', 'Réussie')->where('applicant_status', 'Réussie');
+                 break;
 
             case 'in_progress':
-                $transactions->where('status', 'En cours');
+                $transactions->where('offeror_status', 'En cours')->orWhere('applicant_status', 'En cours');
                 break;
 
             case 'rejected':
-                $transactions->where('status', 'Échouée');
+                $transactions->where('offeror_status', 'Échouée')->where('applicant_status', 'Échouée');
                 break;
             default:
                 // show all
@@ -160,14 +169,16 @@ return view('admin.transaction-list', compact('transactions'));
         foreach ($offers as $offer) {
             // Count transactions from propositions of the offer
             $totalTransactionsFromOffers += $offer->preposition->flatMap->transactions
-                ->where('status', 'Réussi')
-                ->count();
+            ->where('offeror_status', 'Réussi')
+            ->where('applicant_status', 'Réussi')
+            ->count();
         }
 
         // Count transactions from propositions
         $totalTransactionsFromMesPropositions = $mesPropositions->flatMap->transactions
-            ->where('status', 'Réussi')
-            ->count();
+        ->where('offeror_status', 'Réussi')
+        ->where('applicant_status', 'Réussi')            
+        ->count();
 
         // Total transactions
         $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPropositions;
@@ -216,6 +227,12 @@ return view('admin.transaction-list', compact('transactions'));
 
         return view('admin.edit-transaction', compact('transaction'));
     }
+    public function editCampaign($id)
+    {
+        $campaign = Campaign::findOrFail($id);
+
+        return view('admin.edit-campaign', compact('campaign'));
+    }
 
     public function updateTransaction(Request $request, $id)
     {
@@ -224,6 +241,14 @@ return view('admin.transaction-list', compact('transactions'));
         $transaction->update($request->all());
 
         return redirect()->route('admin.transactions')->with('success', 'Transaction updated successfully');
+    }
+    public function updateCampaign(Request $request, $id)
+    {
+        // Add validation as needed
+        $campaign = Campaign::findOrFail($id);
+        $campaign->update($request->all());
+
+        return redirect()->route('admin.campaigns')->with('success', ' updated successfully');
     }
 
     public function deleteTransaction($id)
@@ -298,10 +323,19 @@ return view('admin.transaction-list', compact('transactions'));
             'discount_percentage' => 'nullable|numeric|min:0|max:100',
             'products_included' => 'nullable|string',
             'sponsor_id' => 'nullable|exists:sponsors,id',
+            'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'page' => 'required|string',
+        'position' => 'required|string'
         ]);
+        $bannerPath = null;
+        if ($request->hasFile('banner')) {
+            $bannerPath = $request->file('banner')->store('banners', 'public');
+        }
+// Create a new campaign
+$campaignData = $request->except('banner'); // Get all request data except 'banner'
+$campaignData['banner'] = $bannerPath; // Add the banner path to the campaign data
 
-        // Create a new campaign
-        Campaign::create($request->all());
+Campaign::create($campaignData); 
 
         // Redirect back with a success message
         return redirect()->route('admin.campaigns')->with('success', 'La campagne a été ajoutée avec succès.');
@@ -402,6 +436,34 @@ return view('admin.transaction-list', compact('transactions'));
     
     
         return view('admin.dispute-list', compact('users', 'roles'));
+    }
+    public function editInformation()
+    {
+        $information = Information::first(); // Assuming you have only one row in the table
+
+        return view('admin.informations', compact('information'));
+    }
+
+    public function updateInformation(Request $request)
+    {
+        $request->validate([
+            'facebook' => 'nullable|string',
+            'instagram' => 'nullable|string',
+            'youtube' => 'nullable|string',
+            'email' => 'nullable|string|email',
+            'phone' => 'nullable|string',
+            'contrat' => 'nullable|string',
+        ]);
+
+        $information = Information::first(); // Assuming you have only one row in the table
+
+        if ($information) {
+            $information->update($request->all());
+        } else {
+            Information::create($request->all());
+        }
+
+        return redirect()->route('admin.edit-information')->with('success', 'Information updated successfully!');
     }
 
 }

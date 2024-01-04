@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactFormMail;
+use App\Models\Information;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -10,7 +11,10 @@ class ContactController extends Controller
 {
     public function show()
     {
-        return view('contact.index');
+        $information = Information::first(); // only one row in the table
+
+        return view('contact.index', compact('information'));
+        
     }
 
     public function send(Request $request)

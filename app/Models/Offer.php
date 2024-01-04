@@ -32,7 +32,8 @@ class Offer extends Model
         'subcategory_id',
         'region_id',
         'department_id',
-        'active_offer'
+        'active_offer',
+        'expiration_date'
     ];
 
     protected $casts = [
@@ -54,6 +55,10 @@ class Offer extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    public function favoritedBy()
+{
+    return $this->belongsToMany(User::class, 'favorites', 'offer_id', 'user_id')->withTimestamps();
+}
     public function subcategory(): BelongsTo
     {
         return $this->belongsTo(Category::class,'subcategory_id');

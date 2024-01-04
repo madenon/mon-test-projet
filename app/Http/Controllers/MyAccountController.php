@@ -30,13 +30,15 @@ $totalTransactionsFromOffers = 0;
 foreach ($offers as $offer) {
     // Count transactions from propositions of the offer
     $totalTransactionsFromOffers += $offer->preposition->flatMap->transactions
-        ->where('status', 'Réussi')
+        ->where('offeror_status', 'Réussi')
+        ->where('applicant_status', 'Réussi')
         ->count();
 }
 
 // Count transactions from propositions
 $totalTransactionsFromMesPropositions = $mesPropositions->flatMap->transactions
-    ->where('status', 'Réussi')
+->where('offeror_status', 'Réussi')
+->where('applicant_status', 'Réussi')
     ->count();
 
 // Total transactions
@@ -203,6 +205,12 @@ try {
         }
        
                 return redirect(route('myaccount.offers'))->with(['success', 'Annonce mis à jours', ['offerId']]);
+    }
+    public function showFavorite(){
+        $user = auth()->user();
+        $favoriteOffers = $user?->favorites()->paginate(10); // Adjust the number per page as needed
+
+    return view('myaccount.favorites', compact('favoriteOffers'));
     }
 
 }
