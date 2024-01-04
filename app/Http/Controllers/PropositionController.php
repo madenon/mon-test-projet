@@ -8,6 +8,7 @@ use App\Models\Preposition;
 use App\Models\ChMessage;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Models\Dispute;
 use Illuminate\Support\Str;
 use App\Notifications\NewPreposition;
 use App\Notifications\NewTransaction;
@@ -20,7 +21,9 @@ class PropositionController extends Controller
         ->select('prepositions.*', 'users.first_name as user_name', 'offers.title as offer_name')
         ->join('users', 'users.id', '=', 'prepositions.user_id')
         ->join('offers', 'offers.id', '=', 'prepositions.offer_id')
+        ->join('users as userOffers', 'offers.user_id', '=', 'userOffers.id')
         ->where('users.id',auth()->id())
+        ->orWhere('userOffers.id',auth()->id())
         ->get();
 
     return view('preposition.index', compact('prepositions'));
@@ -113,7 +116,7 @@ class PropositionController extends Controller
                 ]);
                // $taker->notify(new NewTransaction($transaction));   
             }else{
-                //$taker->notify(new PropositionResult($transaction));   
+                // $taker->notify(new PropositionResult($proposition));   
             }
         
             $proposition->save();
@@ -169,6 +172,19 @@ public function update(Request $request, $prepositionId)
         $preposition = Preposition::find($prepositionId);
         $id=$preposition->offer->user->id;
         return redirect()->route('user',$id);
+    }
+    
+    public function dispute(Request $request,$prepositionId){
+        $dispute=Dispute::create([
+            'title' => $request->title,
+            'disputer_id' => auth()->id(), 
+            'preposition_id' => $prepositionId, 
+            'description' => $request->description,
+        ]);
+        $preposition = Preposition::find($prepositionId);
+        $preposition->appealed=true;
+        $preposition->save();
+        return $dispute;
     }
     public function chat_proposition_sender($prepositionId){
         $preposition = Preposition::find($prepositionId);

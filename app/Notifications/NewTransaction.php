@@ -52,7 +52,7 @@ class NewTransaction extends Notification
     {
         return [
             'id' => $this->transaction->id,
-            'name' =>   $this->transaction->preposition->offer->user->name,
+            'name' =>   $this->transaction->proposition->offer->user->name,
             'title' =>   $this->transaction->name,
             'content' => ' accept your transaction',
             'link' => url('/transactions')   

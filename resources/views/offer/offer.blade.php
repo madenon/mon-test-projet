@@ -563,7 +563,7 @@ if(newStatus=="Rejetée")
         const ratingValue = rating? rating.value:0;
         const feedbackValue = document.getElementById('feedback').value;
 
-        return fetch('/ratings/rateOfferTaker', {
+        return fetch('/ratings/rateOfferCounterParty', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -583,7 +583,7 @@ if(newStatus=="Rejetée")
             })
             .catch((error) => {
             Swal.showValidationMessage(`Request failed: ${error}`);
-            });
+           });
         },
         didOpen: () => {
         const stars = document.querySelectorAll('input[name="rating"]');
@@ -609,21 +609,23 @@ if(newStatus=="Rejetée")
                     location.reload();
                 });
 
-else 
-Swal.fire({
-    title: 'Success',
-    icon: 'success',
-    text: 'The proposition status has been updated.',
-  }).then(function () {
-                    location.reload();
-                });
+            else {
+                Swal.fire({
+                    title: 'Success',
+                    icon: 'success',
+                    text: 'The proposition rating has been updated.',
+                }).then(function () {
+                                    location.reload();
+                                });
+            }
             },
-            error: function (error) {    
+            error: function (error) {
+            console.log({error});
                 // Show error message
                 Swal.fire({
                     icon: 'error',
                     title: 'Error!',
-                    text: 'Failed to update proposition status.',
+                    text: 'Failed to update proposition rating.',
                 });
             }
         });

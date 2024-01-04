@@ -22,7 +22,7 @@ class AccountController extends Controller
 {
     public function index($id){
         $user = User::find($id);
-        if(!$user)redirect()->route(myaccount.index);
+        if(!$user)redirect()->route('myaccount.index');
         $userInfo = UserInfos::where('user_id', $user->id)->first();
         $offer = Offer::where('user_id', $user->id)->first();
 

@@ -32,7 +32,7 @@ class AuthServiceProvider extends ServiceProvider
                 ->action('Verify Email Address', $url);
         });
         Gate::define('modify-offer', function ($user, $offer) {
-            return $user->id === $offer->user_id;
+            return $user->id === $offer->user_id || $user->is_admin;
         });
         
     }

@@ -1,4 +1,4 @@
-@extends('admin.index')
+@extends('admin.template')
 
 @section('admin-content') 
 <div class="container">

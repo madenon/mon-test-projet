@@ -148,15 +148,15 @@ class OfferController extends Controller
             $experience = $request->has('experience')? $request->experience : null;
             $condition  = $request->has('condition')? $request->condition : null;
             // Retrieve values from dynamic inputs
-    $dynamicInputs = $request->input('dynamicInputs');
-    // Serialize the values before saving to the database
-    $serializedInputs = json_encode($dynamicInputs);
-// Calculate expiration date based on countdown option and region timezone
-if($request->expiration_date){
-$carbonDate = Carbon::parse($request->expiration_date);
-        // Format the date as needed for database storage
-        $expirationDate = $carbonDate->format('Y-m-d H:i:s');
-} else {$expirationDate =null;}
+        $dynamicInputs = $request->input('dynamicInputs');
+        // Serialize the values before saving to the database
+        $serializedInputs = json_encode($dynamicInputs);
+    // Calculate expiration date based on countdown option and region timezone
+    if($request->expiration_date){
+    $carbonDate = Carbon::parse($request->expiration_date);
+            // Format the date as needed for database storage
+            $expirationDate = $carbonDate->format('Y-m-d H:i:s');
+    } else {$expirationDate =null;}
         $launchOption = $request->input('launchOption');
         $launchTime = $request->input('launchTime');
         $launchDate = null;

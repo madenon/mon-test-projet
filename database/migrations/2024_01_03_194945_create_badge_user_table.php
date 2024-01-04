@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('badges', function (Blueprint $table) {
+        Schema::create('badge_user', function (Blueprint $table) {
             $table->id();
-            $table->enum('type',['accountOld','Honor','ContestWinner','MonthTopMaker','MonthTopTaker']);
-            $table->string('value');
+            $table->unsignedBigInteger('badge_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+            
+            $table->foreign('badge_id')->references('id')->on('badges');
+            $table->foreign('user_id')->references('id')->on('users');
+
         });
     }
 
@@ -24,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('badges');
+        Schema::dropIfExists('badge_user');
     }
 };

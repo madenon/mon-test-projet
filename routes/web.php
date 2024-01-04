@@ -109,9 +109,15 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
    Route::post('/messages/{id}',  'messages')->middleware('admin')->name('admin.usermessages');
    
    Route::get('/reports',  'reports')->middleware('admin')->name('admin.reports');
+   Route::get('/disputes',  'disputes')->middleware('admin')->name('admin.disputes');
+   Route::get('/newsletters',  'newsletters')->middleware('admin')->name('admin.newsletters');
+   Route::get('/resolving',  function () {
+        return view('admin.resolving');
+    })->middleware('admin')->name('admin.resolving');
    Route::get('/badges',  'badges')->middleware('admin')->name('admin.badges');
+   Route::get('/contest',  'contest')->middleware('admin')->name('admin.contest');
    
-      Route::get('/campaigns/{id}',  'editCampaign')->middleware('admin')->name('admin.edit-campaign');
+   Route::get('/campaigns/{id}',  'editCampaign')->middleware('admin')->name('admin.edit-campaign');
    Route::put('/campaigns/{id}',  'updateCampaign')->middleware('admin')->name('admin.update-campaign');
    Route::delete('/campaigns/delete-campaign/{id}',  'deleteCampaign')->middleware('admin')->name('admin.delete-campaign');
 
@@ -123,8 +129,16 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
     Route::post('/login','store');
     Route::get('/information', 'editInformation')->middleware('admin')->name('admin.edit-information');
     Route::put('/information', 'updateInformation')->middleware('admin')->name('admin.update-information');
+    
+    
+    Route::get('/offres/modifier/{offerId}', [MyAccountController::class, 'editOffer'])->middleware('admin')->name('admin.editOffer');
+    Route::put('/offres/{offerId}', [MyAccountController::class, 'updateOffer'])->middleware('admin')->name('admin.updateOffer');
+    
+    
 });
 
+Route::get('/admin/offres/{offerId}/{slug}', [OfferController::class, 'show'])->middleware('admin')->name('admin.showOffer');
+Route::delete('/admin/offres/{offer}', [OfferController::class, 'destroyOffer'])->middleware('admin')->name('admin.deleteOffer');
 
 //Define Admin Routes
 Route::controller(PusherController::class)->prefix('/messages')->group(function () {
@@ -151,7 +165,7 @@ Route::middleware('auth','check.offers')->group(function () {
 });
 
 Route::middleware('check.offers')->group(function () {
-Route::get('/offres/{offerId}/{slug}', [OfferController::class, 'show'])->name('offer.offer');
+    Route::get('/offres/{offerId}/{slug}', [OfferController::class, 'show'])->name('offer.offer');
 
 Route::get('/offres/{type}/{category}', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/offres/{offer}/{category_id}/{category_name}', [CategoryController::class, 'showSimilarOffers'])->name('category.showSimilarOffers');
@@ -177,6 +191,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/update-proposition/{prepositionId}', [PropositionController::class, 'update'])->name('update-proposition');
     Route::post('/update-proposition-status', [PropositionController::class, 'updateStatus']);
     Route::delete('/delete-proposition/{prepositionId}', [PropositionController::class, 'destroy'])->name('delete-proposition');
+    Route::post('/proposition/dispute/{id}', [PropositionController::class, 'dispute'])->name('propositions.dispute');
 });
 Route::post('/schedule-meetup', [MeetupController::class, 'scheduleMeetup']);
 Route::post('/update-meet-status/{meetId}', [MeetupController::class, 'updateMeetStatus']);
@@ -185,6 +200,11 @@ Route::get('/transactions', [TransactionController::class, 'index'])->name('tran
 //notifications
 Route::get('/contact', [ContactController::class, 'show']);
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+
+Route::post('/newsletters', function (Request $request) {
+    $newsletter=App\Models\Newsletter::updateOrCreate(['email' => $request->email],['email' => $request->email]);
+    return redirect()->route('home');
+})->name('newsletters.addEmail');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -209,8 +229,7 @@ Route::middleware('auth')->group(function () {
     Route::get(RouteServiceProvider::MYMESSAGES.'/{id}/{msgId}', [MessagesController::class,'viewMessage'])->name('messages.viewMessage');    
 });
 Route::middleware('auth')->group(function () {
-    Route::post('/ratings/rateOfferTaker', [RatingController::class,'rateTaker'])->name('ratings.rateTaker');    
-    Route::post('/ratings/rateOfferMaker', [RatingController::class,'rateMaker'])->name('ratings.rateMaker');    
+    Route::post('/ratings/rateOfferCounterParty', [RatingController::class,'rateCounterParty'])->name('ratings.rateCounterParty');    
     Route::get('/followings/{followedId}', [FollowingController::class,'follow'])->name('followings.follow');    
     Route::get('/unfollowings/{followedId}', [FollowingController::class,'unfollow'])->name('followings.unfollow');    
 });

@@ -1,4 +1,4 @@
-@extends('admin.index')
+@extends('admin.template')
 
 @section('admin-content')
 <table class="table align-middle mb-0 bg-white">

@@ -1,4 +1,4 @@
-@extends('admin.index')
+@extends('admin.template')
 
 @section('admin-content')
     <div class="bg-white p-3 rounded shadow">

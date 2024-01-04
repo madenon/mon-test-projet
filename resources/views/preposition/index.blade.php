@@ -5,30 +5,48 @@
         <table class="table align-middle mb-0 bg-white">
             <thead class="bg-light">
                 <tr>
-                <th>Nom</th>
-<th>Image</th>
-<th>Prix</th>
-<th>Statut</th>
-<th>Créateur</th>
-<th>Offre</th>
-<th>Rencontre</th>
-<th>Actions</th>
-<th>Évaluation</th>
+                <th>Type</th>
+                <th>Proposition</th>
+                <th>Prix</th>
+                <th>Statut</th>
+                <th>Contrepartie</th>
+                <th>Offre</th>
+                <th>Rencontre</th>
+                <th>Actions</th>
+                <th>Évaluation</th>
+                <th>Dispute</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($prepositions as $preposition)
-                    <tr>
-                        <td>{{ $preposition->name }}</td>
-                        <td> <img src="{{ route('proposition-pictures-file-path',$preposition->images ?$preposition->images :'' ) }}" alt=""
-                             /></td>
-                             <td>{{ $preposition->price }}</td>
+                    @php 
+                        $isReceiveid= $preposition->offer->user==auth()->user();
+                    @endphp
+                    <tr >
+                        <td><span class="text-{{ $isReceiveid? 'red' : 'green'}}-600 font-bold">{{ $isReceiveid? 'Receiveid' : 'Sent'}}</span></td>
+                        <td id="prepositioName-{{$preposition->id}}">
+                            <img src="{{ route('proposition-pictures-file-path',$preposition->images ?$preposition->images :'' ) }}" alt=""/>
+                            @livewire('split-long-text ', [
+                                'text' => $preposition->name,
+                                'parentClass' => '#prepositioName-'.$preposition->id,
+                                ])
+                        </td>
+                        <td>{{ $preposition->price }}</td>
                         <td ><span class="badge {{ getStatusBadgeClass($preposition->status) }} rounded-pill d-inline">
                             {{ $preposition->status }}
                         </span></td>
            
-                        <td>{{ $preposition->offer? $preposition->offer->user->first_name . ' ' . $preposition->offer->user->last_name :'' }}</td>
-                        <td>{{ $preposition->offer_name }}</td>
+                        <td>
+                        {{ $isReceiveid? $preposition->user->name : $preposition->offer->user->name}}
+                        </td>
+                        <td id="prepositionOfferName-{{$preposition->id}}">
+                            @livewire('split-long-text ', [
+                                'text' => $preposition->offer_name,
+                                'parentClass' => '#prepositionOfferName-'.$preposition->id,
+                                ])
+
+
+                        </td>
                         <td>@if($preposition->meetup)
                             <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button " data-bs-toggle="modal" data-bs-target="#meetModal">
                             <i class="fas fa-calendar" style="color: #24a19c;"></i>
@@ -36,30 +54,32 @@
                             @endif
                         </td>
                         <td>
-                            <!-- Chat button with icon -->
-                            <a type="button" class="btn  chat-button" href="{{route('propositions.chat',$preposition->id)}}">
-                                <i class="fas fa-comment-dots" style="color: #24a19c;"></i>
-                            </a>
-                            <!-- Edit button with icon --> @if($preposition->status!='Acceptée')
-                            <button type="button" class="btn edit-button" data-bs-toggle="modal" data-bs-target="#editModal{{ $preposition->id }}">
-                                <i class="fas fa-edit" style="color: #ffc107;"></i>
-                            </button>@endif
-                            <!-- Delete button with icon -->
-                            <button type="button" class="btn  delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $preposition->id }}" data-preposition-id="{{ $preposition->id }}">
-                                <i class="fas fa-trash-alt" style="color: red"></i>
-                            </button>
+                            <div class="flex">
+                                <!-- Chat button with icon -->
+                                <a type="button" class="btn  chat-button" href="{{route('propositions.chat',$preposition->id)}}">
+                                    <i class="fas fa-comment-dots" style="color: #24a19c;"></i>
+                                </a>
+                                <!-- Edit button with icon --> @if($preposition->status!='Acceptée')
+                                <a type="button" class="btn edit-button" data-bs-toggle="modal" data-bs-target="#editModal{{ $preposition->id }}">
+                                    <i class="fas fa-edit" style="color: #ffc107;"></i>
+                                </a>@endif
+                                <!-- Delete button with icon -->
+                                <a type="button" class="btn  delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $preposition->id }}" data-preposition-id="{{ $preposition->id }}">
+                                    <i class="fas fa-trash-alt" style="color: red"></i>
+                                </a>
+                            </div>
                             
                         </td>
                         <td>
                             @php 
-                                $rating=App\Models\Rating::where('user_id', Auth::user()->id)
-                                ->where('rated_by_user_id',$preposition->user_id)->first();
+                            $rating=App\Models\Rating::where('user_id', Auth::user()->id)
+                            ->where('rated_by_user_id',$preposition->user_id)->first();
                             @endphp 
-                            <button type="button" class="btn rating-button">
+                            <button type="button" class="btn rating-button text-center">
                                 @if($preposition->status!='Acceptée')
                                 <span>Pas encore acceptée</span>
                                 @elseif(!$rating || $rating->stars==0 || $rating->preposition_id!=$preposition->id)
-                                <span class="rate" data-preposition-id="{{ $preposition->id }}" data-preposition-name="{{ $preposition->name }}">Cliquez pour noter</span>
+                                <span class="rate badge bg-secondary rounded-pill" data-preposition-id="{{ $preposition->id }}" data-preposition-name="{{ $preposition->name }}">Notez</span>
                                 @else
                                 @for ($i =1; $i <= 5; $i++)
                                     <input type="radio" id="star{{$i}}" name="rating" value="{{$i}}" class="hidden rate" data-preposition-id="{{ $preposition->id }}" data-preposition-name="{{ $preposition->name }}"/>
@@ -75,6 +95,17 @@
                                 @endif
                             </button>
 
+                        </td>
+                        <td>
+                            <button type="button" class="btn appeal-button text-center">
+                                @if($preposition->status!='Acceptée')
+                                <span>Pas encore acceptée</span>
+                                @elseif(!$preposition->appealed)
+                                <span class="appeal badge bg-secondary rounded-pill" data-preposition-id="{{ $preposition->id }}" data-preposition-name="{{ $preposition->name }}">Faire Appel</span>
+                                @else
+                                <span class="appealing badge bg-danger rounded-pill" data-preposition-id="{{ $preposition->id }}" data-preposition-name="{{ $preposition->name }}">Appel en cours</span>
+                                @endif
+                            </button>                            
                         </td>
                     </tr>
                     <div class="modal fade" id="editModal{{ $preposition->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $preposition->id }}" aria-hidden="true">
@@ -285,7 +316,7 @@ function updateMeetStatus(meetId, status) {
         }
     });
 }
-function ratePropositionCounterparty(propositionId,rateMaker,propositionName) {
+function ratePropositionCounterparty(propositionId,propositionName) {
     Swal.fire({
         title: 'Proposition '+propositionName,
         html: '<div class="flex items-center justify-center space-x-2">' +
@@ -306,8 +337,7 @@ function ratePropositionCounterparty(propositionId,rateMaker,propositionName) {
         const rating=document.querySelector('input[name="rating"]:checked');
         const ratingValue = rating? rating.value:0;
         const feedbackValue = document.getElementById('feedback').value;
-        const rateType= rateMaker?'Maker':'Taker';
-        return fetch('/ratings/rateOffer'+rateType, {
+        return fetch('/ratings/rateOfferCounterParty', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -354,14 +384,70 @@ function ratePropositionCounterparty(propositionId,rateMaker,propositionName) {
                 });
 
                 
-    }
+}
+function appealProposition(propositionId,propositionName) {
+    Swal.fire({
+        title: 'Proposition '+propositionName,
+        html: '<div class="flex justify-start">' +
+        '<input id="dispute-title" name="title" class="swal2-input ms-auto w-full"  placeholder="Title">' +
+        '</div>' +
+            '<div id="flex justify-start description-container">' +
+            '<textarea id="dispute-description" name="description" class="swal2-textarea ms-auto w-full" rows="4"  placeholder="Give description"></textarea>' +
+            '</div>',
+        showCancelButton: true,
+        confirmButtonText: 'Appeal',
+        cancelButtonText: 'Cancel',
+        showLoaderOnConfirm: true,
+        preConfirm: (result) => {
+        const titleValue = document.getElementById('dispute-title').value;
+        const descriptionValue = document.getElementById('dispute-description').value;
+        return fetch('/proposition/dispute/'+propositionId, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: titleValue,
+                description: descriptionValue,
+                _token: '{{csrf_token()}}'
+            }),
+        })
+            .then((response) => {
+            if (!response.ok) {
+                throw new Error('Failed to submit dispute');
+            }
+            return response.json();
+            })
+            .catch((error) => {
+            Swal.showValidationMessage(`Request failed: ${error}`);
+            });
+        },
+    }).then(function () {
+                    location.reload();
+                });
+
+                
+}
     $(document).on('click', '.rating-button .rate', function () {
         // Retrieve the prepositionId from the data attribute
         var prepositionId = $(this).data('preposition-id');
         var prepositionName = $(this).data('preposition-name');
         
         // Call the updateProposition function with the prepositionId
-        ratePropositionCounterparty(prepositionId,true,prepositionName);
+        ratePropositionCounterparty(prepositionId,prepositionName);
     });
+    
+    $(document).on('click', '.appeal-button .appeal', function () {
+        // Retrieve the prepositionId from the data attribute
+        var prepositionId = $(this).data('preposition-id');
+        var prepositionName = $(this).data('preposition-name');
+        
+        // Call the updateProposition function with the prepositionId
+        appealProposition(prepositionId,prepositionName);
+    });
+
+
+
+
 
 </script>

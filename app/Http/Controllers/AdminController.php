@@ -20,10 +20,16 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Badge;
 use App\Models\Report;
+use App\Models\Newsletter;
 use App\Models\Sponsor;
 use Illuminate\Support\Facades\Auth;
 use App\Charts;
 use App\Models\Information;
+use App\Models\OfferImages;
+use Illuminate\Support\Facades\DB;
+
+
+
 
 class AdminController extends Controller
 {
@@ -359,30 +365,20 @@ Campaign::create($campaignData);
 
     public function reports(Request $request)
     {
-        $query = Report::query();
-    
-        // Filter by role
-        if ($request->has('isOpen') && $request->isOpen!='') {
-            $query->where('isOpen', $request->isOpen);
-        }
-    
-        if ($request->has('sort_created_at')) {
-            $sortOrder = $request->input('sort_created_at');
-            $query->orderBy('created_at', $sortOrder);
-        }
-        if ($request->has('search')) {
-            $searchTerm = $request->input('search');
-            $query->where(function ($query) use ($searchTerm) {
-                $query->where('title', 'like', "%$searchTerm%")
-                      ->orWhere('description', 'like', "%$searchTerm%");
-            });
-        }
-    
-        $reports = $query->paginate(10);
-    
-    
-        return view('admin.report-list', compact('reports'));
+        return view('admin.report-list');
     }
+    
+    public function disputes(Request $request)
+    {    
+        return view('admin.dispute-list');
+    }
+    
+    public function newsletters(Request $request)
+    {
+        $newletters=Newsletter::query()->paginate(10);
+        return view('admin.newsletters', compact('newletters'));
+    }
+    
     public function badges(Request $request)
     {
         $roles = Role::all();
@@ -401,42 +397,23 @@ Campaign::create($campaignData);
             $searchTerm = $request->input('search');
             $query->where(function ($query) use ($searchTerm) {
                 $query->where('name', 'like', "%$searchTerm%")
-                      ->orWhere('email', 'like', "%$searchTerm%");
+                ->orWhere('email', 'like', "%$searchTerm%");
             });
         }
-    
+        
         $users = $query->paginate(10);
-    
-    
+        
+        
         return view('admin.badge-list', compact('users', 'roles'));
     }
-    public function disputes(Request $request)
-    {
-        $roles = Role::all();
-        $query = User::query();
     
-        // Filter by role
-        if ($request->has('role') && $request->role!='') {
-            $query->where('role', $request->role);
-        }
-    
-        if ($request->has('sort_created_at')) {
-            $sortOrder = $request->input('sort_created_at');
-            $query->orderBy('created_at', $sortOrder);
-        }
-        if ($request->has('search')) {
-            $searchTerm = $request->input('search');
-            $query->where(function ($query) use ($searchTerm) {
-                $query->where('name', 'like', "%$searchTerm%")
-                      ->orWhere('email', 'like', "%$searchTerm%");
-            });
-        }
-    
-        $users = $query->paginate(10);
-    
-    
-        return view('admin.dispute-list', compact('users', 'roles'));
+    public function contest(Request $request)
+    {    
+        return view('admin.contest');
     }
+    
+ 
+
     public function editInformation()
     {
         $information = Information::first(); // Assuming you have only one row in the table
@@ -465,5 +442,5 @@ Campaign::create($campaignData);
 
         return redirect()->route('admin.edit-information')->with('success', 'Information updated successfully!');
     }
-
+    
 }

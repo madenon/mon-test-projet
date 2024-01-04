@@ -108,7 +108,7 @@ class RatingController extends Controller
 
     }
     
-    public function rateTaker(Request $request)
+    public function rateCounterParty(Request $request)
     {
         $request->validate([
             'propositionId' => 'required|integer',
@@ -117,28 +117,12 @@ class RatingController extends Controller
         ]);
         
         $preposition=Preposition::find($request->propositionId);
-        $makerId=$preposition->offer->user_id;
-        $takerId=$preposition->user_id;
+        $raterId=auth()->id();
+        $ratedId=auth()->id()==$preposition->offer->user_id?$preposition->user_id:$preposition->offer->user_id;
         if($request->stars)
-        return response($this->rate($request->propositionId,$makerId,$takerId,$request->stars,$request->feedback), 200);
-    else return response(null, 200);
+        return $this->rate($request->propositionId,$raterId,$ratedId,$request->stars,$request->feedback);
+        else return null;
     
-}
-public function rateMaker(Request $request)
-    {
-        $request->validate([
-            'propositionId' => 'required|integer',
-            'stars' => 'integer|between:0,5',
-            'feedback' => 'string',
-        ]);
-        
-        $preposition=Preposition::find($request->propositionId);
-        $makerId=$preposition->offer->user_id;
-        $takerId=$preposition->user_id;
-        if($request->stars)
-        return response($this->rate($request->propositionId,$takerId,$makerId,$request->stars,$request->feedback), 200);
-        else return response(null, 200);
-
     }
 
     

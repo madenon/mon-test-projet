@@ -28,6 +28,10 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             ChatSeeder::class,
             OfferSeeder::class,
+            BadgeSeeder::class,
+            InformationSeeder::class,
+            RolesTableSeeder::class,
+            
         ]);
     }
 }
