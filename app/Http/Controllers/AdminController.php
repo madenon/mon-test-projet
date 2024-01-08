@@ -35,8 +35,11 @@ class AdminController extends Controller
 {
     public function index(Request $request)
     {
+        $users=User::get();
+        $offers=Offer::get();
+        $transactions=Transaction::get();
         
-        return view('admin.index');
+        return view('admin.index', compact('users','offers','transactions'));
 
     }
     public function users(Request $request)
