@@ -34,10 +34,6 @@ class MeetupController extends Controller
         ]);
         $meetup->save();
 
-        // Optionally, update the status of the preposition
-        $preposition = Preposition::findOrFail($prepositionId);
-        $preposition->save();
-
         return response()->json(['success' => true]);
     }
     public function updateMeetStatus($meetId)

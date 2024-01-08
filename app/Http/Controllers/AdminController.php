@@ -323,7 +323,7 @@ return view('admin.transaction-list', compact('transactions'));
         // Validate the form data
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
+            'link' => 'nullable|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'discount_percentage' => 'nullable|numeric|min:0|max:100',

@@ -1,4 +1,6 @@
 <x-app-layout>
+    <!-- (A) LIGHTBOX CONTAINER -->
+<div id="lightbox"></div>
 @foreach ($banners as $banner)
         @if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all') && $banner->position === 'top')
         <a href="{{$banner->description}}" target="_blank" >
@@ -61,7 +63,7 @@
                 <div class="offer_list_card mt-0 mb-4">
                     <div class="offer_image relative">
                         <img src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}" alt=""
-                            class="object-cover h-full w-full rounded-tl-lg rounded-bl-lg " />
+                            class="zoomD object-cover h-full w-full rounded-tl-lg rounded-bl-lg " />
                     </div>
                     <div class="offer_details ml-8 mt-4">
                         <div class="">
@@ -178,7 +180,24 @@
 </x-app-layout>
 <script> 
  $(document).ready(function () {
-
+// (A) GET LIGHTBOX & ALL .ZOOMD IMAGES
+let all = document.getElementsByClassName("zoomD"),
+      lightbox = document.getElementById("lightbox");
+ 
+  // (B) CLICK TO SHOW IMAGE IN LIGHTBOX
+  // * SIMPLY CLONE INTO LIGHTBOX & SHOW
+  if (all.length>0) { for (let i of all) {
+    i.onclick = () => {
+      let clone = i.cloneNode();
+      clone.className = "";
+      lightbox.innerHTML = "";
+      lightbox.appendChild(clone);
+      lightbox.className = "show";
+    };
+  }}
+ 
+  // (C) CLICK TO CLOSE LIGHTBOX
+  lightbox.onclick = () => lightbox.className = "";
 $(window).scroll(function() {
     var scrollPosition = $(window).scrollTop();
     var left = $('#left');

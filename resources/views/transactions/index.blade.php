@@ -50,7 +50,11 @@
         Terminé
         <i class="fa-solid fa-check ml-2" style="color: white;"></i>
     </button>
-</td>@endif
+</td>
+@elseif( !($transaction->applicant_status==='Réussi' && $transaction->offeror_status==='Réussi')   )
+<td>
+En attente de validation </td>
+@endif
                     </tr>
                 @endforeach
             </tbody>

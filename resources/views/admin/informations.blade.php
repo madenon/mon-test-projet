@@ -47,10 +47,7 @@
                 <input type="text" name="contrat" id="contrat" value="{{ $information->contrat }}" class="mt-1 p-2 border rounded-md w-full">
             </div>
 
-            <!-- Submit Button -->
-            <div class="mt-4">
-                <button type="submit" class="bg-blue-500 text-white p-2 rounded-md">Update Information</button>
-            </div>
+           
             <div class="flex justify-center ">
         <button type="submit" class="btn text-white w-60 " style="background:var(--primary-color);">Update </button></div>
         </form>

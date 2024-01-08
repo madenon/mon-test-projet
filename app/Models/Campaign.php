@@ -9,7 +9,7 @@ class Campaign extends Model
 {
     use HasFactory;
 // Inside the Campaign model
-protected $fillable = ['name', 'description', 'start_date', 'end_date', 'discount_percentage', 'products_included', 'sponsor_id', 'banner', 'page', 'position','timezone'];
+protected $fillable = ['name', 'link', 'start_date', 'end_date', 'discount_percentage', 'products_included', 'sponsor_id', 'banner', 'page', 'position','timezone'];
 
     // Define the relationship with the Sponsor model
     public function sponsor()

@@ -22,7 +22,7 @@
         </div>
         <div class="form-group">
             <label for="description">Lien</label>
-            <textarea name="description" class="form-control" required></textarea>
+            <textarea name="link" class="form-control" ></textarea>
         </div>
         <div class="form-group">
         <label for="banner">Bannière</label>

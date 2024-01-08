@@ -33,17 +33,18 @@
         'MORE_THAN_25_YEARS' => '🔥 Expert',
     ];  
     @endphp
+    <div id="lightbox"></div>
     <div class="flex gap-5 offre-page">
         <div class="w-[50%] ml-12 partie-slide">
             <div class=" flex flex-col gap-6">
                 <div class="">
                     <img src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}"
-                        alt="Image principale" id="mainImage" class=" h-[450px] w-[750px] rounded-lg " />
+                        alt="Image principale" id="mainImage"  class="zoomD h-[450px] w-[750px] rounded-lg " />
                 </div>
                 <div class="flex scrollBar  gap-3 overflow-x-auto p-2 h-">
                     @foreach ($images as $img)
                         <img src="{{ route('offer-pictures-file-path',$img->offer_photo) }}" alt="Image produit"
-                            class=" h-[80px] hover:cursor-pointer hover:scale-110 rounded-lg hover:transition-transform hover:transform-gpu "
+                            class="zoomD h-[80px]  hover:scale-110 rounded-lg hover:transition-transform hover:transform-gpu "
                             onmouseover="changeMainImage('{{ $img->offer_photo }}')"
                             onmouseout="changeMainImage('{{ $offer->offer_default_photo }}')" />
                     @endforeach
@@ -349,6 +350,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
             </div>
             <div class="modal-body">
+            <div id="modalbox"></div>
+
                 <table class="table align-middle mb-0 bg-white">
                     <thead class="bg-light">
                         <tr>
@@ -363,7 +366,7 @@
                         <tr>
                             <td id="modalName"></td>
                             <td id="modalStatus"></td>
-                            <td> <img id="modalImage" src="" alt="Image"> </td>
+                            <td> <img id="modalImage" src="" class="modalzoomD" style="max-width:200px;" alt="Image"> </td>
                             <td id="modalUser"></td>
                             <td>
                                 <button type="button" class="btn btn-success" id="acceptButton" data-bs-dismiss="modal" aria-label="Fermer">
@@ -662,7 +665,7 @@ if(newStatus=="Rejetée")
                     Swal.fire({
                 icon: 'success',
                 title: 'Success!',
-                text: 'The proposition status has been updated.',
+                text: 'Rencontre ajoutée.',
             }).then(function () {
                 // Reload the page after showing the success message
                 location.reload();
@@ -674,7 +677,7 @@ if(newStatus=="Rejetée")
             Swal.fire({
                 icon: 'error',
                 title: 'Error!',
-                text: 'Failed to update proposition status.',
+                text: 'Erreur',
             });
                
                 }
@@ -794,3 +797,37 @@ $(document).on('click', '.report-button', function () {
         }
     }
     @endphp
+ <script>window.onload = () => {
+  // (A) GET LIGHTBOX & ALL .ZOOMD IMAGES
+  let all = document.getElementsByClassName("zoomD");
+  let modalall = document.getElementsByClassName("modalzoomD"),
+
+      lightbox = document.getElementById("lightbox");
+      modalbox = document.getElementById("modalbox");
+ 
+  // (B) CLICK TO SHOW IMAGE IN LIGHTBOX
+  // * SIMPLY CLONE INTO LIGHTBOX & SHOW
+  if (all.length>0) { for (let i of all) {
+    i.onclick = () => {
+      let clone = i.cloneNode();
+      clone.className = "";
+      lightbox.innerHTML = "";
+      lightbox.appendChild(clone);
+      lightbox.className = "show";
+    };
+  }}
+  if (modalall.length>0) { for (let i of modalall) {
+    i.onclick = () => {
+      let clone = i.cloneNode();
+      clone.className = "";
+      clone.style.maxWidth="";
+      modalbox.innerHTML = "";
+      modalbox.appendChild(clone);
+      modalbox.className = "show";
+    };
+  }}
+ 
+  // (C) CLICK TO CLOSE LIGHTBOX
+  lightbox.onclick = () => lightbox.className = "";
+  modalbox.onclick = () => modalbox.className = "";
+};</script>

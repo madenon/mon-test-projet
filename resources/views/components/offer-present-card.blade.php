@@ -1,8 +1,8 @@
 <article class="rounded-xl bg-white shadow-lg hover:shadow-xl">
-    <a class="no-underline" href="{{route('offer.offer', [$offer->id, $offer->slug])}}">
-        <div class="relative flex items-end overflow-hidden rounded-xl">
-            <img class="w-full h-96" src="{{ route('offer-pictures-file-path',$offer->offer_default_photo)}}" alt="Offer Photo" />
+<div class="relative flex items-end overflow-hidden rounded-xl">
+            <img class="zoomD w-full h-96" src="{{ route('offer-pictures-file-path',$offer->offer_default_photo)}}" alt="Offer Photo" />
         </div>
+    <a class="no-underline" href="{{route('offer.offer', [$offer->id, $offer->slug])}}">
         <div class="mt-1 p-2">
             <span class="text-gray-500 text-lg flex items-center div-categorie pb-2">
                 <img src="/images/Stack.svg" alt="" class="mr-2 ">

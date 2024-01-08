@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use App\Notifications\NewPreposition;
 use App\Notifications\NewTransaction;
 use App\Notifications\PropositionResult;
+use Illuminate\Support\Facades\Log;
 
 class PropositionController extends Controller
 {
@@ -114,9 +115,9 @@ class PropositionController extends Controller
                     'name' => $proposition->name, 
                     'date' => now()
                 ]);
-               // $taker->notify(new NewTransaction($transaction));   
+                    $taker->notify(new NewTransaction($transaction));             
             }else{
-                // $taker->notify(new PropositionResult($proposition));   
+                 $taker->notify(new PropositionResult($proposition));   
             }
         
             $proposition->save();
