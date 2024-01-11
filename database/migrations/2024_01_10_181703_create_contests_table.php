@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contest', function (Blueprint $table) {
+        Schema::create('contests', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->enum('type', ['invite_friends', 'total_transactions', 'total_amount']);
+            $table->integer('value');
+            $table->text('description');
+            $table->dateTime('start_datetime');
+            $table->dateTime('end_datetime');
             $table->timestamps();
         });
     }
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contest');
+        Schema::dropIfExists('contests');
     }
 };
