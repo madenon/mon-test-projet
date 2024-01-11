@@ -114,18 +114,20 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
    Route::get('/resolving',  function () {
         return view('admin.resolving');
     })->middleware('admin')->name('admin.resolving');
+    
    Route::get('/badges',  'badges')->middleware('admin')->name('admin.badges');
    Route::get('/contest',  'contest')->middleware('admin')->name('admin.contest');
+   Route::post('/contest/new',  'newContest')->middleware('admin')->name('admin.contest.create');
    
    Route::get('/campaigns/{id}',  'editCampaign')->middleware('admin')->name('admin.edit-campaign');
    Route::put('/campaigns/{id}',  'updateCampaign')->middleware('admin')->name('admin.update-campaign');
    Route::delete('/campaigns/delete-campaign/{id}',  'deleteCampaign')->middleware('admin')->name('admin.delete-campaign');
 
     Route::get('/sponsors',  'sponsors')->middleware('admin')->name('admin.sponsors');
-   Route::get('/sponsors/add',  'addSponsor')->middleware('admin')->name('admin.add-sponsor');
-   Route::post('/sponsors/add',  'storeSponsor')->middleware('admin')->name('admin.storeSponsor');
-   Route::delete('/sponsors/delete-sponsor/{id}',  'deleteSponsor')->middleware('admin')->name('admin.delete-sponsor');
-   Route::get('/login','login')->name('admin.login');
+    Route::get('/sponsors/add',  'addSponsor')->middleware('admin')->name('admin.add-sponsor');
+    Route::post('/sponsors/add',  'storeSponsor')->middleware('admin')->name('admin.storeSponsor');
+    Route::delete('/sponsors/delete-sponsor/{id}',  'deleteSponsor')->middleware('admin')->name('admin.delete-sponsor');
+    Route::get('/login','login')->name('admin.login');
     Route::post('/login','store');
     Route::get('/information', 'editInformation')->middleware('admin')->name('admin.edit-information');
     Route::put('/information', 'updateInformation')->middleware('admin')->name('admin.update-information');
@@ -133,7 +135,7 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
     
     Route::get('/offres/modifier/{offerId}', [MyAccountController::class, 'editOffer'])->middleware('admin')->name('admin.editOffer');
     Route::put('/offres/{offerId}', [MyAccountController::class, 'updateOffer'])->middleware('admin')->name('admin.updateOffer');
-    
+    Route::post('/proposition/freeze/{id}', 'freezeProposition')->middleware('admin')->name('admin.freezeProposition');
     
 });
 

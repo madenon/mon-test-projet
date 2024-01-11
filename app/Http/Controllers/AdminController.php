@@ -27,6 +27,8 @@ use App\Charts;
 use App\Models\Information;
 use App\Models\OfferImages;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
 
 
@@ -39,7 +41,86 @@ class AdminController extends Controller
         $offers=Offer::get();
         $transactions=Transaction::get();
         
-        return view('admin.index', compact('users','offers','transactions'));
+        $times=['allTime','monthThree','week','month'];
+        $time= $request->time;
+        if(!$time)$time='allTime';
+        $rot=0;
+        if($time == 'allTime')$rot= 0;
+        if($time == 'monthThree')$rot= -90;
+        if($time == 'month')$rot = 180;
+        if($time == 'week!')$rot = 90;
+        
+        $offer_options = [
+            'chart_title' => 'Offers',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\Offer',
+            'group_by_field' => 'created_at',
+            'group_by_period' => ($time == 'allTime') ? 'month' : (($time == 'monthThree') ? 'week' : (($time == 'month') ? 'week' : 'day')),
+            'chart_type' => 'line',
+            'filter_field' => 'created_at',
+            'filter_days' => ($time == 'allTime') ? 365 : (($time == 'monthThree') ? 90 : (($time == 'month') ? 30 : 7)),
+        ];
+        
+        $offerChart = new LaravelChart($offer_options);
+        
+        $proposition_options = [
+            'chart_title' => 'Propositions',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\Preposition',
+            'group_by_field' => 'created_at',
+            'group_by_period' => ($time == 'allTime') ? 'month' : (($time == 'monthThree') ? 'week' : (($time == 'month') ? 'week' : 'day')),
+            'chart_type' => 'line',
+            'filter_field' => 'created_at',
+            'filter_days' => ($time == 'allTime') ? 365 : (($time == 'monthThree') ? 90 : (($time == 'month') ? 30 : 7)),
+        ];
+        $transaction_options = [
+            'chart_title' => 'Transactions',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\Transaction',
+            'group_by_field' => 'created_at',
+            'group_by_period' => ($time == 'allTime') ? 'month' : (($time == 'monthThree') ? 'week' : (($time == 'month') ? 'week' : 'day')),
+            'chart_type' => 'line',
+            'filter_field' => 'created_at',
+            'filter_days' => ($time == 'allTime') ? 365 : (($time == 'monthThree') ? 90 : (($time == 'month') ? 30 : 7)),
+        ];
+        
+        $PropTransChart = new LaravelChart($proposition_options, $transaction_options);
+        
+        $dispute_options = [
+            'chart_title' => 'Disputes',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\Preposition',
+            'group_by_field' => 'created_at',
+            'group_by_period' => ($time == 'allTime') ? 'month' : (($time == 'monthThree') ? 'week' : (($time == 'month') ? 'week' : 'day')),
+            'chart_type' => 'line',
+            'filter_field' => 'created_at',
+            'filter_days' => ($time == 'allTime') ? 365 : (($time == 'monthThree') ? 90 : (($time == 'month') ? 30 : 7)),
+        ];
+        $report_options = [
+            'chart_title' => 'Reports',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\Report',
+            'group_by_field' => 'created_at',
+            'group_by_period' => ($time == 'allTime') ? 'month' : (($time == 'monthThree') ? 'week' : (($time == 'month') ? 'week' : 'day')),
+            'chart_type' => 'line',
+            'filter_field' => 'created_at',
+            'filter_days' => ($time == 'allTime') ? 365 : (($time == 'monthThree') ? 90 : (($time == 'month') ? 30 : 7)),
+        ];
+        $user_options = [
+            'chart_title' => 'Users',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\User',
+            'group_by_field' => 'created_at',
+            'group_by_period' => ($time == 'allTime') ? 'month' : (($time == 'monthThree') ? 'week' : (($time == 'month') ? 'week' : 'day')),
+            'chart_type' => 'line',
+            'filter_field' => 'created_at',
+            'filter_days' => ($time == 'allTime') ? 365 : (($time == 'monthThree') ? 90 : (($time == 'month') ? 30 : 7)),
+        ];
+        
+        $DisRepUserChart = new LaravelChart($dispute_options, $report_options, $user_options);
+    
+        return view('admin.index', compact('users','offers','transactions', 'offerChart',
+            'PropTransChart','DisRepUserChart','rot'));
 
     }
     public function users(Request $request)
@@ -375,6 +456,13 @@ Campaign::create($campaignData);
     {    
         return view('admin.dispute-list');
     }
+    public function freezeProposition($id)
+    {    
+        $preposition = Preposition::find($id);
+        $preposition->freezed= true;
+        $preposition->save();
+        return redirect->back();
+    }
     
     public function newsletters(Request $request)
     {
@@ -413,6 +501,10 @@ Campaign::create($campaignData);
     public function contest(Request $request)
     {    
         return view('admin.contest');
+    }
+    
+    public function newContest(Request $request)
+    {    
     }
     
  

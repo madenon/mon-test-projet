@@ -29,10 +29,10 @@
                         <line x1="50" y1="0" x2="50" y2="20" stroke="#333" stroke-width="2" transform="rotate(45 50 50)"/>
                         <line x1="50" y1="80" x2="50" y2="100" stroke="#333" stroke-width="2" transform="rotate(45 50 50)"/>
                         
-                        <text x="50" y="20" fill="#333" text-anchor="middle" transform="rotate(0 50 50)">All time</text>
-                        <text x="50" y="20" fill="#333" text-anchor="middle" transform="rotate(90 50 50)">Today</text>
-                        <text x="50" y="20" fill="#333" text-anchor="middle" transform="rotate(180 50 50)">Week</text>
-                        <text x="50" y="20" fill="#333" text-anchor="middle" transform="rotate(270 50 50)">Month</text>
+                        <text x="50" y="20" fill="#333" text-anchor="middle" transform="rotate({{0+$rot}} 50 50)"><a href="{{route('admin.index',['time'=>'allTime'])}}" class="no-underline text-black">All time</a></text>
+                        <text x="50" y="20" fill="#333" text-anchor="middle" transform="rotate({{90+$rot}} 50 50)"><a href="{{route('admin.index',['time'=>'monthThree'])}}" class="no-underline text-black">3 Month</a></text>
+                        <text x="50" y="20" fill="#333" text-anchor="middle" transform="rotate({{180+$rot}} 50 50)"><a href="{{route('admin.index',['time'=>'month'])}}" class="no-underline text-black">Month</a></text>
+                        <text x="50" y="20" fill="#333" text-anchor="middle" transform="rotate({{-90+$rot}} 50 50)"><a href="{{route('admin.index',['time'=>'week'])}}" class="no-underline text-black">Week</a></text>
                         
                         <polygon points="50,20 45,30 55,30" fill="#333"/>
 
@@ -91,14 +91,34 @@
             </div>
             
             <div class="row my-3">
+                <div class="col-6">
+                {!! $offerChart->renderHtml() !!}
+                </div>
+                
+                <div class="col-6">
+                {!! $PropTransChart->renderHtml() !!}
+                </div>
+                
+                <div class="col-6">
+                {!! $DisRepUserChart->renderHtml() !!}
+                </div>
             </div>
 
 
         </div>
     </section>
 
-</div>
-
+    </div>
+    
+    
+    @section('javascript')
+    {!! $offerChart->renderChartJsLibrary() !!}
+    
+    {!! $offerChart->renderJs() !!}
+    {!! $PropTransChart->renderJs() !!}
+    {!! $DisRepUserChart->renderJs() !!}
+    @endsection
 
 
 @endsection
+

@@ -7,6 +7,7 @@
                 <th class="py-2 px-4 border-b">Disputer</th>
                 <th class="py-2 px-4 border-b">Change status</th>
                 <th class="py-2 px-4 border-b">Actions on preposition</th>
+                <th class="py-2 px-4 border-b">Actions on countreparty</th>
             </tr>
         </thead>
         <tbody id="userTableBody">
@@ -25,6 +26,12 @@
                     <a href="#" class="no-underline badge {{ $dispute->isOpen?'bg-danger' : 'bg-warning'}} rounded-pill d-inline"
                         wire:click.prevent="changeState({{$dispute->id}})">
                         {{ $dispute->isOpen ? 'Close' : 'Reopen'}}
+                    </a>
+                </td>
+                <td class="py-2 px-4 border-b">
+                    
+                    <a type="button" href="{{route('admin.freezeProposition', [$dispute->preposition->id])}}" class="btn delete-button">
+                        <i class="fas fa-lock" style="color: #24a19c"></i>
                     </a>
                 </td>
                 <td class="py-2 px-4 border-b flex justify-around">
