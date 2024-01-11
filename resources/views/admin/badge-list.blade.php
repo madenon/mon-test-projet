@@ -2,11 +2,11 @@
 
 @section('admin-content')
     <div class="bg-white p-4 rounded shadow">
-        <h3 class="text-lg font-semibold mb-2">View List of All Users</h3>
+        <h3 class="text-lg font-semibold mb-2">Tous les utilisateurs</h3>
 
         <form action="{{ route('admin.users') }}" method="GET">
         <div class="mb-4 ">
-                <label class="block text-sm font-medium text-gray-700">Search:</label>
+                <label class="block text-sm font-medium text-gray-700">Recherche :</label>
                 <input type="text" name="search" value="{{ request('search') }}" class="mt-1 p-2 border rounded-md">
                 
                 <!-- Use an icon (e.g., from FontAwesome or another icon library) as a link to submit the form -->
@@ -18,7 +18,7 @@
             </div>
             <div class="flex space-x-4 ">
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Filter by Role:</label>
+                <label class="block text-sm font-medium text-gray-700">Filtrer par rôle :</label>
                 <select name="role" id="filterRole" class="mt-1 p-2 border rounded-md" onchange="this.form.submit()">
                     <option value="">All Roles</option>
                     @foreach ($roles as $role)
@@ -29,11 +29,11 @@
                 </select>
             </div>
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Sort by Created Date:</label>
+                <label class="block text-sm font-medium text-gray-700">Trier par date de création :</label>
                 <select name="sort_created_at" id="sortCreatedAt" class="mt-1 p-2 border rounded-md" onchange="this.form.submit()">
                     <option value="asc">Default</option>
-                    <option value="asc" {{ request('sort_created_at') == 'asc' ? 'selected' : '' }}>Oldest First</option>
-                    <option value="desc" {{ request('sort_created_at') == 'desc' ? 'selected' : '' }}>Newest First</option>
+                    <option value="asc" {{ request('sort_created_at') == 'asc' ? 'selected' : '' }}>Les plus anciens d'abord</option>
+                    <option value="desc" {{ request('sort_created_at') == 'desc' ? 'selected' : '' }}>Les plus récents d'abord</option>
                 </select>
             </div>
             </div>
@@ -42,9 +42,9 @@
         <table class="min-w-full">
             <thead>
                 <tr>
-                    <th class="py-2 px-4 border-b">Name</th>
-                    <th class="py-2 px-4 border-b">Email</th>
-                    <th class="py-2 px-4 border-b">Role</th>
+                <th class="py-2 px-4 border-b">Nom</th>
+                    <th class="py-2 px-4 border-b">E-mail</th>
+                    <th class="py-2 px-4 border-b">Rôle</th>
                     <th class="py-2 px-4 border-b">Actions</th>
                 </tr>
             </thead>

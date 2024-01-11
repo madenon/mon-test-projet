@@ -1,24 +1,63 @@
 <x-app-layout>
     <!-- (A) LIGHTBOX CONTAINER -->
 <div id="lightbox"></div>
+@php
+    $leftBannerShown = false;
+    $rightBannerShown = false;
+@endphp
 @foreach ($banners as $banner)
         @if ($banner->is_active && ($banner->page === 'home' || $banner->page ==='all') && $banner->position === 'top')
         <a href="{{$banner->description}}" target="_blank" >
-            <img src="{{ asset('storage/'. $banner->banner ) }}" alt="Banner" style="width:100%;max-height:210px;">
+            <img src="{{ asset('storage/'. $banner->banner ) }}" alt="Banner" style="width:100%;max-height:260px;">
             </a>
             @endif
             @if ($banner->is_active && ($banner->page === 'home' || $banner->page ==='all') && $banner->position === 'left')
-        <a href="{{$banner->description}}" target="_blank" >
-            <img src="{{ asset('storage/'. $banner->banner ) }}" id="left" alt="Banner" style="width:100px;  height:70%; position:fixed; margin-top:20px; ">
+            @php
+            $leftBannerShown = true;
+        @endphp        <a href="{{$banner->description}}" target="_blank" >
+            <img src="{{ asset('storage/'. $banner->banner ) }}" id="left" alt="Banner" class="responsive-image">
         </a>
             @endif
         @if ($banner->is_active && ($banner->page === 'home' || $banner->page ==='all') && $banner->position === 'right')
-        <a href="{{$banner->description}}" target="_blank" >
-            <img src="{{ asset('storage/'. $banner->banner ) }}" id="right" alt="Banner" style="width:100px; height:70%; position:fixed; margin-top:20px;  right:0;">
+        @php
+            $rightBannerShown = true;
+        @endphp        <a href="{{$banner->description}}" target="_blank" >
+            <img src="{{ asset('storage/'. $banner->banner ) }}" id="right" alt="Banner" class="responsive-image" style="right:0;margin-top:260px;">
         </a>
         @endif
     @endforeach
-    <div class="flex flex-col justify-center space-y-10 bg-primary-color" style="height:80vh" >
+    <style>
+    .responsive-image {
+        max-width: 300px;      height: auto;
+        position: fixed;
+    }
+
+    @media (max-width: 768px) {
+        .responsive-image {
+           display:none;
+        }
+        .con{
+            margin:0 !important;
+            max-width: auto !important;
+        }
+    }
+</style>
+
+@php
+    $bothBannersShown = $leftBannerShown && $rightBannerShown;
+    $onlyLeftBannerShown = $leftBannerShown && !$rightBannerShown;
+    $onlyRightBannerShown = !$leftBannerShown && $rightBannerShown;
+    $noBannersShown = !$leftBannerShown && !$rightBannerShown;
+@endphp
+@if ($bothBannersShown)
+    <div class="con" style="margin-left:300px; margin-right:300px; max-width:55%;">
+@elseif ($onlyLeftBannerShown)
+<div class="con" style="margin-right:10px; margin-left: 310px;">
+@elseif ($onlyRightBannerShown)
+<div class="con" style="margin-left:20px; margin-right:310px;">
+@else
+<div >
+@endif    <div class="flex flex-col justify-center space-y-10 bg-primary-color" style="height:80vh" >
    
         <div class="d-flex align-items-center justify-content-center">
             <div >
@@ -147,92 +186,98 @@
         <h1 class="text-center mt-12">Comment ca marche?</h1>
         <h4 class="text-center">Deposer une annonce</h4>
         <div class="flex  space-x-6 mx-16 my-2">
-            <div class="border bg-white p-4">
+            <div class="flex-1 border bg-white p-4">
                 <div class="flex justify-between items-center">
                     <i class="fa fa-list "></i>
                     <span class="text-5xl font-sans font-thin">01</span>
                 </div>
                 <h5>Créer un compte</h5>
                 <p>
-                    Lorem ipsum at sed ad fusce faucibus primis, potenti inceptos ad taciti nisi tristique
-        urna etiam, primis ut lacus habitasse malesuada ut
-                </p>
+                Pour créer un compte, appuyez simplement sur le bouton "S'authentifier" en haut : <img src="{{ asset('images/header.png') }}"/> et choisissez l'option "S'enregistrer".
+Ajoutez vos informations essentielles pour finaliser le processus d'inscription.
+</p>
             </div>
-            <div class="border bg-white p-4">
+            <div class="flex-1 border bg-white p-4">
                 <div class="flex justify-between items-center">
                     <i class="fa fa-list "></i>
                     <span class="text-5xl font-sans font-thin">02</span>
                 </div>
                 <h5>Deposer une annonce</h5>
                 <p>
-                    Lorem ipsum at sed ad fusce faucibus primis, potenti inceptos ad taciti nisi tristique
-        urna etiam, primis ut lacus habitasse malesuada ut
+                Une fois votre compte créé, rendez-vous sur la rubrique <img src="{{ asset('images/add_offer.png') }}"/>
+Remplissez le formulaire en indiquant les détails de votre offre.
+Choisissez votre troc en précisant contre quoi vous souhaitez échanger.<br>
+Facultatif : activez un compte à rebours pour une touche d'urgence.
+Choisissez entre un dépôt d'annonce immédiat ou différé.
+Validez en cliquant sur "Déposer un troc" ou en appuyant sur la touche entrée.
                 </p>
             </div>
-            <div class="border bg-white p-4">
+            <div class="flex-1 border bg-white p-4">
                 <div class="flex justify-between items-center">
                     <i class="fa fa-list "></i>
                     <span class="text-5xl font-sans font-thin">03</span>
                 </div>
                 <h5>Obtenir des propositions</h5>
                 <p>
-                    Lorem ipsum at sed ad fusce faucibus primis, potenti inceptos ad taciti nisi tristique
-        urna etiam, primis ut lacus habitasse malesuada ut
+                Une fois votre annonce publiée, attendez de recevoir des propositions d'autres membres.
+Pour maximiser vos chances d'être contacté, activez l'option "Étudie toutes propositions" en plus des autres détails de trocs que vous avez indiqués.
+Communiquez et négociez avec les autres membres via les messages.
+Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
                 </p>
             </div>
         
         </div>
         <h4 class="text-center">Faire un troc</h4>
         <div class="flex  space-x-6 mx-16 my-2">
-        <div class="border bg-white p-4">
+        <div class="flex-1 border bg-white p-4">
                 <div class="flex justify-between items-center">
                     <i class="fa fa-list "></i>
                     <span class="text-5xl font-sans font-thin">01</span>
                 </div>
                 <h5>Créer un compte</h5>
                 <p>
-                    Lorem ipsum at sed ad fusce faucibus primis, potenti inceptos ad taciti nisi tristique
-        urna etiam, primis ut lacus habitasse malesuada ut
+                    
                 </p>
             </div>
-            <div class="border bg-white p-4">
+            <div class="flex-1 border bg-white p-4">
                 <div class="flex justify-between items-center">
                     <i class="fa fa-list "></i>
                     <span class="text-5xl font-sans font-thin">02</span>
                 </div>
                 <h5>Envoyer une proposition</h5>
                 <p>
-                    Lorem ipsum at sed ad fusce faucibus primis, potenti inceptos ad taciti nisi tristique
-        urna etiam, primis ut lacus habitasse malesuada ut
+                Explorez les offres en utilisant des filtres ou la recherche. Sélectionnez une offre et appuyez sur "Troquer maintenant" pour proposer un échange. Remplissez le formulaire, puis validez pour soumettre votre proposition à l'auteur de l'offre, qui pourra examiner, accepter, rejeter, ou négocier davantage.
+        
                 </p>
             </div>
-            <div class="border bg-white p-4">
+            <div class="flex-1 border bg-white p-4">
                 <div class="flex justify-between items-center">
                     <i class="fa fa-list "></i>
                     <span class="text-5xl font-sans font-thin">03</span>
                 </div>
                 <h5>Obtenir l'acceptation</h5>
                 <p>
-                    Lorem ipsum at sed ad fusce faucibus primis, potenti inceptos ad taciti nisi tristique
-        urna etiam, primis ut lacus habitasse malesuada ut
+                Une fois que la proposition est acceptée, vous pouvez convenir d'un rendez-vous avec l'offreur ou entamer une discussion via le chat (messagerie).
                 </p>
             </div>
-            <div class="border bg-white p-4">
+            <div class="flex-1 border bg-white p-4">
                 <div class="flex justify-between items-center">
                     <i class="fa fa-list "></i>
                     <span class="text-5xl font-sans font-thin">04</span>
                 </div>
                 <h5>Effectuer l'echange</h5>
                 <p>
-                    Lorem ipsum at sed ad fusce faucibus primis, potenti inceptos ad taciti nisi tristique
-        urna etiam, primis ut lacus habitasse malesuada ut
+                Quand la proposition est acceptée, une transaction apparaîtra dans la section <img src="{{ asset('images/transactions.png') }}"/>  avec le statut "En cours". Après l'échange, vous devrez valider la transaction pour qu'elle soit comptabilisée comme un troc réalisé dans votre com
                 </p>
             </div>
         
         </div>
     </div>
-
-    <div class="flex justify-center space-x-20 bg-primary-color text-white mx-24" style="height:25vh" >
+@if ($bothBannersShown || $onlyLeftBannerShown || $onlyRightBannerShown)
+<div class="flex justify-center  bg-primary-color text-white " style="height:25vh" >
+@else
+<div class="flex justify-center space-x-20 bg-primary-color text-white mx-24" style="height:25vh" >
+    @endif
         <div class="flex items-center">
             <div class="m-3"><i class="fa fa-cube fa-2x"></i></div>
             <div class="flex flex-col justify-center items-center space-y-1">
@@ -329,6 +374,7 @@
         </div>
             @endif
     @endforeach
+    </div>
 </x-app-layout>
 
 <style>/* Additional styles for the new content */
@@ -469,9 +515,10 @@
 if (scrollPosition > 250) {
     left.css('top', '80px');
     right.css('top', '80px');
+    right.css('margin-top', '0px');
 } else {
   left.css('top', '');
-  right.css('top', '');
+  right.css('margin-top', '260px');
 
 }}); 
 // 

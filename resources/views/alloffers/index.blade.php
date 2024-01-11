@@ -1,23 +1,61 @@
 <x-app-layout>
     <!-- (A) LIGHTBOX CONTAINER -->
 <div id="lightbox"></div>
+@php
+    $leftBannerShown = false;
+    $rightBannerShown = false;
+@endphp
+
 @foreach ($banners as $banner)
-        @if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all') && $banner->position === 'top')
+@if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all') && $banner->position === 'top')
         <a href="{{$banner->description}}" target="_blank" >
-        <img src="{{ asset('storage/'. $banner->banner ) }}" alt="Banner" style="width:99%;max-height:210px; margin:10px;">
-        </a>
-        @endif
-        @if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all') && $banner->position === 'left')
-        <a href="{{$banner->description}}" target="_blank" >
-            <img src="{{ asset('storage/'. $banner->banner ) }}" id="left" alt="Banner" style="width:100px;  height:70%; position:fixed; margin-top:20px; ">
-        </a>
+            <img src="{{ asset('storage/'. $banner->banner ) }}" alt="Banner" style="width:100%;max-height:260px;">
+            </a>
             @endif
-        @if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all') && $banner->position === 'right')
-        <a href="{{$banner->description}}" target="_blank" >
-            <img src="{{ asset('storage/'. $banner->banner ) }}" id="right" alt="Banner" style="width:100px; height:70%; position:fixed; margin-top:20px;  right:0;">
+    @if ($banner->is_active && ($banner->page === 'offers' || $banner->page === 'all') && $banner->position === 'left')
+        @php
+            $leftBannerShown = true;
+        @endphp
+        <a href="{{ $banner->description }}" target="_blank" >
+        <img src="{{ asset('storage/'. $banner->banner ) }}" id="left" alt="Banner" class="responsive-image">
+
+
         </a>
-        @endif
-    @endforeach
+    @endif
+
+    @if ($banner->is_active && ($banner->page === 'offers' || $banner->page === 'all') && $banner->position === 'right')
+        @php
+            $rightBannerShown = true;
+        @endphp
+        <a href="{{ $banner->description }}" target="_blank" >
+            <img src="{{ asset('storage/'. $banner->banner ) }}" id="right" alt="Banner" class="responsive-image" style=" margin-top:260px; right:0;">
+        </a>
+    @endif
+@endforeach
+<style>
+    .responsive-image {
+        max-width: 300px;      height: auto;
+        position: fixed;
+    }
+
+    @media (max-width: 900px) {
+        .responsive-image {
+           display:none;
+        }
+        .con{
+            margin:20px !important;
+            max-width: 100% !important;
+        }
+    }
+</style>
+
+@php
+    $bothBannersShown = $leftBannerShown && $rightBannerShown;
+    $onlyLeftBannerShown = $leftBannerShown && !$rightBannerShown;
+    $onlyRightBannerShown = !$leftBannerShown && $rightBannerShown;
+    $noBannersShown = !$leftBannerShown && !$rightBannerShown;
+@endphp
+
        
     @if($categoryName)
 <div class="container">
@@ -38,8 +76,16 @@
             </ol>
         </nav>
     </div>
-    <div class="container">
-        <div class="row">
+    @if ($bothBannersShown)
+    <div class="con" style="margin-left:300px; margin-right:300px; max-width:55%;">
+@elseif ($onlyLeftBannerShown)
+<div class="con" style="margin-right:20px; margin-left: 310px;">
+@elseif ($onlyRightBannerShown)
+<div class="con" style="margin-left:20px; margin-right:310px;">
+@else
+<div class="container">
+@endif
+    <div class="row">
             <div class="col">
                 <x-applied-filters></x-applied-filters>
             </div>
@@ -52,7 +98,7 @@
             @foreach ($banners as $banner)
         @if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all') && $banner->position === 'content')
         <div class="offer_list_card mt-0 mb-4">
-        <a href="{{$banner->description}}" target="_blank" > 
+        <a href="{{$banner->link}}" target="_blank" > 
         <img src="{{ asset('storage/'. $banner->banner ) }}" alt="Banner" style="width:100%;max-height:250px;">
         </a>        
     </div>
@@ -206,9 +252,11 @@ $(window).scroll(function() {
 if (scrollPosition > 250) {
     left.css('top', '80px');
     right.css('top', '80px');
+    right.css('margin-top','0')
 } else {
   left.css('top', '');
   right.css('top', '');
+  right.css('margin-top','260px');
 
 }}); 
 //
