@@ -1,6 +1,6 @@
 <!-- resources/views/admin/information/edit.blade.php -->
 
-@extends('admin.index')
+@extends('admin.template')
 
 @section('admin-content')
 
@@ -49,7 +49,7 @@
 
            
             <div class="flex justify-center ">
-        <button type="submit" class="btn text-white w-60 " style="background:var(--primary-color);">Update </button></div>
+        <button type="submit" class="btn text-white w-60 " style="background:var(--primary-color);">Mettre à jour</button></div>
         </form>
     </div>
 
