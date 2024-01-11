@@ -40,10 +40,10 @@
                                                 <a href="{{$information->contrat}}" target="_blank">Contrat d'échange</a>
                                             </li>
                                             <li>
-                                                <a href="">Aide</a>
+                                                <a href="{{route('help')}}">Aide</a>
                                             </li>
                                             <li>
-                                                <a href="">A propos</a>
+                                                <a href="{{route('about')}}">A propos</a>
                                             </li>
                                             <li>
                                                 <a href="/contact">Contact</a>

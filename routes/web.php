@@ -87,6 +87,10 @@ Route::get('/dashboard', function () {
 Route::get('/help', function () {
     return view('help');
 })->name('help');
+Route::get('/about', function(){
+    return view('about');
+ })->name('about');
+
 
 
 //Define Admin Routes
@@ -236,6 +240,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/followings/{followedId}', [FollowingController::class,'follow'])->name('followings.follow');    
     Route::get('/unfollowings/{followedId}', [FollowingController::class,'unfollow'])->name('followings.unfollow');    
 });
+
 
 require __DIR__.'/auth.php';
 

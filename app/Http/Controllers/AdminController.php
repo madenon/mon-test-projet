@@ -49,7 +49,7 @@ class AdminController extends Controller
         if($time == 'allTime')$rot= 0;
         if($time == 'monthThree')$rot= -90;
         if($time == 'month')$rot = 180;
-        if($time == 'week!')$rot = 90;
+        if($time == 'week')$rot = 90;
         
         $offer_options = [
             'chart_title' => 'Offers',
