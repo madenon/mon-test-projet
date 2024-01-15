@@ -63,6 +63,8 @@ class NewMessage extends Notification implements ShouldQueue
         ];
     }
     
+    
+    
 
 }
 // href="{{route('offer.offer', [$preposition->offer, urlencode($preposition->offer->slug)])}}"

@@ -20,6 +20,7 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Badge;
 use App\Models\Report;
+use App\Models\Contest;
 use App\Models\Newsletter;
 use App\Models\Sponsor;
 use Illuminate\Support\Facades\Auth;
@@ -48,7 +49,7 @@ class AdminController extends Controller
         if($time == 'allTime')$rot= 0;
         if($time == 'monthThree')$rot= -90;
         if($time == 'month')$rot = 180;
-        if($time == 'week!')$rot = 90;
+        if($time == 'week')$rot = 90;
         
         $offer_options = [
             'chart_title' => 'Offers',
@@ -507,15 +508,54 @@ Campaign::create($campaignData);
     
     public function contest(Request $request)
     {    
-        return view('admin.contest');
+        $contests=Contest::all();
+        
+        return view('admin.contest-list', compact('contests'));
     }
     
     public function newContest(Request $request)
     {    
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'type' => 'required|in:invite_friends,total_transactions,total_amount',
+            'value' => 'required|integer',
+            'start_date' => 'required|date',
+            'start_time' => 'required|date_format:H:i',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'end_time' => 'required|date_format:H:i|after:start_time',
+            'description' => 'nullable|string',
+        ]);
+        
+        
+        $startDateTime = Carbon::createFromFormat('Y-m-d H:i', $validatedData['start_date'] . ' ' . $validatedData['start_time']);
+        $endDateTime = Carbon::createFromFormat('Y-m-d H:i', $validatedData['end_date'] . ' ' . $validatedData['end_time']);
+        
+        $contestData = [
+            'title' => $validatedData['title'],
+            'type' => $validatedData['type'],
+            'value' => $validatedData['value'],
+            'start_datetime' => $startDateTime,
+            'end_datetime' => $endDateTime,
+            'description' => $validatedData['description'],
+        ];
+        
+        Contest::create($contestData);
+        
+        Contest::create([
+        ]);
+        
+        return redirect()->back()->with('success', 'Contest created successfully!');
+        
     }
     
- 
-
+    public function showContest($id)
+    {    
+        $contest=Contest::find($id);
+        
+        return view('admin.contest-details', compact('contest'));
+    }
+    
+    
     public function editInformation()
     {
         $information = Information::first(); // Assuming you have only one row in the table

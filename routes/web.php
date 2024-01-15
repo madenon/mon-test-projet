@@ -87,6 +87,10 @@ Route::get('/dashboard', function () {
 Route::get('/help', function () {
     return view('help');
 })->name('help');
+Route::get('/about', function(){
+    return view('about');
+ })->name('about');
+
 
 
 //Define Admin Routes
@@ -116,8 +120,9 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
     })->middleware('admin')->name('admin.resolving');
     
    Route::get('/badges',  'badges')->middleware('admin')->name('admin.badges');
-   Route::get('/contest',  'contest')->middleware('admin')->name('admin.contest');
-   Route::post('/contest/new',  'newContest')->middleware('admin')->name('admin.contest.create');
+   Route::get('/contests',  'contest')->middleware('admin')->name('admin.contests');
+   Route::post('/contests/new',  'newContest')->middleware('admin')->name('admin.contests.create');
+   Route::get('/contests/{id}',  'showContest')->middleware('admin')->name('admin.contests.show');
    
    Route::get('/campaigns/{id}',  'editCampaign')->middleware('admin')->name('admin.edit-campaign');
    Route::put('/campaigns/{id}',  'updateCampaign')->middleware('admin')->name('admin.update-campaign');
@@ -235,6 +240,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/followings/{followedId}', [FollowingController::class,'follow'])->name('followings.follow');    
     Route::get('/unfollowings/{followedId}', [FollowingController::class,'unfollow'])->name('followings.unfollow');    
 });
+
 
 require __DIR__.'/auth.php';
 

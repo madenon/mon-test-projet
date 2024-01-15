@@ -12,6 +12,7 @@ use App\Models\Dispute;
 use Illuminate\Support\Str;
 use App\Notifications\NewPreposition;
 use App\Notifications\NewTransaction;
+use App\Notifications\NewDispute;
 use App\Notifications\PropositionResult;
 use Illuminate\Support\Facades\Log;
 
@@ -182,6 +183,10 @@ public function update(Request $request, $prepositionId)
             'preposition_id' => $prepositionId, 
             'description' => $request->description,
         ]);
+        foreach(User::all() as $user){
+            if($user->is_admin)
+            $user->notify(new NewDispute($dispute));             
+        }
         $preposition = Preposition::find($prepositionId);
         $preposition->appealed=true;
         $preposition->save();

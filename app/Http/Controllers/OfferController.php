@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Enums\ExperienceLevel;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use App\Notifications\NewReport;
+
 
 
 class OfferController extends Controller
@@ -291,6 +293,10 @@ class OfferController extends Controller
             'description' => $request->description,
         
         ]);
+        foreach(User::all() as $user){
+            if($user->is_admin)
+            $user->notify(new NewReport($report));             
+        }
         return $report;
     }
     // favoris 
