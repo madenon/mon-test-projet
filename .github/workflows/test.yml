@@ -13,8 +13,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-
-
     - name: SSH and run commands
       uses: appleboy/ssh-action@master
       with:
@@ -24,7 +22,3 @@ jobs:
         port: 65002
         script: |
           ls
-
-    
-
-    
