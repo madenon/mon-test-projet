@@ -1,0 +1,30 @@
+name: Deploy Laravel App
+
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+
+
+  - name: SSH and run commands
+      uses: appleboy/ssh-action@master
+      with:
+        host: 191.96.63.45
+        username: u808840266
+        password: fLkM5CT2U#U3
+        port: 65002
+        script: |
+          ls
+
+    
+
+    
