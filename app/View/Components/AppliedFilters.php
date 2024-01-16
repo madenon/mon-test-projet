@@ -64,9 +64,12 @@ class AppliedFilters extends Component
         if ($type) {
             $queryBuilder->where('type_id', $type); // Filter by category ID
         }
-        if ($region) {
-            $queryBuilder->where('region_id', $region); // Filter by category ID
-        }
+        if (request()->has('region') && request()->region!='' ) {
+            $regionId = request()->input('region');
+            
+            $queryBuilder->whereHas('department.region', function ($query) use ($regionId) {
+                $query->where('id', $regionId);
+            });    }
         if ($minPrice) {
             $queryBuilder->where('price', '>=', $minPrice);
         }
