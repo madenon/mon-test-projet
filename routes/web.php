@@ -21,6 +21,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PusherController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\FollowingController;
+use App\Http\Controllers\ContestController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -121,7 +122,6 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
     
    Route::get('/badges',  'badges')->middleware('admin')->name('admin.badges');
    Route::get('/contests',  'contest')->middleware('admin')->name('admin.contests');
-   Route::post('/contests/new',  'newContest')->middleware('admin')->name('admin.contests.create');
    Route::get('/contests/{id}',  'showContest')->middleware('admin')->name('admin.contests.show');
    
    Route::get('/campaigns/{id}',  'editCampaign')->middleware('admin')->name('admin.edit-campaign');
@@ -239,6 +239,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/ratings/rateOfferCounterParty', [RatingController::class,'rateCounterParty'])->name('ratings.rateCounterParty');    
     Route::get('/followings/{followedId}', [FollowingController::class,'follow'])->name('followings.follow');    
     Route::get('/unfollowings/{followedId}', [FollowingController::class,'unfollow'])->name('followings.unfollow');    
+});
+
+Route::controller(ContestController::class)->prefix('/contests')->group(function () {
+    Route::get('/', 'index')->name('contests.index');
+    Route::post('/', 'store' )->middleware('admin')->name('contests.store');
+    Route::get('/', 'index')->name('contests.compete');
+    Route::get('/{contestId}', 'contestRegistration' )->name('contests.registration');
 });
 
 

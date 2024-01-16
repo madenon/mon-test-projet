@@ -403,6 +403,14 @@ body {
     background-color: var(--secondary-color);
     border-radius: 50%;
 }
+#header-contest-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    position: relative;
+    background-image: url(../images/contest-icon.png);
+}
+
 #header-user-avatar-icon {
     width: 36px;
     height: 36px;
@@ -1343,6 +1351,9 @@ body {
             "."; 
     }
     #header-user-messages-icon {
+        display: none;
+    }
+    #header-contest-icon {
         display: none;
     }
     .footer-content-infos {

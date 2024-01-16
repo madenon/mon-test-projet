@@ -77,5 +77,10 @@ class Header extends Component
             $this->messages=$this->user->unreadNotifications->where('type','==','App\Notifications\NewMessage');
         }
     }
+    
+    public function contestIndex()
+    {
+        return redirect()->route('contests.index');
+    }
 
 }

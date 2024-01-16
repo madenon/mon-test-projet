@@ -421,7 +421,7 @@ Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
     background-color: var(--primary-color-hover);
 }
 
-.more-btn {
+    .more-btn {
     display: inline-block;
     padding: 7px 10px;
     background-color: var(--primary-color);
