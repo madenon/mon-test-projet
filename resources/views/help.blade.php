@@ -35,7 +35,7 @@
                     <li>Une fois votre compte créé, vous pourrez déposer autant d’offres que vous le souhaitez ! Pour ce faire :</li>
                     <li>Rendez-vous sur la rubrique <strong>Déposer un troc</strong>;</li>
                     <li>Complétez le formulaire ;</li>
-                    <li>Ajoutez une photo ou plusieurs (4 maximum) ;</li>
+                    <li>Ajoutez une photo ou plusieurs ;</li>
                     <li>Choisissez votre troc (indiquez contre quoi vous voulez échanger votre bien ou service) ;</li>
                     <li>(optionnel) activez un <strong>compte à rebours</strong> en cochant la case prévue à cet effet. Sélectionnez entre 2 et 96 h parmi les choix qui s’affichent. Si vous n’activez pas cette option, votre annonce restera en ligne 6 mois par défaut;</li>
                     <li>Choisissez le dépôt d’annonce immédiat ou bien définissez votre dépôt d’annonce en différé si vous le souhaitez ;</li>
@@ -58,16 +58,14 @@
                         en haut de chaque page portant la mentionMon <strong>compte</strong>.</li>
                         <li>Vous pouvez consulter vos propositions reçues. Pour cela :
                             <ul>
-                                <li>Rendez-vous sur votre compte ;</li>
+                                <li>Rendez-vous sur votre offre ;</li>
                                 <li>cliquez sur le bouton vert <strong>Voir les propositions</strong> en face de l’une de vos annonces.</li>
                             </ul>
-                            <strong class="underline">Note :</strong> le nombre de propositions reçues apparaîtra en <strong style="color:red">rouge</strong> au coin de ce bouton.
                         </li>
                         <li>Il est possible de négocier avec les troqueurs qui vous contacteront. Au final, ce sera à vous de choisir l’offre qui vous séduira le plus. 
-                        Si jamais quelqu’un vous propose un objet d’une valeur inférieure au vôtre, vous pouvez lui demander une soulte (= de compléter son troc par un autre bien pour rééquilibrer l’échange).
-                        <strong style="color:blue">Pensez-y</strong> Rendez-vous sur la proposition en cours et cliquez sur le bouton orange( <span class="inline-block h-4 w-4 rounded-full" style="background-color: orange"></span> ) Demande de soulte.
+                       
                         </li>
-                        <li>Pour valider une proposition,appuyez sur le bouton vert ( <span class="inline-block btn-img btn-validate"></span> ) Valider la <strong>proposition</strong> au bas de celle-ci. </li>
+                        <li>Pour valider une proposition,appuyez sur le bouton vert ( <span class="inline-block btn-img btn-validate"></span> ) Valider la <strong>proposition</strong>  </li>
                         <li>Pour maximiser vos chances d’obtenir un troc, vous pouvez, parallèlement à votre annonce mise en ligne, proposer votre offre directement aux autres membres de la plateforme. 
                         Si un troqueur a mis en ligne un bien ou un service susceptible de vous plaire,<strong> n’hésitez pas à lui émettre votre proposition !</strong></li>
                     </ul>
@@ -95,10 +93,10 @@
                 </section>
             </div>
 
-            <div>
+           <!-- <div>
             Une fois qu’un troc est validé par les deux parties, l’annonce disparaît automatiquement. Si toutefois l’accord a été passé par téléphone, <strong>veillez à supprimer votre annonce une fois la transaction terminée.</strong>
             <strong> Cliquez sur la corbeille (<span class="inline-block btn-img btn-validate"></span> ) dans la partie Mes trocs en cours de votre tableau de bord (page Mon compte). </strong>
-            </div>
+            </div> -->
 
         </div>
 
