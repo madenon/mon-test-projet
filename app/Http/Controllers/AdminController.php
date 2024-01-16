@@ -397,6 +397,13 @@ return view('admin.transaction-list', compact('transactions'));
         
         return view('admin.campaign-list', compact('campaigns','sponsors'));
     }
+     public function deleteCampaign($id)
+    {
+        $campaign = Campaign::findOrFail($id);
+       $campaign->delete();
+
+        //return redirect()->route('admin.transactions')->with('success', 'Transaction deleted successfully');
+    }
     public function addCampaign(Request $request){
         $campaigns = Campaign::all();
         $sponsors = Sponsor::all();

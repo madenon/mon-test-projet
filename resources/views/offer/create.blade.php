@@ -338,8 +338,10 @@
 </x-app-layout>
 <script>
      // Add event listeners to show/hide additional options based on checkbox state
-    
+   let inputCount=0;
      function addInput() {
+        console.log(inputCount);
+        if(inputCount<6){
         var container = document.getElementById("dynamicInputsContainer");
         var input = document.createElement("input");
         input.type = "text";
@@ -347,6 +349,7 @@
         input.className = "form-control mt-3";
         input.placeholder = "Enter value";
         container.appendChild(input);
+    inputCount++;}
     }
     // 
     const conditionDropdownElement = document.getElementById('condition-dropdown')
