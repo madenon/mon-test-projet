@@ -244,7 +244,7 @@ Route::middleware('auth')->group(function () {
 Route::controller(ContestController::class)->prefix('/contests')->group(function () {
     Route::get('/', 'index')->name('contests.index');
     Route::post('/', 'store' )->middleware('admin')->name('contests.store');
-    Route::get('/', 'index')->name('contests.compete');
+    Route::get('/compete/{contestId}', 'index')->name('contests.compete');
     Route::get('/{contestId}', 'contestRegistration' )->name('contests.registration');
 });
 
