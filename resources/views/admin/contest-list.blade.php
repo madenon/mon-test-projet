@@ -1,6 +1,15 @@
 @extends('admin.template')
 
 @section('admin-content')
+@if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
     <div class="bg-white p-4 rounded shadow">
         <h1>Contest</h1>
         <button id="new-contest" class="btn btn-success" >Create new contest</div>

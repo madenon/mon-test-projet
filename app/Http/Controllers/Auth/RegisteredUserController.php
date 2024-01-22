@@ -44,7 +44,7 @@ class RegisteredUserController extends Controller
             'gender' => [new Enum(Gender::class)],
             'bio' => ['nullable', 'string', 'max:300'],
             'nickname' => ['required', 'unique:user_infos', 'min:2', 'max:100'],
-            'profile_photo_path' => ['nullable','image', 'max:12288', 'mimes:jpeg,jpg,png'],
+            'profile_photo_path' => ['required','image', 'max:12288', 'mimes:jpeg,jpg,png'],
 
         ], [
             'email' => 'Ce email existe dèja.',
@@ -54,6 +54,7 @@ class RegisteredUserController extends Controller
             'nickname' => 'Ce pseudonyme existe déjà.',
             'password' => 'Le mot de passe doit contenir au moins 6 caractères, une combinaison de majuscules et de minuscules, un chiffre et un symbole.',
             'profile_photo_path.max' => "L'image doit être moins de 12 Mo.",
+            'profile_photo_path.required' => "Veuillez télécharger une photo de profil.",
             'profile_photo_path.mimes' => 'L\'image téléchargés doivent être au format jpg, jpeg ou png.',
         ]);
 

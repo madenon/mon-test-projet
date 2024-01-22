@@ -38,8 +38,8 @@ class ContestController extends Controller
             'price' => 'required|integer',
             'start_date' => 'required|date',
             'start_time' => 'required|date_format:H:i',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'end_time' => 'required|date_format:H:i|after:start_time',
+            'end_date' => 'required|date',
+            'end_time' => 'required|date_format:H:i',
             'description' => 'nullable|string',
         ]);
         

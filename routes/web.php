@@ -166,6 +166,7 @@ Route::post('/update-transaction-status/{transactionId}/{status}', [TransactionC
 Route::middleware('auth','check.offers')->group(function () {
     Route::get('/offres/creer', [OfferController::class, 'create'])->name('offer.create');
     Route::post('/offer', [OfferController::class, 'store'])->name('offer.store');
+    Route::post('/offer/storeImage', [OfferController::class, 'storeOfferImage'])->name('offer.storeImage');
     Route::get('/offer/chat/{offerId}', [OfferController::class, 'chat'])->name('offer.chat');
     Route::post('/offer/report/{offerId}', [OfferController::class, 'report'])->name('offer.report');
 
@@ -179,7 +180,7 @@ Route::get('/offres/{offer}/{category_id}/{category_name}', [CategoryController:
 Route::get('/offres/{slug}', [CategoryController::class, 'showOffersByCategory'])->name('category.showOffersByCategory');
 Route::post('/offres/{offer}/addToFavorites', [OfferController::class, 'addToFavorites'])->name('offers.addToFavorites');
 Route::delete('/offres/{offer}/removeFromFavorites', [OfferController::class, 'removeFromFavorites'])->name('offers.removeFromFavorites');
-
+Route::delete('/offres/removeOfferImage', [OfferController::class, 'deleteImage'])->name('offers.deleteImage');
 Route::get('/alloffers', [AlloffersController::class, 'index'])->name('alloffers.index');
 
 
@@ -228,7 +229,7 @@ Route::middleware('auth','check.offers')->group(function () {
     Route::put('/moncompte/mettreajours/{offerId}', [MyAccountController::class, 'updateOffer'])->name('myaccount.updateOffer');
     Route::delete('/moncompte/offres/{offer}', [OfferController::class, 'destroyOffer'])->name('myaccount.deleteOffer');
     Route::get('/moncompte/favoris', [MyAccountController::class, 'showFavorite'])->name('myaccount.favorites');
-
+    Route::post('/moncompte/updateofferimages/{offerId}', [MyAccountController::class, 'updateOfferImages'])->name('myaccount.updateOfferImages');
 });
 Route::get('/compte/{id}', [AccountController::class, 'index'])->name('account.index');
 Route::get('/ratings/{id}', [RatingController::class, 'index'])->name('ratings.index');

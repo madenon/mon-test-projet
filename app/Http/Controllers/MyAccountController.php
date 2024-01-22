@@ -110,6 +110,19 @@ $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPro
         ]);
         
     }
+    public function updateOfferImages(Request $request, $offerId)
+    {    
+        $user = Auth::user();
+        $offer = Offer::with('category') 
+        ->where('id', $offerId)
+        ->where('user_id', $user->id)
+        ->first();
+       
+        if ($request->has('default_image')) {
+            $offer->update(['offer_default_photo' => $request->default_image ]);} 
+       
+                return redirect(route('myaccount.offers'))->with(['success', 'Annonce mis à jours', ['offerId']]);
+    }
 
     public function updateOffer(Request $request, $offerId)
     {    

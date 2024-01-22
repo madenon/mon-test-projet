@@ -225,6 +225,33 @@ class OfferController extends Controller
         return redirect()->route('offer.offer', ['offerId'=>$id, 'slug'=>$slug])->with('success', 'produit ajouté');
 
     }
+    public function storeOfferImage(Request $request)
+    {
+        $request->validate([
+            'additional_images.*' => ['nullable','image','mimes:jpeg,png','max:4096']
+        ], [
+            'default_image.max' => 'Vous ne pouvez pas télécharger plus de 4mb.',
+            'default_image.mimes' => 'Les fichiers téléchargés doivent être au format jpg ou png.',
+        ]);
+       
+
+            if($request->has('additional_images')){
+                $offerId = $request->input('offer_id');
+                foreach ($request->additional_images as $key => $value) {
+                    $ext = $value->getClientOriginalExtension();  // Get the file extension
+                    $name = uniqid() . '.' . $ext;
+                    Storage::putFileAs('public/offer_pictures', $value, $name);
+                    OfferImages::create([
+                        'offer_photo' => $name,
+                        'offer_id' => $offerId
+                    ]);
+                }
+            }
+     
+
+            return response()->json(['success' => 'Image deleted successfully.']);
+
+    }
 
     protected function show($offerid, $slug)
     {
@@ -314,6 +341,30 @@ public function removeFromFavorites(Offer $offer)
     auth()->user()->favorites()->detach($offer->id);
 
     return redirect()->back()->with('success', 'Offer removed from favorites.');
+}
+public function deleteImage(Request $request)
+{
+    $imageId = $request->input('imageId');
+
+    // Find the image by ID
+    $image = OfferImages::find($imageId);
+
+    if (!$image) {
+        return response()->json(['error' => 'Image not found.'], 404);
+    }
+
+    // Get the file path from the image record
+    $filePath = 'public/offer_pictures/' . $image->offer_photo;
+
+    // Delete the image record from the database
+    $image->delete();
+
+    // Delete the actual image file from storage
+    
+        Storage::delete($filePath);
+    
+
+    return response()->json(['success' => 'Image deleted successfully.']);
 }
 
 }

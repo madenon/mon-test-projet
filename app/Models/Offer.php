@@ -34,7 +34,8 @@ class Offer extends Model
         'region_id',
         'department_id',
         'active_offer',
-        'expiration_date'
+        'expiration_date',
+        'active_animation'
     ];
 
     protected $casts = [
