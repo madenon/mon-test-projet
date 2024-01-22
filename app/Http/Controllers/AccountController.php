@@ -32,9 +32,6 @@ class AccountController extends Controller
         $offersInProgress = Offer::where('user_id', $user->id)
         ->whereNull('deleted_at')->count();
 
-        $medalBronzeSilver=30;
-        $medalSilverGold=60;
-
         $ratings=$user->ratings;
         $ratingsCount=$ratings->count();
         $ratingsAvg=$ratings->avg('stars');
@@ -46,8 +43,6 @@ class AccountController extends Controller
             'offerPrepostion', 
             'finishedOffers', 
             'offersInProgress',
-            'medalBronzeSilver',
-            'medalSilverGold',
             'ratingsAvg',
             'ratingsCount',
             'followersCount',

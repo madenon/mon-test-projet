@@ -112,13 +112,28 @@
                             <span class="text-xl font-bold block tracking-wide text-slate-700">Crédibilité</span>
                             <div class="p-3 text-center ml-4 flex flex-wrap justify-center ">
                                 @switch(true)
-                                    @case($finishedOffers >= 0 && $finishedOffers <= $medalBronzeSilver)
+                                    @case($finishedOffers >= 0 && $finishedOffers <= 15)
                                     <img src="{{asset('images/medal-bronze.svg')}}" class="w-20 h-20 mx-auto block" alt="" />
                                     @break
-                                    @case($finishedOffers > $medalBronzeSilver && $finishedOffers <= $medalSilverGold)
+                                    @case($finishedOffers > 15 && $finishedOffers <= 50)
                                         <img src="{{asset('images/medal-silver.svg')}}" class="w-20 h-20 mx-auto block" alt="" />
                                         @break
-                                    @case($finishedOffers > $medalSilverGold)
+                                    @case($finishedOffers > 50)
+                                        <img src="{{asset('images/medal-gold.svg')}}" class="w-20 h-20 mx-auto block" alt="" />
+                                        @break
+                                    @default
+                                        
+                                @endswitch
+                            </div>
+                            <div class="p-3 text-center ml-4 flex flex-wrap justify-center ">
+                                @switch(true)
+                                    @case($finishedOffers > 0 && $finishedOffers <= 15)
+                                    <img src="{{asset('images/medal-bronze.svg')}}" class="w-20 h-20 mx-auto block" alt="" />
+                                    @break
+                                    @case($finishedOffers > 15 && $finishedOffers <= 50)
+                                        <img src="{{asset('images/medal-silver.svg')}}" class="w-20 h-20 mx-auto block" alt="" />
+                                        @break
+                                    @case($finishedOffers > 50)
                                         <img src="{{asset('images/medal-gold.svg')}}" class="w-20 h-20 mx-auto block" alt="" />
                                         @break
                                     @default

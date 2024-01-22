@@ -29,37 +29,15 @@ class ContestController extends Controller
         return view('contests.index', compact('contestsOfTheWeek', 'previousContests'));    
     }
     
-    public function store(Request $request)
+    public function reinitiliaze(Request $request)
     {    
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'type' => 'required|in:invite_friends,total_transactions,total_amount',
-            'value' => 'required|integer',
-            'price' => 'required|integer',
-            'start_date' => 'required|date',
-            'start_time' => 'required|date_format:H:i',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'end_time' => 'required|date_format:H:i|after:start_time',
-            'description' => 'nullable|string',
-        ]);
-        
-        
-        $startDateTime = Carbon::createFromFormat('Y-m-d H:i', $validatedData['start_date'] . ' ' . $validatedData['start_time']);
-        $endDateTime = Carbon::createFromFormat('Y-m-d H:i', $validatedData['end_date'] . ' ' . $validatedData['end_time']);
-        
         $contestData = [
-            'title' => $validatedData['title'],
-            'type' => $validatedData['type'],
-            'value' => $validatedData['value'],
-            'price' => $validatedData['price'],
-            'start_datetime' => $startDateTime,
-            'end_datetime' => $endDateTime,
-            'description' => $validatedData['description'],
+            'last_datetime' => Carbon::now(),
         ];
         
-        Contest::create($contestData);
+        Contest::updateOrCreate(['id' => 1],$contestData);
         
-        return redirect()->back()->with('success', 'Contest created successfully!');
+        return redirect()->back()->with('success', 'Contest reinitialize successfully!');
         
     }
     

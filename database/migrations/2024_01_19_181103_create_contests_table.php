@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('contests', function (Blueprint $table) {
-            $table->integer('price');
+        Schema::create('contests', function (Blueprint $table) {
+            $table->id();
+            $table->dateTime('last_datetime');
+            $table->timestamps();
         });
-
     }
 
     /**
@@ -22,9 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('prepositions', function (Blueprint $table) {
-            $table->dropColumn(['price']);
-        });
-
+        Schema::dropIfExists('contests');
     }
 };

@@ -278,9 +278,6 @@ return view('admin.transaction-list', compact('transactions'));
         $offerPrepostion = $mesPropositions->count();
         $finishedOffers =$totalTransactions ;
          $offersInProgress = $user->offer()->whereNull('deleted_at')->get()->count();
-
-         $medalBronzeSilver=30;
-         $medalSilverGold=60;
  
          $ratings=$user->ratings;
          $ratingsCount=$ratings->count();
@@ -293,8 +290,6 @@ return view('admin.transaction-list', compact('transactions'));
              'offerPrepostion', 
              'finishedOffers', 
              'offersInProgress',
-             'medalBronzeSilver',
-             'medalSilverGold',
              'ratingsAvg',
              'ratingsCount',
              'followersCount',
@@ -508,20 +503,31 @@ Campaign::create($campaignData);
     
     public function contest(Request $request)
     {    
-        $currentDate = Carbon::now();
-
-        // Find the start and end of the current week
-        $startOfWeek = $currentDate->startOfWeek();
-        $endOfWeek = $currentDate->endOfWeek();
-
-        // Get all contests of the week
-        $contestsOfTheWeek = Contest::whereBetween('start_datetime', [$startOfWeek, $endOfWeek])
-            ->get();
-        $previousContests = Contest::where('start_datetime', '<=' , $startOfWeek)
-            ->get();
-            
-        return view('admin.contest-list', compact('contestsOfTheWeek', 'previousContests'));    
+        $query = User::query();
         
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', "%$searchTerm%");
+            });
+        }
+        
+        $query->has('offer');
+        
+        $contest = Contest::find(1);
+        
+        if($contest) {
+            $query->whereHas('offer', function ($query) use ($contest){
+                $query->where('created_at', '>=', $contest->last_datetime);
+            });
+        }
+
+    
+        $users = $query->paginate(10);
+    
+    
+    
+        return view('admin.contest-list', compact('users'));
     }
     
     

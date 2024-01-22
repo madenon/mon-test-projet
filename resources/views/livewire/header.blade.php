@@ -131,11 +131,6 @@
                             @endif
                         </ul>
                     </div>
-                    <div class="dropdown" class="header-authenticated-user-content">
-                        <div id="header-contest-icon" class="" wire:click="contestIndex">
-                            <div class="header-contest-icon" ></div>
-                        </div>
-                    </div>
                     <div id="header-user-avatar-icon" class="">
                         <div class="" data-bs-toggle="dropdown" aria-expanded="false">
                             @if (isset($user->profile_photo_path))
