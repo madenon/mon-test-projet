@@ -12,18 +12,7 @@ class Contest extends Model
     use HasFactory;
     
     protected $fillable = [
-        'title',
-        'type',
-        'value',
-        'price',
-        'start_datetime',
-        'end_datetime',
-        'description',
+        'last_datetime'
     ];
-    
-    public function users(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class);
-    }
     
 }

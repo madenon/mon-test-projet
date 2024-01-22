@@ -10,106 +10,109 @@
             </ul>
         </div>
         @endif
-    <div class="bg-white p-4 rounded shadow">
-        <h1>Contest</h1>
-        <button id="new-contest" class="btn btn-success" >Create new contest</div>
-        <div class="new-contest-form" style="display:none">
-            <form id="contestForm" method="POST" action="{{ route('contests.store') }}">
+    <div class="bg-white p-3 rounded shadow">
+        <h1 class="text-lg font-semibold mb-2">Contest</h1>
+        <div class="flex mb-4 justify-between items-center">
+            <form action="{{ route('admin.contests') }}" method="GET">
+                <div >
+                    <label class="block text-sm font-medium text-gray-700">Rechercher :</label>
+                    <input type="text" name="search" value="{{ request('search') }}" class="mt-1 p-2 border rounded-md">
+                    
+                    <button type="submit" class="ml-2 text-blue-500 hover:text-blue-700">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </div>   
+                
+            </form>
+            <form action="{{ route('contests.reinitiliaze') }}" method="POST">
                 @csrf
-                <div class="row">
-                    <div class="col-md-6 col-12">
-                        <div class="w-full pt-3">
-                            <label for="title" class="text-sm text-text block">Titre</label>
-                            <input id="title" name="title" placeholder="Titre du contest" type="text"
-                                class="w-full rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover"
-                                autofocus />
-                            <x-input-error class="mt-2" :messages="$errors->get('title')" />
-                        </div>
-                        <div class="flex flex-col w-full pt-3">
-                            <label for="type" class="text-sm text-text block">Type</label>
-                            <select name='type' class="w-full rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
-                                <option value="" selected hidden>Choisir un type *</option>
-                                <option value="invite_friends">Invite friends</option>
-                                <option value="total_transactions">Reach a total of transactions</option>
-                                <option value="total_amount">Transacte a total amount</option>
-                            </select>
-                            <x-input-error class="mt-2" :messages="$errors->get('type')" />
-                        </div>
-                        <div class="w-full pt-3">
-                            <label for="value" class="text-sm text-text block">Value</label>
-                            <input id="value" name="value" placeholder="Valeur à atteindre" type="number"
-                                class="w-full rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover"
-                                autofocus />
-                            <x-input-error class="mt-2" :messages="$errors->get('value')" />
-                        </div>
-                        <div class="w-full pt-3">
-                            <label for="price" class="text-sm text-text block">Price</label>
-                            <input id="price" name="price" placeholder="Prix à gagner" type="number"
-                                class="w-full rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover"
-                                autofocus />
-                            <x-input-error class="mt-2" :messages="$errors->get('price')" />
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12">
-                        <div class="w-full pt-3 flex flex-wrap">
-                            <div class="w-full text-sm text-text">Date et Heure de Debut</div>
-                            <div class="w-1/2 pe-2">
-                                <input type="date" class="form-control" id="start_date" name="start_date" required>
-                            </div>
-                            <div class="w-1/2 ps-2">
-                                <input type="time" class="form-control" id="start_time" name="start_time" required>
-                            </div>
-                        </div>
-                        <div class="w-full pt-3 flex flex-wrap">
-                            <div class="w-full text-sm text-text">Date et Heure de Fin</div>
-                            <div class="w-1/2 pe-2">
-                                <input type="date" class="form-control" id="end_date" name="end_date" required>
-                            </div>
-                            <div class="w-1/2 ps-2">
-                                <input type="time" class="form-control" id="end_time" name="end_time" required>
-                            </div>
-                        </div>
-                        <div class="py-3">
-                            <label for="description" class="text-sm text-text">Description</label>
-                            <textarea id="description" name="description" type="text"
-                                class="w-full min-h-[200px] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover"
-                                ></textarea>
-                                <x-input-error class="mt-2" :messages="$errors->get('description')" />
-                        </div>
-                    </div>
+                <div>
+                     <button type="submit" class=" bg-lime-600 my-4 p-2 rounded text-black" href="{{route('contests.reinitiliaze')}}">Remettre à zero</button>
                 </div>
-                <div class="row">
-                    <div class="col-3">
-                        <button type="submit" class="bg-lime-600 my-4 p-2 rounded text-black">Create Contest</button>
-                    </div>
-                </div>
+                
             </form>
         </div>
-        <div class="contest-list">
-            <h1>Contests of The Week</h1>
-            @if(count($contestsOfTheWeek)==0)
-            <div>None contest this week</div>
-            @else
-                @foreach( $contestsOfTheWeek as $contest)
-                <x-contest-card :contest=$contest></x-contest-card>
+
+       
+        <table id="userTable" class="min-w-full">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b">Nom</th>
+                    <th class="py-2 px-4 border-b">Prénom</th>
+                    <th class="py-2 px-4 border-b cursor-pointer">
+                        No d'annonce
+                        <i id="upArrow" class="fa-solid fa-angle-up"></i>
+                        <i id="downArrow" class="fa-solid fa-chevron-down"></i>
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                @foreach ($users as $user)
+                    <tr class="tableRow" data-noOffer="{{ count($user->offer) }}">
+                        <td class="py-2 px-4 border-b">{{ $user->first_name }}</td>
+                        <td class="py-2 px-4 border-b">{{ $user->last_name ?? '' }}</td>
+                        <td class="py-2 px-4 border-b">{{ count($user->offer)}}</td>
+                    </tr>
                 @endforeach
-            @endif
-            @if(count($previousContests))
-            <h1>Previous Contests</h1>
-            @endif
-            @foreach( $previousContests as $contest)
-            <x-contest-card :contest=$contest></x-contest-card>
-            @endforeach    
+            </tbody>
+        </table>
+        <!-- Liens de pagination -->
+        <div class="mt-4">
+            {{ $users->appends(request()->query())->links() }}
         </div>
-    </div>
-    <script>
         
-        // $("li span").toggle();
-    $("#new-contest").click(function(){
-        $(".new-contest-form").toggle();
-        // $(".new-contest-form button").toggle();
-    })
-    </script>
-
+        
+    </div>
+    
+    <!-- ... Votre code HTML précédent ... -->
+    
 @endsection
+    
+    
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
+<script>
+    
+    function sortTable(table, order , columnNumber){
+        const rows = $(table + " tbody .tableRow").get();
+        rows.sort(function (a, b) {
+            const aOffers = parseInt($(a).find(`td:nth-child(${columnNumber})`).text());
+            const bOffers = parseInt($(b).find(`td:nth-child(${columnNumber})`).text());
+            return order * (aOffers - bOffers);
+        });
+        
+        
+        
+        $(table + " tbody ").empty();
+
+        $.each(rows, function (index, row) {
+            $(table + " tbody ").append(row);
+        });
+
+        console.log({rows});
+        console.log({order});
+        if (order === 1) {
+            $(table + " " + `th:nth-child(${columnNumber}) #upArrow`).show();
+            $(table + " " + `th:nth-child(${columnNumber}) #downArrow`).hide();
+        } else {
+            $(table + ` th:nth-child(${columnNumber}) #upArrow`).hide();
+            $(table + ` th:nth-child(${columnNumber}) #downArrow`).show();
+        }
+    }
+    $(document).ready(function () {
+        let sortOrder = 1; // 1 for ascending, -1 for descending
+
+        sortOrder *= -1;
+        sortTable("#userTable", sortOrder, 3);
+
+        $("#userTable th:nth-child(3)").click(function () {
+            sortOrder *= -1;
+            sortTable("#userTable", sortOrder , 3);
+            
+        });
+        
+    });
+
+    
+</script>
