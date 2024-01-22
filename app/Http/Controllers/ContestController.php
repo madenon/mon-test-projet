@@ -40,17 +40,6 @@ class ContestController extends Controller
         return redirect()->back()->with('success', 'Contest reinitialize successfully!');
         
     }
-    public function reinitiliaze(Request $request)
-    {    
-        $contestData = [
-            'last_datetime' => Carbon::now(),
-        ];
-        
-        Contest::updateOrCreate(['id' => 1],$contestData);
-        
-        return redirect()->back()->with('success', 'Contest reinitialize successfully!');
-        
-    }
     
     public function contestRegistration($contestId){
         $data = [

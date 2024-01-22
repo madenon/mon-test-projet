@@ -54,13 +54,13 @@ class Navbar extends Component
     }
     
     public function read($messageId){
-        $notif=$this->user->notifications
+        $notif=$this->user?->notifications
         ->where('id','==',$messageId)->first();
         $notif->markAsRead();
         return redirect($notif->data["link"]);
     }
     public function delete($notifId){
-        $this->user->notifications
+        $this->user?->notifications
             ->where('id','==',$notifId)->first()->delete();
         $this->dispatch('refreshData');
     }
