@@ -163,7 +163,7 @@ route::middleware('auth')->group(function(){
 Route::post('/update-transaction-status/{transactionId}/{status}', [TransactionController::class, 'updateTransactionStatus']);
 
 //Route::get('/offres/{categoryslug}', [OfferController::class, 'offersByCategory'])->name('offer.offersByCategory');
-Route::middleware('auth','check.offers')->group(function () {
+Route::middleware('auth', 'check.offers')->group(function () {
     Route::get('/offres/creer', [OfferController::class, 'create'])->name('offer.create');
     Route::post('/offer', [OfferController::class, 'store'])->name('offer.store');
     Route::get('/offer/chat/{offerId}', [OfferController::class, 'chat'])->name('offer.chat');
@@ -173,19 +173,19 @@ Route::middleware('auth','check.offers')->group(function () {
 
 Route::middleware('check.offers')->group(function () {
     Route::get('/offres/{offerId}/{slug}', [OfferController::class, 'show'])->name('offer.offer');
+    
+    Route::get('/offres/{type}/{category}', [CategoryController::class, 'index'])->name('category.index');
+    Route::get('/offres/{offer}/{category_id}/{category_name}', [CategoryController::class, 'showSimilarOffers'])->name('category.showSimilarOffers');
+    Route::get('/offres/{slug}', [CategoryController::class, 'showOffersByCategory'])->name('category.showOffersByCategory');
+    Route::post('/offres/{offer}/addToFavorites', [OfferController::class, 'addToFavorites'])->name('offers.addToFavorites');
+    Route::delete('/offres/{offer}/removeFromFavorites', [OfferController::class, 'removeFromFavorites'])->name('offers.removeFromFavorites');
 
-Route::get('/offres/{type}/{category}', [CategoryController::class, 'index'])->name('category.index');
-Route::get('/offres/{offer}/{category_id}/{category_name}', [CategoryController::class, 'showSimilarOffers'])->name('category.showSimilarOffers');
-Route::get('/offres/{slug}', [CategoryController::class, 'showOffersByCategory'])->name('category.showOffersByCategory');
-Route::post('/offres/{offer}/addToFavorites', [OfferController::class, 'addToFavorites'])->name('offers.addToFavorites');
-Route::delete('/offres/{offer}/removeFromFavorites', [OfferController::class, 'removeFromFavorites'])->name('offers.removeFromFavorites');
-
-Route::get('/alloffers', [AlloffersController::class, 'index'])->name('alloffers.index');
+    Route::get('/alloffers', [AlloffersController::class, 'index'])->name('alloffers.index');
 
 
-Route::get('/offres/{type}', [TypeController::class, 'index'])->name('type.index');
-Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
-Route::get('/offres/search', [OfferController::class, 'search'])->name('offer.search');
+    Route::get('/offres/{type}', [TypeController::class, 'index'])->name('type.index');
+    Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
+    Route::get('/offres/search', [OfferController::class, 'search'])->name('offer.search');
 });
 
 
@@ -193,6 +193,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/propositions/create/{offerid}/{userid}', [PropositionController::class, 'create'])->name('propositions.create');
     Route::post('/propositions', [PropositionController::class, 'store'])->name('propositions.store');
     Route::get('/propositions', [PropositionController::class, 'index'])->name('propositions.index');
+    Route::get('/propositions/{id}', [PropositionController::class, 'index'])->name('propositions.show');
     Route::get('/propositions/chat/{prepositionId}', [PropositionController::class, 'chat'])->name('propositions.chat');
     Route::get('/propositions/chat-sender/{prepositionId}', [PropositionController::class, 'chat_proposition_sender'])->name('propositions.chat-sender');
     Route::post('/update-proposition/{prepositionId}', [PropositionController::class, 'update'])->name('update-proposition');
@@ -218,6 +219,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::get('/profile/{id}', [ProfileController::class, 'showProfile'])->name('profile.showProfile');
 
 Route::middleware('auth','check.offers')->group(function () {
     Route::get('/moncompte', [MyAccountController::class, 'index'])->name('myaccount.index');

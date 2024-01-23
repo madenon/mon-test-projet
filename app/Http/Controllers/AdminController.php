@@ -293,7 +293,8 @@ return view('admin.transaction-list', compact('transactions'));
              'ratingsAvg',
              'ratingsCount',
              'followersCount',
-         ));    }
+         ));    
+    }
         /**
      * Handle an incoming authentication request.
      */
