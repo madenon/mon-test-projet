@@ -128,6 +128,7 @@
         <div class="col-span-full d-flex items-center justify-center">
             <a class="more-btn" style="font-size:14px;margin:0" href="{{route('alloffers.index')}}">Voir plus<i class="pl-2 fa fa-long-arrow-right"></i></a>
         </div>
+        ثمهب
         @endif
 
     </div>
@@ -421,7 +422,7 @@ Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
     background-color: var(--primary-color-hover);
 }
 
-    .more-btn {
+.more-btn {
     display: inline-block;
     padding: 7px 10px;
     background-color: var(--primary-color);

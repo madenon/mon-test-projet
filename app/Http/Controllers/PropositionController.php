@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Log;
 
 class PropositionController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $prepositions = Preposition::with('user', 'offer')
         ->select('prepositions.*', 'users.first_name as user_name', 'offers.title as offer_name')
         ->join('users', 'users.id', '=', 'prepositions.user_id')
@@ -26,10 +26,18 @@ class PropositionController extends Controller
         ->join('users as userOffers', 'offers.user_id', '=', 'userOffers.id')
         ->where('users.id',auth()->id())
         ->orWhere('userOffers.id',auth()->id())
-        ->get();
+        ->orderBy('created_at','desc');
+        
+        if (!($request->has('in_progress')) || $request->input('in_progress')==1){
+            $prepositions = $prepositions->where('status','En cours');
+        }
+        
+        $prepositions = $prepositions->get();
+        
 
-    return view('preposition.index', compact('prepositions'));
+        return view('preposition.index', compact('prepositions'));
     }
+    
     public function create(Request $request,$offerid,$userid)
     { 
         //create request and don't authorize autotroc
@@ -196,5 +204,13 @@ public function update(Request $request, $prepositionId)
         $preposition = Preposition::find($prepositionId);
         $id=$preposition->user_id;
         return redirect()->route('user',$id);
+    }
+    
+    public function show($id)
+    {
+        $preposition = Preposition::findOrFail($id);
+         return view('preposition.show', compact(
+             'preposition'
+         ));    
     }
 }

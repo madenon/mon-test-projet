@@ -17,7 +17,7 @@
         <div class="container-fluid">
 
             <div class="row my-3">
-                <div class="col-lg-3 col-6">
+                    <div class="col-lg-3 col-6">
                 
                     <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg" class="block mx-auto">
                         <!-- Draw the outer circle (donut) -->
