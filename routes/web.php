@@ -182,6 +182,8 @@ Route::post('/offres/{offer}/addToFavorites', [OfferController::class, 'addToFav
 Route::delete('/offres/{offer}/removeFromFavorites', [OfferController::class, 'removeFromFavorites'])->name('offers.removeFromFavorites');
 Route::delete('/offres/removeOfferImage', [OfferController::class, 'deleteImage'])->name('offers.deleteImage');
 Route::get('/alloffers', [AlloffersController::class, 'index'])->name('alloffers.index');
+Route::post('/offres/updateActiveAnimation', [OfferController::class, 'updateActiveAnimation'])->name('offers.updateActiveAnimation');
+
 
 
 Route::get('/offres/{type}', [TypeController::class, 'index'])->name('type.index');
