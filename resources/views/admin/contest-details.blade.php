@@ -10,6 +10,6 @@
 
     {{-- Add more details as needed --}}
 
-    <a href="{{ route('admin.contests}}" class="btn btn-primary">Back to Contests</a>
+    <a href="{{ route('admin.contests')}}" class="btn btn-primary">Back to Contests</a>
 
 </div>

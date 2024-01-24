@@ -437,6 +437,33 @@
         }
    
     $(document).ready(function () {
+//animations
+var imageIndex = 0;
+    var intervalId;
+
+    function animateImages() {
+      // Move the images from left to right
+      $(".flex.scrollBar").animate({
+        scrollLeft: imageIndex * 120 // Adjust the value based on your image size and spacing
+      }, 1000);
+
+      imageIndex = (imageIndex + 1) % $(".flex.scrollBar img").length;
+    }
+
+    // Start the animation every 3 seconds
+    intervalId = setInterval(animateImages, 3000);
+
+    // Toggle animation on button click
+    $("#toggleAnimation").click(function() {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      } else {
+        intervalId = setInterval(animateImages, 3000);
+      }
+    });
+
+        //
         var departmentValue = "{{ request('department') }}";
         var typeValue = "{{ request('type') }}";
         // Set the selected attribute for the department dropdown

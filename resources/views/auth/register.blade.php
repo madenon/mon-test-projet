@@ -173,7 +173,7 @@
                     <label for="profile_photo_path" class="cursor-pointer w-full">
                         <input id="profile_photo_path" type="file" name="profile_photo_path"
                             class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
-                            style="width: 0; height: 0;">
+                            style="width: 0; height: 0;" >
                         <div class="flex items-center justify-center gap-4 text-center w-full">
                             <img src="images/IconContainer.svg" alt="" srcset="">
                             <p class="text-gray-600 mt-2">Photo de profil</p>
