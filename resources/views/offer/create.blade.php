@@ -41,12 +41,23 @@
                     Description
                 </span>
             </li>
-            <li class="stepTitle flex items-center">
-                <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5 hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                </svg>
-                <span class="me-2">4</span>
-                Autres
+            <li class="stepTitle flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
+                <span class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5 hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                    </svg>
+                    <span class="me-2">4</span>
+                    Echange
+                </span>
+            </li>
+            <li class="stepTitle flex items-center ">
+                <span class="flex items-center ">
+                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5 hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                    </svg>
+                    <span class="me-2">5</span>
+                    Poster
+                </span>
             </li>
         </ol>
 
@@ -64,7 +75,7 @@
                 enctype="multipart/form-data">
                 @csrf
                 @method('POST')
-                <div class="stepTab border-b border-line py-4 mt-12">
+                <div class="stepTab py-4 mt-12">
                     <div class="flex gap-4 lg:gap-8 flex-wrap ">
                         <div class="md:flex-1 w-full">
                             <label for="" class="text-sm text-text block">Type</label>
@@ -123,8 +134,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="stepTab border-b border-line py-4 mt-4">
-                    <h3 class="text-lg font-bold text-titles mb-3">Localisation</h3>
+                <div class="stepTab py-4 mt-4">
                     <div class="row">
                         <div class="col-md-4 col-12">
                             <div class="flex flex-col  w-full mb-3">
@@ -159,8 +169,7 @@
                         <div class="col-4"></div>
                     </div>
                 </div>
-                <div class="stepTab border-b border-line py-4 mt-4">
-                    <h3 class="text-lg font-bold text-titles mb-3">Annonce</h3>
+                <div class="stepTab py-4 mt-4">
                     <div class="row">
                         <div class="col-md-6 col-12">
                             <div class="w-full">
@@ -219,7 +228,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="stepTab border-b border-line py-4 mt-4">
+                <div class="stepTab py-4 mt-4">
                     <div class="container">
                         <div class="row">
                             <!-- Left Section: Your Troc Preferences -->
@@ -261,110 +270,114 @@
                         </div>
                     </div>
                 </div>
-                <div class="stepTab border-b border-line py-4 mt-4">
-                    <div>
-                        <h3 class="text-lg font-bold text-titles mb-3">Compte à rebours</h3>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="countdownCheckbox" name="countdownCheckbox">
-                            <label class="form-check-label" for="countdownCheckbox">Déclencher un compte à rebours</label>
-                        </div>
-
-                        <div id="countdownOptions" style="display: none;">
-                        <div class="flex space-x-4">
+                <div class="stepTab">
+                    <div class=" border-b border-line py-4 mt-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-titles mb-3">Compte à rebours</h3>
                             <div class="form-check">
-                                <input type="radio" class="form-check-input" id="option2" name="countdown_option" value="2">
-                                <label class="form-check-label" for="option2">2 heures</label>
+                                <input type="checkbox" class="form-check-input" id="countdownCheckbox" name="countdownCheckbox">
+                                <label class="form-check-label" for="countdownCheckbox">Déclencher un compte à rebours</label>
                             </div>
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="option4" name="countdown_option" value="4">
-                                <label class="form-check-label" for="option4">4 heures</label>
+    
+                            <div id="countdownOptions" style="display: none;">
+                            <div class="flex space-x-4">
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="option2" name="countdown_option" value="2">
+                                    <label class="form-check-label" for="option2">2 heures</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="option4" name="countdown_option" value="4">
+                                    <label class="form-check-label" for="option4">4 heures</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="option6" name="countdown_option" value="6">
+                                    <label class="form-check-label" for="option6">6 heures</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="option6" name="countdown_option" value="6">
+                                    <label class="form-check-label" for="option6">12 heures</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="option6" name="countdown_option" value="6">
+                                    <label class="form-check-label" for="option6">24 heures</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="option6" name="countdown_option" value="6">
+                                    <label class="form-check-label" for="option6">48 heures</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="option6" name="countdown_option" value="6">
+                                    <label class="form-check-label" for="option6">72 heures</label>
+                                </div>
                             </div>
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="option6" name="countdown_option" value="6">
-                                <label class="form-check-label" for="option6">6 heures</label>
                             </div>
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="option6" name="countdown_option" value="6">
-                                <label class="form-check-label" for="option6">12 heures</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="option6" name="countdown_option" value="6">
-                                <label class="form-check-label" for="option6">24 heures</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="option6" name="countdown_option" value="6">
-                                <label class="form-check-label" for="option6">48 heures</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="option6" name="countdown_option" value="6">
-                                <label class="form-check-label" for="option6">72 heures</label>
-                            </div>
-                        </div>
                         </div>
                     </div>
+    
+                    <!-- Add this input field for the expiration date -->
+                    <input type="datetime-local" name="expiration_date" id="expiration_date" hidden>
+    
+                    <div class="py-4 mt-4">
+                        <h3 class="text-lg font-bold text-titles mb-3">Mise en ligne de l'annonce</h3>
+                        <div class="flex space-x-4">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="immediatCheckbox" name="launchOption" value="immediat">
+                                    <label class="form-check-label" for="immediatCheckbox">Immédiat</label>
+                                </div>
+    
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="differeCheckbox" name="launchOption" value="differe">
+                                    <label class="form-check-label" for="differeCheckbox">Différé</label>
+                                </div>
+                        </div>
+                        <div id="differeOptions" style="display: none;">
+                            <label class="form-check-label m-3" for="countdownCheckbox">Choisir le délai de mise en ligne de l'annonce :</label>
+                            <div class="flex space-x-4">
+    
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="option2h" name="launchTime" value="6h">
+                                    <label class="form-check-label" for="option2h">6 heures</label>
+                                </div>
+    
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="12h">
+                                    <label class="form-check-label" for="option4h">12 heures</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="1j">
+                                    <label class="form-check-label" for="option4h">1J</label>
+                                </div>  
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="3j">
+                                    <label class="form-check-label" for="option4h">3J</label>
+                                </div>  
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="5j">
+                                    <label class="form-check-label" for="option4h">5J</label>
+                                </div>  <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="7j">
+                                    <label class="form-check-label" for="option4h">7J</label>
+                                </div>   
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="30j">
+                                    <label class="form-check-label" for="option4h">30J</label>
+                                </div>        
+                            </div>
+                        </div>
+                    </div> 
                 </div>
-
-                <!-- Add this input field for the expiration date -->
-                <input type="datetime-local" name="expiration_date" id="expiration_date" hidden>
-
-                <div class="stepTab border-b border-line py-4 mt-4">
-                    <h3 class="text-lg font-bold text-titles mb-3">Mise en ligne de l'annonce</h3>
-                    <div class="flex space-x-4">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="immediatCheckbox" name="launchOption" value="immediat">
-                                <label class="form-check-label" for="immediatCheckbox">Immédiat</label>
-                            </div>
-
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="differeCheckbox" name="launchOption" value="differe">
-                                <label class="form-check-label" for="differeCheckbox">Différé</label>
-                            </div>
-                    </div>
-                    <div id="differeOptions" style="display: none;">
-                        <label class="form-check-label m-3" for="countdownCheckbox">Choisir le délai de mise en ligne de l'annonce :</label>
-                        <div class="flex space-x-4">
-
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="option2h" name="launchTime" value="6h">
-                                <label class="form-check-label" for="option2h">6 heures</label>
-                            </div>
-
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="12h">
-                                <label class="form-check-label" for="option4h">12 heures</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="1j">
-                                <label class="form-check-label" for="option4h">1J</label>
-                            </div>  
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="3j">
-                                <label class="form-check-label" for="option4h">3J</label>
-                            </div>  
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="5j">
-                                <label class="form-check-label" for="option4h">5J</label>
-                            </div>  <div class="form-check">
-                                <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="7j">
-                                <label class="form-check-label" for="option4h">7J</label>
-                            </div>   
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="option4h" name="launchTime" value="30j">
-                                <label class="form-check-label" for="option4h">30J</label>
-                            </div>        
-                        </div>
-                    </div>
-                </div> 
 
                 <div class="flex justify-end gap-2">
                     <button id="cancelBtn" class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-gray-900  hover:bg-black">
                         <a class="no-underline font-medium text-white " href="{{route('myaccount.offers')}}">Annuler</a>
                     </button>
-                    <button id="prevBtn" class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-gray-900  hover:bg-black">
-                        <a class="no-underline font-medium text-white " onclick="nextPrev(-1)">Précendent</a>
+                    <button id="prevBtn" class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-gray-900  hover:bg-black"
+                        onclick="nextPrev(-1)" type="button">
+                        <span class="no-underline font-medium text-white ">Précendent</span>
                     </button>
-                    <button id="nextBtn" class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-primary-color hover:bg-primary-hover">
-                        <a class="no-underline font-medium text-white " onclick="nextPrev(1)">Suivant</a>
+                    <button id="nextBtn" class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-primary-color hover:bg-primary-hover"
+                        onclick="nextPrev(1)" type="button">
+                        <span class="no-underline font-medium text-white " >Suivant</span>
                     </button>
                     <button id="submitBtn" class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-primary-color hover:bg-primary-hover"
                         type="submit">
@@ -562,8 +575,6 @@ const changerNumDepartement = (e) => {
                     differeOptions.style.display = 'none';
                 }
             });
-        c
-
     });
 
 
@@ -593,33 +604,46 @@ function showTab(n) {
 
 function nextPrev(n) {
   var x = document.getElementsByClassName("stepTab");
-  
-  if (n == 1 && !validateForm()) return false;
-  
+    
+//   if (n == 1 && !validateForm()) {
+//     return false;
+//   }
+
   x[currentTab].style.display = "none";
   
   currentTab = currentTab + n;
+  
   
   showTab(currentTab);
 }
 
 function validateForm() {
-  // This function deals with validation of the form fields
-  var x, y, i, valid = true;
+  var x, y, z, i, valid = true;
   x = document.getElementsByClassName("stepTab");
   y = x[currentTab].getElementsByTagName("input");
-  // A loop that checks every input field in the current tab:
+  z = x[currentTab].getElementsByTagName("select");
   for (i = 0; i < y.length; i++) {
-    // If a field is empty...
-    if (y[i].value == "") {
-      // add an "invalid" class to the field:
-      y[i].className += " invalid";
-      // and set the current valid status to false:
+    if ((window.getComputedStyle(y[i].parentNode, null).display != "none") && y[i].value === "" ) {
+      
+      y[i].classList.add("invalid");
       valid = false;
+    }else{
+        y[i].classList.remove("invalid");
     }
   }
+  for (i = 0; i < z.length; i++) {
+    if ((window.getComputedStyle(z[i].parentNode, null).display != "none") && z[i].value === "0") {
+      z[i].classList.add("invalid");
+      valid = false;
+    }else{
+        z[i].classList.remove("invalid");
+    }
+  }
+  console.log({valid});
+  console.log({y});
+  console.log({z});
   if (valid) {
-    document.getElementsByClassName("step")[currentTab].className += " finish";
+    document.getElementsByClassName("stepTab")[currentTab].classList.add("finish");
   }
   return valid; 
 }
@@ -628,13 +652,20 @@ function fixStepIndicator(n) {
   // This function removes the "active" class of all steps...
   var i, x = document.querySelectorAll(".stepTitle span span");
   var  y = document.querySelectorAll(".stepTitle span svg");
+  var  z = document.querySelectorAll(".stepTitle");
+  
   for (i = 0; i < x.length; i++) {
-    if(i == n){
-        x[i].className += " hidden";
-        y[i].className = y[i].className.replace(" hidden", "");
+    if(i < n){//svg
+        x[i].classList.add("hidden");
+        y[i].classList.remove("hidden");
+    }else{//span
+        y[i].classList.add("hidden");
+        x[i].classList.remove("hidden");
+    }
+    if(i <= n){
+        z[i].classList.add("text-blue-600","dark:text-blue-50");
     }else{
-        y[i].className += " hidden";
-        x[i].className = x[i].className.replace(" hidden", "");
+        z[i].classList.remove("text-blue-600","dark:text-blue-50");
     }
   }
   

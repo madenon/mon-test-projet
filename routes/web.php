@@ -193,7 +193,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/propositions/create/{offerid}/{userid}', [PropositionController::class, 'create'])->name('propositions.create');
     Route::post('/propositions', [PropositionController::class, 'store'])->name('propositions.store');
     Route::get('/propositions', [PropositionController::class, 'index'])->name('propositions.index');
-    Route::get('/propositions/{id}', [PropositionController::class, 'index'])->name('propositions.show');
+    Route::get('/propositions/{id}', [PropositionController::class, 'show'])->name('propositions.show');
     Route::get('/propositions/chat/{prepositionId}', [PropositionController::class, 'chat'])->name('propositions.chat');
     Route::get('/propositions/chat-sender/{prepositionId}', [PropositionController::class, 'chat_proposition_sender'])->name('propositions.chat-sender');
     Route::post('/update-proposition/{prepositionId}', [PropositionController::class, 'update'])->name('update-proposition');

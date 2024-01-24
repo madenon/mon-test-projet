@@ -105,7 +105,7 @@
                               
                               @if($isButton)
                               <div class="col-span-full d-flex items-center justify-center">
-                                <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="{{route('alloffers.index')}}">{{$validation_text}}</a>
+                                <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">{{$validation_text}}</a>
                               </div>                              
                               @else
                                 <span>{{$validation_text}}</span>
@@ -113,42 +113,96 @@
                                 
                         </td>
                     </tr>
-                    <div class="modal fade" id="editModal{{ $preposition->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $preposition->id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editModalLabel{{ $preposition->id }}">Modifier la proposition</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- Your edit form goes here -->
-                                    <!-- Use {{ $preposition->id }} to identify the proposition being edited -->
-                                    <form id="editForm{{ $preposition->id }}">
-                                        @csrf
-                                        <div class="mb-3">
-                                            <label for="editName" class="form-label">Nom de la proposition</label>
-                                            <input type="text" class="form-control" id="editName" name="name" value="{{ $preposition->name }}">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="editNegotiation" class="form-label">Negotiation</label>
-                                            <textarea class="form-control" id="editNegotiation" name="negotiation">{{ $preposition->negotiation }}</textarea>
-                                        </div>
-                                        <!-- Add other form fields as needed -->
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                                    <button type="button" class="btn btn-primary edit-button" data-preposition-id="{{ $preposition->id }}">
-                Save changes
-            </button>
-                                </div></form>
-                            </div>
-                        </div>
-                    </div>
-            </div>
-
                 @endforeach
             </tbody>
         </table>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg"> <!-- Set modal-lg class for larger width -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Offre</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="modalbox"></div>
+                        <div class="w-full text-xs text-red-600">(*) Si vous acceptez cette proposition, vous ne pourrez plus accepter d'autres propositions liées a cette offre, à moins ce que la contrepartie ne confirme pas la proposition</div>
+
+                        <table class="table align-middle mb-0 bg-white">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Statut</th>
+                                    <th>Image</th>
+                                    <th>Utilisateur</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="modalName"></td>
+                                    <td id="modalStatus"></td>
+                                    <td> <img id="modalImage" src="" class="modalzoomD" style="max-width:200px;" alt="Image"> </td>
+                                    <td id="modalUser"></td>
+                                    <td>
+                                        <button type="button" class="btn btn-success" id="acceptButton" data-bs-dismiss="modal" aria-label="Fermer">
+                                            Accepter
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="declineButton" data-bs-dismiss="modal" aria-label="Fermer">
+                                            Refuser
+                                        </button>
+                                        <button type="button" class="btn btn-primary m-1" id="meetButton">
+                                            <i class="fa fa-calendar"></i> Ajouter un rendez-vous
+                                        </button>
+
+                                        <a href="{{route('propositions.chat-sender',['prepositionId' => 'PROPOSITION_ID_PLACEHOLDER'] )}}" type="button" class="btn btn-primary m-1" id="chatButton">
+                                            <i class="fas fa-comment"></i> Chat
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h2 id="meetHeader">Rendez-vous</h2>
+                        <table id="meetTable" class="table align-middle">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Heure</th>
+                                    <th>Description</th>
+                                    <th>Statut</th>
+                                </tr>
+                            </thead>
+                            <tbody id="meetupsTableBody">
+                                <td id="meetDate"></td>
+                                <td id="meetTime"></td>
+                                <td id="meetDescription"></td>
+                                <td id="meetStatus"></td>
+                            </tbody>
+                        </table>
+                        <form id="meetupForm">
+                            @csrf
+                            <input type="hidden" id="prepositionId" name="prepositionId" value="">
+                            <div class="mb-3">
+                                <label for="meetupDate" class="form-label">Date du rendez-vous</label>
+                                <input type="date" class="form-control" id="meetupDate" name="meetupDate" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="meetupTime" class="form-label">Heure du rendez-vous</label>
+                                <input type="time" class="form-control" id="meetupTime" name="meetupTime" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="meetupDescription" class="form-label">Description du rendez-vous</label>
+                                <textarea class="form-control" id="meetupDescription" name="meetupDescription" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Planifier le rendez-vous</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     
     <div class="modal fade" id="meetModal" tabindex="-1" aria-labelledby="meetModalLabel" aria-hidden="true">
@@ -223,7 +277,7 @@
                 // Handle success response
 
                 // Optionally, close the modal after a successful update
-                $('#editModal' + prepositionId).modal('hide');
+                $('#validModal' + prepositionId).modal('hide');
                 location.reload();
             },
             error: function (error) {
@@ -297,10 +351,10 @@
     $(document).on('click', '.preposition-uuid i', function () {
         var prepositionUuid = $(this).data('preposition-uuid');
         navigator.clipboard.writeText(prepositionUuid);
-        $(this).tooltip('hide').attr('data-original-title', 'Copied').tooltip('show');
+        $(this).attr('title', 'Copied');
         setTimeout(function() {
-            $('.preposition-uuid').tooltip('hide');
-        }, 1000);
+            $('.preposition-uuid i').attr('title', 'Copy');
+        }, 3000);
 
     });
 
