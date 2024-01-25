@@ -27,4 +27,8 @@ class Transaction extends Model
     {
         return $this->belongsTo(Preposition::class, 'proposition_id', 'id');
     }
+    public function offer():BelongsTo
+    {
+        return $this->belongsTo(Offer::class, 'offer_id', 'id');
+    }
 }

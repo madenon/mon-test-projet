@@ -12,8 +12,8 @@
             <thead class="bg-light">
                 <tr>
                 <th>Transaction</th>
-                <th>Nom</th>
-                 <th>Utilisateur</th>
+                <th>Offre</th>
+                 <th>Contrepartie</th>
                 <th>Montant</th>
                 <th>Date</th>
                 <th>Statut</th>
@@ -23,16 +23,23 @@
             </thead>
             <tbody>
                 @foreach ($transactions as $transaction)
+                    @php 
+                    $isReceiveid= $transaction->proposition->offer->user==auth()->user();
+                    if($isReceiveid) $counterparty = $transaction->proposition->user; 
+                    else $counterparty = $transaction->proposition->offer->user;
+                    @endphp
                     <tr>
-                        <td>
+                        <td nowrap>
                         <a type="button" href="#" style="color: #24a19c;">
                                 <span class="text-xs" >{{$transaction->uuid}}</span>
                             </a>
                             <i class="fa fa-copy" style="color: #24a19c;" data-transaction-uuid="{{ $transaction->uuid }}" data-bs-toggle="tooltip" data-bs-placement="left" title="Copy"></i>     
 
                         </td>
-                        <td>{{ $transaction->name }}</td>
-                        <td>{{ $transaction->proposition->user->first_name }} {{ $transaction->proposition->user->last_name }}</td>
+                        <td>
+                            <a class="no-underline font-medium" href="{{route('offer.offer', [$transaction->offer->id, $transaction->offer->slug])}}">{{ $transaction->offer->title }}</a>
+                        </td>
+                        <td>{{ $counterparty->first_name }} {{$counterparty->last_name }}</td>
                         <td>{{ $transaction->amount }}</td>
                         <td>{{ $transaction->date }}</td>
                         <td>
