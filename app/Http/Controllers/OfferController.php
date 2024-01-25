@@ -366,5 +366,21 @@ public function deleteImage(Request $request)
 
     return response()->json(['success' => 'Image deleted successfully.']);
 }
+public function updateActiveAnimation(Request $request) {
+    // Retrieve offer ID from the request
+    $offerId = $request->input('offerId');
+
+    // Assuming you have an "offers" table and an "active_animation" column
+    $offer = Offer::find($offerId);
+
+    if ($offer) {
+        // Toggle the value of the active_animation property
+        $offer->update(['active_animation' => !$offer->active_animation]);
+
+        return response()->json(['success' => true]);
+    } else {
+        return response()->json(['success' => false]);
+    }
+}
 
 }
