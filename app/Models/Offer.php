@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -80,5 +81,9 @@ class Offer extends Model
     public function offerImages(): HasMany
     {
         return $this->hasMany(OfferImages::class);
+    }
+    public function transaction(): HasOne
+    {
+        return $this->hasOne(Transaction::class);
     }
 }

@@ -113,32 +113,32 @@
     </div>
     
     <div class="modal fade" id="meetModal" tabindex="-1" aria-labelledby="meetModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h2 id="meetHeader">Rencontres</h2>
+        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h2 id="meetHeader">Rencontres</h2>
 
-                    </div>
-                    <div class="modal-body">
-            <table id="meetTable" class="table align-middle">
-                <thead class="bg-light">
-                    <tr>
-                    <th>Date</th>
-<th>Heure</th>
-<th>Description</th>
-<th>Statut</th>
-<th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="meetupsTableBody">
-                    <td id="meetDate"></td>
-                    <td id="meetTime"></td>
-                    <td id="meetDescription"></td>
-                   <td id="meetStatus"></td>
-<td id="meetActions">
-    <button class="btn btn-success accept-button" >Accepter</button>
-    <button class="btn btn-danger decline-button" >Refuser</button>
-</td>
+                            </div>
+                            <div class="modal-body">
+                    <table id="meetTable" class="table align-middle">
+                        <thead class="bg-light">
+                            <tr>
+                            <th>Date</th>
+        <th>Heure</th>
+        <th>Description</th>
+        <th>Statut</th>
+        <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="meetupsTableBody">
+                            <td id="meetDate"></td>
+                            <td id="meetTime"></td>
+                            <td id="meetDescription"></td>
+                            <td id="meetStatus"></td>
+                            <td id="meetActions">
+                                <button class="btn btn-success accept-button" >Accepter</button>
+                                <button class="btn btn-danger decline-button" >Refuser</button>
+                            </td>
 
                 </tbody>
             </table>

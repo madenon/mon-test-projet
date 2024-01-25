@@ -14,7 +14,6 @@ $(document).ready(function () {
     var extradescription = document.querySelector(`{{$parentClass}} .extra-description`);
     var readMoreLink = document.querySelector(`{{$parentClass}} .read-more`);
     var len=$(`{{$parentClass}} .read-more`).data("len");
-    console.log({len});
     if (descriptionContent.innerText.length > len) {
         var truncatedContent = descriptionContent.innerText.slice(0, len );
         truncatedContent += '...';

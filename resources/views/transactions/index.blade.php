@@ -1,9 +1,17 @@
 <x-app-layout>
     <div class="container">
-        <h1 class="m-4">Mes Transactions</h1>
-        <table class="table align-middle mb-0 bg-white">
+        <div class="flex space-x-4 mt-4">
+            <div class="pe-4" style="{{ !(request()->has('in_progress')) || request()->input('in_progress')==1 ?  'border-bottom: 2px solid #24a19c' : ''}}">
+                <a href="{{route('transactions.index', ['in_progress'=>1])}}" class="text-gray-600 hover:text-gray-800 no-underline focus:outline-none focus:text-gray-800 transition duration-300 ease-in-out">In Progress</a>
+            </div>
+            <div class="pe-6" style="{{ !(request()->has('in_progress')) || request()->input('in_progress')==1 ? '' : 'border-bottom: 2px solid #24a19c' }}">
+                <a href="{{route('transactions.index', ['in_progress'=>0])}}" class="text-gray-600 hover:text-gray-800 no-underline focus:outline-none focus:text-gray-800 transition duration-300 ease-in-out">All</a>
+            </div>
+        </div>       
+        <table class="table align-middle  mt-4 mb-0 bg-white">
             <thead class="bg-light">
                 <tr>
+                <th>Transaction</th>
                 <th>Nom</th>
                  <th>Utilisateur</th>
                 <th>Montant</th>
@@ -16,6 +24,13 @@
             <tbody>
                 @foreach ($transactions as $transaction)
                     <tr>
+                        <td>
+                        <a type="button" href="#" style="color: #24a19c;">
+                                <span class="text-xs" >{{$transaction->uuid}}</span>
+                            </a>
+                            <i class="fa fa-copy" style="color: #24a19c;" data-transaction-uuid="{{ $transaction->uuid }}" data-bs-toggle="tooltip" data-bs-placement="left" title="Copy"></i>     
+
+                        </td>
                         <td>{{ $transaction->name }}</td>
                         <td>{{ $transaction->proposition->user->first_name }} {{ $transaction->proposition->user->last_name }}</td>
                         <td>{{ $transaction->amount }}</td>
@@ -146,5 +161,15 @@ En attente de validation </td>
                 }
             });
         });
+    });
+    
+    $(document).on('click', '.transaction-uuid i', function () {
+        var transactionUuid = $(this).data('transaction-uuid');
+        navigator.clipboard.writeText(transactionUuid);
+        $(this).attr('title', 'Copied');
+        setTimeout(function() {
+            $('.transaction-uuid i').attr('title', 'Copy');
+        }, 3000);
+
     });
 </script>

@@ -9,7 +9,7 @@
             <a href="{{route('propositions.index', ['in_progress'=>0])}}" class="text-gray-600 hover:text-gray-800 no-underline focus:outline-none focus:text-gray-800 transition duration-300 ease-in-out">All</a>
         </div>
     </div>
-        <table class="table align-middle  mt-4 mb-0 bg-white">
+        <table class="table align-middle mt-4 mb-0 bg-white">
             <thead class="bg-light">
                 <tr>
                 <th>Proposition</th>
@@ -23,6 +23,10 @@
                 </tr>
             </thead>
             <tbody>
+                @php 
+                    if(count($prepositions)) $prep = $prepositions[0];
+                    else  $prep = null;
+                @endphp
                 @foreach ($prepositions as $preposition)
                     @php 
                     $isReceiveid= $preposition->offer->user==auth()->user();
@@ -40,7 +44,7 @@
                         <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
                         <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
                         <td nowrap  style="background-color : WhiteSmoke; border-bottom : 0" class="preposition-uuid">
-                            <a type="button" href="{{route('propositions.show',$preposition->id)}}" style="color: #24a19c;">
+                            <a type="button" href="#" style="color: #24a19c;">
                                 <span class="text-xs" >{{$preposition->uuid}}</span>
                             </a>
                             <i class="fa fa-copy" style="color: #24a19c;" data-preposition-uuid="{{ $preposition->uuid }}" data-bs-toggle="tooltip" data-bs-placement="left" title="Copy"></i>     
@@ -87,122 +91,74 @@
                         <td>
                               @php
                                 if($preposition->validation == 'none'){
-                                    $validation_text = $isReceiveid ? 'Valider la proposition' : 'En attente de validation';
-                                    $isButton = $isReceiveid ? true : false; 
+                                    if($preposition->status != 'Rejetée'){
+                                        $validation_text = $isReceiveid ? 'Valider la proposition' : 'En attente de validation';
+                                        $isButton = $isReceiveid ? true : false; 
+                                    }else{
+                                        $validation_text =  'La proposition a été rejetée';
+                                        $isButton = false; 
+                                    }
                                 }
                                 else if($preposition->validation == 'validated'){
                                     $validation_text = $isReceiveid ? 'En attente de confirmation' : 'Confirmer la proposition';
-                                    $isButton = $isReceiveid ? false : false; 
+                                    $isButton = $isReceiveid ? false : true; 
                                 }
                                 else if($preposition->validation == 'confirmed'){
-                                    $validation_text = $isReceiveid ? 'Valider la transaction' : 'Valider la transaction';
-                                    $isButton = $isReceiveid ? true : true; 
-                                }else{
-                                    $validation_text = $isReceiveid ? 'Valider la proposition' : 'En attente de validation';
-                                    $isButton = $isReceiveid ? true : false; 
+                                    $transaction = $preposition->transaction;
+                                    if(auth()->id() == $preposition->offer->id){
+                                        if($transaction->offeror_status == 'En cours'){
+                                            $validation_text = 'Valider la transaction' ;
+                                            $isButton = true ; 
+                                        }else{
+                                            $validation_text = 'En attente de validation par la contrepartie' ;
+                                            $isButton = false ;  
+                                        }
+                                    } else if(auth()->id() == $preposition->user->id){
+                                        if($transaction->applicant_status == 'En cours'){
+                                            $validation_text = 'Valider la transaction' ;
+                                            $isButton = true ; 
+                                        }else{
+                                            $validation_text = 'En attente de validation par la contrepartie' ;
+                                            $isButton = false ;  
+                                        }
+                                    } 
+                                }else{// confirmedTransaction
+                                    $isButton = false ;  
+                                    $validation_text = 'Transaction completée' ;
+                                    $transaction = $preposition->transaction;
+                                    if($transaction->offeror_status == 'Réussi' && $transaction->applicant_status == 'Réussi'){
+                                        $validation_text = 'Transaction completée' ;
+                                    }else{
+                                        $validation_text = 'Transaction rejetée' ;
+                                    }
                                 }
                               @endphp 
                               
                               @if($isButton)
                               <div class="col-span-full d-flex items-center justify-center">
-                                <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">{{$validation_text}}</a>
+                                @if($preposition->validation == 'none')
+                                <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="#" 
+                                    data-bs-toggle="modal" data-bs-target="#propositionValidationModal-{{$preposition->id}}">{{$validation_text}}</a>
+                                @elseif($preposition->validation == 'validated')
+                                <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="#" 
+                                    data-bs-toggle="modal" data-bs-target="#propositionConfirmationModal-{{$preposition->id}}">{{$validation_text}}</a>
+                                @elseif($preposition->validation == 'confirmed')
+                                <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" 
+                                    href="{{route('transactions.index')}}" >{{$validation_text}}</a>
+                                @endif
                               </div>                              
                               @else
                                 <span>{{$validation_text}}</span>
                               @endif
-                                
+                               <div>
+                                   <x-preposition-validation-modal :preposition=$preposition></x-preposition-validation-modal>
+                                   <x-preposition-confirmation-modal :preposition=$preposition></x-preposition-confirmation-modal>
+                               </div> 
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg"> <!-- Set modal-lg class for larger width -->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Offre</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="modalbox"></div>
-                        <div class="w-full text-xs text-red-600">(*) Si vous acceptez cette proposition, vous ne pourrez plus accepter d'autres propositions liées a cette offre, à moins ce que la contrepartie ne confirme pas la proposition</div>
-
-                        <table class="table align-middle mb-0 bg-white">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Statut</th>
-                                    <th>Image</th>
-                                    <th>Utilisateur</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td id="modalName"></td>
-                                    <td id="modalStatus"></td>
-                                    <td> <img id="modalImage" src="" class="modalzoomD" style="max-width:200px;" alt="Image"> </td>
-                                    <td id="modalUser"></td>
-                                    <td>
-                                        <button type="button" class="btn btn-success" id="acceptButton" data-bs-dismiss="modal" aria-label="Fermer">
-                                            Accepter
-                                        </button>
-                                        <button type="button" class="btn btn-danger" id="declineButton" data-bs-dismiss="modal" aria-label="Fermer">
-                                            Refuser
-                                        </button>
-                                        <button type="button" class="btn btn-primary m-1" id="meetButton">
-                                            <i class="fa fa-calendar"></i> Ajouter un rendez-vous
-                                        </button>
-
-                                        <a href="{{route('propositions.chat-sender',['prepositionId' => 'PROPOSITION_ID_PLACEHOLDER'] )}}" type="button" class="btn btn-primary m-1" id="chatButton">
-                                            <i class="fas fa-comment"></i> Chat
-                                        </a>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <h2 id="meetHeader">Rendez-vous</h2>
-                        <table id="meetTable" class="table align-middle">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Heure</th>
-                                    <th>Description</th>
-                                    <th>Statut</th>
-                                </tr>
-                            </thead>
-                            <tbody id="meetupsTableBody">
-                                <td id="meetDate"></td>
-                                <td id="meetTime"></td>
-                                <td id="meetDescription"></td>
-                                <td id="meetStatus"></td>
-                            </tbody>
-                        </table>
-                        <form id="meetupForm">
-                            @csrf
-                            <input type="hidden" id="prepositionId" name="prepositionId" value="">
-                            <div class="mb-3">
-                                <label for="meetupDate" class="form-label">Date du rendez-vous</label>
-                                <input type="date" class="form-control" id="meetupDate" name="meetupDate" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="meetupTime" class="form-label">Heure du rendez-vous</label>
-                                <input type="time" class="form-control" id="meetupTime" name="meetupTime" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="meetupDescription" class="form-label">Description du rendez-vous</label>
-                                <textarea class="form-control" id="meetupDescription" name="meetupDescription" rows="3" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Planifier le rendez-vous</button>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     
     <div class="modal fade" id="meetModal" tabindex="-1" aria-labelledby="meetModalLabel" aria-hidden="true">
@@ -357,7 +313,6 @@
         }, 3000);
 
     });
-
 
 
 

@@ -12,6 +12,7 @@ class Transaction extends Model
     use HasFactory;
     protected $fillable = [
         'proposition_id',
+        'offer_id',
         'status',
         'amount',
         'name',

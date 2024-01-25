@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 
 class Preposition extends Model
@@ -37,12 +37,12 @@ class Preposition extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function transactions():HasMany
-{
-    return $this->hasMany(Transaction::class, 'proposition_id', 'id');
-}
-public function chmessages(): HasMany
-{
-    return $this->hasMany(ChMessage::class);
-}
+    public function transaction():HasOne
+    {
+        return $this->hasOne(Transaction::class, 'proposition_id', 'id');
+    }
+    public function chmessages(): HasMany
+    {
+        return $this->hasMany(ChMessage::class);
+    }
 }

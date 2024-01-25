@@ -199,6 +199,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/propositions/chat-sender/{prepositionId}', [PropositionController::class, 'chat_proposition_sender'])->name('propositions.chat-sender');
     Route::post('/update-proposition/{prepositionId}', [PropositionController::class, 'update'])->name('update-proposition');
     Route::post('/update-proposition-status', [PropositionController::class, 'updateStatus']);
+    Route::post('/confirm-proposition', [PropositionController::class, 'confirm']);
     Route::delete('/delete-proposition/{prepositionId}', [PropositionController::class, 'destroy'])->name('delete-proposition');
     Route::post('/proposition/dispute/{id}', [PropositionController::class, 'dispute'])->name('propositions.dispute');
 });

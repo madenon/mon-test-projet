@@ -323,8 +323,7 @@
                     </a>
                     <a href="https://api.whatsapp.com/send?text={{ route('offer.offer', ['offerId'=>$offer->id,'slug' => $offer->slug]) }}">
                         <i id="whatsappBtn" class="fa-brands fa-whatsapp text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
-                    </a>
-                        
+                    </a>           
                 </div>
             </div>
         </div>
@@ -336,8 +335,7 @@
         </div>
         <div class="mx-auto grid max-w-screen-xl grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
                 @foreach ($similaroffers as $similar)
-                <x-offer-present-card :offer=$similar></x-offer-present-card>
-                  
+                <x-offer-present-card :offer=$similar></x-offer-present-card>                  
                 @endforeach
         </div>
     </section>

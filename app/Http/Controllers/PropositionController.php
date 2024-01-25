@@ -14,6 +14,7 @@ use App\Notifications\NewPreposition;
 use App\Notifications\NewTransaction;
 use App\Notifications\NewDispute;
 use App\Notifications\PropositionResult;
+use App\Notifications\PropositionConfirmation;
 use Illuminate\Support\Facades\Log;
 
 class PropositionController extends Controller
@@ -24,12 +25,20 @@ class PropositionController extends Controller
         ->join('users', 'users.id', '=', 'prepositions.user_id')
         ->join('offers', 'offers.id', '=', 'prepositions.offer_id')
         ->join('users as userOffers', 'offers.user_id', '=', 'userOffers.id')
-        ->where('users.id',auth()->id())
-        ->orWhere('userOffers.id',auth()->id())
+        ->where(function ($query) {
+            $query->where('users.id', auth()->id())
+                ->orWhere('userOffers.id', auth()->id());
+        })
         ->orderBy('created_at','desc');
         
         if (!($request->has('in_progress')) || $request->input('in_progress')==1){
-            $prepositions = $prepositions->where('status','En cours');
+            $prepositions = $prepositions->where(function ($query) {
+                $query->where('prepositions.status', 'En cours')
+                    ->orWhere(function ($query) {
+                        $query->where('status', 'Acceptée')
+                            ->where('validation','!=', 'confirmedTransaction');
+                    });
+            });
         }
         
         $prepositions = $prepositions->get();
@@ -101,8 +110,8 @@ class PropositionController extends Controller
         if (isset($imageName)) {
             $preposition->update(['images' => json_encode($imageName)]);
         }
-   
-
+        
+        
         // You can add a success message or redirect to a different page
         return redirect()->route('propositions.index')->with('success', 'Proposition created successfully');
     }
@@ -110,53 +119,87 @@ class PropositionController extends Controller
     {
         $propositionId = $request->input('propositionId');
         $newStatus = $request->input('newStatus');
-        $proposition=Preposition::find($propositionId);
-        if($proposition!=null){
-            $taker=User::find($proposition->user_id);
-            $proposition->status = $newStatus;
-            if ($newStatus === 'Acceptée') {
-                // Create a transaction
-                $transaction = Transaction::create([
-                    'proposition_id' => $proposition->id,
-                    'offeror_status' => 'En cours', 
-                    'applicant_status' => 'En cours', 
-                    'amount' => $proposition->price?$proposition->price:'0', 
-                    'name' => $proposition->name, 
-                    'date' => now()
-                ]);
-                    $taker->notify(new NewTransaction($transaction));             
-            }else{
-                 $taker->notify(new PropositionResult($proposition));   
+        $proposition=Preposition::findOrFail($propositionId);
+        $taker=User::find($proposition->user_id);
+        $proposition->status = $newStatus;
+        $proposition->validation = 'validated';
+        if ($newStatus === 'Acceptée') {                
+            $offer = $proposition->offer;
+            
+            foreach( $offer->preposition as $prep){
+                if($prep->id != $proposition->id){
+                    $prep->status = "Rejetée";
+                    $prep->user->notify(new PropositionResult($prep));   
+                    $prep->save();
+                }
             }
-        
-            $proposition->save();
-
-            return response()->json(['success' => true]);
+            
+            $taker->notify(new PropositionConfirmation($proposition));   
+        }else{
+            $taker->notify(new PropositionResult($proposition));   
         }
-        return response()->json(['id'=>$propositionId]);
+        
+        $proposition->save();
+        
+        return response()->json(['success' => true]);
+    }
+    public function confirm(Request $request)
+    {
+        $propositionId = $request->input('propositionId');
+        $confirm = $request->input('confirm');
+        $proposition=Preposition::findOrFail($propositionId);
+        $taker=User::find($proposition->user_id);
+        $proposition->validation = 'confirmed';
+        if ( $confirm === 'Yes') {
+            // Create a transaction
+            $transaction = Transaction::updateOrCreate([
+                'offer_id' => $proposition->offer->id,
+            ],[
+                'offer_id' => $proposition->offer->id,
+                'proposition_id' => $proposition->id,
+                'offeror_status' => 'En cours', 
+                'applicant_status' => 'En cours', 
+                'amount' => $proposition->price?$proposition->price:'0', 
+                'name' => $proposition->name, 
+                'date' => now()
+            ]);
+            
+            $taker->notify(new NewTransaction($transaction));   
+            
+            $offer = $proposition->offer;
+            
+        }else{
+            $proposition->status = "Rejetée";
+            $taker->notify(new PropositionResult($proposition));   
+        }
+        
+        $proposition->save();
+
+        return response()->json(['success' => true]);
+        
     }
 
-public function destroy($prepositionId)
-{
-    // Find the Preposition model
-    $preposition = Preposition::find($prepositionId);
+    public function destroy($prepositionId)
+    {
+        // Find the Preposition model
+        $preposition = Preposition::find($prepositionId);
 
-    if (!$preposition) {
-        // Handle case where the preposition is not found
-        return response()->json(['error' => 'Preposition not found'], 404);
+        if (!$preposition) {
+            // Handle case where the preposition is not found
+            return response()->json(['error' => 'Preposition not found'], 404);
+        }
+
+        // Delete associated records in ch_messages
+    $preposition->chMessages()->delete();
+    $preposition->transactions()->delete();
+
+    // Now delete the preposition
+    $preposition->delete();
+
+        // Optionally, you can return a success response
+        return response()->json(['success' => true]);
     }
-
-    // Delete associated records in ch_messages
-$preposition->chMessages()->delete();
-$preposition->transactions()->delete();
-
-// Now delete the preposition
-$preposition->delete();
-
-    // Optionally, you can return a success response
-    return response()->json(['success' => true]);
-}
-public function update(Request $request, $prepositionId)
+    public function update(Request $request, $prepositionId)
     {
         // Validate the request data 
         $request->validate([
