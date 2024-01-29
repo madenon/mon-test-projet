@@ -12,25 +12,26 @@ $(document).ready(function () {
 
     var descriptionContent = document.querySelector(`{{$parentClass}} .description-content`);
     var extradescription = document.querySelector(`{{$parentClass}} .extra-description`);
-    var readMoreLink = document.querySelector(`{{$parentClass}} .read-more`);
     var len=$(`{{$parentClass}} .read-more`).data("len");
     if (descriptionContent.innerText.length > len) {
         var truncatedContent = descriptionContent.innerText.slice(0, len );
         truncatedContent += '...';
         descriptionContent.innerText = truncatedContent;
+        
+        var readMoreLink = document.querySelector(`{{$parentClass}} .read-more`);
+        readMoreLink.addEventListener('click', function (e) {
+            e.preventDefault();
+    
+            descriptionContent.classList.toggle('hidden');
+            extradescription.classList.toggle('hidden');
+    
+            if (readMoreLink.innerText === 'Read more') {
+                readMoreLink.innerText = 'Read less';
+            } else {
+                readMoreLink.innerText = 'Read more';
+            }
+        });
     }
 
-    readMoreLink.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        descriptionContent.classList.toggle('hidden');
-        extradescription.classList.toggle('hidden');
-
-        if (readMoreLink.innerText === 'Read more') {
-            readMoreLink.innerText = 'Read less';
-        } else {
-            readMoreLink.innerText = 'Read more';
-        }
-    });
 });
 </script>

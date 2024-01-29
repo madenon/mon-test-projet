@@ -6,7 +6,7 @@
                 <th class="py-2 px-4 border-b">Description</th>
                 <th class="py-2 px-4 border-b">Disputer</th>
                 <th class="py-2 px-4 border-b">Change status</th>
-                <th class="py-2 px-4 border-b">Actions on preposition</th>
+                <th class="py-2 px-4 border-b">Actions on transaction</th>
                 <th class="py-2 px-4 border-b">Actions on countreparty</th>
             </tr>
         </thead>
@@ -30,18 +30,18 @@
                 </td>
                 <td class="py-2 px-4 border-b">
                     
-                    <a type="button" href="{{route('admin.freezeProposition', [$dispute->preposition->id])}}" class="btn delete-button">
+                    <a type="button" href="{{route('admin.freezeProposition', [$dispute->transaction->id])}}" class="btn delete-button">
                         <i class="fas fa-lock" style="color: #24a19c"></i>
                     </a>
                 </td>
                 <td class="py-2 px-4 border-b flex justify-around">
-                    <a type="button" href="{{ route('admin.showOffer', [$dispute->preposition->id ??0, $dispute->preposition->slug??'']) }}" class="btn view-button">
+                    <a type="button" href="{{ route('admin.showOffer', [$dispute->transaction->id ??0, $dispute->transaction->slug??'']) }}" class="btn view-button">
                         <i class="fas fa-eye" style="color: #24a19c;"></i>
                     </a>
-                    <a type="button" href="{{route('admin.editOffer', [$dispute->preposition->id])}}" class="btn edit-button">
+                    <a type="button" href="{{route('admin.editOffer', [$dispute->transaction->id])}}" class="btn edit-button">
                         <i class="fas fa-edit" style="color: #ffc107;"></i>
                     </a>
-                    <a type="button" href="{{route('admin.deleteOffer', [$dispute->preposition->id])}}" class="btn delete-button">
+                    <a type="button" href="{{route('admin.deleteOffer', [$dispute->transaction->id])}}" class="btn delete-button">
                         <i class="fas fa-trash-alt" style="color: red"></i>
                     </a>
                 </td>

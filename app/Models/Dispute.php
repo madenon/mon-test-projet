@@ -12,6 +12,7 @@ class Dispute extends Model
     protected $fillable = [
         'title',
         'disputer_id',
+        'transaction_id',
         'preposition_id',
         'description',
     ];
@@ -21,6 +22,9 @@ class Dispute extends Model
     }
     public function preposition(){
         return $this->belongsTo(Preposition::class);
+    }
+    public function transaction(){
+        return $this->belongsTo(Transaction::class);
     }
 
 }

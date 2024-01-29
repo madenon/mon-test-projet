@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Models\Dispute;
+use App\Models\User;
+use App\Notifications\NewDispute;
 
 class TransactionController extends Controller
 {
@@ -43,5 +46,29 @@ class TransactionController extends Controller
             $transaction->save();
        
         return response()->json(['message' => 'Transaction status updated successfully']);
+    }
+    
+    public function show($id)
+    {
+        $transaction = Transaction::findOrFail($id);
+         return view('transactions.show', compact(
+             'transaction'
+         ));    
+    }
+    public function dispute(Request $request,$transactionId){
+        $dispute=Dispute::create([
+            'title' => $request->title,
+            'disputer_id' => auth()->id(), 
+            'transaction_id' => $transactionId, 
+            'description' => $request->description,
+        ]);
+        foreach(User::all() as $user){
+            if($user->is_admin)
+            $user->notify(new NewDispute($dispute));             
+        }
+        $transaction = Transaction::find($transactionId);
+        // $transaction->appealed=true;
+        $transaction->save();
+        return $dispute;
     }
 }

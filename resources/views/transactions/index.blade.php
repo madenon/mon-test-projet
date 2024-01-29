@@ -30,7 +30,7 @@
                     @endphp
                     <tr>
                         <td nowrap>
-                        <a type="button" href="#" style="color: #24a19c;">
+                        <a type="button" href="{{route('transactions.show', $transaction->id)}}" style="color: #24a19c;">
                                 <span class="text-xs" >{{$transaction->uuid}}</span>
                             </a>
                             <i class="fa fa-copy" style="color: #24a19c;" data-transaction-uuid="{{ $transaction->uuid }}" data-bs-toggle="tooltip" data-bs-placement="left" title="Copy"></i>     
@@ -45,20 +45,20 @@
                         <td>
                         @php
                         $applicant = $transaction->proposition->user;
-    $statusToShow = '';
+                        $statusToShow = '';
 
-    if ($transaction->offeror_status == 'Réussi' && $transaction->applicant_status == 'Réussi') {
-        $statusToShow = 'Réussi';
-    } elseif ($transaction->offeror_status == 'Échouée' || $transaction->applicant_status == 'Échouée') {
-        $statusToShow = 'Échouée';
-    } else {
-        $statusToShow = 'En cours';
-    }
-@endphp
+                        if ($transaction->offeror_status == 'Réussi' && $transaction->applicant_status == 'Réussi') {
+                            $statusToShow = 'Réussi';
+                        } elseif ($transaction->offeror_status == 'Échouée' || $transaction->applicant_status == 'Échouée') {
+                            $statusToShow = 'Échouée';
+                        } else {
+                            $statusToShow = 'En cours';
+                        }
+                    @endphp
 
-<span class="badge {{ getStatusBadgeClass($statusToShow) }} rounded-pill d-inline">
-    {{ $statusToShow }}
-</span>
+                    <span class="badge {{ getStatusBadgeClass($statusToShow) }} rounded-pill d-inline">
+                        {{ $statusToShow }}
+                    </span>
 
                         </td>
                        

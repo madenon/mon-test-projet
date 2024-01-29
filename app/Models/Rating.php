@@ -14,7 +14,8 @@ class Rating extends Model
         'rated_by_user_id', 
         'stars',
         'feedback',
-        'preposition_id'
+        'preposition_id',
+        'transaction_id'
     ];
 
     public function rated()

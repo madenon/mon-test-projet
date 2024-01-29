@@ -207,8 +207,13 @@ Route::middleware('auth')->group(function () {
 });
 Route::post('/schedule-meetup', [MeetupController::class, 'scheduleMeetup']);
 Route::post('/update-meet-status/{meetId}', [MeetupController::class, 'updateMeetStatus']);
+
 // transactions 
-Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+Route::middleware('auth')->group(function () {
+    Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+    Route::get('/transactions/{id}', [TransactionController::class, 'show'])->name('transactions.show');
+    Route::post('/transactions/dispute/{id}', [TransactionController::class, 'dispute'])->name('transactions.dispute');
+});
 //notifications
 Route::get('/contact', [ContactController::class, 'show']);
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');

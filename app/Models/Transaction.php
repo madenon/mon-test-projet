@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 
 class Transaction extends Model
@@ -30,5 +31,10 @@ class Transaction extends Model
     public function offer():BelongsTo
     {
         return $this->belongsTo(Offer::class, 'offer_id', 'id');
+    }
+    
+    public function disputes(): HasMany
+    {
+        return $this->hasMany(Dispute::class);
     }
 }

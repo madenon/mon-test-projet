@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rating;
-use App\Models\Preposition;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Http\Requests\StoreRatingRequest;
 use App\Http\Requests\UpdateRatingRequest;
@@ -87,7 +87,7 @@ class RatingController extends Controller
         //
     }
 
-    public function rate($prepositionId,$raterId, $ratedId, $stars, $feedback)
+    public function rate($transactionId,$raterId, $ratedId, $stars, $feedback)
     {
         
         
@@ -101,7 +101,7 @@ class RatingController extends Controller
             'rated_by_user_id' => $raterId,
             'stars' => $stars,
             'feedback' => $feedback,
-            'preposition_id' => $prepositionId,
+            'transaction_id' => $transactionId,
         ]);
         
         return $rating; 
@@ -111,17 +111,16 @@ class RatingController extends Controller
     public function rateCounterParty(Request $request)
     {
         $request->validate([
-            'propositionId' => 'required|integer',
+            'transactionId' => 'required|integer',
             'stars' => 'integer|between:0,5',
-            'feedback' => 'string',
+            'feedback' => 'string|nullable',
         ]);
         
-        $preposition=Preposition::find($request->propositionId);
+        $transaction=Transaction::find($request->transactionId);
         $raterId=auth()->id();
-        $ratedId=auth()->id()==$preposition->offer->user_id?$preposition->user_id:$preposition->offer->user_id;
-        if($request->stars)
-        return $this->rate($request->propositionId,$raterId,$ratedId,$request->stars,$request->feedback);
-        else return null;
+        $ratedId=auth()->id()==$transaction->proposition->offer->user_id?$transaction->proposition->user_id:$transaction->proposition->offer->user_id;
+        
+        return $this->rate($request->transactionId,$raterId,$ratedId,$request->stars,$request->feedback);
     
     }
 
