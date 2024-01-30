@@ -9,7 +9,7 @@
             {{ session('status') }}
         </div>
     @endif
-    <div class="offre-page mx-9">
+    <div class="offre-page mx-9 my-2">
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="page">{{ Diglactic\Breadcrumbs\Breadcrumbs::render('offers') }}</li>

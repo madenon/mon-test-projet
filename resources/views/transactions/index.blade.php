@@ -37,7 +37,7 @@
 
                         </td>
                         <td>
-                            <a class="no-underline font-medium" href="{{route('offer.offer', [$transaction->offer->id, $transaction->offer->slug])}}">{{ $transaction->offer->title }}</a>
+                            <a class="no-underline font-medium" href="{{route('offer.offer', [$transaction->proposition->offer->id, $transaction->proposition->offer->slug])}}">{{ $transaction->proposition->offer->title }}</a>
                         </td>
                         <td>{{ $counterparty->first_name }} {{$counterparty->last_name }}</td>
                         <td>{{ $transaction->amount }}</td>

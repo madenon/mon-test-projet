@@ -58,8 +58,8 @@
 
        
     @if($categoryName)
-<div class="container">
-    <h2>{{$categoryName }} Page</h2>
+<div class="container my-2">
+    <h2> Catégorie : {{$categoryName }}</h2>
 </div>
 @endif
     <x-slot name="header">
@@ -69,7 +69,7 @@
     </x-slot>
 
 
-    <div class="container">
+    <div class="container my-2">
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
             <ol class="breadcrumb" class="no-underline bg-green-500 ">
                 <li class="breadcrumb-item active" aria-current="page">{{ Diglactic\Breadcrumbs\Breadcrumbs::render('offers') }}</li>

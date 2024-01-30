@@ -11,7 +11,28 @@ use App\Notifications\NewDispute;
 class TransactionController extends Controller
 {
     public function index(Request $request){
-        $transactions = Transaction::with('proposition.user');
+       // Assuming you're in a controller method
+$user = auth()->user();
+
+// Get proposition IDs where the user is the proposition user
+$userPropositionIds = $user->prepositions()->pluck('id');
+
+// Get offer IDs from the user's offers
+$myOfferIds = $user->offer()->pluck('id');
+
+// Retrieve transactions based on the specified conditions
+$transactions = Transaction::where(function ($query) use ($userPropositionIds, $myOfferIds) {
+        // Transactions with proposition_id in $userPropositionIds
+        $query->whereIn('proposition_id', $userPropositionIds)
+            // OR transactions with proposition_id in propositions related to user's offers
+            ->orWhereIn('proposition_id', function ($query) use ($myOfferIds) {
+                $query->select('id')
+                    ->from('prepositions')
+                    ->whereIn('offer_id', $myOfferIds);
+            });
+    })
+    ;
+
         if (!($request->has('in_progress')) || $request->input('in_progress')==1){
             $transactions = $transactions->where(function ($query) {
                 $query->where('applicant_status', 'En cours')

@@ -1,9 +1,11 @@
 <x-app-layout>
     <div class="container">
-        <div class="flex">
+    <div class="{{ auth()->user() ? 'flex' : 'flex justify-center' }}">
+        @if(auth()->user())
             <div class="mt-16 col-3 col-md-3 bg-white w-full mb-6 shadow-lg rounded-xl">
-                <x-mini-menu></x-mini-menu>
+                <x-mini-menu ></x-mini-menu>
             </div>
+            @endif
             <div class="col-12 col-md-9">
                 <div class="relative max-w-md mx-auto md:max-w-2xl mt-16 min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-xl">
                     <div class="px-6">
