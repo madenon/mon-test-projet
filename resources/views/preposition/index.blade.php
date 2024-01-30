@@ -90,6 +90,8 @@
                         </td>
                         <td>
                               @php
+                              $isButton=null;
+                              $validation_text=null;
                                 if($preposition->validation == 'none'){
                                     if($preposition->status != 'Rejetée'){
                                         $validation_text = $isReceiveid ? 'Valider la proposition' : 'En attente de validation';
@@ -106,7 +108,7 @@
                                 else if($preposition->validation == 'confirmed'){
                                     $transaction = $preposition->transaction;
                                     if(auth()->id() == $preposition->offer->id){
-                                        if($transaction->offeror_status == 'En cours'){
+                                        if($transaction?->offeror_status == 'En cours'){
                                             $validation_text = 'Valider la transaction' ;
                                             $isButton = true ; 
                                         }else{
@@ -126,7 +128,7 @@
                                     $isButton = false ;  
                                     $validation_text = 'Transaction completée' ;
                                     $transaction = $preposition->transaction;
-                                    if($transaction->offeror_status == 'Réussi' && $transaction->applicant_status == 'Réussi'){
+                                    if($transaction?->offeror_status == 'Réussi' && $transaction->applicant_status == 'Réussi'){
                                         $validation_text = 'Transaction completée' ;
                                     }else{
                                         $validation_text = 'Transaction rejetée' ;
