@@ -17,6 +17,8 @@ use App\Notifications\PropositionResult;
 use App\Notifications\PropositionConfirmation;
 use Illuminate\Support\Facades\Log;
 use App\Events\PropositionStatusUpdated;
+use Illuminate\Support\Facades\DB;
+
 
 class PropositionController extends Controller
 {
@@ -182,26 +184,35 @@ class PropositionController extends Controller
         
     }
 
+
     public function destroy($prepositionId)
     {
-        // Find the Preposition model
-        $preposition = Preposition::find($prepositionId);
-
-        if (!$preposition) {
-            // Handle case where the preposition is not found
-            return response()->json(['error' => 'Preposition not found'], 404);
+        // Start a database transaction
+        DB::beginTransaction();
+    
+        try {
+            // Delete associated records in ch_messages
+           // DB::table('ch_messages')->where('preposition_id', $prepositionId)->delete();
+           DB::table('ch_messages')->where('preposition_id', $prepositionId)->delete();
+           DB::table('meetups')->where('preposition_id', $prepositionId)->delete();
+           
+           DB::table('transactions')->where('proposition_id', $prepositionId)->delete();
+    
+            // Delete the preposition
+            DB::table('prepositions')->where('id', $prepositionId)->delete();
+    
+            // Commit the transaction
+            DB::commit();
+    
+            return response()->json(['message' => 'Preposition and associated records deleted successfully']);
+        } catch (\Exception $e) {
+            // Rollback the transaction on error
+            DB::rollback();
+            
+            return response()->json(['error' => $e], 500);
         }
-
-        // Delete associated records in ch_messages
-    $preposition->chMessages()->delete();
-    $preposition->transactions()->delete();
-
-    // Now delete the preposition
-    $preposition->delete();
-
-        // Optionally, you can return a success response
-        return response()->json(['success' => true]);
     }
+    
     public function update(Request $request, $prepositionId)
     {
         // Validate the request data 
