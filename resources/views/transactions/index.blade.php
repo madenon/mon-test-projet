@@ -1,3 +1,26 @@
+<script type="module" >
+
+    import Echo from '../../../laravel-echo';
+
+    import Pusher from '../../../pusher-js';
+    window.Pusher = Pusher;
+    const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+    const userId = document.head.querySelector('meta[name="userId"]').content;
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: import.meta.env.VITE_PUSHER_APP_KEY,
+        cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
+        forceTLS: true,
+        encrypted: true,
+        auth: {
+            headers: {
+                Authorization: 'Bearer ' + csrfToken
+            },
+        },
+
+    });
+</script>
 <x-app-layout>
     <div class="container">
         <div class="flex space-x-4 mt-4">
@@ -43,41 +66,52 @@
                         <td>{{ $transaction->amount }}</td>
                         <td>{{ $transaction->date }}</td>
                         <td>
-                        @php
-                        $applicant = $transaction->proposition->user;
-                        $statusToShow = '';
+                            @php
+                            $applicant = $transaction->proposition->user;
+                            $statusToShow = '';
 
-                        if ($transaction->offeror_status == 'Réussi' && $transaction->applicant_status == 'Réussi') {
-                            $statusToShow = 'Réussi';
-                        } elseif ($transaction->offeror_status == 'Échouée' || $transaction->applicant_status == 'Échouée') {
-                            $statusToShow = 'Échouée';
-                        } else {
-                            $statusToShow = 'En cours';
-                        }
-                    @endphp
+                            if ($transaction->offeror_status == 'Réussi' && $transaction->applicant_status == 'Réussi') {
+                                $statusToShow = 'Réussi';
+                            } elseif ($transaction->offeror_status == 'Échouée' || $transaction->applicant_status == 'Échouée') {
+                                $statusToShow = 'Échouée';
+                            } else {
+                                $statusToShow = 'En cours';
+                            }
+                            @endphp
 
-                    <span class="badge {{ getStatusBadgeClass($statusToShow) }} rounded-pill d-inline">
-                        {{ $statusToShow }}
-                    </span>
+                            <span class="badge {{ getStatusBadgeClass($statusToShow) }} rounded-pill d-inline">
+                                {{ $statusToShow }}
+                            </span>
 
                         </td>
                        
-                    <td> {{ $transaction->reason }}</td>
+                        <td> {{ $transaction->reason }}</td>
                 
                         @if(auth()->check() && ( (auth()->user()->id ===$applicant->id && $transaction->applicant_status==='En cours') || (auth()->user()->id !=$applicant->id && $transaction->offeror_status==='En cours')))
-                        <td> <button type="button" class="reject"  data-toggle="modal" data-target="#statusModal" data-id="{{ $transaction->id }}" data-status="Échouée">
-                        Échouée
-        <i class="fa-solid fa-ban ml-2" style="color: red;" ></i>    </button>
-    <button type="button" class="button-filter" data-toggle="modalCompleted" data-target="#statusModal" data-id="{{ $transaction->id }}" data-status="Réussi">
-        Terminé
-        <i class="fa-solid fa-check ml-2" style="color: white;"></i>
-    </button>
-</td>
-@elseif( !($transaction->applicant_status==='Réussi' && $transaction->offeror_status==='Réussi')   )
-<td>
-En attente de validation </td>
-@endif
+                        <td> 
+                            <button type="button" class="reject"  data-toggle="modal" data-target="#statusModal" data-id="{{ $transaction->id }}" data-status="Échouée">
+                                Échouée
+                                <i class="fa-solid fa-ban ml-2" style="color: red;" ></i>    </button>
+                            <button type="button" class="button-filter" data-toggle="modalCompleted" data-target="#statusModal" data-id="{{ $transaction->id }}" data-status="Réussi">
+                                Terminé
+                                <i class="fa-solid fa-check ml-2" style="color: white;"></i>
+                            </button>
+                        </td>
+                        @elseif( !($transaction->applicant_status==='Réussi' && $transaction->offeror_status==='Réussi')   )
+                        <td>
+                            En attente de validation 
+                        </td>
+                        @endif
                     </tr>
+                    <script type="module">
+                        window.Echo.private('transactions.' + {{$transaction->id}})
+                        .listen('TransactionStatusUpdated', (e) => {
+                            console.log(e.transaction);
+                            location.reload();
+                        });
+                    </script>
+
+                    
                 @endforeach
             </tbody>
         </table>

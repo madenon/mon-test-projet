@@ -101,10 +101,12 @@
                     @php
                     
                     $counterpartyRating=App\Models\Rating::where('user_id', Auth::user()->id)
-                    ->where('rated_by_user_id',$counterparty->id)->first();
+                    ->where('rated_by_user_id',$counterparty->id)
+                    ->where('transaction_id',$transaction->id)->first();
                     
                     $myRating=App\Models\Rating::where('user_id', $counterparty->id)
-                    ->where('rated_by_user_id', Auth::user()->id )->first();
+                    ->where('rated_by_user_id', Auth::user()->id )
+                    ->where('transaction_id',$transaction->id)->first();
                     @endphp
                     <p class="text-sm text-slate-300 space-y-0 p-0 m-0">Mes commentaires : <span class="text-xs">{{ Carbon\Carbon::parse($myRating?->created_at)->format('Y-m-d H:i:s'); }}</span></p>
                     <button id="myRating" type="button" class="btn rating-button text-center" data-transaction-id="{{ $transaction->id }}" data-transaction-uuid="{{ $transaction->uuid }}">
@@ -112,8 +114,8 @@
                         <span  class="badge bg-warning rounded-pill" data-transaction-id="{{ $transaction->id }}" data-transaction-uuid="{{ $transaction->uuid }}">Notez</span>
                         @else
                             @for ($i =1; $i <= 5; $i++)
-                            <input type="radio" id="star{{$i}}" name="rating" value="{{$i}}" class="hidden" />
-                            <label for="star{{$i}}" title="{{$i}} star" class="cursor-pointer text-2xl text-yellow-500" data-transaction-id="{{ $transaction->id }}" data-transaction-uuid="{{ $transaction->uuid }}">
+                            <input type="radio" id="myStar{{$i}}" name="rating" value="{{$i}}" class="hidden" />
+                            <label for="myStar{{$i}}" title="{{$i}} star" class="cursor-pointer text-2xl text-yellow-500" data-transaction-id="{{ $transaction->id }}" data-transaction-uuid="{{ $transaction->uuid }}">
                                 @if($myRating->stars>=$i)
                                 &#9733;
                                 @else
@@ -134,8 +136,8 @@
                         <span>Pas de commentaires</span>
                         @else
                             @for ($i =1; $i <= 5; $i++)
-                            <input type="radio" id="star{{$i}}" name="rating" value="{{$i}}" class="hidden" data-transaction-id="{{ $transaction->id }}" data-transaction-uuid="{{ $transaction->uuid }}"/>
-                            <label for="star{{$i}}" title="{{$i}} star" class="cursor-pointer text-2xl text-yellow-500" data-transaction-id="{{ $transaction->id }}" data-transaction-uuid="{{ $transaction->uuid }}">
+                            <input type="radio" id="counterStar{{$i}}" name="rating" value="{{$i}}" class="hidden" data-transaction-id="{{ $transaction->id }}" data-transaction-uuid="{{ $transaction->uuid }}"/>
+                            <label for="counterStar{{$i}}" title="{{$i}} star" class="cursor-pointer text-2xl text-yellow-500" data-transaction-id="{{ $transaction->id }}" data-transaction-uuid="{{ $transaction->uuid }}">
                                 @if($counterpartyRating->stars>=$i)
                                 &#9733;
                                 @else
@@ -273,16 +275,15 @@
     
     
     function rateTransactionCounterparty(transactionId,transactionUuid) {
-        const stars = document.querySelectorAll('.rateStar');
         Swal.fire({
             title: 'Transaction '+transactionUuid,
             html: '<div class="flex items-center justify-center space-x-2">' +
-            '<input type="radio" id="star1" name="rating" value="1" class="rateStar hidden" /><label for="star1" title="1 star" class="cursor-pointer text-2xl text-yellow-500">&#9734;</label>' +
-            '<input type="radio" id="star2" name="rating" value="2" class="rateStar hidden" /><label for="star2" title="2 stars" class="cursor-pointer text-2xl text-yellow-500">&#9734;</label>' +
-            '<input type="radio" id="star3" name="rating" value="3" class="rateStar hidden" /><label for="star3" title="3 stars" class="cursor-pointer text-2xl text-yellow-500">&#9734;</label>' +
-            '<input type="radio" id="star4" name="rating" value="4" class="rateStar hidden" /><label for="star4" title="4 stars" class="cursor-pointer text-2xl text-yellow-500">&#9734;</label>' +
-            '<input type="radio" id="star5" name="rating" value="5" class="rateStar hidden" /><label for="star5" title="5 stars" class="cursor-pointer text-2xl text-yellow-500">&#9734;</label>' +
-            '</div>' +
+                '<input type="radio" id="rateStar1" name="rating" value="1" class="rateStar hidden"/><label for="rateStar1" title="1 star" class="cursor-pointer text-2xl text-yellow-500">&#9734;</label>' +
+                '<input type="radio" id="rateStar2" name="rating" value="2" class="rateStar hidden"/><label for="rateStar2" title="2 stars" class="cursor-pointer text-2xl text-yellow-500">&#9734;</label>' +
+                '<input type="radio" id="rateStar3" name="rating" value="3" class="rateStar hidden"/><label for="rateStar3" title="3 stars" class="cursor-pointer text-2xl text-yellow-500">&#9734;</label>' +
+                '<input type="radio" id="rateStar4" name="rating" value="4" class="rateStar hidden"/><label for="rateStar4" title="4 stars" class="cursor-pointer text-2xl text-yellow-500">&#9734;</label>' +
+                '<input type="radio" id="rateStar5" name="rating" value="5" class="rateStar hidden"/><label for="rateStar5" title="5 stars" class="cursor-pointer text-2xl text-yellow-500">&#9734;</label>' +
+                '</div>' +
                 '<div id="feedback-container" style="display:none">' +
                 '<textarea id="feedback" name="feedback" class="swal2-textarea" rows="4" cols="35" placeholder="Give Feedback"></textarea>' +
                 '</div>',
@@ -291,6 +292,7 @@
             cancelButtonText: 'Cancel',
             showLoaderOnConfirm: true,
             preConfirm: (result) => {
+                console.log({result});
                 const rating=document.querySelector('input[name="rating"]:checked');
                 const ratingValue = rating? rating.value:0;
                 const feedbackValue = document.getElementById('feedback').value;
@@ -317,31 +319,27 @@
                 });
             },
             didOpen: () => {
-                const stars = document.querySelectorAll('.rateStar');
-                if(!listenersAdded) {
-                    stars.forEach((star) => {
-                        star.addEventListener('click', () => {
-                            stars.forEach((starAll) => {
-                                starAll.nextElementSibling.innerHTML = '&#9734;'; // Empty star
-                            });
-                            stars.forEach((starInf) => {
-                                if (starInf.value <= star.value) {
-                                    starInf.nextElementSibling.innerHTML = '&#9733;'; // Filled star
+                for(var i = 1; i <= 5; i++ ){
+                    $(`#rateStar${i}`).change(function(){
+                        if($(this).is(':checked') ) {
+                            $('#feedback-container').css('display', 'block');
+                            checkedVal = $(this).val();
+                            $('.rateStar').each(function(index){
+                                if ($(this).val() <= checkedVal) {
+                                    $(this).next().html('&#9733;'); // Filled star
+                                }else{
+                                    $(this).next().html('&#9734;'); // Empty star
                                 }
                             });
-    
-                            const feedback=document.getElementById('feedback-container');
-                            feedback.style.display="block";
-    
-                        });
-    
+                        }
                     });
                 }
-        },
-    }).then(function () {
-        console.log('x');
-        location.reload();
-    });
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload();
+            }
+        });
 
                 
 }

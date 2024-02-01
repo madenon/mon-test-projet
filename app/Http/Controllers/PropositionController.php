@@ -16,6 +16,7 @@ use App\Notifications\NewDispute;
 use App\Notifications\PropositionResult;
 use App\Notifications\PropositionConfirmation;
 use Illuminate\Support\Facades\Log;
+use App\Events\PropositionStatusUpdated;
 
 class PropositionController extends Controller
 {
@@ -138,6 +139,8 @@ class PropositionController extends Controller
         }else{
             $taker->notify(new PropositionResult($proposition));   
         }
+        
+        PropositionStatusUpdated::dispatch($proposition);
         
         $proposition->save();
         

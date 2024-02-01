@@ -1,3 +1,4 @@
+
 // HEADER
 
 // Header categories dropdown
@@ -59,3 +60,4 @@ document.addEventListener('click', function handleClickOutsideBox(event) {
         headerRegionsDropdownElement.style.display = "none"
     }
   });
+  

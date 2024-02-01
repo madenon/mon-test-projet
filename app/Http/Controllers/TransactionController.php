@@ -7,31 +7,32 @@ use Illuminate\Http\Request;
 use App\Models\Dispute;
 use App\Models\User;
 use App\Notifications\NewDispute;
+use App\Events\TransactionStatusUpdated;
+
 
 class TransactionController extends Controller
 {
     public function index(Request $request){
        // Assuming you're in a controller method
-$user = auth()->user();
+        $user = auth()->user();
 
-// Get proposition IDs where the user is the proposition user
-$userPropositionIds = $user->prepositions()->pluck('id');
+        // Get proposition IDs where the user is the proposition user
+        $userPropositionIds = $user->prepositions()->pluck('id');
 
-// Get offer IDs from the user's offers
-$myOfferIds = $user->offer()->pluck('id');
+        // Get offer IDs from the user's offers
+        $myOfferIds = $user->offer()->pluck('id');
 
-// Retrieve transactions based on the specified conditions
-$transactions = Transaction::where(function ($query) use ($userPropositionIds, $myOfferIds) {
-        // Transactions with proposition_id in $userPropositionIds
-        $query->whereIn('proposition_id', $userPropositionIds)
-            // OR transactions with proposition_id in propositions related to user's offers
-            ->orWhereIn('proposition_id', function ($query) use ($myOfferIds) {
-                $query->select('id')
-                    ->from('prepositions')
-                    ->whereIn('offer_id', $myOfferIds);
-            });
-    })
-    ;
+        // Retrieve transactions based on the specified conditions
+        $transactions = Transaction::where(function ($query) use ($userPropositionIds, $myOfferIds) {
+            // Transactions with proposition_id in $userPropositionIds
+            $query->whereIn('proposition_id', $userPropositionIds)
+                // OR transactions with proposition_id in propositions related to user's offers
+                ->orWhereIn('proposition_id', function ($query) use ($myOfferIds) {
+                    $query->select('id')
+                        ->from('prepositions')
+                        ->whereIn('offer_id', $myOfferIds);
+                });
+        })->orderBy('created_at','desc');
 
         if (!($request->has('in_progress')) || $request->input('in_progress')==1){
             $transactions = $transactions->where(function ($query) {
@@ -63,8 +64,10 @@ $transactions = Transaction::where(function ($query) use ($userPropositionIds, $
         
         $failureReason = request()->input('failure_reason', null);
            
-            $transaction->reason = $failureReason;
-            $transaction->save();
+        $transaction->reason = $failureReason;
+        
+        TransactionStatusUpdated::dispatch($transaction);
+        $transaction->save();
        
         return response()->json(['message' => 'Transaction status updated successfully']);
     }

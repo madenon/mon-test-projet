@@ -1,4 +1,26 @@
+<script type="module" >
 
+    import Echo from '../../../laravel-echo';
+
+    import Pusher from '../../../pusher-js';
+    window.Pusher = Pusher;
+    const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+    const userId = document.head.querySelector('meta[name="userId"]').content;
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: import.meta.env.VITE_PUSHER_APP_KEY,
+        cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
+        forceTLS: true,
+        encrypted: true,
+        auth: {
+            headers: {
+                Authorization: 'Bearer ' + csrfToken
+            },
+        },
+
+    });
+</script>
 <x-app-layout>
 <div class="container">    
     <div class="flex space-x-4 mt-4">
@@ -18,6 +40,7 @@
                 <th>Prix </th>
                 <th>Contrepartie</th>
                 <th>Statut</th>
+                <th>Rencontre</th>
                 <th>Chat</th>
                 <th>Validation</th>
                 </tr>
@@ -38,6 +61,7 @@
                         <td  style="background-color : WhiteSmoke; border-bottom : 0">
                             <span class="text-xs">{{ Carbon\Carbon::parse($preposition->created_at)->format('Y-m-d H:i:s'); }}</span>
                         </td>
+                        <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
                         <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
                         <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
                         <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
@@ -78,7 +102,16 @@
                                 {{ $preposition->status }}
                             </span>
                         </td>
-           
+                        <td>
+                            @if($preposition->meetup)
+                            <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button " data-bs-toggle="modal" data-bs-target="#meetModal">
+                            <i class="fas fa-calendar" style="color: #24a19c;"></i>
+                            </a>
+                            @else 
+                            <span>Aucune rencontre</span>
+                            @endif
+                        </td>
+
                         <td>
                             <div class="flex">
                                 <!-- Chat button with icon -->
@@ -86,7 +119,6 @@
                                     <span style="color: #24a19c;">Contact</span>
                                 </a>
                             </div>
-                            
                         </td>
                         <td>
                               @php
@@ -107,20 +139,20 @@
                                 }
                                 else if($preposition->validation == 'confirmed'){
                                     $transaction = $preposition->transaction;
-                                    if(auth()->id() == $preposition->offer->id){
-                                        if($transaction?->offeror_status == 'En cours'){
-                                            $validation_text = 'Valider la transaction' ;
-                                            $isButton = true ; 
-                                        }else{
-                                            $validation_text = 'En attente de validation par la contrepartie' ;
-                                            $isButton = false ;  
-                                        }
-                                    } else if(auth()->id() == $preposition->user->id){
+                                    if(auth()->id() == $preposition->user->id){
                                         if($transaction->applicant_status == 'En cours'){
                                             $validation_text = 'Valider la transaction' ;
                                             $isButton = true ; 
                                         }else{
-                                            $validation_text = 'En attente de validation par la contrepartie' ;
+                                            $validation_text = 'En attente de validation' ;
+                                            $isButton = false ;  
+                                        }
+                                    } else {
+                                        if($transaction?->offeror_status == 'En cours'){
+                                            $validation_text = 'Valider la transaction' ;
+                                            $isButton = true ; 
+                                        }else{
+                                            $validation_text = 'En attente de validation' ;
                                             $isButton = false ;  
                                         }
                                     } 
@@ -158,6 +190,13 @@
                                </div> 
                         </td>
                     </tr>
+                    <script type="module">
+                        window.Echo.private('propositions.'+{{$preposition->id}})
+                        .listen('PropositionStatusUpdate', (e) => {
+                            console.log(e.proposition);
+                            location.reload();
+                        });
+                    </script>
                 @endforeach
             </tbody>
         </table>

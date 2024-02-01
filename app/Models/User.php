@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -103,11 +104,10 @@ class User extends Authenticatable  implements MustVerifyEmail
     {
         return $this->hasMany(Preposition::class);
     }
-    public function transactions(): HasMany
+    public function transactions(): HasManyThrough
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasManyThrough(Transaction::class, Preposition::class, 'user_id','proposition_id');
     }
-
     public function favorites()
     {
         return $this->belongsToMany(Offer::class, 'favorites')->withTimestamps();
