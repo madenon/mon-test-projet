@@ -43,7 +43,6 @@ class ReportList extends Component
     
     public function changeState($reportId){
         $report=Report::find($reportId);
-        // dd($report);
         $report->isOpen=!$report->isOpen;
         $report->save();
     }

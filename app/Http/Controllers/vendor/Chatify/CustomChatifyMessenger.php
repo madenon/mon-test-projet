@@ -90,7 +90,6 @@ class CustomChatifyMessenger extends ChatifyMessenger{
     {
         $me_id=session('me_id');
         if(!$me_id)$me_id=Auth::user()->id;
-        // dd($me_id);
 
 
         return Message::where('from_id', $me_id)->where('to_id', $user_id)

@@ -347,11 +347,14 @@ location.reload();
 
    
         @foreach ($offer->preposition as $proposition)
-            <a href="#" style="color:white;" class="ml-5 w-50 mt-2 btn proposition-link badge {{ getStatusBadgeClass($proposition->status) }}" data-bs-toggle="modal" data-bs-target="#exampleModal" 
+            <a href="{{route('propositions.index', ['in_progress'=>0])}}" style="color:white;" class="ml-5 w-50 mt-2 btn proposition-link badge {{ getStatusBadgeClass($proposition->status) }}">
+                {{ $proposition->name }}
+            </a>
+            <!-- <a href="#" style="color:white;" class="ml-5 w-50 mt-2 btn proposition-link badge {{ getStatusBadgeClass($proposition->status) }}" data-bs-toggle="modal" data-bs-target="#exampleModal" 
             data-id="{{ $proposition->id }}" data-image="{{ route('proposition-pictures-file-path', $proposition->images ? $proposition->images : '') }}"  
             data-status="{{ $proposition->status }}" data-user="{{ $proposition->user }}" data-offer="{{ $proposition->offer }}" data-meet="{{ $proposition->meetup }}">
                 {{ $proposition->name }}
-            </a>
+            </a> -->
         @endforeach
     @endif
 </div>

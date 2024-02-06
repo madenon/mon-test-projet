@@ -6,8 +6,9 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class PrepositionValidationModal extends Component
+class MeetModal extends Component
 {
+    
     public $preposition;
     /**
      * Create a new component instance.
@@ -22,6 +23,6 @@ class PrepositionValidationModal extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.preposition-validation-modal');
+        return view('components.meet-modal');
     }
 }

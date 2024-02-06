@@ -439,7 +439,6 @@ Campaign::create($campaignData);
     public function messages(Request $request,$id=null)
     {
         if ($request->has('me_id')) {
-            // dd("me_id");
             session(['me_id' => $request->input('me_id')]);
             $me_id=session('me_id');
         }

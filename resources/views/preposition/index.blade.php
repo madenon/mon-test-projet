@@ -34,6 +34,7 @@
         <table class="table align-middle mt-4 mb-0 bg-white">
             <thead class="bg-light">
                 <tr>
+                <th>Image</th>
                 <th>Proposition</th>
                 <th>Offre</th>
                 <th>Valeur</th>
@@ -67,6 +68,7 @@
                         <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
                         <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
                         <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
+                        <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
                         <td nowrap  style="background-color : WhiteSmoke; border-bottom : 0" class="preposition-uuid">
                             <a type="button" href="#" style="color: #24a19c;">
                                 <span class="text-xs" >{{$preposition->uuid}}</span>
@@ -75,6 +77,11 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>
+                            @if($preposition->images)
+                            <img class="h-16 w-16 rounded-full" src="{{ route('proposition-pictures-file-path',$preposition->images) }}" alt="Proposition Image">
+                            @endif
+                        </td>
                         <td id="prepositioName-{{$preposition->id}}">
                             <img src="{{ route('proposition-pictures-file-path',$preposition->images ?$preposition->images :'' ) }}" alt=""/>
                             @livewire('split-long-text ', [
@@ -86,6 +93,7 @@
                             @livewire('split-long-text ', [
                                 'text' => $preposition->offer_name,
                                 'parentClass' => '#prepositionOfferName-'.$preposition->id,
+                                'len' => 4,
                                 ])
                         </td>
                         <td>{{ $preposition->offer->price}}</td>
@@ -104,11 +112,12 @@
                         </td>
                         <td>
                             @if($preposition->meetup)
-                            <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button " data-bs-toggle="modal" data-bs-target="#meetModal">
+                            <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" data-bs-toggle="modal" data-bs-target="#meetModal">
                             <i class="fas fa-calendar" style="color: #24a19c;"></i>
                             </a>
                             @else 
-                            <span>Aucune rencontre</span>
+                            <a class="inline-block btn btn-primary" href="#" 
+                                    data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Planifiez</a>
                             @endif
                         </td>
 
@@ -124,7 +133,7 @@
                               @php
                               $isButton=null;
                               $validation_text=null;
-                                if($preposition->validation == 'none'){
+                              if(!$preposition->validation || $preposition->validation == 'none'){
                                     if($preposition->status != 'Rejetée'){
                                         $validation_text = $isReceiveid ? 'Valider la proposition' : 'En attente de validation';
                                         $isButton = $isReceiveid ? true : false; 
@@ -170,7 +179,7 @@
                               
                               @if($isButton)
                               <div class="col-span-full d-flex items-center justify-center">
-                                @if($preposition->validation == 'none')
+                                @if(!$preposition->validation || $preposition->validation == 'none')
                                 <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="#" 
                                     data-bs-toggle="modal" data-bs-target="#propositionValidationModal-{{$preposition->id}}">{{$validation_text}}</a>
                                 @elseif($preposition->validation == 'validated')
@@ -187,6 +196,7 @@
                                <div>
                                    <x-preposition-validation-modal :preposition=$preposition></x-preposition-validation-modal>
                                    <x-preposition-confirmation-modal :preposition=$preposition></x-preposition-confirmation-modal>
+                                   <x-meet-modal :preposition=$preposition></x-meet-modal> 
                                </div> 
                         </td>
                     </tr>
@@ -203,35 +213,35 @@
     </div>
     
     <div class="modal fade" id="meetModal" tabindex="-1" aria-labelledby="meetModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h2 id="meetHeader">Rencontres</h2>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h2 id="meetHeader">Rencontres</h2>
 
-                    </div>
-                    <div class="modal-body">
-            <table id="meetTable" class="table align-middle">
-                <thead class="bg-light">
-                    <tr>
-                    <th>Date</th>
-<th>Heure</th>
-<th>Description</th>
-<th>Statut</th>
-<th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="meetupsTableBody">
-                    <td id="meetDate"></td>
-                    <td id="meetTime"></td>
-                    <td id="meetDescription"></td>
-                   <td id="meetStatus"></td>
-<td id="meetActions">
-    <button class="btn btn-success accept-button" >Accepter</button>
-    <button class="btn btn-danger decline-button" >Refuser</button>
-</td>
+                </div>
+                <div class="modal-body">
+                    <table id="meetTable" class="table align-middle">
+                        <thead class="bg-light">
+                            <tr>
+                            <th>Date</th>
+                            <th>Heure</th>
+                            <th>Description</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="meetupsTableBody">
+                            <td id="meetDate"></td>
+                            <td id="meetTime"></td>
+                            <td id="meetDescription"></td>
+                            <td id="meetStatus"></td>
+                            <td id="meetActions">
+                                <button class="btn btn-success accept-button" >Accepter</button>
+                                <button class="btn btn-danger decline-button" >Refuser</button>
+                            </td>
 
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         
@@ -323,25 +333,25 @@
     var descriptionData;
     $(document).on('click', '.meet-button', function () {
         descriptionData=$(this).data('meet');
-            console.log(descriptionData);
-            var meetDescription=descriptionData.description;
-            var meetDate=descriptionData.date;
-            var meetTime=descriptionData.time;
-            var meetStatus=descriptionData.status;
-            // add data to table meet 
-            $('#meetDescription').text(meetDescription);
-            $('#meetDate').text(meetDate);
-            $('#meetTime').text(meetTime);
-            $('#meetStatus').text(meetStatus);
-            if(descriptionData.status=="Confirmé"){
-                $('#meetActions').hide();
-            }
-            if(!descriptionData){
-            $('#meetDescription').empty();
-            $('#meetDate').empty();
-            $('#meetTime').empty();
-            $('#meetStatus').empty();
-            }
+        console.log(descriptionData);
+        var meetDescription=descriptionData.description;
+        var meetDate=descriptionData.date;
+        var meetTime=descriptionData.time;
+        var meetStatus=descriptionData.status;
+        // add data to table meet 
+        $('#meetModal #meetDescription').text(meetDescription);
+        $('#meetModal #meetDate').text(meetDate);
+        $('#meetModal #meetTime').text(meetTime);
+        $('#meetModal #meetStatus').text(meetStatus);
+        if(descriptionData.status=="Confirmé"){
+            $('#meetModal #meetActions').hide();
+        }
+        if(!descriptionData){
+            $('#meetModal #meetDescription').empty();
+            $('#meetModal #meetDate').empty();
+            $('#meetModal #meetTime').empty();
+            $('#meetModal #meetStatus').empty();
+        }
     });
 
     
@@ -355,6 +365,37 @@
 
     });
 
+    $(document).on('click', '.accept-button', function () {
+        var meetId = descriptionData.id;
+        updateMeetStatus(meetId, 'Confirmé');
+    });
 
+    $(document).on('click', '.decline-button', function () {
+        var meetId = descriptionData.id;
+        updateMeetStatus(meetId, 'Annulé');
+    });
+
+    function updateMeetStatus(meetId, status) {
+        // Perform an AJAX request to update the meet status
+        $.ajax({
+            url: '/update-meet-status/' + meetId,
+            method: 'POST',
+            data: { status: status },
+            success: function (response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Le statut de la rencontre est modifié .',
+                }).then(function () {
+                    // Reload the page after showing the success message
+                    location.reload();
+                });
+            },
+            error: function (error) {
+                // Handle error response
+                console.error(error);
+            }
+        });
+    }
 
 </script>

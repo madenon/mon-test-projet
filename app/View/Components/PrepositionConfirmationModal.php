@@ -6,14 +6,15 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class preposition-confirmation-modal extends Component
+class PrepositionConfirmationModal extends Component
 {
+    public $preposition;
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($preposition)
     {
-        //
+        $this->preposition = $preposition;
     }
 
     /**

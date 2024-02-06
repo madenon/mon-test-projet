@@ -177,6 +177,7 @@ class PropositionController extends Controller
             $proposition->status = "Rejetée";
             $taker->notify(new PropositionResult($proposition));   
         }
+        PropositionStatusUpdated::dispatch($proposition);
         
         $proposition->save();
 

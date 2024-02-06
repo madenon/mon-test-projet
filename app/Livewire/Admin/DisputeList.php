@@ -43,7 +43,6 @@ class DisputeList extends Component
     
     public function changeState($disputeId){
         $dispute=Dispute::find($disputeId);
-        // dd($dispute);
         $dispute->isOpen=!$dispute->isOpen;
         $dispute->save();
     }

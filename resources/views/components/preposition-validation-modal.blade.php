@@ -31,7 +31,7 @@
                                 <button type="button" class="btn btn-danger" id="declineButton" data-bs-dismiss="modal" aria-label="Fermer" data-proposition-id="{{$preposition->id}}">
                                     Refuser
                                 </button>
-                                <button type="button" class="btn btn-primary m-1" id="meetButton">
+                                <button type="button" class="btn btn-primary m-1" id="meetButton" data-meet="{{ $preposition->meetup }}" data-proposition-id="{{$preposition->id}}" data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">
                                     <i class="fa fa-calendar"></i> Ajouter un rendez-vous
                                 </button>
 
@@ -43,40 +43,6 @@
                         </tr>
                     </tbody>
                 </table>
-                <h2 id="meetHeader">Rendez-vous</h2>
-                <table id="meetTable" class="table align-middle">
-                    <thead class="bg-light">
-                        <tr>
-                            <th>Date</th>
-                            <th>Heure</th>
-                            <th>Description</th>
-                            <th>Statut</th>
-                        </tr>
-                    </thead>
-                    <tbody id="meetupsTableBody">
-                        <td id="meetDate"></td>
-                        <td id="meetTime"></td>
-                        <td id="meetDescription"></td>
-                        <td id="meetStatus"></td>
-                    </tbody>
-                </table>
-                <form id="meetupForm">
-                    @csrf
-                    <input type="hidden" id="prepositionId" name="prepositionId" value="">
-                    <div class="mb-3">
-                        <label for="meetupDate" class="form-label">Date du rendez-vous</label>
-                        <input type="date" class="form-control" id="meetupDate" name="meetupDate" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="meetupTime" class="form-label">Heure du rendez-vous</label>
-                        <input type="time" class="form-control" id="meetupTime" name="meetupTime" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="meetupDescription" class="form-label">Description du rendez-vous</label>
-                        <textarea class="form-control" id="meetupDescription" name="meetupDescription" rows="3" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Planifier le rendez-vous</button>
-                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
@@ -89,70 +55,35 @@
 <script>
     $(document).ready(function () {
         
-        $('#propositionValidationModal-{{$preposition->id}}').on('hidden.bs.modal', function () {
-            $("#meetupForm").hide();
-            $("#meetHeader").hide();
-            $("#meetTable").hide();
-        });
-        $('.proposition-link').click(function () {
-            // Get data from the clicked link
-            var propositionName = $(this).text();
-            var propositionStatus = $(this).data('status'); // Adjust based on your data attributes
-            var propositionUser = $(this).data('user'); // Adjust based on your data attributes
-            var propositionId=$(this).data('id');
-            var propositionImage=$(this).data('image');
-            var user=propositionUser.first_name+" "+propositionUser.last_name;
-            var descriptionData=$(this).data('meet');
+
+        $('#meetButton').click(function () {
+            descriptionData=$(this).data('meet');
             console.log(descriptionData);
             var meetDescription=descriptionData.description;
             var meetDate=descriptionData.date;
             var meetTime=descriptionData.time;
             var meetStatus=descriptionData.status;
-            
-            // Set the value of the hidden input in meetup form
-            $('#prepositionId').val(propositionId);
-            // Update modal content
-            $('#modalName').text(propositionName);
-            $('#modalStatus').text(propositionStatus);
-            $('#modalUser').text(user);
-            $('#modalImage').attr('src',propositionImage);
-            // Update propositionId in button data attributes
-            $('#acceptButton').data('proposition-id', propositionId);
-            $('#acceptButton').data('proposition-id', propositionId);
-            $('#declineButton').data('proposition-id', propositionId);
+            // add data to table meet 
+            $('#meetModal-{{$preposition->id}} #meetDescription').text(meetDescription);
+            $('#meetModal-{{$preposition->id}} #meetDate').text(meetDate);
+            $('#meetModal-{{$preposition->id}} #meetTime').text(meetTime);
+            $('#meetModal-{{$preposition->id}} #meetStatus').text(meetStatus);
+            if(descriptionData.status=="Confirmé"){
+                $('#meetModal-{{$preposition->id}} #meetActions').hide();
+            }
+            if(!descriptionData){
+                $('#meetModal-{{$preposition->id}} #meetDescription').empty();
+                $('#meetModal-{{$preposition->id}} #meetDate').empty();
+                $('#meetModal-{{$preposition->id}} #meetTime').empty();
+                $('#meetModal-{{$preposition->id}} #meetStatus').empty();
+            }
             //chatbutton
+            var propositionId = $(this).data('proposition-id');
             var chatButton = document.getElementById('chatButton');
             chatButton.href = chatButton.href.replace('PROPOSITION_ID_PLACEHOLDER', propositionId);
-            // add meetup in table 
-            if(descriptionData){
-                $('#meetDescription').text(meetDescription);
-                $('#meetDate').text(meetDate);
-                $('#meetTime').text(meetTime);
-                $('#meetStatus').text(meetStatus);
-                $('#meetButton').hide();
-                $('#meetHeader').show();
-                $('#meetTable').show();
-            } 
-            else {
-                $('#meetDescription').empty();
-                $('#meetDate').empty();
-                $('#meetTime').empty();
-                $('#meetStatus').empty();
-                $('#meetButton').show();
-                $('#meetHeader').hide();
-                $('#meetTable').hide();
-            }
-
-            if(propositionStatus=="Acceptée" || propositionStatus=="Rejetée" ){
-                $('#acceptButton').hide();
-                $('#declineButton').hide();
-            }
-            else{
-                $('#acceptButton').show();
-                $('#declineButton').show();
-            }
-           
+ 
         });
+        
         // Handle Accept button click
         $('#propositionValidationModal-{{$preposition->id}} #acceptButton').click(function () {
             var propositionId = $(this).data('proposition-id');
@@ -164,11 +95,7 @@
             var propositionId = $(this).data('proposition-id');
             updatePropositionStatus(propositionId, 'Rejetée');
         });
-        // Handle Meet button click
-        $("#meetupForm").hide();
-        $('#meetButton').click(function () {
-            $("#meetupForm").show();
-        });
+
         
         function updatePropositionStatus(propositionId, newStatus) {
             $.ajax({
@@ -223,87 +150,8 @@
         }
 
     });
-    // for meetup form
-    $(document).ready(function () {
-        // Handle form submission
-        $('#meetupForm').submit(function (e) {
-            e.preventDefault();
 
-            // Get form data
-            var formData = {
-                prepositionId: $('#prepositionId').val(),
-                meetupDate: $('#meetupDate').val(),
-                meetupTime: $('#meetupTime').val(),
-                meetupDescription: $('#meetupDescription').val(),
-            };
-            console.log(formData);
 
-            // Perform AJAX request to save meetup schedule
-            $.ajax({
-                url: '/schedule-meetup',
-                method: 'POST',
-                data: formData,
-                success: function (response) {
-                    // Handle success response
-                    console.log(response);
-
-                    // Optionally, close the modal after a successful update
-                    $('#meetupModal').modal('hide');
-
-                    Swal.fire({
-                icon: 'success',
-                title: 'Success!',
-                text: 'Rencontre ajoutée.',
-            }).then(function () {
-                // Reload the page after showing the success message
-                location.reload();
-            });
-        },
-        error: function (error) {
-            
-            // Show error message
-            Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                text: 'Erreur',
-            });
-               
-                }
-            });
-        });
-
-        // Open the modal and set the prepositionId
-        $('#meetupModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var prepositionId = button.data('preposition-id'); // Extract info from data-* attributes
-            $('#prepositionId').val(prepositionId); // Set the prepositionId in the form
-        });
-    });
-
-    var meetups = {};
-
-    // Function to populate the meetups table
-    function populateMeetupsTable() {
-        var meetupsTableBody = document.getElementById('meetupsTableBody');
-
-        // Clear existing rows
-        meetupsTableBody.innerHTML = '';
-
-        // Loop through meetups and add rows to the table
-        
-            var row = meetupsTableBody.insertRow();
-            var dateCell = row.insertCell(0);
-            var timeCell = row.insertCell(1);
-            var descriptionCell = row.insertCell(2);
-            var statusCell = row.insertCell(3);
-
-            // Set cell values based on meetup data
-            dateCell.innerHTML = meetup.date;
-            timeCell.innerHTML = meetup.time;
-            descriptionCell.innerHTML = meetup.description;
-            statusCell.innerHTML = meetup.status;
-        
-    }
 
     // Event listener for modal show event
     $('#yourModalId').on('show.bs.modal', function (event) {
@@ -312,8 +160,6 @@
         document.getElementById('modalStatus').innerHTML = preposition.status;
         document.getElementById('modalUser').innerHTML = preposition.user_name;
 
-        // Populate meetups table
-        populateMeetupsTable();
     });
 
 

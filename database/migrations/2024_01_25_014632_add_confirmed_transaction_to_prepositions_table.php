@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement("ALTER TABLE prepositions MODIFY COLUMN validation ENUM('none', 'validated', 'confirmed', 'confirmedTransaction')");
+        DB::statement("ALTER TABLE prepositions MODIFY COLUMN validation ENUM('none', 'validated', 'confirmed', 'confirmedTransaction')  DEFAULT 'none'");
         
     }
     
@@ -20,7 +20,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement("ALTER TABLE prepositions MODIFY COLUMN validation ENUM('none', 'validated', 'confirmed')");
+        DB::statement("ALTER TABLE prepositions MODIFY COLUMN validation ENUM('none', 'validated', 'confirmed')  DEFAULT 'none'");
 
     }
 };
