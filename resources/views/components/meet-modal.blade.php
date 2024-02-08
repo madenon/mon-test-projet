@@ -27,6 +27,7 @@
                 <form id="meetupForm">
                     @csrf
                     <input type="hidden" id="prepositionId" name="prepositionId" value="{{$preposition->id}}">
+                    <input type="hidden" id="userId" name="userId" value="{{auth()->id()}}">
                     <div class="mb-3">
                         <label for="meetupDate" class="form-label">Date du rendez-vous</label>
                         <input type="date" class="form-control" id="meetupDate" name="meetupDate" required>
@@ -128,6 +129,7 @@
                 meetupDate: $('#meetupDate').val(),
                 meetupTime: $('#meetupTime').val(),
                 meetupDescription: $('#meetupDescription').val(),
+                userId: $('#userId').val(), 
             };
             console.log(formData);
 

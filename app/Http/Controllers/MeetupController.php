@@ -17,6 +17,7 @@ class MeetupController extends Controller
             'meetupDate' => 'required|date',
             'meetupTime' => 'required',
             'meetupDescription' => 'required',
+            'userId' => 'required|integer',
         ]);
 
         // Get form data
@@ -24,13 +25,18 @@ class MeetupController extends Controller
         $meetupDate = $request->input('meetupDate');
         $meetupTime = $request->input('meetupTime');
         $meetupDescription = $request->input('meetupDescription');
+        $userId = $request->input('userId');
 
         // Save the meetup schedule
-        $meetup = new Meetup([
+        $meetup = Meetup::updateOrCreate([
+            'preposition_id' => $prepositionId,
+            'user_id' => $userId,
+            ],[
             'preposition_id' => $prepositionId,
             'date' => $meetupDate,
             'time' => $meetupTime,
             'description' => $meetupDescription,
+            'user_id' => $userId,
         ]);
         $meetup->save();
 

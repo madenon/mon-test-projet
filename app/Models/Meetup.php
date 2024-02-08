@@ -13,7 +13,8 @@ class Meetup extends Model
         'date',
         'time',
         'description', 
-        'status'
+        'status',
+        'user_id'
     ];
 // get user id from here (Notify about meetup cretion ) 
 // get offer id and user id from offer  (and notify him about update )

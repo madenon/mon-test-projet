@@ -128,7 +128,6 @@
         <div class="col-span-full d-flex items-center justify-center">
             <a class="more-btn" style="font-size:14px;margin:0" href="{{route('alloffers.index')}}">Voir plus<i class="pl-2 fa fa-long-arrow-right"></i></a>
         </div>
-        ثمهب
         @endif
 
     </div>
@@ -491,37 +490,37 @@ Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
 <script>
     $(document).ready(function () {
         let all = document.getElementsByClassName("zoomD"),
-      lightbox = document.getElementById("lightbox");
- 
-  // (B) CLICK TO SHOW IMAGE IN LIGHTBOX
-  // * SIMPLY CLONE INTO LIGHTBOX & SHOW
-  if (all.length>0) { for (let i of all) {
-    i.onclick = () => {
-      let clone = i.cloneNode();
-      clone.className = "";
-      lightbox.innerHTML = "";
-      lightbox.appendChild(clone);
-      lightbox.className = "show";
-    };
-  }}
- 
-  // (C) CLICK TO CLOSE LIGHTBOX
-  lightbox.onclick = () => lightbox.className = "";
+        lightbox = document.getElementById("lightbox");
+        
+        // (B) CLICK TO SHOW IMAGE IN LIGHTBOX
+        // * SIMPLY CLONE INTO LIGHTBOX & SHOW
+        if (all.length>0) { for (let i of all) {
+            i.onclick = () => {
+            let clone = i.cloneNode();
+            clone.className = "";
+            lightbox.innerHTML = "";
+            lightbox.appendChild(clone);
+            lightbox.className = "show";
+            };
+        }}
+        
+        // (C) CLICK TO CLOSE LIGHTBOX
+        lightbox.onclick = () => lightbox.className = "";
         //
         $(window).scroll(function() {
-    var scrollPosition = $(window).scrollTop();
-    var left = $('#left');
-    var right = $('#right');
+            var scrollPosition = $(window).scrollTop();
+            var left = $('#left');
+            var right = $('#right');
 
-if (scrollPosition > 250) {
-    left.css('top', '80px');
-    right.css('top', '80px');
-    right.css('margin-top', '0px');
-} else {
-  left.css('top', '');
-  right.css('margin-top', '260px');
+            if (scrollPosition > 250) {
+                left.css('top', '80px');
+                right.css('top', '80px');
+                right.css('margin-top', '0px');
+            } else {
+            left.css('top', '');
+            right.css('margin-top', '260px');
 
-}}); 
+        }}); 
 // 
         ['featured','recent'].forEach((el)=>{
             var scrollDistance = $(`#${el}-offers-container`).width()/3;

@@ -1,36 +1,81 @@
-<script type="module" >
-
-    import Echo from '../../../laravel-echo';
-
-    import Pusher from '../../../pusher-js';
-    window.Pusher = Pusher;
-    const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
-    const userId = document.head.querySelector('meta[name="userId"]').content;
-
-    window.Echo = new Echo({
-        broadcaster: 'pusher',
-        key: import.meta.env.VITE_PUSHER_APP_KEY,
-        cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
-        forceTLS: true,
-        encrypted: true,
-        auth: {
-            headers: {
-                Authorization: 'Bearer ' + csrfToken
-            },
-        },
-
-    });
-</script>
 <x-app-layout>
-<div class="container">    
-    <div class="flex space-x-4 mt-4">
-        <div class="pe-4" style="{{ !(request()->has('in_progress')) || request()->input('in_progress')==1 ?  'border-bottom: 2px solid #24a19c' : ''}}">
-            <a href="{{route('propositions.index', ['in_progress'=>1])}}" class="text-gray-600 hover:text-gray-800 no-underline focus:outline-none focus:text-gray-800 transition duration-300 ease-in-out">In Progress</a>
+    <script type="module" >
+    
+        import Echo from '../../../laravel-echo';
+    
+        import Pusher from '../../../pusher-js';
+        window.Pusher = Pusher;
+        const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+        const userId = document.head.querySelector('meta[name="userId"]').content;
+    
+        window.Echo = new Echo({
+            broadcaster: 'pusher',
+            key: import.meta.env.VITE_PUSHER_APP_KEY,
+            cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
+            forceTLS: true,
+            encrypted: true,
+            auth: {
+                headers: {
+                    Authorization: 'Bearer ' + csrfToken
+                },
+            },
+    
+        });
+    </script>
+    <div class="container">    
+        <div class="flex space-x-4 mt-4">
+            <div class="pe-4" style="{{ !(request()->has('in_progress')) || request()->input('in_progress')==1 ?  'border-bottom: 2px solid #24a19c' : ''}}">
+                <a href="{{route('propositions.index', ['in_progress'=>1])}}" class="text-gray-600 hover:text-gray-800 no-underline focus:outline-none focus:text-gray-800 transition duration-300 ease-in-out">In Progress</a>
+            </div>
+            <div class="pe-6" style="{{ !(request()->has('in_progress')) || request()->input('in_progress')==1 ? '' : 'border-bottom: 2px solid #24a19c' }}">
+                <a href="{{route('propositions.index', ['in_progress'=>0])}}" class="text-gray-600 hover:text-gray-800 no-underline focus:outline-none focus:text-gray-800 transition duration-300 ease-in-out">All</a>
+            </div>
         </div>
-        <div class="pe-6" style="{{ !(request()->has('in_progress')) || request()->input('in_progress')==1 ? '' : 'border-bottom: 2px solid #24a19c' }}">
-            <a href="{{route('propositions.index', ['in_progress'=>0])}}" class="text-gray-600 hover:text-gray-800 no-underline focus:outline-none focus:text-gray-800 transition duration-300 ease-in-out">All</a>
-        </div>
-    </div>
+        @if((request()->has('in_progress')) && request()->input('in_progress')==0 )
+        <form action="{{ route('propositions.index', ['in_progress'=>0]) }}" method="GET">
+            <input type="text" name="in_progress" id="in_progress" value="0" hidden />
+            <div class="my-4 flex justify-between">
+                <div class="">
+                    <select name="status" id="filterStatus" class="mt-1 p-2 border rounded-md" style="width: 200px;" onchange="this.form.submit()">
+                        <option value="">Tous les status</option>
+                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
+                            pending
+                        </option>
+                        <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>
+                            rejected
+                        </option>
+                        <option value="accepted" {{ request('status') == 'accepted' ? 'selected' : '' }}>
+                            accepted
+                        </option>
+                    </select>
+                    
+                </div>
+                <div class="flex justify-between items-center border">
+                    <div class="w-1/2 px-2">
+                        <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date')?? \Carbon\Carbon::now()->subMonths(6)->toDateString() }}" onchange="this.form.submit()">
+                    </div>
+                    <div class="w-1/2 px-2">
+                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date')?? now()->toDateString() }}" onchange="this.form.submit()">
+                    </div>
+        
+                </div>
+                <div class="">
+                    <input type="text" name="number_prop" value="{{ request('number_prop')}}" class="mt-1 p-2 border rounded-md" placeholder="N° proposition">
+                    
+                    <button type="submit" class="ml-2 text-blue-500 hover:text-blue-700">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="">
+                    <input type="text" name="name_offer" value="{{ request('name_offer') }}" class="mt-1 p-2 border rounded-md" placeholder = 'Offer name'>
+                    
+                    <button type="submit" class="ml-2 text-blue-500 hover:text-blue-700">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        @endif
         <table class="table align-middle mt-4 mb-0 bg-white">
             <thead class="bg-light">
                 <tr>
@@ -130,10 +175,10 @@
                             </div>
                         </td>
                         <td>
-                              @php
-                              $isButton=null;
-                              $validation_text=null;
-                              if(!$preposition->validation || $preposition->validation == 'none'){
+                                @php
+                                $isButton=null;
+                                $validation_text=null;
+                                if(!$preposition->validation || $preposition->validation == 'none'){
                                     if($preposition->status != 'Rejetée'){
                                         $validation_text = $isReceiveid ? 'Valider la proposition' : 'En attente de validation';
                                         $isButton = $isReceiveid ? true : false; 
@@ -175,10 +220,10 @@
                                         $validation_text = 'Transaction rejetée' ;
                                     }
                                 }
-                              @endphp 
-                              
-                              @if($isButton)
-                              <div class="col-span-full d-flex items-center justify-center">
+                                @endphp 
+                                
+                                @if($isButton)
+                                <div class="col-span-full d-flex items-center justify-center">
                                 @if(!$preposition->validation || $preposition->validation == 'none')
                                 <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="#" 
                                     data-bs-toggle="modal" data-bs-target="#propositionValidationModal-{{$preposition->id}}">{{$validation_text}}</a>
@@ -189,15 +234,15 @@
                                 <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" 
                                     href="{{route('transactions.index')}}" >{{$validation_text}}</a>
                                 @endif
-                              </div>                              
-                              @else
+                                </div>                              
+                                @else
                                 <span>{{$validation_text}}</span>
-                              @endif
-                               <div>
-                                   <x-preposition-validation-modal :preposition=$preposition></x-preposition-validation-modal>
-                                   <x-preposition-confirmation-modal :preposition=$preposition></x-preposition-confirmation-modal>
-                                   <x-meet-modal :preposition=$preposition></x-meet-modal> 
-                               </div> 
+                                @endif
+                                <div>
+                                    <x-preposition-validation-modal :preposition=$preposition></x-preposition-validation-modal>
+                                    <x-preposition-confirmation-modal :preposition=$preposition></x-preposition-confirmation-modal>
+                                    <x-meet-modal :preposition=$preposition></x-meet-modal> 
+                                </div> 
                         </td>
                     </tr>
                     <script type="module">
@@ -210,42 +255,41 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
     
-    <div class="modal fade" id="meetModal" tabindex="-1" aria-labelledby="meetModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h2 id="meetHeader">Rencontres</h2>
+        <div class="modal fade" id="meetModal" tabindex="-1" aria-labelledby="meetModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h2 id="meetHeader">Rencontres</h2>
 
-                </div>
-                <div class="modal-body">
-                    <table id="meetTable" class="table align-middle">
-                        <thead class="bg-light">
-                            <tr>
-                            <th>Date</th>
-                            <th>Heure</th>
-                            <th>Description</th>
-                            <th>Statut</th>
-                            <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="meetupsTableBody">
-                            <td id="meetDate"></td>
-                            <td id="meetTime"></td>
-                            <td id="meetDescription"></td>
-                            <td id="meetStatus"></td>
-                            <td id="meetActions">
-                                <button class="btn btn-success accept-button" >Accepter</button>
-                                <button class="btn btn-danger decline-button" >Refuser</button>
-                            </td>
+                    </div>
+                    <div class="modal-body">
+                        <table id="meetTable" class="table align-middle">
+                            <thead class="bg-light">
+                                <tr>
+                                <th>Date</th>
+                                <th>Heure</th>
+                                <th>Description</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="meetupsTableBody">
+                                <td id="meetDate"></td>
+                                <td id="meetTime"></td>
+                                <td id="meetDescription"></td>
+                                <td id="meetStatus"></td>
+                                <td id="meetActions">
+                                    <button class="btn btn-success accept-button" >Accepter</button>
+                                    <button class="btn btn-danger decline-button" >Refuser</button>
+                                </td>
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        
-</div>
+            
+    </div>
 </div>
 </x-app-layout>
 @php
