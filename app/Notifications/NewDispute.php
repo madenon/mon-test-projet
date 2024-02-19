@@ -16,7 +16,7 @@ class NewDispute extends Notification
 
     public function __construct($dis)
     {
-        $this->dispute=$dis;
+        $this->dispute = $dis;
     }
 
     /**
@@ -26,9 +26,10 @@ class NewDispute extends Notification
      */
     public function via(object $notifiable): array
     {
-        return['database','broadcast'];
-        // return ['mail', 'database','broadcast'];
+        return ['database', 'broadcast'];
+        // return ['mail', 'database', 'broadcast'];
     }
+    
     /**
      * Get the mail representation of the notification.
      */
@@ -36,9 +37,9 @@ class NewDispute extends Notification
     {
         $url = url('/admin/disputes/');
         return (new MailMessage)
-                    ->subject('New Report')
-                    ->line('You have receiveid a new dispute.')
-                    ->action('View Report', $url)
+                    ->subject('Nouveau Signalement')
+                    ->line('Vous avez reçu un nouveau signalement.')
+                    ->action('Voir le Signalement', $url)
                     ->line($this->dispute->description);
     }
 
@@ -51,12 +52,10 @@ class NewDispute extends Notification
     {
         return [
             'id' => $this->dispute->id,
-            'name' =>   $this->dispute->disputer->name,
+            'name' => $this->dispute->disputer->name,
             'title' => $this->dispute->title,
-            'content' => ' send a dispute',
+            'content' => 'a envoyé un signalement',
             'link' => url('/admin/disputes/'.$this->dispute->disputer_id)
         ];
     }
-    
-    
 }

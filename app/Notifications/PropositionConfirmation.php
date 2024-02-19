@@ -8,7 +8,6 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Preposition;
 
-
 class PropositionConfirmation extends Notification
 {
     use Queueable;
@@ -17,7 +16,7 @@ class PropositionConfirmation extends Notification
 
     public function __construct($prep)
     {
-        $this->preposition=$prep;
+        $this->preposition = $prep;
     }
 
     /**
@@ -27,17 +26,17 @@ class PropositionConfirmation extends Notification
      */
     public function via(object $notifiable): array
     {
-        return [ 'database','broadcast'];
-        // return ['mail', 'database','broadcast'];
+        return ['database', 'broadcast'];
+        // return ['mail', 'database', 'broadcast'];
     }
 
     public function toMail(object $notifiable): MailMessage
     {
         $url = url('/propositions');
         return (new MailMessage)
-                    ->subject('Proposition confirmation')
-                    ->line('Please confirm your proposition')
-                    ->action('View Proposition', $url)
+                    ->subject('Confirmation de proposition')
+                    ->line('Veuillez confirmer votre proposition')
+                    ->action('Voir la Proposition', $url)
                     ->line($this->preposition->name);
     }
 
@@ -50,11 +49,10 @@ class PropositionConfirmation extends Notification
     {
         return [
             'id' => $this->preposition->id,
-            'name' =>   $this->preposition->offer->user->name,
-            'title' =>   $this->preposition->name,
-            'content' => 'has '.$this->preposition->status.' your proposition. Please confirm it',
+            'name' => $this->preposition->offer->user->first_name . ' ' . $this->preposition->offer->user->last_name,
+            'title' => $this->preposition->name,
+            'content' => 'a '.$this->preposition->status.' votre proposition. Veuillez la confirmer',
             'link' => url('/propositions')
-
         ];
     }
 }

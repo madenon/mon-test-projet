@@ -8,7 +8,7 @@ use App\Models\Dispute;
 use App\Models\User;
 use App\Notifications\NewDispute;
 use App\Events\TransactionStatusUpdated;
-
+use App\Notifications\NewTransaction;
 
 class TransactionController extends Controller
 {
@@ -52,8 +52,13 @@ class TransactionController extends Controller
         
         if (auth()->check() && auth()->user()->id === $user->id) {
             $transaction->applicant_status=$status;
+            $taker=User::find($transaction->offer->user->id);
+            $taker->notify(new NewTransaction($transaction));
+           
         } else {
             $transaction->offeror_status=$status;
+            $taker=User::find($user->id);
+            $taker->notify(new NewTransaction($transaction));
         }
         
         if($transaction->applicant_status != 'En cours' && $transaction->offeror_status != 'En cours' ){

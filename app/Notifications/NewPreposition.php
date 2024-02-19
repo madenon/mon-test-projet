@@ -11,6 +11,7 @@ use App\Models\Preposition;
 use App\Models\User;
 
 
+
 class NewPreposition extends Notification
 {
     use Queueable;
@@ -19,7 +20,7 @@ class NewPreposition extends Notification
 
     public function __construct($prep)
     {
-        $this->preposition=$prep;
+        $this->preposition = $prep;
     }
 
     /**
@@ -29,9 +30,10 @@ class NewPreposition extends Notification
      */
     public function via(object $notifiable): array
     {
-        return [ 'database','broadcast'];
-        // return ['mail', 'database','broadcast'];
+        return ['database', 'broadcast'];
+       // return ['mail', 'database', 'broadcast'];
     }
+
     /**
      * Get the mail representation of the notification.
      */
@@ -39,9 +41,9 @@ class NewPreposition extends Notification
     {
         $url = url('/propositions');
         return (new MailMessage)
-                    ->subject('New Proposition')
-                    ->line('You have receiveid a new proposition.')
-                    ->action('View Proposition', $url)
+                    ->subject('Nouvelle Proposition')
+                    ->line('Vous avez reçu une nouvelle proposition sur l\'offre :' . $this->preposition->offer->title )
+                    ->action('Voir la proposition', $url)
                     ->line($this->preposition->name);
     }
 
@@ -54,13 +56,10 @@ class NewPreposition extends Notification
     {
         return [
             'id' => $this->preposition->id,
-            'name' =>   $this->preposition->offer->user->name,
-            'title' =>   $this->preposition->name,
-            'content' => ' send you a proposition',
+            'name' => $this->preposition->offer->user->first_name . ' ' . $this->preposition->offer->user->last_name,
+            'title' => $this->preposition->name,
+            'content' => ' vous a envoyé une proposition',
             'link' => url('/offres/'.$this->preposition->offer->id.'/'.$this->preposition->offer->slug)
-            
         ];
     }
-    
-
 }

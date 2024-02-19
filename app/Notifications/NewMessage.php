@@ -5,11 +5,9 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\ChMessage as Message;
 use App\Models\User;
-
 
 class NewMessage extends Notification implements ShouldQueue
 {
@@ -20,8 +18,8 @@ class NewMessage extends Notification implements ShouldQueue
 
     public function __construct($mes)
     {
-        $this->message=$mes;
-        $this->sender=User::find($mes->from_id);
+        $this->message = $mes;
+        $this->sender = User::find($mes->from_id);
     }
 
     /**
@@ -31,9 +29,10 @@ class NewMessage extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return['database','broadcast'];
-        // return ['mail', 'database','broadcast'];
+        return ['database', 'broadcast'];
+        // return ['mail', 'database', 'broadcast'];
     }
+    
     /**
      * Get the mail representation of the notification.
      */
@@ -41,9 +40,9 @@ class NewMessage extends Notification implements ShouldQueue
     {
         $url = url('/moncompte/mesmessages/'.$this->message->from_id);
         return (new MailMessage)
-                    ->subject('New Message')
-                    ->line('You have receiveid a new message.')
-                    ->action('View Message', $url)
+                    ->subject('Nouveau Message')
+                    ->line('Vous avez reçu un nouveau message.')
+                    ->action('Voir le Message', $url)
                     ->line($this->message->body);
     }
 
@@ -57,14 +56,9 @@ class NewMessage extends Notification implements ShouldQueue
         return [
             'id' => $this->message->id,
             'from_id' => $this->sender->id,
-            'name' =>   $this->sender->name,
-            'content' => ' send you a message',
+            'name' => $this->sender->name,
+            'content' => 'vous a envoyé un message',
             'link' => url('/moncompte/mesmessages/'.$this->message->from_id)
         ];
     }
-    
-    
-    
-
 }
-// href="{{route('offer.offer', [$preposition->offer, urlencode($preposition->offer->slug)])}}"

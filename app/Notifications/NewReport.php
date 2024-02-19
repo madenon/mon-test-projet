@@ -9,7 +9,6 @@ use Illuminate\Notifications\Notification;
 use App\Models\Report;
 use App\Models\User;
 
-
 class NewReport extends Notification
 {
     use Queueable;
@@ -18,7 +17,7 @@ class NewReport extends Notification
 
     public function __construct($rep)
     {
-        $this->report=$rep;
+        $this->report = $rep;
     }
 
     /**
@@ -28,9 +27,10 @@ class NewReport extends Notification
      */
     public function via(object $notifiable): array
     {
-        return['database','broadcast'];
-        // return ['mail', 'database','broadcast'];
+        return ['database', 'broadcast'];
+        // return ['mail', 'database', 'broadcast'];
     }
+    
     /**
      * Get the mail representation of the notification.
      */
@@ -38,9 +38,9 @@ class NewReport extends Notification
     {
         $url = url('/admin/reports/');
         return (new MailMessage)
-                    ->subject('New Report')
-                    ->line('You have receiveid a new report.')
-                    ->action('View Report', $url)
+                    ->subject('Nouveau Signalement')
+                    ->line('Vous avez reçu un nouveau signalement.')
+                    ->action('Voir le Signalement', $url)
                     ->line($this->report->description);
     }
 
@@ -53,14 +53,10 @@ class NewReport extends Notification
     {
         return [
             'id' => $this->report->id,
-            'name' =>   $this->report->reporter->name,
+            'name' => $this->report->reporter->name,
             'title' => $this->report->title,
-            'content' => ' send a report',
+            'content' => 'a envoyé un signalement',
             'link' => url('/admin/reports/'.$this->report->reporter_id)
         ];
     }
-    
-    
-    
-
 }

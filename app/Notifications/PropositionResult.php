@@ -5,7 +5,6 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Preposition;
 use App\Models\User;
@@ -13,11 +12,12 @@ use App\Models\User;
 class PropositionResult extends Notification
 {
     use Queueable;
+
     private Preposition $preposition; 
 
     public function __construct($prep)
     {
-        $this->preposition=$prep;
+        $this->preposition = $prep;
     }
 
     /**
@@ -27,9 +27,10 @@ class PropositionResult extends Notification
      */
     public function via(object $notifiable): array
     {
-        return [ 'database','broadcast'];
-        // return ['mail', 'database','broadcast'];
+        return ['database', 'broadcast'];
+        // return ['mail', 'database', 'broadcast'];
     }
+
     /**
      * Get the mail representation of the notification.
      */
@@ -37,9 +38,9 @@ class PropositionResult extends Notification
     {
         $url = url('/propositions');
         return (new MailMessage)
-                    ->subject('Proposition result')
-                    ->line('Your proposition state has been updated')
-                    ->action('View Proposition', $url)
+                    ->subject('Résultat de la proposition')
+                    ->line('L\'état de votre proposition a été mis à jour')
+                    ->action('Voir la Proposition', $url)
                     ->line($this->preposition->name);
     }
 
@@ -52,14 +53,10 @@ class PropositionResult extends Notification
     {
         return [
             'id' => $this->preposition->id,
-            'name' =>   $this->preposition->offer->user->name,
-            'title' =>   $this->preposition->name,
-            'content' => 'has '.$this->preposition->status.' your proposition',
+            'name' => $this->preposition->offer->user->first_name . ' ' . $this->preposition->offer->user->last_name,
+            'title' => $this->preposition->name,
+            'content' => 'a '.$this->preposition->status.' votre proposition',
             'link' => url('/propositions')
-
         ];
     }
-
-
-
 }

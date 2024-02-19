@@ -153,7 +153,7 @@ class PropositionController extends Controller
         $propositionId = $request->input('propositionId');
         $confirm = $request->input('confirm');
         $proposition=Preposition::findOrFail($propositionId);
-        $taker=User::find($proposition->user_id);
+        $taker=User::find($proposition->offer->user->id);
         $proposition->validation = 'confirmed';
         if ( $confirm === 'Yes') {
             // Create a transaction
@@ -169,7 +169,7 @@ class PropositionController extends Controller
                 'date' => now()
             ]);
             
-            $taker->notify(new NewTransaction($transaction));   
+            $taker->notify(new PropositionResult($proposition));   
             
             $offer = $proposition->offer;
             

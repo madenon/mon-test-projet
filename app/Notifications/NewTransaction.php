@@ -37,9 +37,10 @@ class NewTransaction extends Notification
     {
         $url = url('/transactions');
         return (new MailMessage)
-                    ->subject('New Transaction')
-                    ->line('You have receiveid a new transaction.')
-                    ->action('View Transaction', $url)
+        ->subject('Nouvelle Transaction')
+        ->line('Vous avez reçu une nouvelle transaction.')
+        ->action('Voir la Transaction', $url)
+        
                     ->line($this->transaction->name);
     }
 
@@ -52,9 +53,9 @@ class NewTransaction extends Notification
     {
         return [
             'id' => $this->transaction->id,
-            'name' =>   $this->transaction->proposition->offer->user->name,
+            'name' =>   $this->transaction->proposition->offer->user->first_name . ' '. $this->transaction->proposition->offer->user->last_name ,
             'title' =>   $this->transaction->name,
-            'content' => ' accept your transaction',
+            'content' => 'a '.$this->transaction->status.' votre transaction',
             'link' => url('/transactions')   
         ];
     }
