@@ -24,13 +24,13 @@ if ($user){
                                         <th scope="col" class="px-6 py-3">
                                             Image
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th scope="col" class="px-6 py-3 hidden md:table-cell">
                                             Date de création
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th scope="col" class="px-6 py-3 hidden md:table-cell">
                                             Type
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th scope="col" class="px-6 py-3 hidden md:table-cell">
                                             catégorie
                                         </th>
                                         <th scope="col" class="px-6 py-3">
@@ -63,17 +63,17 @@ if ($user){
                                     <td class="px-6 py-4">
                                         <img class="h-16 w-16 rounded-full" src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}" alt="Annonce Image">
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 hidden md:table-cell">
                                         @if (!$offer->updated_at)
                                             {{$offer->created_at}}
                                         @else
                                             {{$offer->updated_at}}
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 hidden md:table-cell">
                                         {{$offer->type->name}}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 hidden md:table-cell">
                                         {{$offer->subcategory->parent->name}}
                                     </td>
                                     <td class="px-6 py-4">

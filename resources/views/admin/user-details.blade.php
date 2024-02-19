@@ -2,8 +2,7 @@
 
 @section('admin-content')
     <div class="container">
-        <div class="flex">
-           
+        <div class="flex"> 
                 <div class="relative max-w-md mx-auto md:max-w-2xl mt-16 min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-xl">
                     <div class="px-6">
                         <div class="flex flex-wrap justify-center">
@@ -21,17 +20,17 @@
                                 <a href="{{ route('admin.offers', ['userId' => $user->id]) }}" class="p-3 text-center mr-4">                                        <span class="text-lg font-bold block tracking-wide text-slate-700">Trocs en cours</span>
                                         <img src="{{asset('images/in-progress.svg')}}" class="w-14 h-14 mx-auto block" alt="" />
                                         <span class=" text-slate-400 font-bold">{{$offersInProgress}}</span>
-</a>
-<a href="{{ route('admin.propositions', ['userId' => $user->id]) }}" class="p-3 text-center mr-4 ml-4"> 
+                                </a>
+                                <a href="{{ route('admin.propositions', ['userId' => $user->id]) }}" class="p-3 text-center mr-4 ml-4"> 
                                         <span class="text-lg font-bold block tracking-wide text-slate-700">Propositions</span>
                                         <img src="{{asset('images/proposition.svg')}}" class="w-14 h-14 mx-auto block" alt="" />
                                         <span class=" text-slate-400 font-bold">{{$offerPrepostion}}</span>
-</a>
+                                </a>
 
                                     <a href="{{ route('admin.transactions', ['userId' => $user->id]) }}" class="p-3 text-center ml-4">                                         <span class="text-lg font-bold block tracking-wide text-slate-700">Trocs realisés</span>
                                         <img src="{{asset('images/success.svg')}}" class="w-14 h-14 mx-auto block" alt="" />
                                         <span class=" text-slate-400 font-bold">{{$finishedOffers}}</span>
-</a>
+                                    </a>
                                 </div>
                             </div>
 

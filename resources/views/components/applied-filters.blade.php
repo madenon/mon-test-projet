@@ -1,9 +1,9 @@
 <div class="flex">
     <ul class="flex flex-wrap items-center text-gray-900 dark:text-white m">
         <li class="me-2 my-1">
-            <div class="border-2 rounded p-1">
+            <div class="border-2 rounded p-1 flex">
                 <img src="{{asset('images/filter-icon.svg')}}" alt="" style="display:inline" />
-                Filtre
+                <span>Filtre</span>
             </div>
         </li>
         @foreach ($filters as $filter) 
@@ -26,7 +26,7 @@
     </ul>
     <div class="ps-2 ml-auto">
         <div class="flex items-center">
-            <div class="me-3">
+            <div class="me-3 whitespace-nowrap">
                 {{$offersCount}} items
             </div>
             <div class="ms-3">

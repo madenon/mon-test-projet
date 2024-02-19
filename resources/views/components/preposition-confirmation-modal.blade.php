@@ -11,19 +11,21 @@
                 <table class="table align-middle mb-0 bg-white">
                     <thead class="bg-light">
                         <tr>
-                            <th>Nom</th>
+                            <th class="hidden md:block">Image</th>
                             <th>Statut</th>
-                            <th>Image</th>
                             <th>Utilisateur</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td id="modalName"></td>
-                            <td id="modalStatus"></td>
-                            <td> <img id="modalImage" src="" class="modalzoomD" style="max-width:200px;" alt="Image"> </td>
-                            <td id="modalUser"></td>
+                            <td  class="hidden md:block"> <img id="modalImage" src="" class="w-full md:w-1/4 modalzoomD" style="max-width:200px;" alt="Image"> </td>
+                            <td id="modalStatus">
+                                <span class="badge {{ getStatusBadgeClass($preposition->status) }} rounded-pill d-inline">
+                                    {{ $preposition->status }}
+                                </span>
+                            </td>
+                            <td id="modalUser">{{$preposition->user->name}}</td>
                             <td>
                                 <button type="button" class="btn btn-success" id="acceptButton" data-bs-dismiss="modal" aria-label="Fermer" data-proposition-id="{{$preposition->id}}">
                                     Accepter

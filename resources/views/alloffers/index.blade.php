@@ -1,67 +1,66 @@
 <x-app-layout>
     <!-- (A) LIGHTBOX CONTAINER -->
-<div id="lightbox"></div>
-@php
-    $leftBannerShown = false;
-    $rightBannerShown = false;
-@endphp
+    <div id="lightbox"></div>
+    @php
+        $leftBannerShown = false;
+        $rightBannerShown = false;
+    @endphp
 
-@foreach ($banners as $banner)
-@if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all') && $banner->position === 'top')
-        <a href="{{$banner->description}}" target="_blank" >
-            <img src="{{ asset('storage/'. $banner->banner ) }}" alt="Banner" style="width:100%;max-height:260px;">
+    @foreach ($banners as $banner)
+        @if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all') && $banner->position === 'top')
+            <a href="{{$banner->description}}" target="_blank" >
+                <img src="{{ asset('storage/'. $banner->banner ) }}" alt="Banner" style="width:100%;max-height:260px;">
+                </a>
+                @endif
+        @if ($banner->is_active && ($banner->page === 'offers' || $banner->page === 'all') && $banner->position === 'left')
+            @php
+                $leftBannerShown = true;
+            @endphp
+            <a href="{{ $banner->description }}" target="_blank" >
+            <img src="{{ asset('storage/'. $banner->banner ) }}" id="left" alt="Banner" class="responsive-image">
+
+
             </a>
-            @endif
-    @if ($banner->is_active && ($banner->page === 'offers' || $banner->page === 'all') && $banner->position === 'left')
-        @php
-            $leftBannerShown = true;
-        @endphp
-        <a href="{{ $banner->description }}" target="_blank" >
-        <img src="{{ asset('storage/'. $banner->banner ) }}" id="left" alt="Banner" class="responsive-image">
+        @endif
 
-
-        </a>
-    @endif
-
-    @if ($banner->is_active && ($banner->page === 'offers' || $banner->page === 'all') && $banner->position === 'right')
-        @php
-            $rightBannerShown = true;
-        @endphp
-        <a href="{{ $banner->description }}" target="_blank" >
-            <img src="{{ asset('storage/'. $banner->banner ) }}" id="right" alt="Banner" class="responsive-image" style=" margin-top:260px; right:0;">
-        </a>
-    @endif
-@endforeach
-<style>
-    .responsive-image {
-        max-width: 300px;      height: auto;
-        position: fixed;
-    }
-
-    @media (max-width: 900px) {
+        @if ($banner->is_active && ($banner->page === 'offers' || $banner->page === 'all') && $banner->position === 'right')
+            @php
+                $rightBannerShown = true;
+            @endphp
+            <a href="{{ $banner->description }}" target="_blank" >
+                <img src="{{ asset('storage/'. $banner->banner ) }}" id="right" alt="Banner" class="responsive-image" style=" margin-top:260px; right:0;">
+            </a>
+        @endif
+    @endforeach
+    <style>
         .responsive-image {
-           display:none;
+            max-width: 300px;      height: auto;
+            position: fixed;
         }
-        .con{
-            margin:20px !important;
-            max-width: 100% !important;
+
+        @media (max-width: 900px) {
+            .responsive-image {
+            display:none;
+            }
+            .con{
+                margin:20px !important;
+                max-width: 100% !important;
+            }
         }
-    }
-</style>
+    </style>
 
-@php
-    $bothBannersShown = $leftBannerShown && $rightBannerShown;
-    $onlyLeftBannerShown = $leftBannerShown && !$rightBannerShown;
-    $onlyRightBannerShown = !$leftBannerShown && $rightBannerShown;
-    $noBannersShown = !$leftBannerShown && !$rightBannerShown;
-@endphp
-
-       
+    @php
+        $bothBannersShown = $leftBannerShown && $rightBannerShown;
+        $onlyLeftBannerShown = $leftBannerShown && !$rightBannerShown;
+        $onlyRightBannerShown = !$leftBannerShown && $rightBannerShown;
+        $noBannersShown = !$leftBannerShown && !$rightBannerShown;
+    @endphp
+        
     @if($categoryName)
-<div class="container my-2">
-    <h2> Catégorie : {{$categoryName }}</h2>
-</div>
-@endif
+    <div class="container my-2">
+        <h2> Catégorie : {{$categoryName }}</h2>
+    </div>
+    @endif
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Offres') }}
@@ -91,10 +90,10 @@
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col-3 col-md-3">
+            <div class="col-3 hidden md:block">
                 <x-filters></x-filters>      
             </div>
-            <div class="col-9 col-md-9 ps-2">
+            <div class="col-12 col-md-9 ps-2">
             @foreach ($banners as $banner)
         @if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all') && $banner->position === 'content')
         <div class="offer_list_card mt-0 mb-4">
@@ -107,102 +106,113 @@
            
                 @foreach ($offers as $offer)
                 <div class="offer_list_card mt-0 mb-4">
-                    <div class="offer_image relative">
+                    <div class="offer_image w-1/3 relative">
                         <img src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}" alt=""
                             class="zoomD object-cover h-full w-full rounded-tl-lg rounded-bl-lg " />
                     </div>
-                    <div class="offer_details ml-8 mt-4">
+                    <div class="offer_details md:ml-8 md:mr-4 md:mt-4 mr-2 ml-2 mt-2">
                         <div class="">
                             <a href="{{route('offer.offer', [$offer, urlencode($offer->slug)])}}" class="no-underline">
-                                <h1 class="text-titles text-2xl">
+                                <h1 class="text-titles text-lg md:text-2xl">
                                     {{ Str::limit($offer->title, 35) }}</h1>
                             </a>
                         </div>
-                        <div class="flex gap-2 items-center  ">
+                        <div class="flex gap-2 items-center text-xs md:text-base">
                             <img src="/images/Stack.svg" alt="" class="">
                             {{$offer->subcategory->parent->name}}
                             <img src="/images/chevron-right.svg" alt="" class="">
                             <img src="/images/Stack.svg" alt="" class="">
                             {{-- {{$subcategory->name}} --}}
                         </div>
-                        <div class=" text-titles text-xs mt-3">
+                        <div class=" text-titles text-xs mt-3 hidden md:block">
                             <h6 class=" font-normal ">A ECHANGER CONTRE</h6>
                         </div>
-                        <div class=" mt-3 flex w-full mb-3">
+                        <div class=" mt-3 flex w-full md:mb-3 ">
                             <div class=" w-[40%] flex gap-2 items-center">
                                 <img src="/images/map-pin.svg" alt="">
-                                <span class="">
-                                    {{$offer->department->region->name . ", " .
-                                    $offer->department->name}}
+                                <span class="text-xs md:text-base">
+                                    {{Str::limit($offer->department->region->name . ", " .
+                                    $offer->department->name,12)}}
                                 </span>
+                                
                             </div>
-                            <div class="  w-[60%] text-end">
+                            <div class="w-[60%] text-end">
                                 @if (!$offer->price)
-                                <span class="text-titles mr-5  text-2xl font-semibold">
                                     {{$offer->type->name}}
                                 </span>
                                 @else
                                 <div class="flex items-center justify-end gap-2  ">
                                     <span class="flex bg-red-100  rounded-full px-3 py-1 gap-2 text-red-500">
-                                        <span class="bg-red-500 px-2 rounded-full text-white">$</span>
-                                        <span>Vente autorisé</span>
+                                        <span class="text-xs md:text-base bg-red-500 px-2 rounded-full text-white ">$</span>
+                                        <span class="text-xs md:text-base">Vente autorisé</span>
                                     </span>
-                                    <span class="text-titles text-2xl font-semibold">
+                                    <span class="text-titles text-lg md:text-2xl font-semibold">
                                         {{$offer->price}} €
                                     </span>
                                 </div>
                                 @endif
                             </div>
                         </div>
-                        <div class="pb-12 mt-2 offer-container" data-expiration="{{ $offer->expiration_date }}">
-        <div class="flex gap-2 pr-3">
-            <div class="w-1/4">
-                <span class="flex text-center justify-center">Jours</span>
-                <div class="days-countdown flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
-                    00
-                </div>
-            </div>
-            <div class="w-1/4">
-                <span class="flex text-center justify-center">Heurs</span>
-                <div class="hours-countdown flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
-                    00
-                </div>
-            </div>
-            <div class="w-1/4">
-                <span class="flex text-center justify-center">Minutes</span>
-                <div class="minutes-countdown flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
-                    00
-                </div>
-            </div>
-            <div class="w-1/4">
-                <span class="flex text-center justify-center">Secs</span>
-                <div class="seconds-countdown flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-3xl font-bold">
-                    00
-                </div>
-            </div>
-        </div>
-    </div>
+                        <div class="pb-7 md:pb-12 md:mt-2 offer-container" data-expiration="{{ $offer->expiration_date }}">
+                            <div class="flex gap-2 pr-3">
+                                <div class="w-1/4">
+                                    <span class="flex text-center justify-center">Jours</span>
+                                    <div class="days-countdown flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-sm md:text-sm md:text-3xl font-bold">
+                                        00
+                                    </div>
+                                </div>
+                                <div class="w-1/4">
+                                    <span class="flex text-center justify-center">Heurs</span>
+                                    <div class="hours-countdown flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-sm md:text-sm md:text-3xl font-bold">
+                                        00
+                                    </div>
+                                </div>
+                                <div class="w-1/4">
+                                    <span class="flex text-center justify-center">Minutes</span>
+                                    <div class="minutes-countdown flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-sm md:text-sm md:text-3xl font-bold">
+                                        00
+                                    </div>
+                                </div>
+                                <div class="w-1/4">
+                                    <span class="flex text-center justify-center">Secs</span>
+                                    <div class="seconds-countdown flex items-center justify-center rounded-lg bg-primary-hover w-full h-full text-white text-sm md:text-sm md:text-3xl font-bold">
+                                        00
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                        <div class="offer_owner mb-3" >
+                        <div class="offer_owner md:mb-3" >
                             <div class="flex gap-3 ">
-                                @if (!$offer->user->profile_photo_path)
-                            <img src="/images/user-avatar-icon.svg" alt="Avatar">
-                            @else
-                            <img class="w-12 h-12 rounded-full" src="{{ route('profile_pictures-file-path',$offer->user->profile_photo_path) }}" alt=""
-                                class="rounded-full">
-                            @endif
-                                <span class="flex flex-col">
-                                    <span class="text-titles font-medium">
-                                        {{$offer->user->first_name . " " .
-                                        $offer->user->last_name}}
-                                    </span>
-                                    @if ($offer->user->is_online=="Offline")
-                                    <span class="text-red-500">Hors ligne</span>
+                                <div class="relative">
+                                    @if (!$offer->user->profile_photo_path)
+                                    <img src="/images/user-avatar-icon.svg" alt="Avatar">
                                     @else
-                                    <span class="text-green-500">En ligne</span>
+                                    <img class="w-12 h-12 rounded-full" src="{{ route('profile_pictures-file-path',$offer->user->profile_photo_path) }}" alt=""
+                                    class="rounded-full">
                                     @endif
-                                </span>
-                                <img src="/images/Badge-pro.svg" alt="" class="pb-3 ">
+                                    <span class="status-indicator absolute bottom-0 right-0 transform translate-x-[-50%] translate-y-[-50%]">
+                                    </span>
+                                </div>
+                            <div class="flex space-x-2 md:space-x-4">
+                                <span class="flex flex-col w-1/2 relative">
+                                    <span class="text-titles font-medium text-xs md:text-base break-words">
+                                            {{Str::limit($offer->user->name,10)}}
+                                        </span>
+                                        <style>
+                                            .status-indicator {
+                                                width: 10px;
+                                                height: 10px;
+                                                background-color: @if ($offer->user->is_online == "Offline") #FF0000; @else #00FF00; @endif
+                                                border-radius: 50%;
+                                                display: inline-block;
+                                            }
+                                        </style>
+
+                                        
+                                    </span>
+                                    <img src="/images/Badge-pro.svg" alt="" class="pb-3 ">
+                                </div>
                             </div>
                         </div>
                     </div>

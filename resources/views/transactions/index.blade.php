@@ -22,8 +22,8 @@
     
         });
     </script>
-    <div class="container">
-        <div class="flex space-x-4 mt-4">
+    <div class="container px-0">
+        <div class="flex space-x-4 mt-4 mx-2">
             <div class="pe-4" style="{{ !(request()->has('in_progress')) || request()->input('in_progress')==1 ?  'border-bottom: 2px solid #24a19c' : ''}}">
                 <a href="{{route('transactions.index', ['in_progress'=>1])}}" class="text-gray-600 hover:text-gray-800 no-underline focus:outline-none focus:text-gray-800 transition duration-300 ease-in-out">In Progress</a>
             </div>
@@ -76,17 +76,17 @@
             </div>
         </form>
         @endif
-        <table class="table align-middle  mt-4 mb-0 bg-white">
+        <table class="table align-middle  mt-4 mb-0 bg-white mx-1">
             <thead class="bg-light">
                 <tr>
-                <th>Transaction</th>
-                <th>Offre</th>
-                 <th>Contrepartie</th>
-                <th>Montant</th>
-                <th>Date</th>
-                <th>Statut</th>
-                <th>Raison</th>
-                <th>Action</th>
+                    <th><span class="text-xs md:text-base">Transaction</span></th>
+                    <th><span class="text-xs md:text-base">Offre</span></th>
+                    <th class="hidden md:block">Contrepartie</th>
+                    <th><span class="text-xs md:text-base">Montant</span></th>
+                    <th class="hidden md:block">Date</th>
+                    <th><span class="text-xs md:text-base">Statut</span></th>
+                    <th class="hidden md:block">Raison</th>
+                    <th><span class="text-xs md:text-base">Action</span></th>
                 </tr>
             </thead>
             <tbody>
@@ -97,19 +97,21 @@
                     else $counterparty = $transaction->proposition->offer->user;
                     @endphp
                     <tr>
-                        <td nowrap>
-                        <a type="button" href="{{route('transactions.show', $transaction->id)}}" style="color: #24a19c;">
-                                <span class="text-xs" >{{$transaction->uuid}}</span>
-                            </a>
-                            <i class="fa fa-copy" style="color: #24a19c;" data-transaction-uuid="{{ $transaction->uuid }}" data-bs-toggle="tooltip" data-bs-placement="left" title="Copy"></i>     
+                        <td class="whitespace-nowrap">
+                            <a type="button" href="{{route('transactions.show', $transaction->id)}}" style="color: #24a19c;">
+                                    <span class="text-xs hidden md:block" >{{$transaction->uuid}}</span>
+                                    <span class="text-xs block md:hidden" >{{Str::limit($transaction->uuid,8)}}</span>
+                                </a>
+                                <i class="fa fa-copy" style="color: #24a19c;" data-transaction-uuid="{{ $transaction->uuid }}" data-bs-toggle="tooltip" data-bs-placement="left" title="Copy"></i>     
 
                         </td>
                         <td>
-                            <a class="no-underline font-medium" href="{{route('offer.offer', [$transaction->proposition->offer->id, $transaction->proposition->offer->slug])}}">{{ $transaction->proposition->offer->title }}</a>
+                            <a class="no-underline font-medium hidden md:block text-sm md:text-base" href="{{route('offer.offer', [$transaction->proposition->offer->id, $transaction->proposition->offer->slug])}}">{{ $transaction->proposition->offer->title }}</a>
+                            <a class="no-underline font-medium block md:hidden text-sm md:text-base" href="{{route('offer.offer', [$transaction->proposition->offer->id, $transaction->proposition->offer->slug])}}">{{ Str::limit($transaction->proposition->offer->title, 8)}}</a>
                         </td>
-                        <td>{{ $counterparty->first_name }} {{$counterparty->last_name }}</td>
-                        <td>{{ $transaction->amount }}</td>
-                        <td>{{ $transaction->date }}</td>
+                        <td class="hidden md:table-cell">{{ $counterparty->first_name }} {{$counterparty->last_name }}</td>
+                        <td class="text-xs md:text-base">{{ $transaction->amount }}</td>
+                        <td class="hidden md:table-cell">{{ $transaction->date }}</td>
                         <td>
                             @php
                             $applicant = $transaction->proposition->user;
@@ -130,17 +132,17 @@
 
                         </td>
                        
-                        <td> {{ $transaction->reason }}</td>
+                        <td class="hidden md:table-cell"> {{ $transaction->reason }}</td>
                 
                         @if(auth()->check() && ( (auth()->user()->id ===$applicant->id && $transaction->applicant_status==='En cours') || (auth()->user()->id !=$applicant->id && $transaction->offeror_status==='En cours')))
-                        <td> 
-                            <button type="button" class="reject"  data-toggle="modal" data-target="#statusModal" data-id="{{ $transaction->id }}" data-status="Échouée">
-                                Échouée
-                                <i class="fa-solid fa-ban ml-2" style="color: red;" ></i>    </button>
-                            <button type="button" class="button-filter" data-toggle="modalCompleted" data-target="#statusModal" data-id="{{ $transaction->id }}" data-status="Réussi">
-                                Terminé
-                                <i class="fa-solid fa-check ml-2" style="color: white;"></i>
-                            </button>
+                        <td>
+                            <div class="flex justify-center space-x-1 md:space-x-2">
+                                <button type="button" class="reject p-1 md:p-3"  data-toggle="modal" data-target="#statusModal" data-id="{{ $transaction->id }}" data-status="Échouée">
+                                    <i class="fa-solid fa-ban" style="color: red;" ></i>    </button>
+                                <button type="button" class="button-filter p-1 md:p-3" data-toggle="modalCompleted" data-target="#statusModal" data-id="{{ $transaction->id }}" data-status="Réussi">
+                                    <i class="fa-solid fa-check" style="color: white;"></i>
+                                </button>
+                            </div>
                         </td>
                         @elseif( !($transaction->applicant_status==='Réussi' && $transaction->offeror_status==='Réussi')   )
                         <td>
@@ -148,18 +150,18 @@
                         </td>
                         @endif
                     </tr>
-                    <script type="module">
-                        window.Echo.private('transactions.' + {{$transaction->id}})
-                        .listen('TransactionStatusUpdated', (e) => {
-                            console.log(e.transaction);
-                            location.reload();
-                        });
-                    </script>
-
-                    
                 @endforeach
             </tbody>
         </table>
+        @foreach ($transactions as $transaction)
+            <script type="module">
+                window.Echo.private('transactions.' + {{$transaction->id}})
+                .listen('TransactionStatusUpdated', (e) => {
+                    console.log(e.transaction);
+                    location.reload();
+                });
+            </script>   
+        @endforeach
     </div>
 </x-app-layout>
 <!-- modal -->
