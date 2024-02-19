@@ -34,7 +34,7 @@
     ];  
     @endphp
     <div id="lightbox"></div>
-    <div class="flex md:gap-5 offre-page flex-col-reverse md:flex-row">
+    <div class="flex gap-5 offre-page">
         <div class="w-[50%] ml-12 partie-slide">
             <div class=" flex flex-col gap-6">
                 <div class="">
@@ -43,133 +43,163 @@
                 </div>
                 @if(auth()->check() && $offer->user_id === auth()->user()->id)
                 <div class="flex space-x-10">
-                    <div class="slick-carousel w-4/5 ">
-                        @foreach ($images as $img)
-                            <div class="slick-item">
-                                <div class="relative">
-                                    <img src="{{ route('offer-pictures-file-path', $img->offer_photo) }}" alt="Image produit"
-                                        class="zoomD h-[80px] hover:scale-110 rounded-lg hover:transition-transform hover:transform-gpu"
-                                        onmouseover="changeMainImage('{{ $img->offer_photo }}')"
-                                        onmouseout="changeMainImage('{{ $offer->offer_default_photo }}')" />
-
-                                    <div>
-                                        <button class="bg-red-500 text-white p-1 rounded-full" onclick="deleteImage('{{ $img->id }}')">Delete</button>
-                                        <button class="bg-blue-500 text-white p-1 rounded-full" onclick="selectImage('{{ $img->offer_photo }}')">Select</button>
-                                    </div>
-                                </div>
+    <div id="offer-secondary-images" class="w-4/5">
+        <div class="flex items-center">
+            <i class="fa fa-arrow-circle-left"></i>
+            <div id="offer-secondary-images-container" class="flex flex-nowrap overflow-x-hidden space-x-0 mx-2">
+                @foreach ($images as $img)
+                    <div class="basis-1/3 grow-0 shrink-0 px-1">
+                        <div class="relative">
+                            <img src="{{ route('offer-pictures-file-path', $img->offer_photo) }}" alt="Image produit"
+                                class="zoomD h-[80px] hover:scale-110 rounded-lg hover:transition-transform hover:transform-gpu w-full"
+                                onmouseover="changeMainImage('{{ $img->offer_photo }}')"
+                                onmouseout="changeMainImage('{{ $offer->offer_default_photo }}')" />
+        
+                            <div class="mt-1 flex justify-center space-x-2">
+                                <button class="bg-red-500 text-white p-1 rounded-full" onclick="deleteImage('{{ $img->id }}')">Delete</button>
+                                <button class="bg-blue-500 text-white p-1 rounded-full" onclick="selectImage('{{ $img->offer_photo }}')">Select</button>
                             </div>
-                        @endforeach
-                    
-                    </div>
-                    <div class="slick-item" style="height: 30px; width: 30px;" >
-                            <input id="additional_images" type="file" name="additional_images[]" multiple style="display: none;">
-                            <button  onclick="openAdditionalImageInput()"><img src="{{ asset('images/add_icon.png') }}" /></button>
-                            </div>
-                            <div class="slick-item" style="height: 30px; width: 30px;" >
-                            <button id="toggleAnimation">
-                                @if ($offer->active_animation)
-                                <img src="{{ asset('images/pause.png') }}" />
-                                @else
-                                <img src="{{ asset('images/play.png') }}" />
-                                @endif
-                            </button>
                         </div>
                     </div>
-                @else 
-                    <div class="slick-carousel  ">
-                        @foreach ($images as $img)
-                            <div class="slick-item">
-                                <div class="relative">
-                                    <img src="{{ route('offer-pictures-file-path', $img->offer_photo) }}" alt="Image produit"
-                                        class="zoomD h-[80px] hover:scale-110 rounded-lg hover:transition-transform hover:transform-gpu"
-                                        onmouseover="changeMainImage('{{ $img->offer_photo }}')"
-                                        onmouseout="changeMainImage('{{ $offer->offer_default_photo }}')" />
+                @endforeach
+            </div>
+            <i class="fa fa-arrow-circle-right"></i>
+        </div>
+        <div class="steps flex items-center justify-center space-x-2 mt-2">
+            @foreach ($images as $i => $img)
+                <div class="step h-4 w-4 @if(!$i)bg-slate-500 @else bg-slate-200 @endif rounded-full"></div>
+            @endforeach
+        </div>
+    </div>
+ <div class="slick-item" style="height: 30px; width: 30px;" >
+            <input id="additional_images" type="file" name="additional_images[]" multiple style="display: none;">
+            <button  onclick="openAdditionalImageInput()"><img src="{{ asset('images/add_icon.png') }}" /></button>
+        </div>
+        <div class="slick-item" style="height: 30px; width: 30px;" >
+        <button id="toggleAnimation">
+            @if ($offer->active_animation)
+            <img src="{{ asset('images/pause.png') }}" />
+@else
+<img src="{{ asset('images/play.png') }}" />
 
-                                    <div>
-                                        <button class="bg-red-500 text-white p-1 rounded-full" onclick="deleteImage('{{ $img->id }}')">Delete</button>
-                                        <button class="bg-blue-500 text-white p-1 rounded-full" onclick="selectImage('{{ $img->offer_photo }}')">Select</button>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    
+            @endif
+</button>
+      </div>
+     </div>
+@else 
+    <div class="slick-carousel  ">
+        @foreach ($images as $img)
+            <div class="slick-item">
+                <div class="relative">
+                    <img src="{{ route('offer-pictures-file-path', $img->offer_photo) }}" alt="Image produit"
+                        class="zoomD h-[80px] hover:scale-110 rounded-lg hover:transition-transform hover:transform-gpu"
+                        onmouseover="changeMainImage('{{ $img->offer_photo }}')"
+                        onmouseout="changeMainImage('{{ $offer->offer_default_photo }}')" />
+
+                    <div>
+                        <button class="bg-red-500 text-white p-1 rounded-full" onclick="deleteImage('{{ $img->id }}')">Delete</button>
+                        <button class="bg-blue-500 text-white p-1 rounded-full" onclick="selectImage('{{ $img->offer_photo }}')">Select</button>
                     </div>
-                   
-                @endif
-                <style>.slick-prev:before, .slick-next:before {
-                    color:black;
-                }</style>
-                <script>
-                    // Initialize the Slick carousel
-                var init={
-                            dots:true,
-                            slidesToShow: 3,
-                            slidesToScroll: 1,
-                            prevArrow: '<button type="button" class="slick-prev">Previous</button>',
-                            nextArrow: '<button type="button" class="slick-next">Next</button>',
-                        };
+                </div>
+            </div>
+        @endforeach
+       
+    </div>
+ 
+      
+     @endif
+<style>.slick-prev:before, .slick-next:before {
+    color:black;
+}</style>
+<script>
+    // Initialize the Slick carousel
+   var init={
+            dots:true,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            prevArrow: '<button type="button" class="slick-prev">Previous</button>',
+            nextArrow: '<button type="button" class="slick-next">Next</button>',
+        };
 
-                    $(document).ready(function(){
-                        $('#toggleAnimation').click(function() {
-                            $.ajax({
-                                type: 'POST',
-                                url: '{{ route("offers.updateActiveAnimation") }}?offerId=' + "{{$offer->id}}",
-                                contentType: 'application/json',
-                                success: function(response) {
-                                    if (response.success) {
-                                                        // Update the UI or perform other actions based on the response
-                                location.reload();                   
-                                } else {
-                                        console.error('Failed to toggle active animation.');
-                                    }
-                                },
-                                error: function() {
-                                    console.error('Error in AJAX request.');
-                                }
-                            });
-                        });
-                        //
-                        if(!parseInt("{{$offer->active_animation}}")){
-                            init.autoplay=false;
-                        $('.slick-carousel').slick(init);} else {
-                            init.autoplay=true;
-                            $('.slick-carousel').slick(init);
-                        }
-                    });
-                </script>
+    $(document).ready(function(){
+        $('#toggleAnimation').click(function() {
+            $.ajax({
+                type: 'POST',
+                url: '{{ route("offers.updateActiveAnimation") }}?offerId=' + "{{$offer->id}}",
+                contentType: 'application/json',
+                success: function(response) {
+                    if (response.success) {
+                        // Update the UI or perform other actions based on the response
+location.reload();                   
+ } else {
+                        console.error('Failed to toggle active animation.');
+                    }
+                },
+                error: function() {
+                    console.error('Error in AJAX request.');
+                }
+            });
+        });
+        //
+        if(!parseInt("{{$offer->active_animation}}")){
+            init.autoplay=false;
+        $('.slick-carousel').slick(init);} else {
+            init.autoplay=true;
+            $('.slick-carousel').slick(init);
+        }
+    });
+</script>
 
 
             </div>
             <script> 
             function openAdditionalImageInput() {
-                // Trigger the click event of the existing input field
-                $('#additional_images').click();
+        // Trigger the click event of the existing input field
+        $('#additional_images').click();
 
-                // Listen for file input change
-                $('#additional_images').change(function () {
-                    // Get the selected files
-            var files = $('#additional_images')[0].files;
-                    // Create a FormData object
-                    var formData = new FormData();
-                    formData.append('offer_id', "{{$offer->id}}");
+        // Listen for file input change
+        $('#additional_images').change(function () {
+            // Get the selected files
+    var files = $('#additional_images')[0].files;
+            // Create a FormData object
+            var formData = new FormData();
+            formData.append('offer_id', "{{$offer->id}}");
 
-                    // Append each file to the FormData object
-                    for (var i = 0; i < files.length; i++) {
-                        formData.append('additional_images[]', files[i]);
-                    
-                    }
-                    if (formData.has('additional_images[]')) {
-                        console.log("FormData contains files:", formData);}
+            // Append each file to the FormData object
+            for (var i = 0; i < files.length; i++) {
+                formData.append('additional_images[]', files[i]);
+               
+            }
+            if (formData.has('additional_images[]')) {
+                console.log("FormData contains files:", formData);}
 
-                    $.ajax({
+            $.ajax({
+    type: "POST",
+    url: "{{ route('offer.storeImage') }}",
+    data: formData,
+    contentType: false,
+    processData: false,
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    success: function (response) {
+        location.reload();
+    },
+    error: function (error) {
+        console.error(error);
+    }
+});
+
+        });
+    }
+            //
+            function selectImage(imagePath) {
+ 
+        // Send AJAX request to update the server-side
+        $.ajax({
             type: "POST",
-            url: "{{ route('offer.storeImage') }}",
-            data: formData,
-            contentType: false,
-            processData: false,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
+            url: "{{ route('myaccount.updateOfferImages', $offer->id) }}",
+            data: { default_image: imagePath },
             success: function (response) {
                 location.reload();
             },
@@ -177,40 +207,22 @@
                 console.error(error);
             }
         });
+    }
+     function deleteImage(imageId) {
+        $.ajax({
+            type: "DELETE",
+            url: "{{ route('offers.deleteImage') }}",
+            data: { imageId: imageId },
+            success: function (response) {
+                location.reload();
 
-                });
+            },
+            error: function (error) {
+                console.error(error);
             }
-            //
-            function selectImage(imagePath) {
- 
-                    // Send AJAX request to update the server-side
-                    $.ajax({
-                        type: "POST",
-                        url: "{{ route('myaccount.updateOfferImages', $offer->id) }}",
-                        data: { default_image: imagePath },
-                        success: function (response) {
-                            location.reload();
-                        },
-                        error: function (error) {
-                            console.error(error);
-                        }
-                    });
-                }
-                function deleteImage(imageId) {
-                    $.ajax({
-                        type: "DELETE",
-                        url: "{{ route('offers.deleteImage') }}",
-                        data: { imageId: imageId },
-                        success: function (response) {
-                            location.reload();
-
-                        },
-                        error: function (error) {
-                            console.error(error);
-                        }
-                    });
-                }
-            </script>
+        });
+    }
+</script>
             <div class="my-5">
                 <div class="my-3">
                     <h2 class="text-titles ">Description</h2>
@@ -228,7 +240,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-[50%] partie-detail">
+        <div class="w-[38%] partie-detail">
         @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -468,28 +480,28 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="m-auto mt-5 w-[60%]  ">
-        <h5 class="mb-4">
-            Partager cette annonce à vos amis
-        </h5>
-        <div class=" flex justify-content-between social-button">
-            <a href="https://www.facebook.com/sharer/sharer.php?u={{ route('offer.offer', ['offerId'=>$offer->id,'slug' => $offer->slug]) }}">
-                <i id="facebookBtn" class="fa-brands fa-facebook text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
-            </a>
-            <a href="https://twitter.com/share?url={{ route('offer.offer', ['offerId'=>$offer->id,'slug' => $offer->slug]) }}&text={{ rawurlencode($offer->name) }}">
-                <i id="twitterBtn" class="fa-brands fa-twitter text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
-            </a>
-            <a href="instagram://share?text={{ rawurlencode('Check out this offer on Faitroquez.fr: ' . route('offer.offer', ['offerId' => $offer->id, 'slug' => $offer->slug])) }}">
-                <i id="instagramBtn" class="fa-brands fa-instagram text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
-            </a>
-            <a href="https://www.linkedin.com/shareArticle?url={{ route('offer.offer', ['offerId'=>$offer->id,'slug' => $offer->slug]) }}&title={{ rawurlencode($offer->name) }}">
-                <i id="linkedinBtn" class="fa-brands fa-linkedin text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
-            </a>
-            <a href="https://api.whatsapp.com/send?text={{ route('offer.offer', ['offerId'=>$offer->id,'slug' => $offer->slug]) }}">
-                <i id="whatsappBtn" class="fa-brands fa-whatsapp text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
-            </a>           
+            <div class="m-auto mt-5 w-[60%]  ">
+                <h5 class="mb-4">
+                    Partager cette annonce à vos amis
+                </h5>
+                <div class=" flex justify-content-between social-button">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ route('offer.offer', ['offerId'=>$offer->id,'slug' => $offer->slug]) }}">
+                        <i id="facebookBtn" class="fa-brands fa-facebook text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
+                    </a>
+                    <a href="https://twitter.com/share?url={{ route('offer.offer', ['offerId'=>$offer->id,'slug' => $offer->slug]) }}&text={{ rawurlencode($offer->name) }}">
+                        <i id="twitterBtn" class="fa-brands fa-twitter text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
+                    </a>
+                    <a href="instagram://share?text={{ rawurlencode('Check out this offer on Faitroquez.fr: ' . route('offer.offer', ['offerId' => $offer->id, 'slug' => $offer->slug])) }}">
+                        <i id="instagramBtn" class="fa-brands fa-instagram text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/shareArticle?url={{ route('offer.offer', ['offerId'=>$offer->id,'slug' => $offer->slug]) }}&title={{ rawurlencode($offer->name) }}">
+                        <i id="linkedinBtn" class="fa-brands fa-linkedin text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
+                    </a>
+                    <a href="https://api.whatsapp.com/send?text={{ route('offer.offer', ['offerId'=>$offer->id,'slug' => $offer->slug]) }}">
+                        <i id="whatsappBtn" class="fa-brands fa-whatsapp text-gray-900 p-2 bg-gray-200 rounded-full hover:bg-primary-color hover:text-white"></i>
+                    </a>           
+                </div>
+            </div>
         </div>
     </div>
     <section class="similarOffers mt-4">
@@ -569,6 +581,7 @@
                     <form id="meetupForm">
                         @csrf
                         <input type="hidden" id="prepositionId" name="prepositionId" value="">
+                        <input type="hidden" id="userId" name="userId" value="auth()->id()">
                         <div class="mb-3">
                             <label for="meetupDate" class="form-label">Date du rendez-vous</label>
                             <input type="date" class="form-control" id="meetupDate" name="meetupDate" required>
@@ -836,6 +849,8 @@ if(newStatus=="Rejetée")
                 meetupDate: $('#meetupDate').val(),
                 meetupTime: $('#meetupTime').val(),
                 meetupDescription: $('#meetupDescription').val(),
+                userId: $('#userId').val(), 
+
             };
             console.log(formData);
 
@@ -1019,4 +1034,71 @@ $(document).on('click', '.report-button', function () {
   // (C) CLICK TO CLOSE LIGHTBOX
   lightbox.onclick = () => lightbox.className = "";
   modalbox.onclick = () => modalbox.className = "";
-};</script>
+};
+$(document).ready(function () {
+        let all = document.getElementsByClassName("zoomD"),
+        lightbox = document.getElementById("lightbox");
+        
+        // (B) CLICK TO SHOW IMAGE IN LIGHTBOX
+        // * SIMPLY CLONE INTO LIGHTBOX & SHOW
+        if (all.length>0) { for (let i of all) {
+            i.onclick = () => {
+            let clone = i.cloneNode();
+            clone.className = "";
+            lightbox.innerHTML = "";
+            lightbox.appendChild(clone);
+            lightbox.className = "show";
+            };
+        }}
+        
+        // (C) CLICK TO CLOSE LIGHTBOX
+        lightbox.onclick = () => lightbox.className = "";
+        
+        var scrollDistance = $(`#offer-secondary-images`).width()/3;
+        $(`#offer-secondary-images .fa-arrow-circle-left`).css(`-webkit-text-stroke`," 0.5px");
+        
+        $(`#offer-secondary-images .fa-arrow-circle-left`).click(function () {
+            $(`#offer-secondary-images-container`).animate({scrollLeft: "-=" + scrollDistance}, "slow");
+            if($(`#offer-secondary-images-container`).scrollLeft() > 0)
+            $(`#offer-secondary-images .fa-arrow-circle-left`).css("-webkit-text-stroke","");
+            else            
+            $(`#offer-secondary-images .fa-arrow-circle-left`).css("-webkit-text-stroke"," 0.5px");
+            nextPrev(-1);
+        });
+        
+        $(`#offer-secondary-images .fa-arrow-circle-right`).click(function () {
+            $(`#offer-secondary-images-container`).animate({scrollLeft: "+=" + scrollDistance}, "slow");
+            if($(`#offer-secondary-images-container`).scrollLeft() < $(`#offer-secondary-images-container`).prop("scrollWidth") - $(`#offer-secondary-images-container`).width())
+            $(`#offer-secondary-images .fa-arrow-circle-right`).css("-webkit-text-stroke","");
+            else            
+            $(`#offer-secondary-images .fa-arrow-circle-right`).css("-webkit-text-stroke"," 0.5px");
+            nextPrev(1);
+        });
+        
+        function nextPrev(delta){
+            var n = 0;
+            var elts = $('.steps .step');
+            elts.each(function(index, element) {
+                if($(element).hasClass('bg-slate-500')){
+                    n = index;
+                    $(element).removeClass('bg-slate-500');
+                }else{
+                    $(element).removeClass('bg-slate-200');
+                }
+            });
+            n += delta;
+            if(n<0) n = 0;
+            if(n>= elts.length) n = elts.length - 1;
+            console.log({n});
+            
+            elts.each(function(index, element) {
+                if(index == n){
+                    $(element).addClass('bg-slate-500');
+                }else{
+                    $(element).addClass('bg-slate-200');
+                }
+            });
+        }
+    });
+
+</script>

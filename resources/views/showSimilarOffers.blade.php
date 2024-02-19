@@ -17,7 +17,7 @@
         </div>
         <div class="col-12 col-md-9">
             @foreach ($offers as $offer)
-            <div class="offer_list_card">
+            <div class="offer_list_card flex-row">
                 <div class="offer_image relative">
                     <img src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}" alt=""
                         class="object-cover h-full w-full rounded-tl-lg rounded-bl-lg " />

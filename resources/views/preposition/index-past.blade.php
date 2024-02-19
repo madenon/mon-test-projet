@@ -23,7 +23,7 @@
                         $isReceiveid= $preposition->offer->user==auth()->user();
                     @endphp
                     <tr >
-                        <td><span class="text-{{ $isReceiveid? 'red' : 'green'}}-600 font-bold">{{ $isReceiveid? 'Receiveid' : 'Sent'}}</span></td>
+                        <td><span class="text-{{ $isReceiveid? 'red' : 'green'}}-600 font-bold">{{ $isReceiveid? 'Réçu' : 'Envoyé'}}</span></td>
                         <td id="prepositioName-{{$preposition->id}}">
                             <img src="{{ route('proposition-pictures-file-path',$preposition->images ?$preposition->images :'' ) }}" alt=""/>
                             @livewire('split-long-text ', [

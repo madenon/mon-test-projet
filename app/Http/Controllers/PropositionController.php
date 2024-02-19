@@ -43,6 +43,30 @@ class PropositionController extends Controller
                     });
             });
         }
+        if ($status = request('status')) {
+            if($status == 'pending') $status = 'En cours';
+            if($status == 'accepted') $status = 'Acceptée';
+            if($status == 'rejected') $status = 'Rejetée';
+            $prepositions->where('status', $status);
+        }
+
+        if ($startDate = request('start_date')) {
+            $prepositions->whereDate('prepositions.created_at', '>=', $startDate);
+        }
+
+        if ($endDate = request('end_date')) {
+            $prepositions->whereDate('prepositions.created_at', '<=', $endDate);
+        }
+
+        if ($numberProp = request('number_prop')) {
+            $prepositions->where('prepositions.uuid', 'like', '%' . $numberProp . '%');
+        }
+
+        if ($nameOffer = request('name_offer')) {
+            $prepositions->where('offers.title', 'like', '%' . $nameOffer . '%');
+        }
+
+
         
         $prepositions = $prepositions->get();
         

@@ -112,12 +112,12 @@
     </div>
 </div> -->
 
-    <div class="grid grid-cols-6 justify-content center my-4 mx-32">
+    <div class="grid grid-cols-3 md:grid-cols-6 justify-content place-items-stretch center my-4 ml-2 mr-2 md:mr-32 md:ml-32 ">
         @for($i=0; $i< min(12,count($categories)) ;$i++ )
-        <a class="no-underline text-black block " href="{{route('alloffers.index',['category'=> $categories[$i]->id])}}">
+        <a class="no-underline text-black block" href="{{route('alloffers.index',['category'=> $categories[$i]->id])}}">
             <div class="flex flex-col justify-center items-center border shadow py-2 mx-2 mb-4">
                 <div class="bg-slate-100 rounded-full p-1 aspect-square"><i class="fa {{$categories[$i]['icon']}}"></i></div>
-                <div class="font-semibold">{{$categories[$i]->name}}</div>
+                <div class="font-semibold pl-2">{{$categories[$i]->name}}</div>
                 <div class="text-sm">{{$categories[$i]->children->reduce(function($carry,$sub){return $carry+$sub->offer->count();})}} Offres</div>
             </div>
         </a>
@@ -128,15 +128,14 @@
         <div class="col-span-full d-flex items-center justify-center">
             <a class="more-btn" style="font-size:14px;margin:0" href="{{route('alloffers.index')}}">Voir plus<i class="pl-2 fa fa-long-arrow-right"></i></a>
         </div>
-        ثمهب
         @endif
 
     </div>
 
-    <div id="featured-offers" class="flex flex-col my-4 mx-24 pb-12">
+    <div id="featured-offers" class="flex flex-col my-4 ml-2 mr-2 md:mr-24 md:ml-24 pb-12">
         <div id="featured-offers-title" class="flex justify-between">
             <h4>Offres en vedette</h4>
-            <div>
+            <div class="flex">
                 <i class="pl-2 fa fa-long-arrow-left"></i>
                 <i class="pl-2 fa fa-long-arrow-right"></i>
             </div>
@@ -144,7 +143,7 @@
         </div>
         <div id="featured-offers-container" class="flex flex-nowrap overflow-x-hidden space-x-5 mb-4">
             @for ($i=0;$i<count($featuredOffers);$i++)
-            <div class="basis-1/3 grow-0 shrink-0 @if($i>0) @endif">
+            <div class="basis-full md:basis-1/3 grow-0 shrink-0 @if($i>0) @endif">
                 <x-offer-present-card :offer=$featuredOffers[$i]></x-offer-present-card>
             </div>
             @endfor
@@ -158,10 +157,10 @@
         @endif
     </div>
 
-    <div id="recent-offers" class="flex flex-col my-4 mx-24 pb-12">
+    <div id="recent-offers" class="flex flex-col my-4 ml-2 mr-2 md:mr-24 md:ml-24 pb-12">
         <div id="recent-offers-title" class="flex justify-between">
             <h4>Plus récentes</h4>
-            <div>
+            <div class="flex">
                 <i class="pl-2 fa fa-long-arrow-left"></i>
                 <i class="pl-2 fa fa-long-arrow-right"></i>
             </div>
@@ -169,7 +168,7 @@
         </div>
         <div id="recent-offers-container" class="flex flex-nowrap overflow-x-hidden space-x-5 mb-4">
             @for ($i=0;$i<count($recentOffers);$i++)
-            <div class="basis-1/3 grow-0 shrink-0 @if($i>0) @endif">
+            <div class="basis-full md:basis-1/3 grow-0 shrink-0 @if($i>0) @endif">
                 <x-offer-present-card :offer=$recentOffers[$i]></x-offer-present-card>
             </div>
             @endfor
@@ -186,8 +185,8 @@
     <div class="flex flex-col justify-center space-y-10 bg-slate-100 pb-12" >
         <h1 class="text-center mt-12">Comment ca marche?</h1>
         <h4 class="text-center">Deposer une annonce</h4>
-        <div class="flex  space-x-6 mx-16 my-2">
-            <div class="flex-1 border bg-white p-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mx-16 my-2">
+            <div class="flex-1 border bg-white p-4 ">
                 <div class="flex justify-between items-center">
                     <i class="fa fa-list "></i>
                     <span class="text-5xl font-sans font-thin">01</span>
@@ -195,25 +194,25 @@
                 <h5>Créer un compte</h5>
                 <p>
                 Pour créer un compte, appuyez simplement sur le bouton "S'authentifier" en haut : <img src="{{ asset('images/header.png') }}"/> et choisissez l'option "S'enregistrer".
-Ajoutez vos informations essentielles pour finaliser le processus d'inscription.
-</p>
+                Ajoutez vos informations essentielles pour finaliser le processus d'inscription.
+                </p>
             </div>
-            <div class="flex-1 border bg-white p-4">
+            <div class="flex-1 border bg-white p-4 ">
                 <div class="flex justify-between items-center">
                     <i class="fa fa-list "></i>
                     <span class="text-5xl font-sans font-thin">02</span>
                 </div>
                 <h5>Deposer une annonce</h5>
                 <p>
-                Une fois votre compte créé, rendez-vous sur la rubrique <img src="{{ asset('images/add_offer.png') }}"/>
-Remplissez le formulaire en indiquant les détails de votre offre.
-Choisissez votre troc en précisant contre quoi vous souhaitez échanger.<br>
-Facultatif : activez un compte à rebours pour une touche d'urgence.
-Choisissez entre un dépôt d'annonce immédiat ou différé.
-Validez en cliquant sur "Déposer un troc" ou en appuyant sur la touche entrée.
+                    Une fois votre compte créé, rendez-vous sur la rubrique <img src="{{ asset('images/add_offer.png') }}"/>
+                    Remplissez le formulaire en indiquant les détails de votre offre.
+                    Choisissez votre troc en précisant contre quoi vous souhaitez échanger.<br>
+                    Facultatif : activez un compte à rebours pour une touche d'urgence.
+                    Choisissez entre un dépôt d'annonce immédiat ou différé.
+                    Validez en cliquant sur "Déposer un troc" ou en appuyant sur la touche entrée.
                 </p>
             </div>
-            <div class="flex-1 border bg-white p-4">
+            <div class="flex-1 border bg-white p-4 ">
                 <div class="flex justify-between items-center">
                     <i class="fa fa-list "></i>
                     <span class="text-5xl font-sans font-thin">03</span>
@@ -221,16 +220,16 @@ Validez en cliquant sur "Déposer un troc" ou en appuyant sur la touche entrée.
                 <h5>Obtenir des propositions</h5>
                 <p>
                 Une fois votre annonce publiée, attendez de recevoir des propositions d'autres membres.
-Pour maximiser vos chances d'être contacté, activez l'option "Étudie toutes propositions" en plus des autres détails de trocs que vous avez indiqués.
-Communiquez et négociez avec les autres membres via les messages.
-Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
+            Pour maximiser vos chances d'être contacté, activez l'option "Étudie toutes propositions" en plus des autres détails de trocs que vous avez indiqués.
+            Communiquez et négociez avec les autres membres via les messages.
+            Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
                 </p>
             </div>
         
         </div>
         <h4 class="text-center">Faire un troc</h4>
-        <div class="flex  space-x-6 mx-16 my-2">
-        <div class="flex-1 border bg-white p-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mx-16 my-2">
+        <div class="flex-1 border bg-white p-4 ">
                 <div class="flex justify-between items-center">
                     <i class="fa fa-list "></i>
                     <span class="text-5xl font-sans font-thin">01</span>
@@ -240,7 +239,7 @@ Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
                     
                 </p>
             </div>
-            <div class="flex-1 border bg-white p-4">
+            <div class="flex-1 border bg-white p-4 ">
                 <div class="flex justify-between items-center">
                     <i class="fa fa-list "></i>
                     <span class="text-5xl font-sans font-thin">02</span>
@@ -251,7 +250,7 @@ Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
         
                 </p>
             </div>
-            <div class="flex-1 border bg-white p-4">
+            <div class="flex-1 border bg-white p-4 ">
                 <div class="flex justify-between items-center">
                     <i class="fa fa-list "></i>
                     <span class="text-5xl font-sans font-thin">03</span>
@@ -261,7 +260,7 @@ Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
                 Une fois que la proposition est acceptée, vous pouvez convenir d'un rendez-vous avec l'offreur ou entamer une discussion via le chat (messagerie).
                 </p>
             </div>
-            <div class="flex-1 border bg-white p-4">
+            <div class="flex-1 border bg-white p-4 ">
                 <div class="flex justify-between items-center">
                     <i class="fa fa-list "></i>
                     <span class="text-5xl font-sans font-thin">04</span>
@@ -277,7 +276,7 @@ Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
 @if ($bothBannersShown || $onlyLeftBannerShown || $onlyRightBannerShown)
 <div class="flex justify-center  bg-primary-color text-white " style="height:25vh" >
 @else
-<div class="flex justify-center space-x-20 bg-primary-color text-white mx-24" style="height:25vh" >
+<div class="flex flex-wrap md:flex-no-wrap justify-center space-x-4 md:space-x-20 bg-primary-color text-white ml-0 mr-0 md:ml-24 md:mr-24" style="height:25vh" >
     @endif
         <div class="flex items-center">
             <div class="m-3"><i class="fa fa-cube fa-2x"></i></div>
@@ -309,7 +308,7 @@ Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
         </div>
     </div>
 
-    <div id="description-website" class="flex flex-col justify-center space-y-20 my-12 mx-24">
+    <div id="description-website" class="flex flex-col justify-center space-y-20 my-12 ml-2 mr-2 md:ml-24 md:mr-24">
         <div class="flex items-center">
             <div class="image" style="height:35%;width:40%"><img src="{{ asset('storage/Home/Avantage-troc.jpg') }}"/></div>
             <div class="div" style="width:10%"></div>
@@ -342,12 +341,13 @@ Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
         </div>
     </div>
 
-    <div id="newsletter-container" class="flex justify-center space-x-20 bg-primary-color text-white mx-32 rounded p-8">
-        <div class="w-2/5">
+    <div id="newsletter-container" class="flex justify-center space-x-4 md:space-x-20 bg-primary-color text-white ml-2 mr-2 md:ml-24 md:mr-24 rounded p-2 md:p-8">
+        <div class="hidden md:block w-2/5">
             <h2 class="mb-4 text-2xl tracking-tight font-medium sm:text-4xl dark:text-white">Abonnez vous à notre newsletter</h2>
             <p class="mx-auto max-w-2xl font-light sm:text-sm dark:text-gray-400">Inscrivez vous à notre newsletter pour recevoir nos offres et promotions</p>
         </div>
         <form method="POST" action="{{route('newsletters.addEmail')}}">
+            <h2 class="mb-4 block md:hidden text-2xl tracking-tight font-medium sm:text-4xl dark:text-white">Abonnez vous à notre newsletter</h2>
             @csrf
             <div class="items-center mx-auto mb-3 space-y-4 max-w-screen-sm sm:flex sm:space-y-0">
                 <div class="relative w-full">
@@ -491,66 +491,63 @@ Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
 <script>
     $(document).ready(function () {
         let all = document.getElementsByClassName("zoomD"),
-      lightbox = document.getElementById("lightbox");
- 
-  // (B) CLICK TO SHOW IMAGE IN LIGHTBOX
-  // * SIMPLY CLONE INTO LIGHTBOX & SHOW
-  if (all.length>0) { for (let i of all) {
-    i.onclick = () => {
-      let clone = i.cloneNode();
-      clone.className = "";
-      lightbox.innerHTML = "";
-      lightbox.appendChild(clone);
-      lightbox.className = "show";
-    };
-  }}
- 
-  // (C) CLICK TO CLOSE LIGHTBOX
-  lightbox.onclick = () => lightbox.className = "";
+        lightbox = document.getElementById("lightbox");
+        
+        // (B) CLICK TO SHOW IMAGE IN LIGHTBOX
+        // * SIMPLY CLONE INTO LIGHTBOX & SHOW
+        if (all.length>0) { for (let i of all) {
+            i.onclick = () => {
+            let clone = i.cloneNode();
+            clone.className = "";
+            lightbox.innerHTML = "";
+            lightbox.appendChild(clone);
+            lightbox.className = "show";
+            };
+        }}
+        
+        // (C) CLICK TO CLOSE LIGHTBOX
+        lightbox.onclick = () => lightbox.className = "";
         //
         $(window).scroll(function() {
-    var scrollPosition = $(window).scrollTop();
-    var left = $('#left');
-    var right = $('#right');
+            var scrollPosition = $(window).scrollTop();
+            var left = $('#left');
+            var right = $('#right');
 
-if (scrollPosition > 250) {
-    left.css('top', '80px');
-    right.css('top', '80px');
-    right.css('margin-top', '0px');
-} else {
-  left.css('top', '');
-  right.css('margin-top', '260px');
+            if (scrollPosition > 250) {
+                left.css('top', '80px');
+                right.css('top', '80px');
+                right.css('margin-top', '0px');
+            } else {
+            left.css('top', '');
+            right.css('margin-top', '260px');
 
-}}); 
+        }}); 
 // 
         ['featured','recent'].forEach((el)=>{
-            var scrollDistance = $(`#${el}-offers-container`).width()/3;
+            if ($('#offers-container .basis-1\\/3').length > 0){
+                var scrollDistance = $(`#${el}-offers-container`).width()/3;
+            }else{
+                var scrollDistance = $(`#${el}-offers-container`).width();
+            }
             $(`#${el}-offers-title .fa-long-arrow-right`).css(`-webkit-text-stroke`," 2px");
             
             $(`#${el}-offers-title .fa-long-arrow-left`).click(function () {
                 $(`#${el}-offers-container`).animate({scrollLeft: "-=" + scrollDistance}, "slow");
-                updateArrowWeight();
-            });
-            
-            $(`#${el}-offers-title .fa-long-arrow-right`).click(function () {
-                $(`#${el}-offers-container`).animate({scrollLeft: "+=" + scrollDistance}, "slow");
-                updateArrowWeight();
-            });
-        });
-        
-        function updateArrowWeight(){
-            console.log("Update");
-            ['featured','recent'].forEach((el)=>{
                 if($(`#${el}-offers-container`).scrollLeft() > 0)
                 $(`#${el}-offers-title .fa-long-arrow-left`).css("-webkit-text-stroke"," 2px");
                 else            
                 $(`#${el}-offers-title .fa-long-arrow-left`).css("-webkit-text-stroke"," 0.5px");
-                
+            });
+            
+            $(`#${el}-offers-title .fa-long-arrow-right`).click(function () {
+                $(`#${el}-offers-container`).animate({scrollLeft: "+=" + scrollDistance}, "slow");
                 if($(`#${el}-offers-container`).scrollLeft() < $(`#${el}-offers-container`).prop("scrollWidth") - $(`#${el}-offers-container`).width())
                 $(`#${el}-offers-title .fa-long-arrow-right`).css("-webkit-text-stroke"," 2px");
                 else            
                 $(`#${el}-offers-title .fa-long-arrow-right`).css("-webkit-text-stroke"," 0.5px");
             });
-        }
+        });
+        
+
     });
 </script>

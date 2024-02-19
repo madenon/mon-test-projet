@@ -25,24 +25,24 @@ class MyAccountController extends Controller
         $user = Auth::user();
         $offers = $user->offer;
         $mesPropositions=$user->prepositions;
-$totalTransactions = 0;
-$totalTransactionsFromOffers = 0;
-foreach ($offers as $offer) {
-    // Count transactions from propositions of the offer
-    $totalTransactionsFromOffers += $offer->preposition->flatMap->transactions
+        $totalTransactions = 0;
+        $totalTransactionsFromOffers = 0;
+        foreach ($offers as $offer) {
+            // Count transactions from propositions of the offer
+            $totalTransactionsFromOffers += $offer->preposition->flatMap->transactions
+                ->where('offeror_status', 'Réussi')
+                ->where('applicant_status', 'Réussi')
+                ->count();
+        }
+
+        // Count transactions from propositions
+        $totalTransactionsFromMesPropositions = $mesPropositions->flatMap->transactions
         ->where('offeror_status', 'Réussi')
         ->where('applicant_status', 'Réussi')
-        ->count();
-}
+            ->count();
 
-// Count transactions from propositions
-$totalTransactionsFromMesPropositions = $mesPropositions->flatMap->transactions
-->where('offeror_status', 'Réussi')
-->where('applicant_status', 'Réussi')
-    ->count();
-
-// Total transactions
-$totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPropositions;
+        // Total transactions
+        $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPropositions;
 
         $userInfo = UserInfos::where('user_id', $user->id)->first();
         $offerPrepostion = $mesPropositions->count();

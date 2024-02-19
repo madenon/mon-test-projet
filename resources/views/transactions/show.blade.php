@@ -6,7 +6,7 @@
     @endphp
     <div class="container">
         <h5 class="mt-4">Infos sur la transactions</h5>
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-3 md:grid-cols-4 gap-4">
             <div class=""> 
                 <p class="text-sm text-slate-300 space-y-0 p-0 m-0">No</p>
                 <p class="text-lg p-0 m-0">
@@ -66,31 +66,29 @@
                 </p>
             </div>
             <div class=""> 
-                <p class="text-sm text-slate-300 space-y-0 p-0 m-0">Action</p>
-                <p class="text-lg p-0 m-0">
-                    @if(auth()->check() && ( (auth()->user()->id ===$applicant->id && $transaction->applicant_status==='En cours') || (auth()->user()->id !=$applicant->id && $transaction->offeror_status==='En cours')))
-                        <button type="button" class="reject"  data-toggle="modal" data-target="#statusModal" data-id="{{ $transaction->id }}" data-status="Échouée">
-                            Échouée
-                         <i class="fa-solid fa-ban ml-2" style="color: red;" ></i>
-                         </button>
-                        <button type="button" class="button-filter" data-toggle="modalCompleted" data-target="#statusModal" data-id="{{ $transaction->id }}" data-status="Réussi">
-                            Terminé
-                            <i class="fa-solid fa-check ml-2" style="color: white;"></i>
-                        </button>
-                    @elseif( !($transaction->applicant_status==='Réussi' && $transaction->offeror_status==='Réussi')   )
-                    En attente de validation 
-                    @endif
-                </p>
-            </div>
-            <div class=""> 
                 <p class="text-sm text-slate-300 space-y-0 p-0 m-0">Raison</p>
                 <p class="text-lg p-0 m-0">
-                    {{ $transaction->reason }}
+                    {{ $transaction->reason?? 'Non definie' }}
                 </p>
                 
             </div>
             
         </div>
+        <div class="text-lg p-0 mt-12">
+            @if(auth()->check() && ( (auth()->user()->id ===$applicant->id && $transaction->applicant_status==='En cours') || (auth()->user()->id !=$applicant->id && $transaction->offeror_status==='En cours')))
+                <div class="flex justify-center space-x-1 md:space-x-2">
+                    <button type="button" class="reject p-1 md:p-3"  data-toggle="modal" data-target="#statusModal" data-id="{{ $transaction->id }}" data-status="Échouée">
+                        <i class="fa-solid fa-ban mr-2" style="color: red;" ></i> Échouée   
+                    </button>
+                    <button type="button" class="button-filter p-1 md:p-3" data-toggle="modalCompleted" data-target="#statusModal" data-id="{{ $transaction->id }}" data-status="Réussi">
+                        <i class="fa-solid fa-check mr-2 " style="color: white;"></i> Réussi
+                    </button>
+                </div>
+            @elseif( !($transaction->applicant_status==='Réussi' && $transaction->offeror_status==='Réussi')   )
+            En attente de validation 
+            @endif
+        </div>
+
         <div class="w-full h-12"></div>
         @if($transaction->offeror_status == 'Réussi' || $transaction->applicant_status == 'Réussi')
         <div class="flex mt-4">

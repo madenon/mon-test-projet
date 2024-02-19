@@ -13,20 +13,14 @@ use App\Notifications\NewTransaction;
 class TransactionController extends Controller
 {
     public function index(Request $request){
-       // Assuming you're in a controller method
         $user = auth()->user();
 
-        // Get proposition IDs where the user is the proposition user
         $userPropositionIds = $user->prepositions()->pluck('id');
 
-        // Get offer IDs from the user's offers
         $myOfferIds = $user->offer()->pluck('id');
 
-        // Retrieve transactions based on the specified conditions
         $transactions = Transaction::where(function ($query) use ($userPropositionIds, $myOfferIds) {
-            // Transactions with proposition_id in $userPropositionIds
             $query->whereIn('proposition_id', $userPropositionIds)
-                // OR transactions with proposition_id in propositions related to user's offers
                 ->orWhereIn('proposition_id', function ($query) use ($myOfferIds) {
                     $query->select('id')
                         ->from('prepositions')
@@ -39,6 +33,47 @@ class TransactionController extends Controller
                 $query->where('applicant_status', 'En cours')
                     ->orWhere('offeror_status','En cours');
             });
+        }
+        if ($status = request('status')) {
+
+            if($status == 'pending') {
+                $transactions = $transactions->where(function ($query) {
+                    $query->where('applicant_status', 'En cours')
+                        ->orWhere('offeror_status','En cours');
+                });
+            }
+            else if($status == 'accepted'){
+                $transactions = $transactions->where(function ($query) {
+                    $query->where('applicant_status', 'Réussi')
+                        ->where('offeror_status','Réussi');
+                });
+            }else{// rejected
+                $transactions = $transactions->where(function ($query) {
+                    $query->where('applicant_status', 'Échouée')
+                        ->orWhere('offeror_status','Échouée');
+                });
+            }
+        }
+
+        if ($startDate = request('start_date')) {
+            $transactions->whereDate('transactions.created_at', '>=', $startDate);
+        }
+
+        if ($endDate = request('end_date')) {
+            $transactions->whereDate('transactions.created_at', '<=', $endDate);
+        }
+
+        if ($numberTrans = request('number_trans')) {
+            $transactions->where('transactions.uuid', 'like', '%' . $numberTrans . '%');
+        }
+
+        if ($nameOffer = request('name_offer')) {
+            $transactions->whereHas('proposition', function ($query) use ($nameOffer) {
+                $query->whereHas('offer', function ($query) use ($nameOffer) {
+                    $query->where('title', 'like', '%' . $nameOffer . '%');
+                });
+            });
+        
         }
         
         $transactions = $transactions->get();
