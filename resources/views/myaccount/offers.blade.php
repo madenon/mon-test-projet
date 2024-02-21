@@ -51,7 +51,7 @@ if ($user){
                                                 @csrf
                                                 @method('POST')
                                                 <button class="text-white rounded-full h-8 w-8 bg-red-700 hover:bg-red-800" type="submit">P</button>
-                                            </form>
+                                             </form>
                                         @else
                                             <form method="post" action="{{route('myaccount.activate', $offer)}}">
                                                 @csrf

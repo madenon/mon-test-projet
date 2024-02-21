@@ -82,7 +82,7 @@
                             <label for="" class="text-sm text-text block">Type</label>
                             <select  name='type'
                                 class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover"
-                                id="type-dropdown">
+                                id="type-dropdown" onchange="changerType(this)">
                                 <option value="0" selected hidden>Choisir le type de troc *</option>
                                 @foreach($types as $type)
                                 <option value="{{ $type->id }}">{{ $type->name }}</option>
@@ -231,10 +231,65 @@
                 </div>
                 <div class="stepTab py-4 mt-4">
                     <div class="container">
-                        <div class="row">
+                        <div id="partner" class="hidden">
                             <!-- Left Section: Your Troc Preferences -->
                             <div class="col-md-6">
-                            <h3 class="text-lg font-bold text-titles mb-3">Votre troc (Contre quoi voulez-vous échanger ?)</h3>
+                                <h3 class="text-lg font-bold text-titles mb-3">Nombre de partenaires</h3>
+                                <hr>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="partnerCheckbox" name="partnerCheckbox"
+                                            onchange="addTeam()">
+                                        <label class="form-check-label" for="partnerCheckbox">Equipe(s)</label>
+                                    </div>
+                                    <div id="addTeamContainer"></div>
+
+                                    <!-- Input lines for adding values -->
+                                    <div class="input-group mt-3">
+                                        <input type="text" name="dynamicInputs[]" class="form-control" >
+                                    </div>
+
+                                    <!-- Container to hold dynamically added input lines -->
+                            </div>
+                        </div>
+                        <div id="donation" class="hidden">
+                            <!-- Left Section: Your Troc Preferences -->
+                            <div class="col-md-12">
+                                <h3 class="text-lg font-bold text-titles mb-3">Don</h3>
+                                <hr>
+                                    <style>
+                                        @keyframes revealText {
+                                            0% {
+                                                width: 0;
+                                            }
+                                            100% {
+                                                width: 100%;
+                                            }
+                                        }
+
+                                        .donation-container {
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: start;
+                                        }
+                                        
+                                        .donation-text {
+                                            display: inline-block;
+                                            animation: revealText 3s steps(13, end) forwards;
+                                            overflow: hidden;
+                                            white-space: nowrap;
+                                        }
+                                    </style>
+
+                                    <div class="donation-container">
+                                        <p class="donation-text text-xl">Merci de faire parti des donateurs!</p>
+                                    </div>
+
+                            </div>
+                        </div>
+                        <div id="exchange" class="row">
+                            <!-- Left Section: Your Troc Preferences -->
+                            <div class="col-md-6">
+                                <h3 class="text-lg font-bold text-titles mb-3">Votre troc (Contre quoi voulez-vous échanger ?)</h3>
                                 <hr>
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="exchangeCheckbox" name="exchangeCheckbox" checked>
@@ -247,14 +302,13 @@
                                         <button class="btn btn-outline-secondary" type="button" onclick="addInput()">+</button>
                                     </div>
 
-
                                     <!-- Container to hold dynamically added input lines -->
                                     <div id="dynamicInputsContainer"></div>
                             </div>
 
                             <!-- Right Section: Your Estimation -->
                             <div class="col-md-6">
-                            <h3 class="text-lg font-bold text-titles mb-3">Votre estimation</h3>
+                                <h3 class="text-lg font-bold text-titles mb-3">Votre estimation</h3>
                                 <hr>
                                     <div class="form-group">
                                         <label for="valueInput">Valeur</label>
@@ -397,8 +451,8 @@
 </style>
 <script>
      // Add event listeners to show/hide additional options based on checkbox state
-   let inputCount=0;
-     function addInput() {
+    let inputCount=0;
+    function addInput() {
         console.log(inputCount);
         if(inputCount<6){
         var container = document.getElementById("dynamicInputsContainer");
@@ -409,6 +463,24 @@
         input.placeholder = "Enter value";
         container.appendChild(input);
     inputCount++;}
+    }
+    function addTeam() {
+        let checkbox = document.getElementById('partnerCheckbox');
+
+        var container = document.getElementById("addTeamContainer");
+        if(checkbox.checked){
+            var input = document.createElement("input");
+            input.type = "text";
+            input.name = "dynamicInputs[]";
+            input.className = "form-control mt-3";
+            input.placeholder = "Nombre d'équipes";
+            input.setAttribute("readonly", "readonly");
+            container.appendChild(input);
+        }else{
+            while (container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+        }
     }
     // 
     const conditionDropdownElement = document.getElementById('condition-dropdown')
@@ -475,22 +547,76 @@
     });
 
     const changerCategory = (e) => {
-    const subcategories = @json($subcategories);
-    const selectedCategoryId = e.value;
-    const subcategoryOptions = subcategories.filter(item => item.parent_id == selectedCategoryId);
-    const selectCategory = document.getElementById('select_category');
-    
-    while (selectCategory.options.length > 1) {
-        selectCategory.remove(1);
-    }
+        const subcategories = @json($subcategories);
+        const selectedCategoryId = e.value;
+        const subcategoryOptions = subcategories.filter(item => item.parent_id == selectedCategoryId);
+        const selectCategory = document.getElementById('select_category');
+        
+        while (selectCategory.options.length > 1) {
+            selectCategory.remove(1);
+        }
 
-    subcategoryOptions.forEach(item => {
-        const option = document.createElement("option");
-        option.value = item.id;
-        option.innerHTML = item.name;
-        selectCategory.append(option);
-    });
-};
+        subcategoryOptions.forEach(item => {
+            const option = document.createElement("option");
+            option.value = item.id;
+            option.innerHTML = item.name;
+            selectCategory.append(option);
+        });
+    };
+
+    const changerType = (e) => {
+        const types = @json($types);
+        const selectedTypeId = e.value;
+        document.cookie = "selectedTypeId = " + selectedTypeId;
+        var partner = document.getElementById('partner');
+        var donation = document.getElementById('donation');
+        var exchange = document.getElementById('exchange');
+
+        if(selectedTypeId == 4){
+            if (donation.classList.contains('row')){
+                donation.classList.remove('row');
+                donation.classList.add('hidden');
+            }
+            if (exchange.classList.contains('row')){
+                exchange.classList.remove('row');
+                exchange.classList.add('hidden');
+            }
+            if (partner.classList.contains('hidden')){
+                partner.classList.remove('hidden');
+                partner.classList.add('row');
+            }
+        
+        }else if(selectedTypeId == 3){
+            if (partner.classList.contains('row')){
+                partner.classList.remove('row');
+                partner.classList.add('hidden');
+            }
+            if (exchange.classList.contains('row')){
+                exchange.classList.remove('row');
+                exchange.classList.add('hidden');
+            }
+            if (donation.classList.contains('hidden')){
+                donation.classList.remove('hidden');
+                donation.classList.add('row');
+            }
+        }else{
+            if (partner.classList.contains('row')){
+                partner.classList.remove('row');
+                partner.classList.add('hidden');
+            }
+            if (donation.classList.contains('row')){
+                donation.classList.remove('row');
+                donation.classList.add('hidden');
+            }
+            if (exchange.classList.contains('hidden')){
+                exchange.classList.remove('hidden');
+                exchange.classList.add('row');
+            }
+            
+        }
+
+
+    };
 
     
 
@@ -520,6 +646,9 @@ const changerNumDepartement = (e) => {
     console.log('Department found:', department);
     numDepartment.value = department ? department.department_number : '';
 };
+
+$('#mySelect').change(function () {
+            var selectedValue = $(this).val();});
 
 
 // compte a rebours
