@@ -316,6 +316,11 @@ body {
     /* column-gap: 24px; */
     height: 48px;
 }
+@media (min-width: 768px) {
+    #header-authenticated-user {
+        column-gap: 24px !important; 
+    }
+}
 .header-authenticated-user-content {
     background-color: greenyellow;
 }

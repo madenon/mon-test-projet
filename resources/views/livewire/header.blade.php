@@ -46,7 +46,7 @@
             <div id="header-user">
                 @auth
                 <!-- Authenticated User -->
-                <div id="header-authenticated-user" class="gap-2 md:gap-8">
+                <div id="header-authenticated-user" class="gap-2">
                     <div class="dropdown" class="header-authenticated-user-content">
                         <div id="header-user-notification-icon" class="" data-bs-toggle="dropdown" aria-expanded="false">
                             <div>

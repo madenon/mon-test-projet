@@ -15,7 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('transaction_id')->nullable();
             $table->foreign('transaction_id')
                 ->references('id')
-                ->on('prepositions');
+                ->on('transactions');
 
         });
     }

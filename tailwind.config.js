@@ -27,6 +27,9 @@ export default {
             backgroundImage: {
                 custom: 'url("images/signup-bg-pattern.svg")', // Remplacez le chemin par le chemin de votre image
             },
+            gap: {
+                '11': '3rem',
+              }
         },
     },
 
