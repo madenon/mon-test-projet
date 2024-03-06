@@ -53,7 +53,7 @@ if ($user){
                             {{-- ---------------- [ Search Tab ] ---------------- --}}
                         <div class="messenger-tab search-tab app-scroll" data-view="search">
                                 {{-- items --}}
-                                <p class="messenger-title"><span>Search</span></p>
+                                <p class="messenger-title"><span>Rechercher ...</span></p>
                                 <div class="search-records">
                                     <p class="message-hint center-el"><span>Type to search..</span></p>
                                 </div>

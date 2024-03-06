@@ -7,7 +7,7 @@ return [
     | Messenger display name
     |-------------------------------------
     */
-    'name' => env('CHATIFY_NAME', 'FaisTroquer Messenger'),
+    'name' => env('CHATIFY_NAME', 'FaisTroquer Chat'),
 
     /*
     |-------------------------------------

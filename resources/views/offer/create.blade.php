@@ -18,8 +18,8 @@
                     <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                     </svg>
-                    <span class="me-1 md:me-2 hidden">1</span>
-                    <span class="text-xs md:text-base hidden md:block">Type</span>
+                    <span class="me-1 sm:me-2 num">1</span>
+                    <span class="name">Type</span>
                 </span>
             </li>
             <li class="stepTitle flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-4 xl:after:mx-10 dark:after:border-gray-700">
@@ -27,8 +27,8 @@
                     <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5  hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                     </svg>
-                    <span class="me-1 hidden md:block md:me-2">2</span>
-                    <span class="text-xs md:text-base hidden md:block">Localisation</span>
+                    <span class="me-1 sm:me-2 num">2</span>
+                    <span class="name">Localisation</span>
 
                 </span>
             </li>
@@ -37,8 +37,8 @@
                     <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5 hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                     </svg>
-                    <span class="me-1 md:me-2">3</span>
-                    <span class="text-xs md:text-base hidden md:block">Description</span>
+                    <span class="me-1 sm:me-2 num">3</span>
+                    <span class="name">Description</span>
                 </span>
             </li>
             <li class="stepTitle flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-4 xl:after:mx-10 dark:after:border-gray-700">
@@ -46,8 +46,8 @@
                     <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5 hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                     </svg>
-                    <span class="me-1 md:me-2">4</span>
-                    <span class="text-xs md:text-base hidden md:block">Echange</span>
+                    <span class="me-1 sm:me-2 num">4</span>
+                    <span class="name">Echange</span>
                     
                 </span>
             </li>
@@ -56,8 +56,8 @@
                     <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5 hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                     </svg>
-                    <span class="me-1 md:me-2">5</span>
-                    <span class="text-xs md:text-base  hidden md:block">Poster</span>
+                    <span class="me-1 sm:me-2 num">5</span>
+                    <span class="name">Poster</span>
                 </span>
             </li>
         </ol>
@@ -72,7 +72,7 @@
         </div>
         @endif
         <div class="">
-            <form method="POST" action="{{ route('offer.store') }}" class="mt-6 space-y-6"
+            <form method="POST" id="createPostForm" action="{{ route('offer.store') }}" class="mt-6 space-y-6"
                 enctype="multipart/form-data">
                 @csrf
                 @method('POST')
@@ -194,7 +194,7 @@
                                     {{ __('Parcourir l\'image par défaut depuis votre machine') }}</span>
                                 <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 ">
                                     <label for="default_image" class="cursor-pointer w-full" >
-                                        <input id="default_image" type="file" name="default_image"
+                                        <input id="default_image" type="file" name="default_image" accept="image/*"
                                             class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
                                             style="width: 0; height: 0;">
                                         <div class="flex items-center justify-center gap-4 text-center w-full">
@@ -212,7 +212,7 @@
                                     {{ __('Parcourir d\'autres images') }}</span>
                                 <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 ">
                                     <label for="additional_images" class="cursor-pointer w-full" >
-                                        <input id="additional_images" type="file" name="additional_images[]" multiple
+                                        <input id="additional_images" type="file" name="additional_images[]" accept="image/*" multiple
                                             class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
                                             style="width: 0; height: 0;" />
                                         <div class="flex items-center justify-center gap-4 text-center w-full">
@@ -244,9 +244,9 @@
                                     <div id="addTeamContainer"></div>
 
                                     <!-- Input lines for adding values -->
-                                    <div class="input-group mt-3">
+                                    <!-- <div class="input-group mt-3">
                                         <input type="text" name="dynamicInputs[]" class="form-control" >
-                                    </div>
+                                    </div> -->
 
                                     <!-- Container to hold dynamically added input lines -->
                             </div>
@@ -298,7 +298,7 @@
 
                                     <!-- Input lines for adding values -->
                                     <div class="input-group mt-3">
-                                        <input type="text" name="dynamicInputs[]" class="form-control" >
+                                        <input type="text" name="dynamicInputs[]" class="form-control" placeholder="1 er Troc">
                                         <button class="btn btn-outline-secondary" type="button" onclick="addInput()">+</button>
                                     </div>
 
@@ -312,7 +312,7 @@
                                 <hr>
                                     <div class="form-group">
                                         <label for="valueInput">Valeur</label>
-                                        <input type="text" class="form-control" id="valueInput" name="valueInput" placeholder="Prix">
+                                        <input type="number" class="form-control" id="valueInput" name="valueInput" placeholder="Prix en €">
                                     </div>
 
                                     <!-- Checkbox for "autorise la vente" -->
@@ -436,9 +436,10 @@
                     </button>
                     <button id="submitBtn" class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-primary-color hover:bg-primary-hover"
                         type="submit">
-                        {{ __('Créer l\'annonce') }}
+                        {{ __('Publier  l\'annonce') }}
                     </button>
                 </div>
+
             </form>
         </div>
     </div>
@@ -451,7 +452,7 @@
 </style>
 <script>
      // Add event listeners to show/hide additional options based on checkbox state
-    let inputCount=0;
+    let inputCount = 1;
     function addInput() {
         console.log(inputCount);
         if(inputCount<6){
@@ -460,7 +461,8 @@
         input.type = "text";
         input.name = "dynamicInputs[]";
         input.className = "form-control mt-3";
-        input.placeholder = "Enter value";
+        var pl = (input + 1) + " eme Troc";
+        input.placeholder = pl;
         container.appendChild(input);
     inputCount++;}
     }
@@ -470,14 +472,14 @@
         var container = document.getElementById("addTeamContainer");
         if(checkbox.checked){
             var input = document.createElement("input");
-            input.type = "text";
+            input.type = "number";
             input.name = "dynamicInputs[]";
             input.className = "form-control mt-3";
             input.placeholder = "Nombre d'équipes";
-            input.setAttribute("readonly", "readonly");
+            // input.setAttribute("readonly", "readonly");
             container.appendChild(input);
         }else{
-            while (container.firstChild) {
+            while (container && container.firstChild) {
                 container.removeChild(container.firstChild);
             }
         }
@@ -724,9 +726,9 @@ function showTab(n) {
   if (n == (x.length - 1)) {
     document.getElementById("nextBtn").style.display = "none";
     document.getElementById("submitBtn").style.display = "inline";
-} else {
-      document.getElementById("nextBtn").style.display = "inline";
-      document.getElementById("submitBtn").style.display = "none";
+  } else {
+    document.getElementById("nextBtn").style.display = "inline";
+    document.getElementById("submitBtn").style.display = "none";
   }
   // ... and run a function that displays the correct step indicator:
   fixStepIndicator(n)
@@ -735,9 +737,9 @@ function showTab(n) {
 function nextPrev(n) {
   var x = document.getElementsByClassName("stepTab");
     
-//   if (n == 1 && !validateForm()) {
-//     return false;
-//   }
+  if (n == 1 && !validateForm()) {
+    return false;
+  }
 
   x[currentTab].style.display = "none";
   
@@ -745,6 +747,28 @@ function nextPrev(n) {
   
   
   showTab(currentTab);
+}
+function appendError(text){
+    var errorContainer = document.getElementById("stepErrors");
+    if(!errorContainer){
+        errorContainer = document.createElement("div");
+        errorContainer.classList.add("alert", "alert-danger");
+        errorContainer.id = "stepErrors";
+        var ul = document.createElement("ul");
+        ul.id = "ulErrors";
+        errorContainer.appendChild(ul);
+        var createPostForm = document.getElementById("createPostForm");
+        createPostForm.appendChild(errorContainer);
+    }
+    
+    var ulErrors= document.getElementById("ulErrors");
+    while (ulErrors && ulErrors.firstChild) {
+        ulErrors.removeChild(parent.firstChild);
+    }
+    
+    var li = document.createElement("il");
+    li.textContent = text;
+    ulErrors.appendChild(li);
 }
 
 function validateForm() {
@@ -756,6 +780,8 @@ function validateForm() {
     if ((window.getComputedStyle(y[i].parentNode, null).display != "none") && y[i].value === "" ) {
       
       y[i].classList.add("invalid");
+        
+      appendError("Veuillez ne pas laisser les champs en * vide, elles sont obligatoires");
       valid = false;
     }else{
         y[i].classList.remove("invalid");
@@ -763,8 +789,10 @@ function validateForm() {
   }
   for (i = 0; i < z.length; i++) {
     if ((window.getComputedStyle(z[i].parentNode, null).display != "none") && z[i].value === "0") {
-      z[i].classList.add("invalid");
-      valid = false;
+        z[i].classList.add("invalid");
+        
+        appendError("Veuillez selectionner un element, les champs en * sont obligatoires");
+        valid = false;
     }else{
         z[i].classList.remove("invalid");
     }
@@ -780,24 +808,37 @@ function validateForm() {
 
 function fixStepIndicator(n) {
   // This function removes the "active" class of all steps...
-  var i, x = document.querySelectorAll(".stepTitle span span");
+  var i;
+  var u = document.querySelectorAll(".stepTitle span .num");
+  var v = document.querySelectorAll(".stepTitle span .name");
   var  y = document.querySelectorAll(".stepTitle span svg");
   var  z = document.querySelectorAll(".stepTitle");
   
-  for (i = 0; i < x.length; i++) {
+  console.log({n});
+  for (i = 0; i < u.length; i++) {
     if(i < n){//svg
-        x[i].classList.add("hidden");
+        u[i].classList.add("hidden");
         y[i].classList.remove("hidden");
     }else{//span
+        u[i].classList.remove("hidden");
         y[i].classList.add("hidden");
-        x[i].classList.remove("hidden");
     }
     if(i <= n){
         z[i].classList.add("text-blue-600","dark:text-blue-50");
     }else{
         z[i].classList.remove("text-blue-600","dark:text-blue-50");
     }
+    if(i<n){
+        v[i].classList.add("hidden","sm:visible","sm:block");
+    }else if(i==n){
+        v[i].classList.remove("hidden","sm:visible","sm:block");
+    }else{
+        v[i].classList.add("hidden","sm:visible","sm:block");
+    }
   }
+  
+  var errorContainer = document.getElementById("stepErrors");
+  if(errorContainer) errorContainer.remove();
   
 }
 

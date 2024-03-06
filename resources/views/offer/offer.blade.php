@@ -365,12 +365,17 @@
                         </span>
                         @endif
                         @if ($offer->buy_authorized)
-                        <span class="flex bg-red-100  rounded-full px-3 py-1 gap-2 text-red-500">
-                            <span class="bg-red-500 px-2 rounded-full text-white">$</span>
+                        <style>
+                            .bg-with-primary{
+                                background-color : #24A19C;
+                            }
+                        </style>
+                        <span class="flex bg-with-primary rounded-full px-3 py-1 gap-2 text-white">
+                            <span class="bg-with-primary px-2 rounded-full text-white">€</span>
                             <span>Vente autorisé</span> 
                             
-                           
-                        </span>@endif
+                        </span>
+                        @endif
                     </div>
                     <div class="m-4 bg-gray-100 p-4 rounded-lg">
                         <h5>À ÉCHANGER CONTRE :</h5>
@@ -459,7 +464,7 @@
                     <div class=" flex px-3 gap-4">
                         <button onclick="location.href='/compte/{{$offer->user_id}}'"
                             class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-primary-color hover:bg-primary-hover">
-                            Voir Profile
+                            Voir Profil
                         </button>
                         <button onclick="location.href='/moncompte/mesmessages/{{$offer->user_id}}'"
                             class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-black ">

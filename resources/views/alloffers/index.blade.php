@@ -142,10 +142,18 @@
                                 </span>
                                 @else
                                 <div class="flex items-center justify-end gap-2  ">
-                                    <span class="flex bg-red-100  rounded-full px-3 py-1 gap-2 text-red-500">
-                                        <span class="text-xs md:text-base bg-red-500 px-2 rounded-full text-white ">$</span>
+                                    @if ($offer->buy_authorized)
+                                    <style>
+                                        .bg-with-primary{
+                                            background-color : #24A19C;
+                                        }
+                                    </style>
+
+                                    <span class="flex bg-with-primary  rounded-full px-3 py-1 gap-2 text-white">
+                                        <span class="text-xs md:text-base bg-with-primary px-2 rounded-full text-white ">$</span>
                                         <span class="text-xs md:text-base">Vente autorisé</span>
                                     </span>
+                                    @endif
                                     <span class="text-titles text-lg md:text-2xl font-semibold">
                                         {{$offer->price}} €
                                     </span>
