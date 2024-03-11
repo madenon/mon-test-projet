@@ -163,7 +163,7 @@ body {
     display: none;
     background-color: white;
     width: calc( 100% - 48px );
-    height: auto;
+    height: 80px;
     top: 78px;
     z-index: 50;
 
