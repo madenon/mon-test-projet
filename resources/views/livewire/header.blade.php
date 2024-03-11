@@ -308,7 +308,7 @@
         </nav>
         <nav id="header-search-dropdown-menu">
             <div class="header-search-dropdown-menu-items">
-                <form action="{{ request()->is('offer.*') ? route('offer.index') : route('alloffers.index') }}" method="GET">
+                <form class="flex flex-nowrap w-full"action="{{ request()->is('offer.*') ? route('offer.index') : route('alloffers.index') }}" method="GET">
                     <button type="button" id="header-search-location-btn">
                         <img id="region-icon" src="{{ asset('images/location-icon.svg') }} " alt="Localisation" />
                     </button>
