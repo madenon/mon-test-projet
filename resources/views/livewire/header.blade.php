@@ -290,9 +290,9 @@
         <nav id="header-filter-dropdown-menu">
             <div class="header-filter-dropdown-menu-items">
             <form action="{{ request()->is('offer.*') ? route('offer.index') : route('alloffers.index') }}" method="GET">
-            <label for="min_price">Min Price:</label>
+            <label for="min_price">Prix minimal:</label>
             <input type="number" name="min_price" id="min_price" />
-            <label for="max_price">Max Price:</label>
+            <label for="max_price">Prix maximal:</label>
             <input type="number" name="max_price" id="max_price" />
     @if(request()->has('region'))
         <input type="hidden" name="region" value="{{ request('region') }}">

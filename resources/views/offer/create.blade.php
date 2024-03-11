@@ -201,14 +201,17 @@
                                     <span id="selectedFileName" class="text-text text-sm mt-2">Aucun fichier
                                         sélectionné</span>
                                 </div>
+                                <div class="my-2">
+                                    <img id="defaultImageSelected" src="" alt="" width="150px">
+                                </div>
                                 <x-input-error :messages="$errors->get('default_image')" class="mt-2" />
                                 <span for="" class="text-sm text-text mt-4">
                                     {{ __('Parcourir d\'autres images') }}</span>
                                 <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 ">
                                     <label for="additional_images" class="cursor-pointer w-full" >
                                         <input id="additional_images" type="file" name="additional_images[]" accept="image/*" multiple
-                                            class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
-                                            style="width: 0; height: 0;" />
+                                        class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
+                                        style="width: 0; height: 0;" />
                                         <div class="flex items-center justify-center gap-4 text-center w-full">
                                             <img src="/images/IconContainer.svg" alt="" srcset="">
                                             <p class="text-text text-sm mt-3">{{ __('Parcourir l\'image ') }}</p>
@@ -217,10 +220,13 @@
                                     <!-- Affiche le nom du fichier sélectionné (facultatif) -->
                                     <span id="selectedFileNameMultiple" class="text-text text-sm mt-2">Aucun fichier
                                         sélectionné</span>
+                                    </div>
+                                    <x-input-error :messages="$errors->get('additional_images')" class="mt-2" />
                                 </div>
-                                <x-input-error :messages="$errors->get('additional_images')" class="mt-2" />
+                                <div id="additionalImageSelected" class="my-2 flex justify-start flex-wrap">
+                                    
+                                </div>
                             </div>
-                        </div>
                     </div>
                 </div>
                 <div class="stepTab py-4 mt-4">
@@ -519,33 +525,61 @@
 
     const inputElement = document.getElementById("default_image");
     const spanElement = document.getElementById("selectedFileName");
-
+    const defaultImageSelected = document.getElementById("defaultImageSelected");
+    
     inputElement.addEventListener("change", function () {
         const selectedFiles = inputElement.files;
         if (selectedFiles.length > 0) {
-        spanElement.textContent = selectedFiles.length + " fichier(s) sélectionné(s)";
+            var reader = new FileReader();
+            
+            reader.onload = function (e) {
+                defaultImageSelected.src = e.target.result;
+            }
+            reader.readAsDataURL(selectedFiles[0]);
+            
+            spanElement.textContent = selectedFiles[0].name;
         } else {
-        spanElement.textContent = "Aucun fichier sélectionné";
+            spanElement.textContent = "Aucun fichier sélectionné";
         }
     });
-
-    const inputElement1 = document.getElementById("additional_images");
-    const spanElement1 = document.getElementById("selectedFileNameMultiple");
-
-    inputElement1.addEventListener("change", function () {
-        const selectedFiles = inputElement1.files;
-        if (selectedFiles.length > 0) {
-        spanElement1.textContent = selectedFiles.length + " fichier(s) sélectionné(s)";
-        } else {
-        spanElement1.textContent = "Aucun fichier sélectionné";
-        }
-    });
+    
+    
     const additional_images = document.getElementById("additional_images");
     const spanElementMultiple = document.getElementById("selectedFileNameMultiple");
+    const additionalImageSelected = document.getElementById("additionalImageSelected");
     additional_images.addEventListener("change", function () {
     const selectedFilesMultiple = additional_images.files;
     if (selectedFilesMultiple.length > 0) {
-    spanElementMultiple.textContent = selectedFilesMultiple.length + " fichier(s) sélectionné(s)";
+        while(additionalImageSelected.firstChild){
+            additionalImageSelected.removeChild(additionalImageSelected.firstChild);
+        };
+        Array.from(selectedFilesMultiple).forEach((item) => {
+            const divElement = document.createElement('div');
+            divElement.className = 'me-4';
+
+            const imgElement = document.createElement('img');
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                imgElement.src = e.target.result;
+                imgElement.setAttribute("style","width:50px");
+            }
+            reader.readAsDataURL(item);
+            imgElement.alt = '';
+            const buttonElement = document.createElement('button');
+            buttonElement.className = 'bg-red-500 text-white p-1 my-1 rounded-full';
+            buttonElement.textContent = 'Supprimer';
+            buttonElement.onclick = () =>{
+                event.preventDefault();
+                item.remove();
+            };
+
+            divElement.appendChild(imgElement);
+            divElement.appendChild(buttonElement);
+            additionalImageSelected.appendChild(divElement);
+            
+
+        });
+        spanElementMultiple.textContent = selectedFilesMultiple.length + " fichier(s) sélectionné(s)";
     } else {
     spanElementMultiple.textContent = "Aucun fichier sélectionné";
     }

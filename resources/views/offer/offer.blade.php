@@ -41,6 +41,7 @@
                     <img src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}"
                         alt="Image principale" id="mainImage"  class="zoomD h-[450px] w-[750px] rounded-lg " />
                 </div>
+                
                 @if(auth()->check() && $offer->user_id === auth()->user()->id)
                 <div class="flex space-x-10">
                     <div class="slick-carousel w-4/5 ">
@@ -53,8 +54,8 @@
                                         onmouseout="changeMainImage('{{ $offer->offer_default_photo }}')" />
 
                                     <div>
-                                        <button class="bg-red-500 text-white p-1 rounded-full" onclick="deleteImage('{{ $img->id }}')">Delete</button>
-                                        <button class="bg-blue-500 text-white p-1 rounded-full" onclick="selectImage('{{ $img->offer_photo }}')">Select</button>
+                                        <button class="bg-red-500 text-white p-1 rounded-full" onclick="deleteImage('{{ $img->id }}')">Supprimer</button>
+                                        <button class="bg-blue-500 text-white p-1 rounded-full" onclick="selectImage('{{ $img->offer_photo }}')">Selectionner</button>
                                     </div>
                                 </div>
                             </div>
@@ -74,25 +75,6 @@
                                 @endif
                             </button>
                         </div>
-                    </div>
-                @else 
-                    <div class="slick-carousel  ">
-                        @foreach ($images as $img)
-                            <div class="slick-item">
-                                <div class="relative">
-                                    <img src="{{ route('offer-pictures-file-path', $img->offer_photo) }}" alt="Image produit"
-                                        class="zoomD h-[80px] hover:scale-110 rounded-lg hover:transition-transform hover:transform-gpu"
-                                        onmouseover="changeMainImage('{{ $img->offer_photo }}')"
-                                        onmouseout="changeMainImage('{{ $offer->offer_default_photo }}')" />
-
-                                    <div>
-                                        <button class="bg-red-500 text-white p-1 rounded-full" onclick="deleteImage('{{ $img->id }}')">Delete</button>
-                                        <button class="bg-blue-500 text-white p-1 rounded-full" onclick="selectImage('{{ $img->offer_photo }}')">Select</button>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    
                     </div>
                    
                 @endif
@@ -247,7 +229,7 @@
         @method('DELETE')
         <button type="submit">
         Retirer des favoris            <!-- Display active (favorited) icon -->
-            <i class="fas fa-heart"></i>
+            <i class="fas fa-heart text-red-600"></i>
         </button>
     </form>
 @else
