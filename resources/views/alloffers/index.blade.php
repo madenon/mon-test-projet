@@ -82,7 +82,7 @@
 @elseif ($onlyRightBannerShown)
 <div class="con" style="margin-left:20px; margin-right:310px;">
 @else
-<div class="container">
+<div class="container-fluid mx-4">
 @endif
     <div class="row">
             <div class="col">
@@ -90,10 +90,10 @@
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col-3 hidden md:block">
+            <div class="col-3 hidden sm:block">
                 <x-filters></x-filters>      
             </div>
-            <div class="col-12 col-md-9 ps-2">
+            <div class="col-12 col-sm-9 ps-2">
             @foreach ($banners as $banner)
         @if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all') && $banner->position === 'content')
         <div class="offer_list_card mt-0 mb-4">
@@ -106,7 +106,7 @@
            
                 @foreach ($offers as $offer)
                 <div class="offer_list_card mt-0 mb-4">
-                    <div class="offer_image w-1/3 relative">
+                    <div class="offer_image w-2/5 relative">
                         <img src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}" alt=""
                             class="zoomD object-cover h-full w-full rounded-tl-lg rounded-bl-lg " />
                     </div>
@@ -128,7 +128,7 @@
                             <h6 class=" font-normal ">A ECHANGER CONTRE</h6>
                         </div>
                         <div class=" mt-3 flex w-full md:mb-3 ">
-                            <div class=" w-[40%] flex gap-2 items-center">
+                            <div class=" w-[40%] flex gap-1 items-center">
                                 <img src="/images/map-pin.svg" alt="">
                                 <span class="text-xs md:text-base">
                                     {{Str::limit($offer->department->region->name . ", " .
@@ -141,7 +141,7 @@
                                     {{$offer->type->name}}
                                 </span>
                                 @else
-                                <div class="flex items-center justify-end gap-2  ">
+                                <div class="flex items-center justify-end gap-1 ">
                                     @if ($offer->buy_authorized)
                                     <style>
                                         .bg-with-primary{
@@ -149,9 +149,19 @@
                                         }
                                     </style>
 
-                                    <span class="flex bg-with-primary  rounded-full px-3 py-1 gap-2 text-white">
-                                        <span class="text-xs md:text-base bg-with-primary px-2 rounded-full text-white ">$</span>
-                                        <span class="text-xs md:text-base">Vente autorisé</span>
+                                    <span class="flex bg-with-primary  rounded-full px-1 py-1 gap-1 text-white">
+                                        <span class="text-xs md:text-base">€ Vente autorisé</span>
+                                    </span>
+                                    @endif
+                                    @if ($offer->send_authorized)
+                                    <style>
+                                        .bg-with-primary{
+                                            background-color : #24A19C;
+                                        }
+                                    </style>
+
+                                    <span class="flex bg-with-primary  rounded-full px-1 py-1 gap-1 text-white">
+                                        <span class="text-xs md:text-base">€ Envoi autorisé</span>
                                     </span>
                                     @endif
                                     <span class="text-titles text-lg md:text-2xl font-semibold">
@@ -241,6 +251,10 @@
         </div>
             @endif
     @endforeach
+    
+    <div id="drawer-example" class="fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-80 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-label">
+</div>
+
 </x-app-layout>
 <script> 
  $(document).ready(function () {

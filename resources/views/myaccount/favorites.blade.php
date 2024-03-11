@@ -3,7 +3,7 @@
         <div class="flex content-start justify-around w-screen">
             <div class="col-12 col-md-12 h-screen">
                 <div class="container">
-                    <h1>Mes Annonces</h1>
+                    <h1>Visiter Annonces</h1>
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         @if(count($favoriteOffers) > 0 && !$favoriteOffers->every('deleted_at'))
                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">

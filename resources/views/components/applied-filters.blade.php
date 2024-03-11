@@ -3,7 +3,8 @@
         <li class="me-2 my-1">
             <div class="border-2 rounded p-1 flex">
                 <img src="{{asset('images/filter-icon.svg')}}" alt="" style="display:inline" />
-                <span>Filtre</span>
+                <span class="hidden sm:block">Filtre</span>
+                <span class="block sm:hidden" type="button" data-drawer-target="drawer-example" data-drawer-show="drawer-example" aria-controls="drawer-example">Filtre</span>
             </div>
         </li>
         @foreach ($filters as $filter) 
@@ -40,3 +41,4 @@
         </div>
     </div>
 </div>
+
