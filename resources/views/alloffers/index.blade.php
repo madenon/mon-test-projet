@@ -145,7 +145,7 @@
                                     </style>
 
                                     <span class="flex bg-with-primary  rounded-full px-1 py-1 gap-1 text-white">
-                                        <span class="text-xs md:text-base">€ Vente autorisé</span>
+                                        <span class="text-center text-xs md:text-base">€ Vente autorisé</span>
                                     </span>
                                     @endif
                                     @if ($offer->send_authorized)
@@ -156,7 +156,7 @@
                                     </style>
 
                                     <span class="flex bg-with-primary  rounded-full px-1 py-1 gap-1 text-white">
-                                        <span class="text-xs md:text-base">€ Envoi autorisé</span>
+                                        <span class="text-center text-xs md:text-base">€ Envoi autorisé</span>
                                     </span>
                                     @endif
                                     <span class="text-titles text-lg md:text-2xl font-semibold">
