@@ -482,7 +482,7 @@
     <section class="similarOffers mt-4">
         <div class="flex justify-between px-24">
             <h1 class="mb-6 ml-12 font-sans text-2xl font-bold text-gray-900">Offres similaire</h1>
-            <button class="bg-primary-color hover:bg-primary-hover mr-12 text-white font-bold py-2 px-4 rounded-2"><a class="no-underline font-medium text-white" href="{{ route('category.showSimilarOffers', ['offer'=>$offer->id ,'category_id' => $offer->subcategory->parent_id, 'category_name' => $category->name])}}">Voir plus</a></button>
+            <button class="bg-primary-color hover:bg-primary-hover mr-12 text-white font-bold py-2 px-4 rounded-2"><a class="no-underline font-medium text-white" href="{{route( 'alloffers.index',['sort_by'=>'latest', 'category' =>  $offer->subcategory->parent_id])}}">Voir plus</a></button>
         </div>
         <div class="mx-auto grid max-w-screen-xl grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
                 @foreach ($similaroffers as $similar)

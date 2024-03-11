@@ -56,11 +56,6 @@
         $noBannersShown = !$leftBannerShown && !$rightBannerShown;
     @endphp
         
-    @if($categoryName)
-    <div class="container my-2">
-        <h2> Catégorie : {{$categoryName }}</h2>
-    </div>
-    @endif
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Offres') }}
@@ -82,7 +77,7 @@
 @elseif ($onlyRightBannerShown)
 <div class="con" style="margin-left:20px; margin-right:310px;">
 @else
-<div class="container-fluid mx-4">
+<div class="container-fluid mx-5">
 @endif
     <div class="row">
             <div class="col">
@@ -251,10 +246,7 @@
         </div>
             @endif
     @endforeach
-    
-    <div id="drawer-example" class="fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-80 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-label">
-</div>
-
+  
 </x-app-layout>
 <script> 
  $(document).ready(function () {

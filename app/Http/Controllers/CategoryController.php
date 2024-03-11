@@ -22,8 +22,11 @@ class CategoryController extends Controller
     public function showSimilarOffers($offer, $category_id, $category_name)
     {
         $offer = Offer::where('id', $offer)->get();
-        $offers = Offer::orderBy('created_at', 'DESC')->where('category_id', $category_id)->paginate(10);
+        
         $category = Category::where('id' ,$category_id)->get();
+        $subcategoryIds = Category::where('parent_id' ,$category_id)->pluck('id')->all();
+        
+        $offers = Offer::orderBy('created_at', 'DESC')->whereIn('subcategory_id', $subcategoryIds)->paginate(10);
         $type = Type::where('id', 'type_id')->get();
 
         return view('showSimilarOffers', compact('category', 'offers', 'type'));
