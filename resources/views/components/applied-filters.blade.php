@@ -4,7 +4,7 @@
             <div class="border-2 rounded p-1 flex">
                 <img src="{{asset('images/filter-icon.svg')}}" alt="" style="display:inline" />
                 <span class="hidden sm:block">Filtre</span>
-                <span class="block sm:hidden" type="button" data-drawer-target="drawer-example" data-drawer-show="drawer-example" aria-controls="drawer-example">Filtre</span>
+                <span class="block sm:hidden" id="toggleFilterButton">Filtre</span>
             </div>
         </li>
         @foreach ($filters as $filter) 
@@ -42,3 +42,19 @@
     </div>
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const toggleFilterButton = document.getElementById('toggleFilterButton');
+    const offCanvas = document.getElementById('offCanvas');
+    const closeFilterButton = document.getElementById('closeFilterButton');
+
+    toggleFilterButton.addEventListener('click', function () {
+        offCanvas.style.transform = 'translateX(0)';
+    });
+    
+    closeFilterButton.addEventListener('click', function () {
+        console.log({closeFilterButton});
+        offCanvas.style.transform = 'translateX(100%)';
+    });
+});
+</script>

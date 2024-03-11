@@ -71,33 +71,44 @@
         </nav>
     </div>
     @if ($bothBannersShown)
-    <div class="con" style="margin-left:300px; margin-right:300px; max-width:55%;">
-@elseif ($onlyLeftBannerShown)
-<div class="con" style="margin-right:20px; margin-left: 310px;">
-@elseif ($onlyRightBannerShown)
-<div class="con" style="margin-left:20px; margin-right:310px;">
-@else
-<div class="container-fluid px-4">
-@endif
-    <div class="row">
-            <div class="col">
-                <x-applied-filters></x-applied-filters>
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-3 hidden sm:block">
-                <x-filters></x-filters>      
-            </div>
-            <div class="col-12 col-sm-9 ps-2">
-            @foreach ($banners as $banner)
-        @if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all') && $banner->position === 'content')
-        <div class="offer_list_card mt-0 mb-4">
-        <a href="{{$banner->link}}" target="_blank" > 
-        <img src="{{ asset('storage/'. $banner->banner ) }}" alt="Banner" style="width:100%;max-height:250px;">
-        </a>        
+        <div class="con" style="margin-left:300px; margin-right:300px; max-width:55%;">
+    @elseif ($onlyLeftBannerShown)
+    <div class="con" style="margin-right:20px; margin-left: 310px;">
+    @elseif ($onlyRightBannerShown)
+    <div class="con" style="margin-left:20px; margin-right:310px;">
+    @else
+    <div class="container-fluid px-4">
+    @endif
+    
+    <style>
+        #offCanvas{
+            transform: translateX(100%);
+        }
+    </style>
+    <div id="offCanvas" class="fixed inset-y-0 right-0 w-64 bg-gray-800 text-white z-50 p-4 ease-in-out duration-300">
+        <button id="closeFilterButton" class="text-white">&times; Close</button>
+        <!-- <x-filters></x-filters>       -->
     </div>
-        @endif
-    @endforeach
+
+        <div class="row">
+                <div class="col">
+                    <x-applied-filters></x-applied-filters>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-3 hidden sm:block">
+                    <x-filters></x-filters>      
+                </div>
+                <div class="col-12 col-sm-9 ps-2">
+                @foreach ($banners as $banner)
+            @if ($banner->is_active && ($banner->page === 'offers' || $banner->page ==='all') && $banner->position === 'content')
+            <div class="offer_list_card mt-0 mb-4">
+            <a href="{{$banner->link}}" target="_blank" > 
+            <img src="{{ asset('storage/'. $banner->banner ) }}" alt="Banner" style="width:100%;max-height:250px;">
+            </a>        
+        </div>
+            @endif
+        @endforeach
            
                 @foreach ($offers as $offer)
                 <div class="offer_list_card mt-0 mb-4">

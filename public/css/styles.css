@@ -1258,8 +1258,8 @@ input[type="checkbox"]:checked{
             ". ."; 
     }
     .header-filter-dropdown-menu-items {
-        margin: 48px;
-        display: grid; 
+        margin: 8px;
+        /* /* display: grid;  */
         grid-template-columns: 1fr 1fr; 
         grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr; 
         gap: 0px 36px; 
@@ -1269,7 +1269,7 @@ input[type="checkbox"]:checked{
             ". ."
             ". ."
             ". ."
-            ". ."; 
+            ". .";  */
     }
     .header-search-dropdown-menu-items {
         margin: 8px;
