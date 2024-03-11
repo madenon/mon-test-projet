@@ -11,8 +11,8 @@
                                     <a href="#" class="listView-x"><i class="fas fa-times"></i></a>
                                 </nav>
                             </nav>
-                            {{-- Search input --}}
-                            <input type="text" class="messenger-search" placeholder="Search" />
+                            {{-- Rechercher input --}}
+                            <input type="text" class="messenger-search" placeholder="Rechercher" />
                             {{-- Tabs --}}
                             {{-- <div class="messenger-listView-tabs">
                                 <a href="#" class="active-tab" data-view="users">
@@ -30,12 +30,12 @@
                                 {{-- Contact --}}
                                 <div class="listOfContacts" style="width: 100%;height: calc(100% - 272px);position: relative;"></div>
                             </div>
-                            {{-- ---------------- [ Search Tab ] ---------------- --}}
+                            {{-- ---------------- [ Rechercher Tab ] ---------------- --}}
                             <div class="messenger-tab search-tab app-scroll" data-view="search">
                                 {{-- items --}}
-                                <p class="messenger-title"><span>Search</span></p>
+                                <p class="messenger-title"><span>Rechercher</span></p>
                                 <div class="search-records">
-                                    <p class="message-hint center-el"><span>Type to search..</span></p>
+                                    <p class="message-hint center-el"><span>Saisissez pour rechercher..</span></p>
                                 </div>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                         {{-- Messaging area --}}
                         <div class="m-body messages-container app-scroll">
                             <div class="messages">
-                                <p class="message-hint center-el"><span>Please select a chat to start messaging</span></p>
+                                <p class="message-hint center-el"><span>Veuillez selectionner un chat pour commencer par discuter</span></p>
                             </div>
                             {{-- Typing indicator --}}
                             <div class="typing-indicator">

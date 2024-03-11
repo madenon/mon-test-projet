@@ -897,7 +897,65 @@ body {
     box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
     -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
     -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15);
-}       
+}    
+
+input[type="radio"] {
+    --s: 1.25em;     /* control the size */
+    --c: var(--primary-color);
+    
+    height: var(--s);
+    width: var(--s);
+    aspect-ratio: 1;
+    border: calc(var(--s)/12) solid #939393;
+    padding: calc(var(--s)/6);
+    background: 
+        radial-gradient(farthest-side,var(--c) 94%,#0000) 
+        50%/0 0 no-repeat content-box;
+        -radius: 50%;
+    outline-offset: calc(var(--s)/10);
+    color: --c;
+    background-image:none;
+    
+}
+input[type="radio"]:checked, input[type="radio"]:focus{
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+    background-image:none;
+}
+input[type="checkbox"]:checked{
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+}
+
+
+#price-range {
+    position:relative;
+    margin: 10px 0;
+}
+
+.ui-slider-horizontal {
+    height: 6px;
+    background-color: #ddd;
+}
+
+.ui-slider-handle {
+    display:inline-block;
+    width: 12px;
+    height: 12px;
+    position:absolute;
+    border: 1px solid var(--primary-color) ;
+    border-radius: 100%;
+    top:-3px;
+    background-color: #fff;
+}
+
+.ui-slider-range {
+    height: 6px;
+    position:relative;
+    background-color: var(--primary-color);
+}
+
+
 /* X-Small devices (portrait phones, less than 576px) */
 /* No media query for `xs` since this is the default in Bootstrap */
 

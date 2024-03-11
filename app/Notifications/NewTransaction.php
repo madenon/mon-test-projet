@@ -27,8 +27,7 @@ class NewTransaction extends Notification
      */
     public function via(object $notifiable): array
     {
-        return [ 'database','broadcast'];
-        // return ['mail', 'database','broadcast'];
+        return ['mail', 'database','broadcast'];
     }
     /**
      * Get the mail representation of the notification.

@@ -72,7 +72,7 @@
                 </div>
                 <div class="mt-1 hidden elements">   
                     <form class="my-1">   
-                        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Rechercher</label>
                         <div class="relative mb-3">
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                 <i class="fa fa-search"></i>
@@ -138,67 +138,6 @@
         <button class="mt-1 button-filter">Appliquer</button>
     </div>
 </form>
-<style>
-    input[type="radio"] {
-        --s: 1.25em;     /* control the size */
-        --c: var(--primary-color);
-        
-        height: var(--s);
-        width: var(--s);
-        aspect-ratio: 1;
-        border: calc(var(--s)/12) solid #939393;
-        padding: calc(var(--s)/6);
-        background: 
-            radial-gradient(farthest-side,var(--c) 94%,#0000) 
-            50%/0 0 no-repeat content-box;
-         -radius: 50%;
-        outline-offset: calc(var(--s)/10);
-        color: --c;
-        background-image:none;
-        
-    }
-    input[type="radio"]:checked, input[type="radio"]:focus{
-        border-color: var(--primary-color);
-        background-color: var(--primary-color);
-        background-image:none;
-    }
-    input[type="checkbox"]:checked{
-        border-color: var(--primary-color);
-        background-color: var(--primary-color);
-    }
-
-
-    #price-range {
-        position:relative;
-        margin: 10px 0;
-    }
-
-    .ui-slider-horizontal {
-        height: 6px;
-        background-color: #ddd;
-    }
-
-    .ui-slider-handle {
-        display:inline-block;
-        width: 12px;
-        height: 12px;
-        position:absolute;
-        border: 1px solid var(--primary-color) ;
-        border-radius: 100%;
-        top:-3px;
-        background-color: #fff;
-    }
-    
-    .ui-slider-range {
-        height: 6px;
-        position:relative;
-        background-color: var(--primary-color);
-    }
-
-
-
-
-</style>
 <script>
 
     $(document).ready(function () {

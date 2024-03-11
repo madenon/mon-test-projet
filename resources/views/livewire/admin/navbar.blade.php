@@ -14,7 +14,7 @@
                 <div class="navbar-search-block">
                     <form class="form-inline">
                         <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                        <input class="form-control form-control-navbar" type="search" placeholder="Rechercher" aria-label="Rechercher">
                         <div class="input-group-append">
                         <button class="btn btn-navbar" type="submit">
                         <i class="fas fa-search"></i>

@@ -77,7 +77,7 @@
 @elseif ($onlyRightBannerShown)
 <div class="con" style="margin-left:20px; margin-right:310px;">
 @else
-<div class="container-fluid mx-5">
+<div class="container-fluid px-4">
 @endif
     <div class="row">
             <div class="col">

@@ -5,7 +5,7 @@
         <h1 class="m-4">Transactions</h1>
         <form action="{{ route('admin.transactions') }}" method="GET">
         <div class="mb-4 ">
-                <label class="block text-sm font-medium text-gray-700">Search:</label>
+                <label class="block text-sm font-medium text-gray-700">Rechercher:</label>
                 <input type="text" name="search" value="{{ request('search') }}" class="mt-1 p-2 border rounded-md">
                 
                 <!-- Use an icon (e.g., from FontAwesome or another icon library) as a link to submit the form -->

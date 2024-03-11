@@ -89,7 +89,7 @@ class User extends Authenticatable  implements MustVerifyEmail
 
     public function getIsOnlineAttribute()
     {
-        return $this->attributes['is_online'] ? 'Online' : 'Offline';
+        return $this->attributes['is_online'] ? 'En ligne' : 'Offline';
     }
     public function userInfo(): HasOne
     {

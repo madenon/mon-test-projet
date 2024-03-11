@@ -27,7 +27,7 @@ $lastMessageBody = strlen($lastMessageBody) > 20 ? mb_substr($lastMessageBody, 0
             {{-- Last Message user indicator --}}
             {!!
                 $lastMessage->from_id == Auth::user()->id
-                ? '<span class="lastMessageIndicator">You :</span>'
+                ? '<span class="lastMessageIndicator">Vous :</span>'
                 : ''
             !!}
             {{-- Last message body --}}
@@ -46,7 +46,7 @@ $lastMessageBody = strlen($lastMessageBody) > 20 ? mb_substr($lastMessageBody, 0
 </table>
 @endif
 
-{{-- -------------------- Search Item -------------------- --}}
+{{-- -------------------- Rechercher Item -------------------- --}}
 @if($get == 'search_item')
 <table class="messenger-list-item" data-contact="{{ $user->id }}">
     <tr data-action="0">

@@ -76,7 +76,7 @@ class ExampleFieldsScreen extends Screen
 
                 Input::make('search')
                     ->type('search')
-                    ->title('Search')
+                    ->title('Rechercher')
                     ->value('How do I shoot web')
                     ->help('Text fields designed for the user to enter search queries into.')
                     ->horizontal(),

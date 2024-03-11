@@ -24,7 +24,7 @@
     <img src="https://assets.edlin.app/images/rossedlin/03/rossedlin-03-100.jpg" alt="Avatar">
     <div>
       <p>Ross Edlin</p>
-      <small>Online</small>
+      <small>En ligne</small>
     </div>
   </div>
   <!-- End Header -->

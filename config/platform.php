@@ -227,7 +227,7 @@ return [
 
     /*
      |--------------------------------------------------------------------------
-     | Search
+     | Rechercher
      |--------------------------------------------------------------------------
      |
      | This configuration option determines which models will be searchable in the

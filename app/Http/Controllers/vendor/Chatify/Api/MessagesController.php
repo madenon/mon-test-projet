@@ -267,7 +267,7 @@ class MessagesController extends Controller
     }
 
     /**
-     * Search in messenger
+     * Rechercher in messenger
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
