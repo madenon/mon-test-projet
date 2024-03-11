@@ -20,7 +20,10 @@ headerCategoriesButtonElement.addEventListener('click', () => {
 // Header filter dropdown
 const headerFilterButtonElement = window.document.getElementById('header-filter-button-btn')
 const headerFilterDropdownElement = window.document.getElementById('header-filter-dropdown-menu')
+const headerSearchButtonElement = window.document.getElementById('header-search-icon-mobile')
+const headerSearchDropdownElement = window.document.getElementById('header-search-dropdown-menu')
 let isHeaderFilterDropdownMenuOpen = false
+let isHeaderSearchDropdownMenuOpen = false
 headerFilterButtonElement.addEventListener('click', () => {
     if(isHeaderFilterDropdownMenuOpen){
         headerFilterDropdownElement.style.display = "none"
@@ -30,6 +33,15 @@ headerFilterButtonElement.addEventListener('click', () => {
        
     }
     isHeaderFilterDropdownMenuOpen = !isHeaderFilterDropdownMenuOpen
+})
+headerSearchButtonElement.addEventListener('click', () => {
+    if(isHeaderFilterDropdownMenuOpen){
+        headerSearchDropdownElement.style.display = "none"
+        
+    } else {
+        headerSearchDropdownElement.style.display = "flex"
+    }
+    isHeaderSearchDropdownMenuOpen = !isHeaderSearchDropdownMenuOpen
 })
 // header region dropdown
 const headerRegionsButtonElement = window.document.getElementById('header-search-location-btn')

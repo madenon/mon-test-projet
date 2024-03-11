@@ -20,18 +20,18 @@
                 </button>
             </div>
             <div id="header-search">
-            <form action="{{ request()->is('offer.*') ? route('offer.index') : route('alloffers.index') }}" method="GET">
-                <button type="button" id="header-search-location-btn">
-                    <img id="region-icon" src="{{ asset('images/location-icon.svg') }} " alt="Localisation" />
-                </button>
-                <input id="header-search-input" type="search" name="query" placeholder="Rechercher un offre..." />
-                @if(request()->has('region'))
-                    <input type="hidden" name="region" value="{{ request('region') }}">
-                @endif
-                <button id="header-search-submit" type="submit">
-                    <img src="{{ asset('images/search-icon.svg') }}" alt="Recherche" />
-                </button>
-            </form>
+                <form action="{{ request()->is('offer.*') ? route('offer.index') : route('alloffers.index') }}" method="GET">
+                    <button type="button" id="header-search-location-btn">
+                        <img id="region-icon" src="{{ asset('images/location-icon.svg') }} " alt="Localisation" />
+                    </button>
+                    <input id="header-search-input" type="search" name="query" placeholder="Rechercher un offre..." />
+                    @if(request()->has('region'))
+                        <input type="hidden" name="region" value="{{ request('region') }}">
+                    @endif
+                    <button id="header-search-submit" type="submit">
+                        <img src="{{ asset('images/search-icon.svg') }}" alt="Recherche" />
+                    </button>
+                </form>
 
                 <button id="header-search-icon-mobile">
                     <img src="{{asset('images/search-icon-dark.svg')}}" alt="" />
@@ -290,20 +290,36 @@
         <nav id="header-filter-dropdown-menu">
             <div class="header-filter-dropdown-menu-items">
             <form action="{{ request()->is('offer.*') ? route('offer.index') : route('alloffers.index') }}" method="GET">
-            <label for="min_price">Prix minimal:</label>
-            <input type="number" name="min_price" id="min_price" />
-            <label for="max_price">Prix maximal:</label>
-            <input type="number" name="max_price" id="max_price" />
-    @if(request()->has('region'))
-        <input type="hidden" name="region" value="{{ request('region') }}">
-    @endif
-    @if(request()->has('category'))
-        <input type="hidden" name="category" value="{{ request('category') }}">
-    @endif
-    <button  id="filter" type="submit">
-        Filter
-    </button>
-</form>
+                <label for="min_price">Prix minimal:</label>
+                <input type="number" name="min_price" id="min_price" />
+                <label for="max_price">Prix maximal:</label>
+                <input type="number" name="max_price" id="max_price" />
+                @if(request()->has('region'))
+                    <input type="hidden" name="region" value="{{ request('region') }}">
+                @endif
+                @if(request()->has('category'))
+                    <input type="hidden" name="category" value="{{ request('category') }}">
+                @endif
+                <button  id="filter" type="submit">
+                    Filter
+                </button>
+            </form>
+            </div>
+        </nav>
+        <nav id="header-search-dropdown-menu">
+            <div class="header-search-dropdown-menu-items">
+                <form action="{{ request()->is('offer.*') ? route('offer.index') : route('alloffers.index') }}" method="GET">
+                    <button type="button" id="header-search-location-btn">
+                        <img id="region-icon" src="{{ asset('images/location-icon.svg') }} " alt="Localisation" />
+                    </button>
+                    <input id="header-search-input" type="search" name="query" placeholder="Rechercher un offre..." />
+                    @if(request()->has('region'))
+                        <input type="hidden" name="region" value="{{ request('region') }}">
+                    @endif
+                    <button id="header-search-submit" type="submit">
+                        <img src="{{ asset('images/search-icon.svg') }}" alt="Recherche" />
+                    </button>
+                </form>
             </div>
         </nav>
        
