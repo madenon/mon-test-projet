@@ -100,7 +100,7 @@ class OfferController extends Controller
         $subcategories = Category::where("parent_id", '!=', NULL)->get();
         $regions = Region::all();
         $departments = Department::all();
-        $types = Type::all();
+        $types = Type::all()->load('categories');
         $experienceLevels = ExperienceLevel::toArray();
         $conditions = Condition::toArray();
 
@@ -150,39 +150,40 @@ class OfferController extends Controller
             $experience = $request->has('experience')? $request->experience : null;
             $condition  = $request->has('condition')? $request->condition : null;
             // Retrieve values from dynamic inputs
-        $dynamicInputs = $request->input('dynamicInputs');
-        // Serialize the values before saving to the database
-        $serializedInputs = json_encode($dynamicInputs);
-    // Calculate expiration date based on countdown option and region timezone
-    if($request->expiration_date){
-    $carbonDate = Carbon::parse($request->expiration_date);
-            // Format the date as needed for database storage
-            $expirationDate = $carbonDate->format('Y-m-d H:i:s');
-    } else {$expirationDate =null;}
-        $launchOption = $request->input('launchOption');
-        $launchTime = $request->input('launchTime');
-        $launchDate = null;
-        if ($launchOption === 'differe') {
-            if ($launchTime === '6h') {
-                $launchDate = now()->addHours(6);
-            } elseif ($launchTime === '12h') {
-                $launchDate = now()->addHours(12);
+            $dynamicInputs = $request->input('dynamicInputs');
+            // Serialize the values before saving to the database
+            $serializedInputs = json_encode($dynamicInputs);
+            // Calculate expiration date based on countdown option and region timezone
+            if($request->expiration_date){
+                $carbonDate = Carbon::parse($request->expiration_date);
+                // Format the date as needed for database storage
+                $expirationDate = $carbonDate->format('Y-m-d H:i:s');
+            } else {$expirationDate =null;}
+                $launchOption = $request->input('launchOption');
+                $launchTime = $request->input('launchTime');
+                $launchDate = null;
+                if ($launchOption === 'differe') {
+                    if ($launchTime === '6h') {
+                        $launchDate = now()->addHours(6);
+                    } elseif ($launchTime === '12h') {
+                        $launchDate = now()->addHours(12);
+                    }
+                    elseif ($launchTime === '1j') {
+                        $launchDate = now()->addDay();
+                    }    
+                    elseif ($launchTime === '3j') {
+                        $launchDate = now()->addDays(3);
+                    }   
+                    elseif ($launchTime === '5j') {
+                        $launchDate = now()->addDays(5);
+                    } 
+                    elseif ($launchTime === '7j') {
+                        $launchDate = now()->addDays(7);
+                    }
+                    elseif ($launchTime === '30j') {
+                        $launchDate = now()->addDays(30);
+                    } 
             }
-            elseif ($launchTime === '1j') {
-                $launchDate = now()->addDay();
-            }    
-            elseif ($launchTime === '3j') {
-                $launchDate = now()->addDays(3);
-            }   
-            elseif ($launchTime === '5j') {
-                $launchDate = now()->addDays(5);
-            } 
-            elseif ($launchTime === '7j') {
-                $launchDate = now()->addDays(7);
-            }
-            elseif ($launchTime === '30j') {
-                $launchDate = now()->addDays(30);
-            } }
 
             $id = DB::table('offers')
                 ->insertGetId(
@@ -201,9 +202,10 @@ class OfferController extends Controller
                        'launch_date'=>$launchDate,
                        'price'=>$request->valueInput ? $request->valueInput : 0 ,
                        'buy_authorized' => $request->has('sellCheckbox') ? 1 : 0,
+                       'send_authorized' => $request->has('sendCheckbox') ? 1 : 0,
                        'specify_proposition'=>$request->has('exchangeCheckbox')? 1 : 0 ,
                        'dynamic_inputs' => $serializedInputs,
-                        'created_at' => \Carbon\Carbon::now()
+                       'created_at' => \Carbon\Carbon::now()
                     ]
                 );
           

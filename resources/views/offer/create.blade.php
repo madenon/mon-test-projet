@@ -114,13 +114,10 @@
 
                         <div class="md:flex-1 w-full">
                             <label for="" class="text-sm text-text block">Catégorie du troc</label>
-                            <select  name='category'
+                            <select  name='category' id="select_type"
                                 class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover"
                                 onchange="changerCategory(this)">
                                 <option value="0" selected hidden>Choisir la Catégorie *</option>
-                                @foreach($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                @endforeach
                             </select>
                         </div>
                         <div class="md:flex-1 w-full">
@@ -128,9 +125,6 @@
                             <select  name='subcategory' id="select_category"
                                 class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
                                 <option value="0" selected hidden>Choisir la sous catégorie *</option>
-                                @foreach($subcategories as $subcategory)
-                                <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
-                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -298,7 +292,7 @@
 
                                     <!-- Input lines for adding values -->
                                     <div class="input-group mt-3">
-                                        <input type="text" name="dynamicInputs[]" class="form-control" placeholder="1 er Troc">
+                                        <input type="text" name="dynamicInputs[]" class="form-control notRequired" placeholder="1 er Troc">
                                         <button class="btn btn-outline-secondary" type="button" onclick="addInput()">+</button>
                                     </div>
 
@@ -319,6 +313,11 @@
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" name="sellCheckbox" id="sellCheckbox">
                                         <label class="form-check-label" for="sellCheckbox">Autorise la vente</label>
+                                    </div>
+                                    <!-- Checkbox for "autorise la vente" -->
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" name="sendCheckbox" id="sendCheckbox">
+                                        <label class="form-check-label" for="sendCheckbox">Autorise l'envoi</label>
                                     </div>
                                 
                             </div>
@@ -455,16 +454,20 @@
     let inputCount = 1;
     function addInput() {
         console.log(inputCount);
-        if(inputCount<6){
-        var container = document.getElementById("dynamicInputsContainer");
-        var input = document.createElement("input");
-        input.type = "text";
-        input.name = "dynamicInputs[]";
-        input.className = "form-control mt-3";
-        var pl = (input + 1) + " eme Troc";
-        input.placeholder = pl;
-        container.appendChild(input);
-    inputCount++;}
+        if(inputCount<3){
+            var container = document.getElementById("dynamicInputsContainer");
+            var input = document.createElement("input");
+            input.type = "text";
+            input.name = "dynamicInputs[]";
+            input.className = "form-control mt-3 notRequired";
+            var pl = `${inputCount + 1} eme Troc`;
+            input.placeholder = pl;
+            container.appendChild(input);
+            inputCount++;
+        }
+        else{
+            appendError("Le nombre maximal de troc possible est de trois");
+        }
     }
     function addTeam() {
         let checkbox = document.getElementById('partnerCheckbox');
@@ -565,7 +568,7 @@
             selectCategory.append(option);
         });
     };
-
+    
     const changerType = (e) => {
         const types = @json($types);
         const selectedTypeId = e.value;
@@ -573,8 +576,35 @@
         var partner = document.getElementById('partner');
         var donation = document.getElementById('donation');
         var exchange = document.getElementById('exchange');
-
-        if(selectedTypeId == 4){
+        
+        const type = types.filter(item => item.id == selectedTypeId)[0];
+        const categories = type["categories"];
+        const selectType = document.getElementById('select_type');
+        
+        while (selectType.options.length > 1) {
+            selectType.remove(1);
+        }
+    
+        
+        categories.forEach(item => {
+            const option = document.createElement("option");
+            option.value = item.id;
+            option.innerHTML = item.name;
+            selectType.append(option);
+        });
+        // Exchange part
+        if(selectedTypeId == 4){// moment
+            
+        
+        }else if(selectedTypeId == 3){ // don
+            
+        }else if(selectedTypeId == 1){ // adoption
+            
+        }else{ 
+        
+        }
+        // Exchange part
+        if(selectedTypeId == 4){// moment
             if (donation.classList.contains('row')){
                 donation.classList.remove('row');
                 donation.classList.add('hidden');
@@ -588,7 +618,7 @@
                 partner.classList.add('row');
             }
         
-        }else if(selectedTypeId == 3){
+        }else if(selectedTypeId == 3){ // don
             if (partner.classList.contains('row')){
                 partner.classList.remove('row');
                 partner.classList.add('hidden');
@@ -601,7 +631,7 @@
                 donation.classList.remove('hidden');
                 donation.classList.add('row');
             }
-        }else{
+        }else{ 
             if (partner.classList.contains('row')){
                 partner.classList.remove('row');
                 partner.classList.add('hidden');
@@ -778,7 +808,7 @@ function validateForm() {
   z = x[currentTab].getElementsByTagName("select");
   for (i = 0; i < y.length; i++) {
     if ((window.getComputedStyle(y[i].parentNode, null).display != "none") && y[i].value === "" ) {
-      
+      if(y[i].classList.contains("notRequired"))continue;
       y[i].classList.add("invalid");
         
       appendError("Veuillez ne pas laisser les champs en * vide, elles sont obligatoires");

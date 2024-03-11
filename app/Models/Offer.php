@@ -34,6 +34,8 @@ class Offer extends Model
         'subcategory_id',
         'region_id',
         'department_id',
+        'buy_authorized',
+        'send_authorized',
         'active_offer',
         'expiration_date',
         'active_animation'
@@ -41,7 +43,8 @@ class Offer extends Model
 
     protected $casts = [
         'level' => ExperienceLevel::class,
-        'buy_authorized'=>'boolean'
+        'buy_authorized'=>'boolean',
+        'send_authorized'=>'boolean'
     ];
 
     public function user(): BelongsTo

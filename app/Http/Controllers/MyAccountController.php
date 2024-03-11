@@ -141,12 +141,12 @@ class MyAccountController extends Controller
             'subcategory' => ['required_if:old_subcategory, $offer->subcategory_id'],
             'region' => ['required_if:old_region, $offer->department->region_id'],
             'department' => ['required_if:old_department, $offer->department_id'],
-            'title' => ['required', 'string', 'between:10,100'],
+            'title' => ['required', 'string', 'between:5,100'],
             'description' => ['string'],
             'default_image' => ['nullable','image','mimes:jpeg,png','max:4096'], 
             'additional_images.*' => ['nullable','image','mimes:jpeg,png','max:4096'], 
         ], [
-            'title' => 'Le nom de l\'annonce doit contenir entre 10 et 100 caractères.',
+            'title' => 'Le nom de l\'annonce doit contenir entre 5 et 100 caractères.',
             'default_image.max' => 'Vous ne pouvez pas télécharger plus de 4mb.',
             'default_image.mimes' => 'Les fichiers téléchargés doivent être au format jpg ou png.',
         ]);

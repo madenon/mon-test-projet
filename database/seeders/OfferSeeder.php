@@ -30,6 +30,7 @@ class OfferSeeder extends Seeder
                 'archive_offer' => $faker->boolean,
                 'published_at' => $faker->dateTimeThisMonth,
                 'buy_authorized' => $faker->boolean,
+                'send_authorized' => $faker->boolean,
                 'price' => $faker->randomNumber(3),
                 'perimeter_authorized' => $faker->boolean,
                 'perimeter' => $faker->word,
@@ -39,7 +40,7 @@ class OfferSeeder extends Seeder
                 'department_id' => $faker->numberBetween(1, 10),
                 'created_at' => $faker->dateTimeThisMonth,
                 'updated_at' => $faker->dateTimeThisMonth,
-                'subcategory_id' => $faker->numberBetween(25, 40),
+                'subcategory_id' => $faker->numberBetween(30, 200),
                 'deleted_at' => null,
                 'dynamic_inputs' => $faker->text,
             ]);    

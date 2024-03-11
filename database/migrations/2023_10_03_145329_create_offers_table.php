@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->string('archive_offer')->default(false);
             $table->timestamp('published_at')->nullable();
             $table->string('buy_authorized')->default(false);
+            $table->string('send_authorized')->default(false);
             $table->float('price')->nullable();
             $table->string('perimeter_authorized')->default(false);
             $table->integer('perimeter')->nullable();

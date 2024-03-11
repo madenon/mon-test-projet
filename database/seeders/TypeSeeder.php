@@ -22,6 +22,8 @@ class TypeSeeder extends Seeder
             ['id' => 6, 'name' => 'Savoir'],
             ['id' => 7, 'name' => 'Service'],
         ];
+        
+        
 
         Type::insert($types);
     }
