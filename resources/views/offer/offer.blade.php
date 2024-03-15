@@ -42,7 +42,6 @@
                         alt="Image principale" id="mainImage"  class="zoomD h-[450px] w-[750px] rounded-lg " />
                 </div>
                 
-                @if(auth()->check() && $offer->user_id === auth()->user()->id)
                 <div class="flex space-x-10">
                     <div class="slick-carousel w-4/5 ">
                         @foreach ($images as $img)
@@ -52,16 +51,18 @@
                                         class="zoomD h-[80px] hover:scale-110 rounded-lg hover:transition-transform hover:transform-gpu"
                                         onmouseover="changeMainImage('{{ $img->offer_photo }}')"
                                         onmouseout="changeMainImage('{{ $offer->offer_default_photo }}')" />
-
+                                        @if(auth()->check() && $offer->user_id === auth()->user()->id)
                                     <div>
                                         <button class="bg-red-500 text-white p-1 rounded-full" onclick="deleteImage('{{ $img->id }}')">Supprimer</button>
                                         <button class="bg-blue-500 text-white p-1 rounded-full" onclick="selectImage('{{ $img->offer_photo }}')">Selectionner</button>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach
                     
                     </div>
+                    @if(auth()->check() && $offer->user_id === auth()->user()->id)
                     <div class="slick-item" style="height: 30px; width: 30px;" >
                             <input id="additional_images" type="file" name="additional_images[]" multiple style="display: none;">
                             <button  onclick="openAdditionalImageInput()"><img src="{{ asset('images/add_icon.png') }}" /></button>
@@ -75,9 +76,10 @@
                                 @endif
                             </button>
                         </div>
+                        @endif
                     </div>
                    
-                @endif
+                
                 <style>.slick-prev:before, .slick-next:before {
                     color:black;
                 }</style>
