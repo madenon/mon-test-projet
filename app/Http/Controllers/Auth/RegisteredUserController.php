@@ -45,7 +45,7 @@ class RegisteredUserController extends Controller
             'bio' => ['nullable', 'string', 'max:300'],
             'nickname' => ['required', 'unique:user_infos', 'min:2', 'max:100'],
             'profile_photo_path' => ['required','image', 'max:12288', 'mimes:jpeg,jpg,png'],
-
+            'is_pro' => ['required']
         ], [
             'email' => 'Ce email existe dèja.',
             'phone.unique' => 'Ce numero existe dèja.',
@@ -57,7 +57,20 @@ class RegisteredUserController extends Controller
             'profile_photo_path.required' => "Veuillez télécharger une photo de profil.",
             'profile_photo_path.mimes' => 'L\'image téléchargés doivent être au format jpg, jpeg ou png.',
         ]);
-
+        
+        if($request->is_pro){
+            $request->validate([
+                'social_reason' => ['required', 'string', 'min:2', 'max:150'],
+                'siren_number' => ['required', 'string', 'min:2', 'max:150'],
+                'company_identification_document' => ['required','image', 'max:12288', 'mimes:jpeg,jpg,png'],
+            ], [
+                'social_reason' => 'La raison sociale est invalide',
+                'siren_number' => 'Le numero de sirene est invalide',
+                'company_identification_document' => 'Le document d\'identification d\'entreprise est invalide',
+            ]);
+            
+        }
+        
         DB::transaction(function () use ($request) {
 
             $extention = explode("/", $request->profile_photo_path->getMimeType())[1];
@@ -71,11 +84,15 @@ class RegisteredUserController extends Controller
                 'profile_photo_path' => $storePicture,
                 'avatar'=> $storePicture,
                 'name' => trim($request->first_name) . ' ' . trim($request->last_name),
+                'is_pro' => false,
+                'statusPro' => $request->is_pro ? "pending" : "none"
             ]);
 
             Storage::putFileAs('public/profile_pictures', $request->profile_photo_path, $storePicture);
 
-            $this->createUserInfos($user, $request->only(['phone', 'nickname', 'gender', 'bio']));
+            $this->createUserInfos($user, $request->only([
+                'phone', 'nickname', 'gender', 'bio','social_reason','siren_number','company_identification_document'
+            ]));
 
             event(new Registered($user));
 
@@ -84,17 +101,68 @@ class RegisteredUserController extends Controller
 
         // return redirect(RouteServiceProvider::HOME);
     }
-
-
+    
+    
     protected function createUserInfos(User $user, array $data)
     {
-
+        
+        if($data['company_identification_document']){
+            $extention = explode("/", $data['company_identification_document']->getMimeType())[1];
+            $storePicture = uniqid() . '.' . $extention;
+        }else $storePicture = null;
+                
         $user->userInfo()->create([
             'user_id' => $user->id,
             'phone' => $data['phone'],
             'nickname' => $data['nickname'],
             'gender' => $data['gender'],
             'bio' => $data['bio'],
+            'social_reason' => $data['social_reason'],
+            'siren_number' => $data['siren_number'],
+            'company_identification_document' => $storePicture,
         ]);
+    }
+    
+    public function createPro(): View
+    {
+        return view('auth.becomePro');
+    }
+    
+    /**
+     * Handle an incoming registration request.
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function storePro(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'social_reason' => ['required', 'string', 'min:2', 'max:150'],
+            'siren_number' => ['required', 'string', 'min:2', 'max:150'],
+            'company_identification_document' => ['required','image', 'max:12288', 'mimes:jpeg,jpg,png'],
+        ], [
+            'social_reason' => 'La raison sociale est invalide',
+            'siren_number' => 'Le numero de sirene est invalide',
+            'company_identification_document' => 'Le document d\'identification d\'entreprise est invalide',
+        ]);
+        DB::transaction(function () use ($request) {
+    
+            $extention = explode("/", $request->company_identification_document->getMimeType())[1];
+            $storePicture = uniqid() . '.' . $extention;
+            
+            $user = Auth::user();
+                        
+            $user->statusPro = "pending";
+            $user->save();
+            $user->userInfo()->updateOrCreate([
+                'user_id' => $user->id,
+            ],[
+                'social_reason' => $request->social_reason,
+                'siren_number' => $request->siren_number,
+                'company_identification_document' => $storePicture,
+            ]);  
+            
+        });
+        
+        return redirect(RouteServiceProvider::HOME);
     }
 }

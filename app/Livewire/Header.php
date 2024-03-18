@@ -82,5 +82,16 @@ class Header extends Component
     {
         return redirect()->route('contests.index');
     }
+    
+    public function becomePro()
+    {
+        return redirect()->route('becomePro');
+    }
+    public function accountPro()
+    {
+        return redirect()->route('myaccount.pro');
+    }
+    
+    
 
 }

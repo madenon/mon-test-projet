@@ -41,11 +41,11 @@
     }
 
     input:checked + .slider {
-    background-color: #2196F3;
+    background-color: #24A19C;
     }
 
     input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px #24A19C;
     }
 
     input:checked + .slider:before {
@@ -248,10 +248,19 @@
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <div class="header-user-avatar-dropdown-item">
-                                    
                                     <div class="inline-block me-4 text-lg">Pro </div>
                                     <label class="switch">
-                                    <input type="checkbox">
+                                    <!-- <input  type="checkbox" wire:ignore wire:click="becomePro"> -->
+                                    <input  type="checkbox"  {{$user->pro_on ? "checked" : ""}}
+                                        @if(!$user->is_pro) 
+                                            wire:ignore
+                                            @if($user->statusPro == "none")
+                                            wire:click="becomePro"
+                                            @else
+                                            wire:click="accountPro"
+                                            @endif
+                                        @else 
+                                            $user->pro_on = !$user->pro_on; $user->save()  @endif>
                                     <span class="slider round"></span>
                                     </label>
                                 </div>

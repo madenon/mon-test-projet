@@ -70,6 +70,55 @@ class MyAccountController extends Controller
             'followersCount',
         ));
     }
+    public function accountPro($id=null){
+        $user = Auth::user();
+        $offers = $user->offer;
+        $mesPropositions=$user->prepositions;
+        $totalTransactions = 0;
+        $totalTransactionsFromOffers = 0;
+        foreach ($offers as $offer) {
+            // Count transactions from propositions of the offer
+            $totalTransactionsFromOffers += $offer->preposition->flatMap->transactions
+                ->where('offeror_status', 'Réussi')
+                ->where('applicant_status', 'Réussi')
+                ->count();
+        }
+
+        // Count transactions from propositions
+        $totalTransactionsFromMesPropositions = $mesPropositions->flatMap->transactions
+        ->where('offeror_status', 'Réussi')
+        ->where('applicant_status', 'Réussi')
+            ->count();
+
+        // Total transactions
+        $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPropositions;
+
+        $userInfo = UserInfos::where('user_id', $user->id)->first();
+        $offerPrepostion = $mesPropositions->count();
+        $finishedOffers =$totalTransactions ;
+         $offersInProgress = $user->offer()->whereNull('deleted_at')->get()->count();
+
+        $medalBronzeSilver=30;
+        $medalSilverGold=60;
+
+        $ratings=$user->ratings;
+        $ratingsCount=$ratings->count();
+        $ratingsAvg=$ratings->avg('stars');
+        $followersCount=$user->followings->count();
+
+        return view('myaccount.pro', compact(
+            'user',
+            'userInfo', 
+            'offerPrepostion', 
+            'finishedOffers', 
+            'offersInProgress',
+            'medalBronzeSilver',
+            'medalSilverGold',
+            'ratingsAvg',
+            'ratingsCount',
+            'followersCount',
+        ));
+    }
 
 
     public function showOffer()

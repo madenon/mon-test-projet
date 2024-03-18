@@ -232,6 +232,7 @@ Route::get('/profile/{id}', [ProfileController::class, 'showProfile'])->name('pr
 
 Route::middleware('auth','check.offers')->group(function () {
     Route::get('/moncompte', [MyAccountController::class, 'index'])->name('myaccount.index');
+    Route::get('/moncompte/pro', [MyAccountController::class, 'accountPro'])->name('myaccount.pro');
     Route::get('/moncompte/offres', [MyAccountController::class, 'showOffer'])->name('myaccount.offers');
     Route::post('/moncompte/offres/{offer}/activate', [OfferController::class, 'activate'])->name('myaccount.activate');
     Route::post('/moncompte/offres/{offer}/deactivate', [OfferController::class, 'deactivate'])->name('myaccount.deactivate');

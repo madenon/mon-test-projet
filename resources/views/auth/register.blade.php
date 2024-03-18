@@ -48,19 +48,20 @@
                     Particulier
                 </div>
                 <div class="border-t border-b border border-gray-300 rounded-r-md py-2 px-3 bg-white cursor-pointer"
-                    id="professionnel" onclick="selectType('professionnel')">
-                    Professionnel
-                </div>
+                id="professionnel" onclick="selectType('professionnel')">
+                Professionnel
+            </div>
                 {{-- <input type="hidden" name="role" id="selectedType" value="particulier"> --}}
             </div>
             <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                 @csrf
-
+                
+                
                 <div class="flex justify-center items-center space-x-4 mt-[6vh]">
                     <!--  Bouton "Sign In with Google" -->
                     <a href=""
-                        class="bg-white border border-gray-300 hover:border-gray-400 text-gray-700 px-4 py-2 rounded-md flex items-center space-x-2">
-                        <svg class="w-6 h-6" viewBox="0 0 256 262" xmlns="http://www.w3.org/2000/svg"
+                    class="bg-white border border-gray-300 hover:border-gray-400 text-gray-700 px-4 py-2 rounded-md flex items-center space-x-2">
+                    <svg class="w-6 h-6" viewBox="0 0 256 262" xmlns="http://www.w3.org/2000/svg"
                             preserveAspectRatio="xMidYMid">
                             <path
                                 d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
@@ -71,24 +72,27 @@
                             <path
                                 d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
                                 fill="#FBBC05" />
-                            <path
+                                <path
                                 d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
                                 fill="#EB4335" />
-                        </svg>
-                        <span>Sign In with Google</span>
-                    </a>
-
-                    <!-- Bouton " Sign In with Facebook" -->
-                    <a href=""
+                            </svg>
+                            <span>Sign In with Google</span>
+                        </a>
+                    
+                        <!-- Bouton " Sign In with Facebook" -->
+                        <a href=""
                         class="bg-white border border-gray-300 hover:border-gray-400 text-gray-700 px-4 py-2 rounded-md flex items-center space-x-2">
                         <svg class="w-6 h-6" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M11.6666 20H7.70126V10.1414H5V6.9316H7.70116V4.64762C7.70116 1.9411 8.89588 0 12.8505 0C13.6869 0 15 0.168134 15 0.168134V3.14858H13.6208C12.2155 3.14858 11.6668 3.5749 11.6668 4.75352V6.9316H14.9474L14.6553 10.1414H11.6667L11.6666 20Z"
                                 fill="#1877F2" />
-                        </svg>
-
-                        <span>Sign In with Facebook</span>
-                    </a>
+                            </svg>
+                            
+                            <span>Sign In with Facebook</span>
+                        </a>
+                </div>
+                <div>
+                    <input type="checkbox" id="is_pro" name="is_pro" class="hidden"/>
                 </div>
                 <!-- En-tête de la section de connexion -->
                 <div class="text-center text-gray-600 mt-4 mb-4 title-div">
@@ -171,9 +175,9 @@
                 <div
                     class="flex items-center w-full relative border-dashed border-2 border-gray-300 rounded-md px-3 py-2 div-file">
                     <label for="profile_photo_path" class="cursor-pointer w-full">
-                        <input id="profile_photo_path" type="file" name="profile_photo_path"
+                        <input id="profile_photo_path" type="file" name="profile_photo_path" accept="image/*"
                             class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
-                            style="width: 0; height: 0;" >
+                            style="width: 0; height: 0;">
                         <div class="flex items-center justify-center gap-4 text-center w-full">
                             <img src="images/IconContainer.svg" alt="" srcset="">
                             <p class="text-gray-600 mt-2">Photo de profil</p>
@@ -184,9 +188,38 @@
                     <span id="selectedFileName" class="text-gray-600 mt-2">Aucun fichier sélectionné</span>
                     <x-input-error :messages="$errors->get('profile_photo_path')" class="mt-2" />
                 </div>
+                
+                <div class="mt-4 professional hidden">
+                    <x-text-input id="social_reason" class="block mt-1 w-full focus:border-primary-color" type="text"
+                        name="social_reason" value="" placeholder="Raison social" />
+                    <x-input-error :messages="$errors->get('social_reason')" class="mt-2" />
+                </div>
+                
+                <div class="mt-4 professional hidden">
+                    <x-text-input id="siren_number" class="block mt-1 w-full focus:border-primary-color" type="text"
+                    name="siren_number" value="" placeholder="Numero Siren" />
+                    <x-input-error :messages="$errors->get('siren_number')" class="mt-2" />
+                </div>
+                
+                <div class="mt-4 professional hidden flex items-center w-full relative border-dashed border-2 border-gray-300 rounded-md px-3 py-2 div-file">
+                    <label for="company_identification_document" class="cursor-pointer w-full">
+                        <input id="company_identification_document" type="file" name="company_identification_document" accept="image/*, application/pdf"
+                            class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
+                            style="width: 0; height: 0;">
+                        <div class="flex items-center justify-center gap-4 text-center w-full">
+                            <img src="images/IconContainer.svg" alt="" srcset="">
+                            <p class="text-gray-600 mt-2">Photo de profil</p>
+                        </div>
+                    </label>
+
+                    <!-- Affiche le nom du fichier sélectionné (facultatif) -->
+                    <span id="selectedCompanyFileName" class="text-gray-600 mt-2">Aucun fichier sélectionné</span>
+                    <x-input-error :messages="$errors->get('company_identification_document')" class="mt-2" />
+                </div>
+                
                 <div class="my-6 flex items-center checkbox-register">
                     <input type="checkbox" id="agree" name="agree" class=" border-gray-300 rounded text-primary-color"
-                        required>
+                    required>
                     <label for="agree" class="ml-2 text-gray-700 ">
                         {{ __('I\'ve read and agree with your ') }} <a href="#"
                             class="font-semibold text-black hover:underline">Privacy
@@ -216,16 +249,28 @@
 function selectType(type) {
     const particulier = document.getElementById('particulier');
     const professionnel = document.getElementById('professionnel');
-
     if (selectedType) {
-    document.getElementById(selectedType).classList.remove('bg-primary-color', 'text-white');
+        document.getElementById(selectedType).classList.remove('bg-primary-color', 'text-white');
     document.getElementById(selectedType).classList.add('bg-white', 'text-dark');
     }
 
     document.getElementById(type).classList.remove('bg-white', 'text-dark');
     document.getElementById(type).classList.add('bg-primary-color', 'text-white');
     selectedType = type;
-
+    const professionals = document.getElementsByClassName("professional");
+    console.log(professionals);
+    if(selectedType == 'particulier'){
+        document.getElementById("is_pro").checked = false;
+        for (let i = 0; i < professionals.length; i++) {
+            professionals[i].classList.add("hidden");
+        }
+    }else{
+        document.getElementById("is_pro").checked = true;
+        for (let i = 0; i < professionals.length; i++) {
+            professionals[i].classList.remove("hidden");
+        }
+    }
+    
     document.querySelector('input[id="selectedType"]').value = type;
 }
     let selectedGenre = 'female';
@@ -249,10 +294,17 @@ selectedGenre = genre;
 
 const fileInput = document.getElementById('profile_photo_path');
 const selectedFileName = document.getElementById('selectedFileName');
+const companyFileInput = document.getElementById('company_identification_document');
+const selectedCompanyFileName = document.getElementById('selectedCompanyFileName');
 
-fileInput.addEventListener('change', (event) => {
-selectedFileName.textContent = event.target.files[0] ? event.target.files[0].name : 'Aucun fichier sélectionné';
+companyFileInput.addEventListener('change', (event) => {
+    selectedCompanyFileName.textContent = event.target.files[0] ? event.target.files[0].name : 'Aucun fichier sélectionné';
 });
+fileInput.addEventListener('change', (event) => {
+    selectedFileName.textContent = event.target.files[0] ? event.target.files[0].name : 'Aucun fichier sélectionné';
+});
+
+
 
 
 const passwordInput = document.getElementById('password');

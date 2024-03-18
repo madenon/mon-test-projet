@@ -19,12 +19,14 @@ class UserInfos extends Model
         'phone',
         'gender',
         'bio',
-        'nickname'
+        'nickname',
+        'company_identification_document',
+        'siren_number',
+        'social_reason'
     ];
 
     protected $hidden = [
         'user_id',
-
     ];
 
     protected $casts = [
