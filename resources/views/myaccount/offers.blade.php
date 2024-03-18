@@ -7,10 +7,10 @@ if ($user){
 
 
 @endphp
-<x-app-layout class="w-screen">
-    <div class="container my-5 mx-4 h-screen">
+<x-app-layout>
+    <div class="container my-5 mx-4 ">
         <div class="flex content-start justify-around w-screen">
-            <div class="col-12 col-md-12 h-screen">
+            <div class="col-12 col-md-12">
                 <div class="container">
                     <h1>Mes Annonces</h1>
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
