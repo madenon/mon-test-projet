@@ -67,7 +67,7 @@
                     </button>
                 </div>
                 <div class="">
-                    <input type="text" name="name_offer" value="{{ request('name_offer') }}" class="mt-1 p-2 border rounded-md" placeholder = 'Offer name'>
+                    <input type="text" name="name_offer" value="{{ request('name_offer') }}" class="mt-1 p-2 border rounded-md" placeholder = "Nom de l'offre">
                     
                     <button type="submit" class="ml-2 text-blue-500 hover:text-blue-700">
                         <i class="fa fa-search" aria-hidden="true"></i>
