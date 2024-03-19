@@ -122,6 +122,10 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
         return view('admin.resolving');
     })->middleware('admin')->name('admin.resolving');
     
+   Route::get('/offerInfos',  function () {
+        return view('admin.offer-info');
+    })->middleware('admin')->name('admin.offerInfos');
+    
    Route::get('/badges',  'badges')->middleware('admin')->name('admin.badges');
    Route::get('/contests',  'contest')->middleware('admin')->name('admin.contests');
    Route::get('/contests/{id}',  'showContest')->middleware('admin')->name('admin.contests.show');
