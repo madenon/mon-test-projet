@@ -34,7 +34,7 @@
     ];  
     @endphp
     <div id="lightbox"></div>
-    <div class="flex md:gap-11 offre-page flex-col-reverse md:flex-row">
+    <div class="flex md:gap-11 offre-page flex-col md:flex-row">
         <div class="w-[50%] ml-12 partie-slide">
             <div class=" flex flex-col gap-6">
                 <div class="">

@@ -138,7 +138,7 @@
                                 <img src="/images/map-pin.svg" alt="">
                                 <span class="text-xs md:text-base">
                                     {{Str::limit($offer->department->region->name . ", " .
-                                    $offer->department->name,12)}}
+                                    $offer->department->name,20)}}
                                 </span>
                                 
                             </div>
@@ -148,34 +148,36 @@
                                 </span>
                                 @else
                                 <div class="flex items-center justify-end gap-1 ">
-                                    @if ($offer->buy_authorized)
-                                    <style>
-                                        .bg-with-primary{
-                                            background-color : #24A19C;
-                                        }
-                                    </style>
-
-                                    <span class="flex bg-with-primary  rounded-full px-1 py-1 gap-1 text-white">
-                                        <span class="text-center text-xs md:text-base">€ Vente autorisé</span>
-                                    </span>
-                                    @endif
-                                    @if ($offer->send_authorized)
-                                    <style>
-                                        .bg-with-primary{
-                                            background-color : #24A19C;
-                                        }
-                                    </style>
-
-                                    <span class="flex bg-with-primary  rounded-full px-1 py-1 gap-1 text-white">
-                                        <span class="text-center text-xs md:text-base">€ Envoi autorisé</span>
-                                    </span>
-                                    @endif
                                     <span class="text-titles text-lg md:text-2xl font-semibold">
                                         {{$offer->price}} €
                                     </span>
                                 </div>
                                 @endif
                             </div>
+                        </div>
+                        <div class=" mt-3 flex flex-center gap-2 mb-3 ">
+                            @if ($offer->buy_authorized)
+                            <style>
+                                .bg-with-primary{
+                                    background-color : #24A19C;
+                                }
+                            </style>
+
+                            <span class="flex bg-with-primary  rounded-full px-1 py-1 gap-1 text-white">
+                                <span class="text-center text-xs md:text-base">€ Vente autorisé</span>
+                            </span>
+                            @endif
+                            @if ($offer->send_authorized)
+                            <style>
+                                .bg-with-primary{
+                                    background-color : #24A19C;
+                                }
+                            </style>
+
+                            <span class="flex bg-with-primary  rounded-full px-1 py-1 gap-1 text-white">
+                                <span class="text-center text-xs md:text-base">€ Envoi autorisé</span>
+                            </span>
+                            @endif
                         </div>
                         <div class="pb-7 md:pb-12 md:mt-2 offer-container" data-expiration="{{ $offer->expiration_date }}">
                             <div class="flex gap-2 pr-3">
