@@ -245,6 +245,12 @@
                                     Crédibilité
                                 </a>
                             </li>
+                            <li>
+                                <a class="header-user-avatar-dropdown-item" href="{{route('binshopsblog.index' , 'fr')}}">
+                                    <img src="{{asset('images/shopping-bag-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
+                                    Mon bloc
+                                </a>
+                            </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <div class="header-user-avatar-dropdown-item">

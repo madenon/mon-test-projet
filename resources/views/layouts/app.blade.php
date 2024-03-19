@@ -29,7 +29,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 
-        
+        <link type="text/css" href="{{ asset('binshops-blog.css') }}" rel="stylesheet"> 
 
     </head>
     <body class="font-sans antialiased">
