@@ -158,10 +158,10 @@
                 <thead class="bg-light">
                     <tr>
                     <th>Date</th>
-<th>Heure</th>
-<th>Description</th>
-<th>Statut</th>
-<th>Actions</th>
+                    <th>Heure</th>
+                    <th>Description</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="meetupsTableBody">
@@ -169,10 +169,10 @@
                     <td id="meetTime"></td>
                     <td id="meetDescription"></td>
                    <td id="meetStatus"></td>
-<td id="meetActions">
-    <button class="btn btn-success accept-button" >Accepter</button>
-    <button class="btn btn-danger decline-button" >Refuser</button>
-</td>
+                    <td id="meetActions">
+                        <button class="btn btn-success accept-button" >Accepter</button>
+                        <button class="btn btn-danger decline-button" >Refuser</button>
+                    </td>
 
                 </tbody>
             </table>

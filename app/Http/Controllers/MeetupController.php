@@ -30,7 +30,6 @@ class MeetupController extends Controller
         // Save the meetup schedule
         $meetup = Meetup::updateOrCreate([
             'preposition_id' => $prepositionId,
-            'user_id' => $userId,
             ],[
             'preposition_id' => $prepositionId,
             'status' => 'pending',

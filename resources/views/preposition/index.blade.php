@@ -160,9 +160,13 @@
                             <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" >
                             <i class="fas fa-calendar" style="color: #24a19c;"></i>
                             </a>
+                            @if($preposition->status != "pending")
+                            <a class="inline-block btn btn-primary" href="#" 
+                                    data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Modifier</a>
+                            @endif
                             @else 
                             <a class="inline-block btn btn-primary" href="#" 
-                                    data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Planifiez</a>
+                                    data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Planifier</a>
                             @endif
                         </td>
                         
@@ -312,10 +316,14 @@
                             </span>
                         </a>
                     </div>
-                    <div class="flex flex-col">
+                    <div class="flex flex">
                         @if($preposition->meetup)
                         <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" data-bs-toggle="modal" data-bs-target="#meetModal">
                         <i class="fas fa-calendar" style="color: #24a19c;"></i>
+                        @if($preposition->status != "pending")
+                        <a class="inline-block btn btn-primary" href="#" 
+                                data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Modifier</a>
+                        @endif
                         </a>
                         @else 
                         <a class="inline-block btn btn-primary" href="#" 
@@ -433,7 +441,7 @@
                                 <td id="meetTime"></td>
                                 <td id="meetDescription"></td>
                                 <td id="meetStatus"></td>
-                                @if( !$isReceiveid)
+                                @if( $preposition->meetup->user_id != auth()->id() && $preposition->meetup->status == "pending")
                                 <td id="meetActions">
                                     <button class="btn btn-success accept-button" >Accepter</button>
                                     <button class="btn btn-danger decline-button" >Refuser</button>
@@ -537,13 +545,13 @@
         var meetDescription=descriptionData.description;
         var meetDate=descriptionData.date;
         var meetTime=descriptionData.time;
-        var meetStatus=descriptionData.status;
+        var meetStatus=descriptionData.status == "pending" ? "En cours" : (descriptionData.status == "accepted" ? "Acceptée" : "Refusée");
         // add data to table meet 
         $('#meetModal #meetDescription').text(meetDescription);
         $('#meetModal #meetDate').text(meetDate);
         $('#meetModal #meetTime').text(meetTime);
         $('#meetModal #meetStatus').text(meetStatus);
-        if(descriptionData.status=="Confirmé"){
+        if(descriptionData.status=="accepted"){
             $('#meetModal #meetActions').hide();
         }
         $('#meetModal').modal('show');
@@ -568,12 +576,12 @@
 
     $(document).on('click', '.accept-button', function () {
         var meetId = descriptionData.id;
-        updateMeetStatus(meetId, 'Confirmé');
+        updateMeetStatus(meetId, 'accepted');
     });
 
     $(document).on('click', '.decline-button', function () {
         var meetId = descriptionData.id;
-        updateMeetStatus(meetId, 'Annulé');
+        updateMeetStatus(meetId, 'rejected');
     });
 
     function updateMeetStatus(meetId, status) {

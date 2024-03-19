@@ -248,7 +248,7 @@
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <div class="header-user-avatar-dropdown-item">
-                                    <div class="inline-block me-4 text-lg">Pro </div>
+                                    <div class="inline-block me-4 text-lg"> Pro </div>
                                     <label class="switch">
                                     <!-- <input  type="checkbox" wire:ignore wire:click="becomePro"> -->
                                     <input  type="checkbox"  {{$user->pro_on ? "checked" : ""}}
@@ -260,7 +260,7 @@
                                             wire:click="accountPro"
                                             @endif
                                         @else 
-                                            $user->pro_on = !$user->pro_on; $user->save()  @endif>
+                                            {{$user->pro_on = !$user->pro_on, $user->save()}}  @endif>
                                     <span class="slider round"></span>
                                     </label>
                                 </div>
