@@ -99,6 +99,8 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
     Route::get('/',  'index')->middleware('admin')->name('admin.index');
     Route::get('/userss',  'users')->middleware('admin')->name('admin.users');
     Route::get('/userss/{id}',  'show')->middleware('admin')->name('admin.user-details');
+    Route::get('/pro',  'accountPro')->middleware('admin')->name('admin.pro');
+    Route::post('/becomePro',  'becomePro')->middleware('admin')->name('admin.becomePro');
     Route::get('/offers',  'offers')->middleware('admin','check.offers')->name('admin.offers');
     Route::get('/transactions',  'transactions')->middleware('admin')->name('admin.transactions');
     Route::get('/transactions/{id}',  'editTransaction')->middleware('admin')->name('admin.edit-transaction');
@@ -158,12 +160,10 @@ route::middleware('auth')->group(function(){
     Route::post('/stars/{user_id}/{rated_by_user_id}', [MyAccountController::class, 'rateUser'])->name('user.rate');
 });
 
-
-
 Route::post('/update-transaction-status/{transactionId}/{status}', [TransactionController::class, 'updateTransactionStatus']);
 
 //Route::get('/offres/{categoryslug}', [OfferController::class, 'offersByCategory'])->name('offer.offersByCategory');
-Route::middleware('auth', 'check.offers')->group(function () {
+Route::middleware('auth', 'check.offers', 'verified')->group(function () {
     Route::get('/offres/creer', [OfferController::class, 'create'])->name('offer.create');
     Route::post('/offer', [OfferController::class, 'store'])->name('offer.store');
     Route::post('/offer/storeImage', [OfferController::class, 'storeOfferImage'])->name('offer.storeImage');
@@ -192,7 +192,7 @@ Route::post('/offres/updateActiveAnimation', [OfferController::class, 'updateAct
 });
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
     Route::get('/propositions/create/{offerid}/{userid}', [PropositionController::class, 'create'])->name('propositions.create');
     Route::post('/propositions', [PropositionController::class, 'store'])->name('propositions.store');
     Route::get('/propositions', [PropositionController::class, 'index'])->name('propositions.index');
@@ -209,7 +209,7 @@ Route::post('/schedule-meetup', [MeetupController::class, 'scheduleMeetup']);
 Route::post('/update-meet-status/{meetId}', [MeetupController::class, 'updateMeetStatus']);
 
 // transactions 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
     Route::get('/transactions/{id}', [TransactionController::class, 'show'])->name('transactions.show');
     Route::post('/transactions/dispute/{id}', [TransactionController::class, 'dispute'])->name('transactions.dispute');
@@ -244,10 +244,10 @@ Route::middleware('auth','check.offers')->group(function () {
 });
 Route::get('/compte/{id}', [AccountController::class, 'index'])->name('account.index');
 Route::get('/ratings/{id}', [RatingController::class, 'index'])->name('ratings.index');
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
     Route::get(RouteServiceProvider::MYMESSAGES.'/{id}/{msgId}', [MessagesController::class,'viewMessage'])->name('messages.viewMessage');    
 });
-Route::middleware('auth')->group(function () {
+Route::middleware('auth',)->group(function () {
     Route::post('/ratings/rateOfferCounterParty', [RatingController::class,'rateCounterParty'])->name('ratings.rateCounterParty');    
     Route::get('/followings/{followedId}', [FollowingController::class,'follow'])->name('followings.follow');    
     Route::get('/unfollowings/{followedId}', [FollowingController::class,'unfollow'])->name('followings.unfollow');    

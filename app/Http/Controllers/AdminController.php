@@ -151,6 +151,42 @@ class AdminController extends Controller
     
         return view('admin.user-list', compact('users', 'roles'));
     }
+    public function accountPro(Request $request)
+    {
+        $roles = ["none","pending","rejected","accepted"];
+        $query = User::query();
+    
+        // Filter by role
+        if ($request->has('role') && $request->role!='') {
+            $query->where('role', $request->role);
+        }
+    
+        if ($request->has('sort_created_at')) {
+            $sortOrder = $request->input('sort_created_at');
+            $query->orderBy('created_at', $sortOrder);
+        }
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $query->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', "%$searchTerm%")
+                      ->orWhere('email', 'like', "%$searchTerm%");
+            });
+        }
+        $query->where('statusPro','!=','none');
+        $users = $query->paginate(10);
+    
+    
+        return view('admin.account-pro', compact('users', 'roles'));
+    }
+    public function becomePro(Request $request)
+    {
+        $user = User::find($request->userId);
+        if($user){
+            $user->statusPro = $request->status;
+            $user->save();
+        }
+        return $user;
+    }
 public function offers(Request $request){
     $query = Offer::query();
     if ($request->has('search')) {

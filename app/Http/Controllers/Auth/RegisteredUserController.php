@@ -163,6 +163,6 @@ class RegisteredUserController extends Controller
             
         });
         
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('myaccount.pro');
     }
 }

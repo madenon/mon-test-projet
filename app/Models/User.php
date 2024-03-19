@@ -16,6 +16,8 @@ use Orchid\Platform\Models\User as Authenticatable;
 use App\Models\Rating;
 use App\Models\Following;
 use App\Models\Transactions;
+use App\Notifications\VerifyEmailNotification;
+
 
 
 class User extends Authenticatable  implements MustVerifyEmail
@@ -119,6 +121,11 @@ class User extends Authenticatable  implements MustVerifyEmail
     public function followings()
     {
         return $this->hasMany(Following::class, 'followed_id');
+    }
+    
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmailNotification);
     }
 
 }
