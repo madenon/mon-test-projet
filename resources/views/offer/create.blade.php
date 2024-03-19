@@ -547,13 +547,14 @@
     const additional_images = document.getElementById("additional_images");
     const spanElementMultiple = document.getElementById("selectedFileNameMultiple");
     const additionalImageSelected = document.getElementById("additionalImageSelected");
+    var selectedFilesMultiple = [];
     additional_images.addEventListener("change", function () {
-    const selectedFilesMultiple = additional_images.files;
+    selectedFilesMultiple = selectedFilesMultiple.concat(Array.from(additional_images.files));
     if (selectedFilesMultiple.length > 0) {
         while(additionalImageSelected.firstChild){
             additionalImageSelected.removeChild(additionalImageSelected.firstChild);
         };
-        Array.from(selectedFilesMultiple).forEach((item) => {
+        selectedFilesMultiple.forEach((item, index) => {
             const divElement = document.createElement('div');
             divElement.className = 'me-4';
 
@@ -570,7 +571,9 @@
             buttonElement.textContent = 'Supprimer';
             buttonElement.onclick = () =>{
                 event.preventDefault();
-                item.remove();
+                buttonElement.parentNode.remove();
+                selectedFilesMultiple.splice(index, 1);
+                spanElementMultiple.textContent = selectedFilesMultiple.length + " fichier(s) sélectionné(s)";
             };
 
             divElement.appendChild(imgElement);
@@ -774,7 +777,7 @@ $('#mySelect').change(function () {
     });
 
 
-var currentTab = 0; 
+var currentTab = 2; 
 showTab(currentTab);
 function showTab(n) {
   var x = document.getElementsByClassName("stepTab");
