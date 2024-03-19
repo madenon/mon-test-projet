@@ -33,6 +33,7 @@ class MeetupController extends Controller
             'user_id' => $userId,
             ],[
             'preposition_id' => $prepositionId,
+            'status' => 'pending',
             'date' => $meetupDate,
             'time' => $meetupTime,
             'description' => $meetupDescription,
@@ -47,10 +48,8 @@ class MeetupController extends Controller
     // Get the meet instance by ID
     $meet = Meetup::find($meetId);
 
-    // Assuming 'status' is a column in your 'meets' table
     $meet->status = request('status');
     $meet->save();
-
     // Optionally, you can return a response or redirect
     return response()->json(['message' => 'Meet status updated successfully']);
 }

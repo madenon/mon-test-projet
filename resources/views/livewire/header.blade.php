@@ -87,7 +87,7 @@
                     <button type="button" id="header-search-location-btn">
                         <img id="region-icon" src="{{ asset('images/location-icon.svg') }} " alt="Localisation" />
                     </button>
-                    <input id="header-search-input" type="search" name="query" placeholder="Rechercher un offre..." />
+                    <input id="header-search-input" type="search" name="query" placeholder="Rechercher une offre..." />
                     @if(request()->has('region'))
                         <input type="hidden" name="region" value="{{ request('region') }}">
                     @endif
