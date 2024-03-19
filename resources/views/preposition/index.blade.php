@@ -157,7 +157,7 @@
                         </td>
                         <td>
                             @if($preposition->meetup)
-                            <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" data-bs-toggle="modal" data-bs-target="#meetModal">
+                            <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" >
                             <i class="fas fa-calendar" style="color: #24a19c;"></i>
                             </a>
                             @else 
@@ -433,10 +433,12 @@
                                 <td id="meetTime"></td>
                                 <td id="meetDescription"></td>
                                 <td id="meetStatus"></td>
+                                @if( !$isReceiveid)
                                 <td id="meetActions">
                                     <button class="btn btn-success accept-button" >Accepter</button>
                                     <button class="btn btn-danger decline-button" >Refuser</button>
                                 </td>
+                                @endif
 
                             </tbody>
                         </table>
@@ -544,6 +546,7 @@
         if(descriptionData.status=="Confirmé"){
             $('#meetModal #meetActions').hide();
         }
+        $('#meetModal').modal('show');
         if(!descriptionData){
             $('#meetModal #meetDescription').empty();
             $('#meetModal #meetDate').empty();

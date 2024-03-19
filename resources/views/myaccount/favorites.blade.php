@@ -27,7 +27,9 @@
                                         <th scope="col" class="px-6 py-3">
                                             Prix
                                         </th>
-                                      
+                                        <th scope="col" class="px-6 py-3 text-center">
+                                            Action
+                                        </th>
                                     </tr>
                                 </thead>
                                 @foreach ($favoriteOffers as $offer)
@@ -69,6 +71,9 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         {{$offer->price}}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <button class=" bg-blue-700 hover:bg-blue-800 text-white font-bold h-12 w-24 rounded-full"><a class="no-underline font-medium text-white " href="{{route('offer.offer', [$offer->id, $offer->slug])}}">Voir offre</a></button>
                                     </td>
                                   
                                     </tr>
