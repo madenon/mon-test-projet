@@ -9,6 +9,7 @@ use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Preposition;
 use App\Models\User;
+use Illuminate\Support\HtmlString;
 
 
 
@@ -41,9 +42,11 @@ class NewPreposition extends Notification
         $url = url('/propositions');
         return (new MailMessage)
                     ->subject('Nouvelle Proposition')
+                    ->greeting('Bonjour '. $this->preposition->offer->user->first_name)
                     ->line('Vous avez reçu une nouvelle proposition sur l\'offre :' . $this->preposition->offer->title )
                     ->action('Voir la proposition', $url)
-                    ->line($this->preposition->name);
+                    ->line(new HtmlString('Merci de consulter votre compte sur <a href="https://darkorange-wolf-733627.hostingersite.com/">faistroquer.fr</a> pour avoir plus d\'informations à propos de sa proposition.'));
+                    
     }
 
     /**
