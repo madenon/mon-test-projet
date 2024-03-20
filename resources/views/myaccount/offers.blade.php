@@ -39,6 +39,12 @@ if ($user){
                                         <th scope="col" class="px-6 py-3 text-center">
                                             Action
                                         </th>
+                                        <th scope="col" class="px-6 py-3 text-center">
+                                            Statut
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-center">
+                                            Visibilité
+                                        </th>
                                     </tr>
                                 </thead>
                                 @foreach ($offers as $offer)
@@ -88,6 +94,47 @@ if ($user){
                                             <button class="bg-red-700 hover:bg-red-800 text-white font-bold h-12 w-24 rounded-full">Supprimer offre</button>
                                         </form>
                                     </td>
+                                    <td class="px-6 py-4">
+                                    <button id="toggleOnline{{$offer->id}}">
+                                        @if ($offer->is_online)
+                                        <img src="{{ asset('images/pause.png') }}" />
+                                        @else
+                                        <img src="{{ asset('images/play.png') }}" />
+                                        @endif
+                                    </button>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                    <button class="visibility">
+                                        <span id ="visibility{{$offer->id}}"></span>
+                                    </button>
+                                        <script>
+                                            var countDownDate = new Date(@json($offer->last_top));
+                                            countDownDate.setDate(countDownDate.getDate() + 2);
+                                            countDownDate = countDownDate.getTime();
+                                            console.log(countDownDate);
+                                            var now = new Date().getTime();
+                                            var distance = countDownDate - now;
+                                            var x = setInterval(function() {
+
+                                                var now = new Date().getTime();
+                                                var distance = countDownDate - now;
+                                                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                                                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                                                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                                                document.getElementById("visibility{{$offer->id}}").innerHTML = "Temps restant : " + days + "d " + hours + "h "
+                                                + minutes + "m " + seconds + "s ";
+
+                                                // If the count down is finished, write some text
+                                                if (distance < 0) {
+                                                clearInterval(x);
+                                                document.getElementById("visibility{{$offer->id}}").innerHTML = '<button class=" bg-blue-700 hover:bg-blue-800 text-white font-bold h-12 w-24 rounded-full"><a class="no-underline font-medium text-white " href="{{route("offer.offer", [$offer->id, $offer->slug])}}">Mettre en tête de liste</a></button>';
+                                                }
+                                            }, 1000);
+
+                                        </script>
+                                    </td>
+                                    
                                     </tr>
                                 </tbody>
                                 @endforeach
