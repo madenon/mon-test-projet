@@ -441,12 +441,11 @@
                                 <td id="meetTime"></td>
                                 <td id="meetDescription"></td>
                                 <td id="meetStatus"></td>
-                                @if( $preposition->meetup->user_id != auth()->id() && $preposition->meetup->status == "pending")
                                 <td id="meetActions">
                                     <button class="btn btn-success accept-button" >Accepter</button>
                                     <button class="btn btn-danger decline-button" >Refuser</button>
                                 </td>
-                                @endif
+                                
 
                             </tbody>
                         </table>
@@ -553,6 +552,12 @@
         $('#meetModal #meetStatus').text(meetStatus);
         if(descriptionData.status=="accepted"){
             $('#meetModal #meetActions').hide();
+        }
+        var actions = $('#meetModal #meetActions');
+        if (descriptionData.user_id != {{ auth()->id() }} && descriptionData.status == "pending") {
+            actions.html('<button class="btn btn-success accept-button">Accepter</button> <button class="btn btn-danger decline-button">Refuser</button>');
+        } else {
+            actions.empty(); // Clear actions if conditions are not met
         }
         $('#meetModal').modal('show');
         if(!descriptionData){
