@@ -9,15 +9,18 @@ use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Transaction;
 use App\Models\User;
+use Illuminate\Support\HtmlString;
 
 class NewTransaction extends Notification
 {
     use Queueable;
-    private Transaction $transaction; 
+    private Transaction $transaction;
+    private User $taker;
 
-    public function __construct($trans)
+    public function __construct($trans,$taker)
     {
         $this->transaction=$trans;
+        $this->taker=$taker;
     }
 
     /**
@@ -37,10 +40,10 @@ class NewTransaction extends Notification
         $url = url('/transactions');
         return (new MailMessage)
         ->subject('Nouvelle Transaction')
+        ->greeting('Bonjour '. $this->taker->first_name)
         ->line('Vous avez reçu une nouvelle transaction.')
         ->action('Voir la Transaction', $url)
-        
-                    ->line($this->transaction->name);
+        ->line(new HtmlString('Merci de consulter votre compte sur <a href="https://darkorange-wolf-733627.hostingersite.com/">faistroquer.fr</a> pour avoir plus d\'informations.'));
     }
 
     /**
@@ -52,9 +55,8 @@ class NewTransaction extends Notification
     {
         return [
             'id' => $this->transaction->id,
-            'name' =>   $this->transaction->proposition->offer->user->first_name . ' '. $this->transaction->proposition->offer->user->last_name ,
             'title' =>   $this->transaction->name,
-            'content' => 'a '.$this->transaction->status.' votre transaction',
+            'content' => 'Vous avez reçu une nouvelle transaction. ',
             'link' => url('/transactions')   
         ];
     }

@@ -7,16 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Preposition;
+use Illuminate\Support\HtmlString;
+use App\Models\User;
 
 class PropositionConfirmation extends Notification
 {
     use Queueable;
 
     private Preposition $preposition; 
+    private User $taker;
 
-    public function __construct($prep)
+    public function __construct($prep,$taker)
     {
         $this->preposition = $prep;
+        $this->taker=$taker;
     }
 
     /**
@@ -34,9 +38,10 @@ class PropositionConfirmation extends Notification
         $url = url('/propositions');
         return (new MailMessage)
                     ->subject('Confirmation de proposition')
-                    ->line('Veuillez confirmer votre proposition')
+                    ->greeting('Bonjour '. $this->taker->first_name)
+                    ->line('Veuillez confirmer votre proposition sur l\'offre :' . $this->preposition->offer->title )
                     ->action('Voir la Proposition', $url)
-                    ->line($this->preposition->name);
+                    ->line(new HtmlString('Merci de consulter votre compte sur <a href="https://darkorange-wolf-733627.hostingersite.com/">faistroquer.fr</a> pour avoir plus d\'informations à propos de sa proposition.'));
     }
 
     /**

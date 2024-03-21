@@ -156,14 +156,14 @@ class PropositionController extends Controller
             foreach( $offer->preposition as $prep){
                 if($prep->id != $proposition->id){
                     $prep->status = "Rejetée";
-                    $prep->user->notify(new PropositionResult($prep));   
+                    $prep->user->notify(new PropositionResult($prep,$prep->user));   
                     $prep->save();
                 }
             }
             
-            $taker->notify(new PropositionConfirmation($proposition));   
+            $taker->notify(new PropositionConfirmation($proposition,$taker));   
         }else{
-            $taker->notify(new PropositionResult($proposition));   
+            $taker->notify(new PropositionResult($proposition,$taker));   
         }
         
         PropositionStatusUpdated::dispatch($proposition);
@@ -193,13 +193,13 @@ class PropositionController extends Controller
                 'date' => now()
             ]);
             
-            $taker->notify(new PropositionResult($proposition));   
+            $taker->notify(new PropositionResult($proposition,$taker));   
             
             $offer = $proposition->offer;
             
         }else{
             $proposition->status = "Rejetée";
-            $taker->notify(new PropositionResult($proposition));   
+            $taker->notify(new PropositionResult($proposition,$taker));   
         }
         PropositionStatusUpdated::dispatch($proposition);
         

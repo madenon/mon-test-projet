@@ -139,7 +139,7 @@
                                     </div>
                                     <div class="notification-dropdown-item-content" wire:click="read('{{$notification->id}}')">
                                         <a >
-                                            <b>{{$notification->data["name"]}}</b>
+                                            <b>{{$notification?->data["name"] ?? null}}</b>
                                             <span>{{$notification->data["content"]}}</span>
                                             <strong>{{$notification->data["title"]}}</strong>
                                         </a>

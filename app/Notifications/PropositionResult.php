@@ -8,16 +8,19 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Preposition;
 use App\Models\User;
+use Illuminate\Support\HtmlString;
 
 class PropositionResult extends Notification
 {
     use Queueable;
 
     private Preposition $preposition; 
+    private User $taker;
 
-    public function __construct($prep)
+    public function __construct($prep,$taker)
     {
         $this->preposition = $prep;
+        $this->taker=$taker;
     }
 
     /**
@@ -38,9 +41,11 @@ class PropositionResult extends Notification
         $url = url('/propositions');
         return (new MailMessage)
                     ->subject('Résultat de la proposition')
-                    ->line('L\'état de votre proposition a été mis à jour')
+                    ->greeting('Bonjour '. $this->taker->first_name)
+                    ->line('L\'état de votre proposition a été mis à jour sur l\'offre :' . $this->preposition->offer->title)
                     ->action('Voir la Proposition', $url)
-                    ->line($this->preposition->name);
+                    ->line(new HtmlString('Merci de consulter votre compte sur <a href="https://darkorange-wolf-733627.hostingersite.com/">faistroquer.fr</a> pour avoir plus d\'informations à propos de sa proposition.'));
+
     }
 
     /**

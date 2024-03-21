@@ -88,12 +88,12 @@ class TransactionController extends Controller
         if (auth()->check() && auth()->user()->id === $user->id) {
             $transaction->applicant_status=$status;
             $taker=User::find($transaction->offer->user->id);
-            $taker->notify(new NewTransaction($transaction));
+            $taker->notify(new NewTransaction($transaction,$taker));
            
         } else {
             $transaction->offeror_status=$status;
             $taker=User::find($user->id);
-            $taker->notify(new NewTransaction($transaction));
+            $taker->notify(new NewTransaction($transaction,$taker));
         }
         
         if($transaction->applicant_status != 'En cours' && $transaction->offeror_status != 'En cours' ){
