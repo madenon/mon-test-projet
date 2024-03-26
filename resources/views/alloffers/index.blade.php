@@ -92,7 +92,7 @@
 
         <div class="row">
                 <div class="col">
-                    <x-applied-filters></x-applied-filters>
+                    @livewire('applied-filter')
                 </div>
             </div>
             <div class="row mt-4">
@@ -125,10 +125,13 @@
                         </div>
                         <div class="flex gap-2 items-center text-xs md:text-base">
                             <img src="/images/Stack.svg" alt="" class="">
+                            {{$offer->type->name}}
+                            <img src="/images/chevron-right.svg" alt="" class="">
+                            <img src="/images/Stack.svg" alt="" class="">
                             {{$offer->subcategory->parent->name}}
                             <img src="/images/chevron-right.svg" alt="" class="">
                             <img src="/images/Stack.svg" alt="" class="">
-                            {{-- {{$subcategory->name}} --}}
+                            {{$offer->subcategory->name}}
                         </div>
                         <div class=" text-titles text-xs mt-3 hidden md:block">
                             <h6 class=" font-normal ">A ECHANGER CONTRE</h6>
@@ -217,7 +220,8 @@
                                     <img class="w-12 h-12 rounded-full" src="{{ route('profile_pictures-file-path',$offer->user->profile_photo_path) }}" alt=""
                                     class="rounded-full">
                                     @endif
-                                    <span class="status-indicator absolute bottom-0 right-0 transform translate-x-[-50%] translate-y-[-50%]">
+                                    <span class="status-indicator absolute bottom-0 right-0 transform translate-x-[-50%] translate-y-[-50%] 
+                                    @if ($offer->user->is_online == 1) bg-green-600 @else bg-red-600 @endif">
                                     </span>
                                 </div>
                             <div class="flex space-x-2 md:space-x-4">
@@ -229,7 +233,6 @@
                                             .status-indicator {
                                                 width: 10px;
                                                 height: 10px;
-                                                background-color: @if ($offer->user->is_online == "Offline") #FF0000; @else #00FF00; @endif
                                                 border-radius: 50%;
                                                 display: inline-block;
                                             }

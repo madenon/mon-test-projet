@@ -814,7 +814,7 @@ function validatePrimaryPhoto() {
 
 
 
-var currentTab = 2; 
+var currentTab = 0; 
 showTab(currentTab);
 function showTab(n) {
   var x = document.getElementsByClassName("stepTab");

@@ -55,11 +55,11 @@
                 </div>
                 <div class="mt-1 hidden elements">
                     <div class="my-1">
-                        <input type="radio" id="online" name="online" value="online" {{ "online" == request()->input('online') ? 'checked' : '' }}>
+                        <input type="radio" id="online" name="online" value="1" {{ request()->has('online') && request()->input('online') == 1? 'checked' : '' }}>
                         <label for="1" class="text-sm">En ligne</label><br>
                     </div>
                     <div class="my-1">
-                        <input type="radio" id="offline" name="online" value="offline" {{ "offline" == request()->input('online') ? 'checked' : '' }}>
+                        <input type="radio" id="offline" name="online" value="0" {{ request()->has('online') && request()->input('online') == 0 ? 'checked' : '' }}>
                         <label for="0"class="text-sm">Hors ligne</label><br>
                     </div>
                 </div>

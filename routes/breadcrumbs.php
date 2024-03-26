@@ -7,14 +7,29 @@ use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
 // Home
 Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
-    $trail->push('home', route('home'));
+    $trail->push('Accueil', route('home'));
 });
 
 // Home > Offres
-Breadcrumbs::for('offers', function (BreadcrumbTrail $trail) {
+Breadcrumbs::for('offersall', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('offers', route('alloffers.index'));
+    $trail->push('Offres', route('alloffers.index', []));
+});
+// Home > Offres
+Breadcrumbs::for('offers', function (BreadcrumbTrail $trail) {
+    if(count(request()->all())){
+        $trail->parent('offersall');
+        $trail->push('Offres filtrés', route('alloffers.index'));
+    }else{
+        $trail->parent('home');
+        $trail->push('Offres', route('alloffers.index'));
+    }
     
+});
+// Home > Offres
+Breadcrumbs::for('offer', function (BreadcrumbTrail $trail) {
+    $trail->parent('offersall');
+    $trail->push('Offre', route('offer.index', []));
 });
 // Home > Offres>Create
 Breadcrumbs::for('create', function (BreadcrumbTrail $trail) {
