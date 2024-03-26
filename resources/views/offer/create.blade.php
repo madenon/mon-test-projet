@@ -85,7 +85,7 @@
                                 id="type-dropdown" onchange="changerType(this)">
                                 <option value="0" selected hidden>Choisir le type de troc *</option>
                                 @foreach($types as $type)
-                                <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                <option value="{{ $type->id }}" @if($type->name == "Bien") selected @endif>{{ $type->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -185,15 +185,15 @@
                         <div class="col-md-6 col-12">
                             <div class="flex flex-col div-image ">
                                 <span for="" class="text-sm text-text">
-                                    {{ __('Parcourir l\'image par défaut depuis votre machine') }}</span>
+                                    {{ __('Insérer la photo de couverture') }}</span>
                                 <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 ">
                                     <label for="default_image" class="cursor-pointer w-full" >
-                                        <input id="default_image" type="file" name="default_image" accept="image/*"
+                                        <input id="default_image" type="file" name="default_image" accept="image/*"  oninput="validatePrimaryPhoto()"
                                             class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
                                             style="width: 0; height: 0;">
                                         <div class="flex items-center justify-center gap-4 text-center w-full">
                                             <img src="/images/IconContainer.svg" alt="" srcset="">
-                                            <p class="text-text text-sm mt-3">
+                                            <p id="browse_default_text" class="text-text text-sm mt-3">
                                                 {{ __('Parcourir l\'image ') }}</span></p>
                                         </div>
                                     </label>
@@ -206,15 +206,15 @@
                                 </div>
                                 <x-input-error :messages="$errors->get('default_image')" class="mt-2" />
                                 <span for="" class="text-sm text-text mt-4">
-                                    {{ __('Parcourir d\'autres images') }}</span>
-                                <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 ">
+                                    {{ __('Insérer plus de photo detaillées') }}</span>
+                                <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 bg-neutral-300">
                                     <label for="additional_images" class="cursor-pointer w-full" >
-                                        <input id="additional_images" type="file" name="additional_images[]" accept="image/*" multiple
+                                        <input id="additional_images" type="file" name="additional_images[]" accept="image/*" multiple disabled
                                         class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
                                         style="width: 0; height: 0;" />
                                         <div class="flex items-center justify-center gap-4 text-center w-full">
                                             <img src="/images/IconContainer.svg" alt="" srcset="">
-                                            <p class="text-text text-sm mt-3">{{ __('Parcourir l\'image ') }}</p>
+                                            <p id="browse_additional_text" class="text-text text-sm mt-3">{{ __('Parcourir l\'image ') }}</p>
                                         </div>
                                     </label>
                                     <!-- Affiche le nom du fichier sélectionné (facultatif) -->
@@ -283,7 +283,6 @@
                                     <div class="donation-container">
                                         <p class="donation-text text-xl">Merci de faire parti des donateurs!</p>
                                     </div>
-
                             </div>
                         </div>
                         <div id="exchange" class="row">
@@ -526,6 +525,8 @@
     const inputElement = document.getElementById("default_image");
     const spanElement = document.getElementById("selectedFileName");
     const defaultImageSelected = document.getElementById("defaultImageSelected");
+    const browse_default_text = document.getElementById("browse_default_text");
+    
     
     inputElement.addEventListener("change", function () {
         const selectedFiles = inputElement.files;
@@ -538,37 +539,46 @@
             reader.readAsDataURL(selectedFiles[0]);
             
             spanElement.textContent = selectedFiles[0].name;
+            browse_default_text.classList.add("hidden");
         } else {
             spanElement.textContent = "Aucun fichier sélectionné";
-        }
-    });
-    
-    
-    const additional_images = document.getElementById("additional_images");
-    const spanElementMultiple = document.getElementById("selectedFileNameMultiple");
-    const additionalImageSelected = document.getElementById("additionalImageSelected");
-    var selectedFilesMultiple = [];
-    additional_images.addEventListener("change", function () {
+            if(browse_default_text.classList.contains("hidden"))
+            browse_default_text.classList.remove("hidden");
+    }
+});
+
+
+const additional_images = document.getElementById("additional_images");
+const spanElementMultiple = document.getElementById("selectedFileNameMultiple");
+const additionalImageSelected = document.getElementById("additionalImageSelected");
+var selectedFilesMultiple = [];
+const browse_additional_text = document.getElementById("browse_additional_text");
+
+additional_images.addEventListener("change", function () {
     selectedFilesMultiple = selectedFilesMultiple.concat(Array.from(additional_images.files));
     if (selectedFilesMultiple.length > 0) {
         while(additionalImageSelected.firstChild){
             additionalImageSelected.removeChild(additionalImageSelected.firstChild);
         };
+        browse_additional_text.classList.add("hidden");
         selectedFilesMultiple.forEach((item, index) => {
             const divElement = document.createElement('div');
             divElement.className = 'me-4';
-
+            
             const imgElement = document.createElement('img');
             const reader = new FileReader();
             reader.onload = function (e) {
                 imgElement.src = e.target.result;
-                imgElement.setAttribute("style","width:50px");
+                imgElement.setAttribute("style","height:30px");
             }
             reader.readAsDataURL(item);
             imgElement.alt = '';
             const buttonElement = document.createElement('button');
-            buttonElement.className = 'bg-red-500 text-white p-1 my-1 rounded-full';
-            buttonElement.textContent = 'Supprimer';
+            const imgTrashElement = document.createElement('img');
+            buttonElement.className = 'w-full';
+            imgTrashElement.src = '{{asset("/images/trash-icon.png")}}';
+            imgTrashElement.className = 'mx-auto my-2';
+            imgTrashElement.style.width = "25px";
             buttonElement.onclick = () =>{
                 event.preventDefault();
                 buttonElement.parentNode.remove();
@@ -576,28 +586,31 @@
                 spanElementMultiple.textContent = selectedFilesMultiple.length + " fichier(s) sélectionné(s)";
             };
 
+            buttonElement.appendChild(imgTrashElement);
             divElement.appendChild(imgElement);
             divElement.appendChild(buttonElement);
             additionalImageSelected.appendChild(divElement);
             
-
+            
         });
         spanElementMultiple.textContent = selectedFilesMultiple.length + " fichier(s) sélectionné(s)";
     } else {
-    spanElementMultiple.textContent = "Aucun fichier sélectionné";
+        spanElementMultiple.textContent = "Aucun fichier sélectionné";
+        if(browse_additional_text.classList.contains("hidden"))
+        browse_additional_text.classList.remove("hidden");
     }
-    });
+});
 
-    const changerCategory = (e) => {
-        const subcategories = @json($subcategories);
-        const selectedCategoryId = e.value;
-        const subcategoryOptions = subcategories.filter(item => item.parent_id == selectedCategoryId);
-        const selectCategory = document.getElementById('select_category');
-        
-        while (selectCategory.options.length > 1) {
-            selectCategory.remove(1);
-        }
-
+const changerCategory = (e) => {
+    const subcategories = @json($subcategories);
+    const selectedCategoryId = e.value;
+    const subcategoryOptions = subcategories.filter(item => item.parent_id == selectedCategoryId);
+    const selectCategory = document.getElementById('select_category');
+    
+    while (selectCategory.options.length > 1) {
+        selectCategory.remove(1);
+    }
+    
         subcategoryOptions.forEach(item => {
             const option = document.createElement("option");
             option.value = item.id;
@@ -609,6 +622,7 @@
     const changerType = (e) => {
         const types = @json($types);
         const selectedTypeId = e.value;
+        console.log({selectedTypeId});
         document.cookie = "selectedTypeId = " + selectedTypeId;
         var partner = document.getElementById('partner');
         var donation = document.getElementById('donation');
@@ -630,39 +644,40 @@
             selectType.append(option);
         });
         // Exchange part
-        if(selectedTypeId == 4){// moment
-            
-        
-        }else if(selectedTypeId == 3){ // don
-            
-        }else if(selectedTypeId == 1){ // adoption
-            
-        }else{ 
-        
-        }
-        // Exchange part
-        if(selectedTypeId == 4){// moment
+        if(selectedTypeId == 7){// moment
             if (donation.classList.contains('row')){
                 donation.classList.remove('row');
                 donation.classList.add('hidden');
+                Array.from(donation.getElementsByTagName("input")).forEach(e =>{
+                    e.classList.add("notRequired");
+                });
             }
             if (exchange.classList.contains('row')){
                 exchange.classList.remove('row');
                 exchange.classList.add('hidden');
+                Array.from(exchange.getElementsByTagName("input")).forEach(e =>{
+                    e.classList.add("notRequired");
+                });
             }
             if (partner.classList.contains('hidden')){
                 partner.classList.remove('hidden');
                 partner.classList.add('row');
             }
-        
-        }else if(selectedTypeId == 3){ // don
+            
+        }else if(selectedTypeId == 6){ // don
             if (partner.classList.contains('row')){
                 partner.classList.remove('row');
                 partner.classList.add('hidden');
+                Array.from(partner.getElementsByTagName("input")).forEach(e =>{
+                    e.classList.add("notRequired");
+                });
             }
             if (exchange.classList.contains('row')){
                 exchange.classList.remove('row');
                 exchange.classList.add('hidden');
+                Array.from(exchange.getElementsByTagName("input")).forEach(e =>{
+                    e.classList.add("notRequired");
+                });
             }
             if (donation.classList.contains('hidden')){
                 donation.classList.remove('hidden');
@@ -672,10 +687,16 @@
             if (partner.classList.contains('row')){
                 partner.classList.remove('row');
                 partner.classList.add('hidden');
+                Array.from(partner.getElementsByTagName("input")).forEach(e =>{
+                    e.classList.add("notRequired");
+                });
             }
             if (donation.classList.contains('row')){
                 donation.classList.remove('row');
                 donation.classList.add('hidden');
+                Array.from(donation.getElementsByTagName("input")).forEach(e =>{
+                    e.classList.add("notRequired");
+                });
             }
             if (exchange.classList.contains('hidden')){
                 exchange.classList.remove('hidden');
@@ -687,7 +708,7 @@
 
     };
 
-    
+    changerType(document.getElementById("type-dropdown"));    
 
 const changerDepartement = (e) => {
     const departments = @json($departments);
@@ -776,6 +797,22 @@ $('#mySelect').change(function () {
             });
     });
 
+function validatePrimaryPhoto() {
+    const default_image = document.getElementById("default_image").value.trim();
+    var additional_images = document.getElementById("additional_images");
+    if ( default_image === '') {
+        additional_images.value = ''; 
+        additional_images.disabled = true; 
+        // console.log(additional_images.parentElement.parentElement);
+        
+    } else {
+        additional_images.parentElement.parentElement.classList.remove("bg-neutral-300");
+        console.log(additional_images.parentElement.parentElement);
+        additional_images.disabled = false; 
+    }
+}
+
+
 
 var currentTab = 0; 
 showTab(currentTab);
@@ -839,10 +876,10 @@ function appendError(text){
 }
 
 function validateForm() {
-  var x, y, z, i, valid = true;
-  x = document.getElementsByClassName("stepTab");
-  y = x[currentTab].getElementsByTagName("input");
-  z = x[currentTab].getElementsByTagName("select");
+  var i, valid = true;
+  var x = document.getElementsByClassName("stepTab");
+  var y = x[currentTab].getElementsByTagName("input");
+  var z = x[currentTab].getElementsByTagName("select");
   for (i = 0; i < y.length; i++) {
     if ((window.getComputedStyle(y[i].parentNode, null).display != "none") && y[i].value === "" ) {
       if(y[i].classList.contains("notRequired"))continue;
@@ -878,8 +915,8 @@ function fixStepIndicator(n) {
   var i;
   var u = document.querySelectorAll(".stepTitle span .num");
   var v = document.querySelectorAll(".stepTitle span .name");
-  var  y = document.querySelectorAll(".stepTitle span svg");
-  var  z = document.querySelectorAll(".stepTitle");
+  var y = document.querySelectorAll(".stepTitle span svg");
+  var z = document.querySelectorAll(".stepTitle");
   
   console.log({n});
   for (i = 0; i < u.length; i++) {

@@ -18,18 +18,18 @@
                 <input type="hidden" name="user_id" value="{{ $userid }}">
 
                 <div class="mb-4">
-                    <label for="name" class="block text-sm font-medium text-gray-600">Name</label>
+                    <label for="name" class="block text-sm font-medium text-gray-600">Titre</label>
                     <input type="text" class="form-input mt-1 block w-full" id="name" name="name" required value="">
                 </div>
 
                 <div class="mb-4">
-                    <label for="message" class="block text-sm font-medium text-gray-600">Your Proposition</label>
+                    <label for="message" class="block text-sm font-medium text-gray-600">Ta Proposition</label>
                     <textarea class="form-input mt-1 block w-full" id="message" name="negotiation" rows="4" required></textarea>
                 </div>
 
                 <div class="mb-4">
                     <label for="images" class="block text-sm font-medium text-gray-600">Images</label>
-                    <input type="file" class="form-input mt-1 block w-full" id="images" name="image">
+                    <input type="file" class="form-input mt-1 block w-full" id="images" name="image" accept="image/*">
                 </div>
                 @if ($offer->buy_authorized)
 <div class=" mb-4 block text-base font-bold text-black">Voulez vous acheter ?</div>

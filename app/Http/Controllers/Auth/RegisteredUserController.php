@@ -35,6 +35,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // dd($request->all());
         $request->validate([
             'first_name' => ['required', 'string', 'min:2', 'max:50'],
             'last_name' => ['required', 'string', 'min:2', 'max:50'],
@@ -56,9 +57,11 @@ class RegisteredUserController extends Controller
             'profile_photo_path.max' => "L'image doit être moins de 12 Mo.",
             'profile_photo_path.required' => "Veuillez télécharger une photo de profil.",
             'profile_photo_path.mimes' => 'L\'image téléchargés doivent être au format jpg, jpeg ou png.',
+            'is_pro' => "Le type est requis"
         ]);
         
-        if($request->is_pro){
+        // dd("is_pro ".$request->is_pro );
+        if($request->is_pro === true){
             $request->validate([
                 'social_reason' => ['required', 'string', 'min:2', 'max:150'],
                 'siren_number' => ['required', 'string', 'min:2', 'max:150'],
@@ -70,12 +73,11 @@ class RegisteredUserController extends Controller
             ]);
             
         }
-        
         DB::transaction(function () use ($request) {
 
             $extention = explode("/", $request->profile_photo_path->getMimeType())[1];
             $storePicture = uniqid() . '.' . $extention;
-
+            
             $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -87,12 +89,19 @@ class RegisteredUserController extends Controller
                 'is_pro' => false,
                 'statusPro' => $request->is_pro ? "pending" : "none"
             ]);
-
             Storage::putFileAs('public/profile_pictures', $request->profile_photo_path, $storePicture);
-
+            
+            
+            if(request()->hasfile('company_identification_document')){
+                $extention = explode("/", $request->company_identification_document->getMimeType())[1];
+                $storePicture = uniqid() . '.' . $extention;
+                Storage::putFileAs('public/company_identification_document', $request->company_identification_document, $storePicture);
+            }else $storePicture = null;            
+            
+            
             $this->createUserInfos($user, $request->only([
-                'phone', 'nickname', 'gender', 'bio','social_reason','siren_number','company_identification_document'
-            ]));
+                'phone', 'nickname', 'gender', 'bio','social_reason','siren_number'
+            ]), $storePicture);
 
             event(new Registered($user));
 
@@ -103,13 +112,8 @@ class RegisteredUserController extends Controller
     }
     
     
-    protected function createUserInfos(User $user, array $data)
+    protected function createUserInfos(User $user, array $data, $storePicture)
     {
-        
-        if($data['company_identification_document']){
-            $extention = explode("/", $data['company_identification_document']->getMimeType())[1];
-            $storePicture = uniqid() . '.' . $extention;
-        }else $storePicture = null;
                 
         $user->userInfo()->create([
             'user_id' => $user->id,
@@ -148,6 +152,8 @@ class RegisteredUserController extends Controller
     
             $extention = explode("/", $request->company_identification_document->getMimeType())[1];
             $storePicture = uniqid() . '.' . $extention;
+            
+            Storage::putFileAs('public/company_identification_document', $request->company_identification_document, $storePicture);
             
             $user = Auth::user();
                         

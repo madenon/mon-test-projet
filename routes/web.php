@@ -79,6 +79,13 @@ Route::get(
         return response()->file($url);
     }
 )->name('attachments-file-path');
+Route::get(
+    'storage/company_document_identification/{name}',
+    function(Request $request){
+        $url=storage_path('app/public/company_document_identification/'.$request->name);
+        return response()->file($url);
+    }
+)->name('company_document_identification-file-path');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 

@@ -12,9 +12,9 @@
         <div id="header-authenticated-user" class="ml-auto">
             <div class="">
                 <div class="navbar-search-block">
-                    <form class="form-inline">
+                    <form class="form-inline" method="GET" action="{{route('admin.offers')}}" >
                         <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" type="search" placeholder="Rechercher" aria-label="Rechercher">
+                        <input class="form-control form-control-navbar" type="search" name="query" placeholder="Rechercher Offre" aria-label="Rechercher">
                         <div class="input-group-append">
                         <button class="btn btn-navbar" type="submit">
                         <i class="fas fa-search"></i>

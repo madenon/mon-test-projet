@@ -126,13 +126,13 @@ class OfferController extends Controller
             'subcategory' => ['required'],
             'region' => ['required'],
             'department' => ['required'],
-            'title' => ['required', 'string', 'between:1,100'],
+            'title' => ['required', 'string', 'between:2,100'],
             'description' => ['required','string'],
             'default_image' => ['required','image','mimes:jpeg,png','max:4096'],
             'additional_images.*' => ['nullable','image','mimes:jpeg,png','max:4096'],
         'valueInput' => 'nullable|numeric',
         ], [
-            'title' => 'Le nom de l\'annonce doit contenir entre 1 et 100 caractères.',
+            'title' => 'Le nom de l\'annonce doit contenir entre 2 et 100 caractères.',
             'default_image.max' => 'Vous ne pouvez pas télécharger plus de 4mb.',
             'default_image.mimes' => 'Les fichiers téléchargés doivent être au format jpg ou png.',
         ]);

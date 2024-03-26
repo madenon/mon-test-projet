@@ -128,7 +128,7 @@ class AdminController extends Controller
     {
         $roles = Role::all();
         $query = User::query();
-    
+            
         // Filter by role
         if ($request->has('role') && $request->role!='') {
             $query->where('role', $request->role);
@@ -153,12 +153,12 @@ class AdminController extends Controller
     }
     public function accountPro(Request $request)
     {
-        $roles = ["none","pending","rejected","accepted"];
+        $statuts = ["none","pending","rejected","accepted"];
         $query = User::query();
     
         // Filter by role
-        if ($request->has('role') && $request->role!='') {
-            $query->where('role', $request->role);
+        if ($request->has('statut') && $request->statut!='') {
+            $query->where('statusPro', $request->statut);
         }
     
         if ($request->has('sort_created_at')) {
@@ -176,13 +176,14 @@ class AdminController extends Controller
         $users = $query->paginate(10);
     
     
-        return view('admin.account-pro', compact('users', 'roles'));
+        return view('admin.account-pro', compact('users', 'statuts'));
     }
     public function becomePro(Request $request)
     {
         $user = User::find($request->userId);
         if($user){
             $user->statusPro = $request->status;
+            $user->pro_reason = $request->reason;
             $user->save();
         }
         return $user;
@@ -484,6 +485,7 @@ Campaign::create($campaignData);
             'messengerColor' => $messenger_color ? $messenger_color : $this->chatify->getFallbackColor(),
             'dark_mode' => Auth::user()->dark_mode < 1 ? 'light' : 'dark',
         ]);
+        
     }
 
     public function reports(Request $request)

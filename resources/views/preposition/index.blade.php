@@ -441,6 +441,7 @@
                                 <td id="meetTime"></td>
                                 <td id="meetDescription"></td>
                                 <td id="meetStatus"></td>
+                                @if( $preposition->meetup && $preposition->meetup->user_id != auth()->id() && $preposition->meetup->status == "pending")
                                 <td id="meetActions">
                                     <button class="btn btn-success accept-button" >Accepter</button>
                                     <button class="btn btn-danger decline-button" >Refuser</button>

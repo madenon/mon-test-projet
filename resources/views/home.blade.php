@@ -414,12 +414,12 @@
     transition: background-color 0.3s ease;
     font-size: 24px;
 }
-.bg-primary-color{
-    background-color: var(--primary-color);
-}
 
 .sg-btn:hover {
     background-color: var(--primary-color-hover);
+}
+.bg-primary-color{
+    background-color: var(--primary-color);
 }
 
 .more-btn {

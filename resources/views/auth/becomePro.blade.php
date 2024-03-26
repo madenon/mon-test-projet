@@ -72,7 +72,7 @@
                             style="width: 0; height: 0;">
                         <div class="flex items-center justify-center gap-4 text-center w-full">
                             <img src="images/IconContainer.svg" alt="" srcset="">
-                            <p class="text-gray-600 mt-2">Photo de profil</p>
+                            <p class="text-gray-600 mt-2">Document d'identification de l'entreprise</p>
                         </div>
                     </label>
 

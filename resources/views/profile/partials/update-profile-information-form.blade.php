@@ -62,19 +62,19 @@
 
         <div>
             <x-input-label for="phone" :value="__('Téléphone')" />
-            <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required autocomplete="phone" />
+            <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone', $user->userInfo->phone)" required autocomplete="phone" />
             <x-input-error :messages="$errors->get('phone')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="bio" :value="__('À propos de vous')" />
-            <x-text-input id="bio" class="block mt-1 w-full" type="text" name="bio"  required  />
+            <x-text-input id="bio" class="block mt-1 w-full" type="text" name="bio" :value="old('bio', $user->userInfo->bio)"  required  />
             <x-input-error :messages="$errors->get('bio')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="nickname" :value="__('Pseudo')" />
-            <x-text-input id="nickname" class="block mt-1 w-full" type="text" name="nickname"  required  />
+            <x-text-input id="nickname" class="block mt-1 w-full" type="text" name="nickname" :value="old('pseudo', $user->userInfo->nickname)" required  />
             <x-input-error :messages="$errors->get('nickname')" class="mt-2" />
         </div>
 

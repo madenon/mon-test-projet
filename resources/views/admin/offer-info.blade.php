@@ -51,13 +51,10 @@
                     <div class="inline-block w-4 h-4 rounded-full bg-gray-500"></div> 
                     {{count(App\Models\Offer::get())}}
                 </div>
-                <div class="text-sm">
-                    <div class="inline-block w-4 h-4 rounded-full bg-red-500"></div> 
-                    {{count(App\Models\Offer::get())}}
-                </div>
+
                 <div class="text-sm">
                     <div class="inline-block w-4 h-4 rounded-full bg-yellow-500"></div> 
-                    {{count(App\Models\Offer::get())}}
+                    {{count(App\Models\Offer::whereDate('created_at',Carbon\Carbon::now()->toDateString())->get())}}
                 </div>
             </div>
         </div>

@@ -55,8 +55,6 @@
             </div>
             <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                 @csrf
-                
-                
                 <div class="flex justify-center items-center space-x-4 mt-[6vh]">
                     <!--  Bouton "Sign In with Google" -->
                     <a href=""
@@ -92,7 +90,7 @@
                         </a>
                 </div>
                 <div>
-                    <input type="checkbox" id="is_pro" name="is_pro" class="hidden"/>
+                    <input type="hidden" id="is_pro" name="is_pro" value="false" />
                 </div>
                 <!-- En-tête de la section de connexion -->
                 <div class="text-center text-gray-600 mt-4 mb-4 title-div">
@@ -196,7 +194,7 @@
                 </div>
                 
                 <div class="mt-4 professional hidden">
-                    <x-text-input id="siren_number" class="block mt-1 w-full focus:border-primary-color" type="text"
+                    <x-text-input id="siren_number" class="block mt-1 w-full focus:border-primary-color" type="number"
                     name="siren_number" value="" placeholder="Numero Siren" />
                     <x-input-error :messages="$errors->get('siren_number')" class="mt-2" />
                 </div>
@@ -208,7 +206,7 @@
                             style="width: 0; height: 0;">
                         <div class="flex items-center justify-center gap-4 text-center w-full">
                             <img src="images/IconContainer.svg" alt="" srcset="">
-                            <p class="text-gray-600 mt-2">Photo de profil</p>
+                            <p class="text-gray-600 mt-2">Document d'identification de l'entreprise</p>
                         </div>
                     </label>
 
@@ -260,12 +258,12 @@ function selectType(type) {
     const professionals = document.getElementsByClassName("professional");
     console.log(professionals);
     if(selectedType == 'particulier'){
-        document.getElementById("is_pro").checked = false;
+        document.getElementById("is_pro").value = false;
         for (let i = 0; i < professionals.length; i++) {
             professionals[i].classList.add("hidden");
         }
     }else{
-        document.getElementById("is_pro").checked = true;
+        document.getElementById("is_pro").value = true;
         for (let i = 0; i < professionals.length; i++) {
             professionals[i].classList.remove("hidden");
         }

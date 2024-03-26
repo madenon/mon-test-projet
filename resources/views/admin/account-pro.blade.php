@@ -16,12 +16,12 @@
             </div>
             <div class="flex space-x-4 ">
                 <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Filtrer par rôle :</label>
-                    <select name="role" id="filterRole" class="mt-1 p-2 border rounded-md" style="width: 200px;" onchange="this.form.submit()">
-                        <option value="">Tous les rôles</option>
-                        @foreach ($roles as $role)
-                            <option value="{{ $role }}" {{ request('role') == $role ? 'selected' : '' }}>
-                                {{ $role }}
+                    <label class="block text-sm font-medium text-gray-700">Filtrer par statut :</label>
+                    <select name="statut" id="filterStatut" class="mt-1 p-2 border rounded-md" style="width: 200px;" onchange="this.form.submit()">
+                        <option value="">Tous les statuts</option>
+                        @foreach ($statuts as $statut)
+                            <option value="{{ $statut }}" {{ request('statut') == $statut ? 'selected' : '' }}>
+                                {{ $statut }}
                             </option>
                         @endforeach
                     </select>
@@ -48,45 +48,58 @@
                     <th class="py-2 px-4 border-b">Statut</th>
                     <th class="py-2 px-4 border-b">Validation</th>
                     <th class="py-2 px-4 border-b">Actions</th>
+                    <th class="py-2 px-4 border-b">Raison</th>
+                    <th class="py-2 px-4 border-b">Numero siren</th>
+                    <th class="py-2 px-4 border-b">Document</th>
                 </tr>
             </thead>
             <tbody id="userTableBody">
                 @foreach ($users as $user)
-                    <tr class="user-row" data-role="{{ $user->statusPro }}" data-created="{{ $user->created_at ? $user->created_at->format('Y-m-d') : '' }}">
+                    <tr class="user-row" data-statut="{{ $user->statusPro }}" data-created="{{ $user->created_at ? $user->created_at->format('Y-m-d') : '' }}">
                         <td class="py-2 px-4 border-b">{{ $user->email }}</td>
                         <td class="py-2 px-4 border-b">
                             <span class="badge 
-                                @if ($user->statusPro == 'pending')
-                                bg-warning
-                                @elseif ($user->statusPro == 'accepted')
-                                bg-success
-                                @elseif ($user->statusPro == 'rejected')
+                            @if ($user->statusPro == 'pending')
+                            bg-warning
+                            @elseif ($user->statusPro == 'accepted')
+                            bg-success
+                            @elseif ($user->statusPro == 'rejected')
                                 bg-danger
                                 @else
                                 bg-secondary
                                 @endif
-                            ">{{$user->statusPro}}</span>
-                        </td> 
+                                ">{{$user->statusPro}}</span>
+                            </td> 
                         <td class="py-2 px-4 border-b">
-                        <div class="flex justify-between space-x-1 md:space-x-2">
-                            <button type="button" class="reject p-1 md:p-3" onclick="rejectUser({{ $user->id }},'{{ $user->email }}')">
-                                <i class="fa-solid fa-ban" style="color: red;"></i> 
-                            </button>
-                            <button type="button" class="button-filter p-1 md:p-3" onclick="completeUser({{ $user->id }}, '{{ $user->email }}')">
-                                <i class="fa-solid fa-check" style="color: white;"></i> 
-                            </button>
-                        </div>
-
+                            <div class="flex justify-between space-x-1 md:space-x-2">
+                                @if($user->statusPro != "rejected" )
+                                <button type="button" class="reject p-1 md:p-3" onclick="rejectUser({{ $user->id }},'{{ $user->email }}')">
+                                    <i class="fa-solid fa-ban" style="color: red;"></i> 
+                                </button>
+                                @endif
+                                @if($user->statusPro != "accepted" )
+                                <button type="button" class="button-filter p-1 md:p-3" onclick="completeUser({{ $user->id }}, '{{ $user->email }}')">
+                                    <i class="fa-solid fa-check" style="color: white;"></i> 
+                                </button>
+                                @endif
+                            </div>
+                            
                         </td>
                         <td class="py-2 px-4 border-b">
                             <a href="{{ route('admin.user-details', ['id' => $user->id]) }}" class="text-blue-500 hover:underline">Voir les détails</a>
                             <!-- Add other actions as needed, e.g., edit, delete, etc. -->
                         </td>
+                        <td class="py-2 px-4 border-b">{{ $user->userInfo->social_reason }}</td>
+                        <td class="py-2 px-4 border-b">{{ $user->userInfo->siren_number }}</td>
+                        <td class="py-2 px-4 border-b">
+                            <img class="h-16 w-16 rounded-full" src="{{ route('company_document_identification-file-path',$user->userInfo->company_identification_document??'') }}" alt="Document Image">
+
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-                <!-- Liens de pagination -->
+        <!-- Liens de pagination -->
         <div class="mt-4">
             {{ $users->appends(request()->query())->links() }}
         </div>
@@ -101,19 +114,21 @@
             title: 'Rejecter l\'utilisateur '+ userMail,
             text: 'Etes vous sur de rejecter l\'utilisateur comme pro?',
             icon: 'warning',
+            input: 'textarea',
+            inputPlaceholder : 'Veuillez inscrire le motif du rejet du dossier',
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
             confirmButtonText: 'Oui, rejecter!'
         }).then((result) => {
             if (result.isConfirmed) {
-                updateStatus(userId,"rejected");
+                updateStatus(userId, "rejected", result.value);
                 console.log('User with ID ' + userId + ' rejected');
             }
         });
     }
     
-    function updateStatus(userId, status){
+    function updateStatus(userId, status, reason){
         $.ajax({
             url: '/admin/becomePro',
             type: 'POST', // or 'GET', 'PUT', 'DELETE', etc.
@@ -121,6 +136,7 @@
             data: {
                 "userId" : userId,
                 "status" : status,
+                "reason" : reason,
             },
             success: function(response) {
                 // Request was successful, handle response here
@@ -145,7 +161,7 @@
             confirmButtonText: 'Oui, accepter!'
         }).then((result) => {
             if (result.isConfirmed) {
-                updateStatus(userId,"accepted");
+                updateStatus(userId,"accepted"," ");
                 console.log('User with ID ' + userId + ' completed');
             }
         });

@@ -83,16 +83,12 @@ class User extends Authenticatable  implements MustVerifyEmail
      */
     protected $allowedSorts = [
         'id',
-            'name',
+        'name',
         'email',
         'updated_at',
         'created_at',
     ];
-
-    public function getIsOnlineAttribute()
-    {
-        return $this->attributes['is_online'] ? 'En ligne' : 'Offline';
-    }
+    
     public function userInfo(): HasOne
     {
         return $this->hasOne(UserInfos::class);
