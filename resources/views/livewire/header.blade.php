@@ -257,16 +257,17 @@
                                     <div class="inline-block me-4 text-lg"> Pro </div>
                                     <label class="switch">
                                     <!-- <input  type="checkbox" wire:ignore wire:click="becomePro"> -->
-                                    <input  type="checkbox"  {{$user->pro_on ? "checked" : ""}}
-                                        @if(!$user->is_pro) 
+                                    <input  type="checkbox"  {{$user->statusPro == "accepted" && $user->pro_on ? "checked" : ""}} readonly
+                                        @if($user->statusPro == "pending")  
                                             wire:ignore
-                                            @if($user->statusPro == "none")
-                                            wire:click="becomePro"
-                                            @else
                                             wire:click="accountPro"
-                                            @endif
-                                        @else 
-                                            {{$user->pro_on = !$user->pro_on, $user->save()}}  @endif>
+                                        @elseif($user->statusPro == "rejected")
+                                            wire:ignore
+                                            wire:click="becomePro"
+                                        @else
+                                            {{$user->pro_on = !$user->pro_on, $user->save()}}  
+                                            onclick="changePro({{$user->pro_on}})" 
+                                        @endif>
                                     <span class="slider round"></span>
                                     </label>
                                 </div>
@@ -415,6 +416,28 @@
 <!-- Add a script to handle marking as seen and deletion -->
 <script>
 
- </script>
+    function changePro(pro_on){
+        if(pro_on){
+            Swal.fire({
+                title: 'Vous avez activer votre compte proffessionel',
+                timer: 2500,
+                showCancelButton: false,
+                showConfirmButton: false
+            }).then((result) => {
+                location.reload();
+            });
+        }else{
+            Swal.fire({
+                title: 'Vous avez activer votre compte particulier',
+                timer: 2500,
+                showCancelButton: false,
+                showConfirmButton: false
+            }).then((result) => {
+                location.reload();
+            });
+        }
+    }
+    
+</script>
 
 

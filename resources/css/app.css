@@ -163,7 +163,7 @@ select:focus {
     input,
     .input-div,
     .div-image {
-        width: 80% !important;
+        /* width: 80% !important; */
     }
     .checkbox-register input{
         width: 2.5%!important;

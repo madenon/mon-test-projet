@@ -4,14 +4,28 @@ if ($user){
     $last_login=Carbon\Carbon::parse($user->last_login);
     $last_login=$last_login->diffForHumans();
 }
-
+$userMe=App\Models\User::find(request()->me_id);
+if ($userMe){
+    $last_login=Carbon\Carbon::parse($userMe->last_login);
+    $last_login=$last_login->diffForHumans();
+}
 
 @endphp
 <x-app-layout class="w-screen">
     @include('Chatify::layouts.headLinks')
     <div class="container my-5 mx-4 pe-2 h-screen">
         <div class="flex content-start justify-around">
-            <div class="col-12 col-md-9 ps-4 h-screen">
+            <div class="mt-4 col-3 flex-col">
+                <img src="{{ route('profile_pictures-file-path',$userMe->avatar) }}" class="rounded-full w-20 h-20 border-slate-900 mx-auto"/>
+                <div class="text-center mt-2">
+                    <h3 class="text-lg text-slate-700 font-bold leading-normal mb-1">{{$userMe->first_name. " ". $userMe->last_name}}</h3>
+                    <div class="text-xs mt-0 mb-2 text-slate-400 font-bold uppercase">
+                        <i class="fas fa-map-marker-alt mr-2 text-slate-400 opacity-75"></i>Paris, France
+                    </div>
+                </div>
+            </div>
+            <div class="col-9 col-md-9 ps-4 h-screen">
+
                 <div class="messenger">
                     {{-- ----------------------Users/Groups lists side---------------------- --}}
                     <div class="messenger-listView {{ !!$id ? 'conversation-active' : '' }}">

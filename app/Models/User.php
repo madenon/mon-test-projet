@@ -83,7 +83,7 @@ class User extends Authenticatable  implements MustVerifyEmail
      */
     protected $allowedSorts = [
         'id',
-            'name',
+        'name',
         'email',
         'updated_at',
         'created_at',

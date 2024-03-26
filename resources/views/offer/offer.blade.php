@@ -247,11 +247,13 @@
 </div>
 
             @auth
+    @if(auth()->id() != $offer->user_id)
     <form action="{{ route('propositions.create', ['offerid' => $offer->id,'userid'=>auth()->id()]) }}" method="get">
         <button class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-primary-color hover:bg-primary-hover " type="submit">
             {{ __('Troquez Maintenant ') }}
         </button>
     </form>
+    @endif
 @else
 <form action="{{ route('login') }}" method="get">
         <button class="my-2 w-full text-white  font-semibold py-3 rounded-md bg-primary-color hover:bg-primary-hover " type="submit">
@@ -389,6 +391,7 @@
                     Signalez ce troc
                 </span>
             </div>
+            @if(auth()->id() != $offer->user_id)
             <div class="border rounded-lg pb-4">
                 <h4 class="text-titles border-b px-5 py-4">Vendeur</h4>
                 <div>
@@ -457,6 +460,7 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
     </div>
     <div class="m-auto mt-5 w-[60%]  ">

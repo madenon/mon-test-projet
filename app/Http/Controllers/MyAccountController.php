@@ -195,7 +195,7 @@ class MyAccountController extends Controller
             'default_image' => ['nullable','image','mimes:jpeg,png','max:4096'], 
             'additional_images.*' => ['nullable','image','mimes:jpeg,png','max:4096'], 
         ], [
-            'title' => 'Le nom de l\'annonce doit contenir entre 5 et 100 caractères.',
+            'title' => 'Le nom de l\'annonce doit contenir entre 2 et 100 caractères.',
             'default_image.max' => 'Vous ne pouvez pas télécharger plus de 4mb.',
             'default_image.mimes' => 'Les fichiers téléchargés doivent être au format jpg ou png.',
         ]);

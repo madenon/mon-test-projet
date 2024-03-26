@@ -1,4 +1,20 @@
 <x-app-layout>
+    <style>
+    .sg-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        color: black;
+        text-decoration: none;
+        background-color: white;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        font-size: 24px;
+    }
+
+    .sg-btn:hover {
+        background-color: var(--primary-color-hover);
+    }
+    </style>
     <div class="container-fluid mx-2">
         <div class="{{ auth()->user() ? 'flex justify-between' : 'flex justify-center' }} flex-col md:flex-row">
             @if(auth()->user())
@@ -14,9 +30,12 @@
                         @elseif($user->statusPro == "rejected")
                         <div class ="mx-4 text-lg font-bold">Nous sommes au regret de refuser votre compte pro </div>
                         <hr class ="mx-4"/>
-                        <p class="mx-4 mt-4 mb-8 pb-8"> La raison ... </p>
+                        <p class="mx-4 mt-4"> {{$user->pro_reason}} </p>
+                        <div class="mt-12 d-flex align-items-center justify-content-center mb-8 pb-8" >
+                            <a class="sg-btn" href="{{route('becomePro')}}">Repostuler</a>
+                        </div>
                         @else
-                        <p class="mx-4 mt-4 mb-8 pb-8"> Les options compte pro ... </p>
+                        <p class="mx-4 mt-4 mb-8 pb-8"> Félicitations ! Vous faites partis de nos  utilisateurs professionels, de nouvelles options arrivent bientôt chez vous</p>
                         @endif           
                     </div>
                 </div>
