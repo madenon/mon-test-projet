@@ -24,21 +24,21 @@
                         <td id="meetStatus"></td>
                     </tbody>
                 </table>
-                <form id="meetupForm">
+                <form id="meetupForm-{{$preposition->id}}">
                     @csrf
                     <input type="hidden" id="prepositionId" name="prepositionId" value="{{$preposition->id}}">
-                    <input type="hidden" id="userId" name="userId" value="{{auth()->id()}}">
+                    <input type="hidden" id="userId-{{$preposition->id}}" name="userId" value="{{auth()->id()}}">
                     <div class="mb-3">
                         <label for="meetupDate" class="form-label">Date du rendez-vous</label>
-                        <input type="date" class="form-control" id="meetupDate" name="meetupDate" required>
+                        <input type="date" class="form-control" id="meetupDate-{{$preposition->id}}" name="meetupDate" required>
                     </div>
                     <div class="mb-3">
                         <label for="meetupTime" class="form-label">Heure du rendez-vous</label>
-                        <input type="time" class="form-control" id="meetupTime" name="meetupTime" required>
+                        <input type="time" class="form-control" id="meetupTime-{{$preposition->id}}" name="meetupTime" required>
                     </div>
                     <div class="mb-3">
                         <label for="meetupDescription" class="form-label">Description du rendez-vous</label>
-                        <textarea class="form-control" id="meetupDescription" name="meetupDescription" rows="3" required></textarea>
+                        <textarea class="form-control" id="meetupDescription-{{$preposition->id}}" name="meetupDescription" rows="3" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Planifier le rendez-vous</button>
                 </form>
@@ -119,17 +119,18 @@
     });
     // for meetup form
     $(document).ready(function () {
+        var prepositionId={{$preposition->id}}
         // Handle form submission
-        $('#meetupForm').submit(function (e) {
+        $('#meetupForm-'+prepositionId).submit(function (e) {
             e.preventDefault();
-
+            $('#meetupForm-'+prepositionId).prop('disabled', true);
             // Get form data
             var formData = {
-                prepositionId: $('#prepositionId').val(),
-                meetupDate: $('#meetupDate').val(),
-                meetupTime: $('#meetupTime').val(),
-                meetupDescription: $('#meetupDescription').val(),
-                userId: $('#userId').val(), 
+                prepositionId: prepositionId,
+                meetupDate: $('#meetupDate-'+prepositionId).val(),
+                meetupTime: $('#meetupTime-'+ prepositionId).val(),
+                meetupDescription: $('#meetupDescription-'+prepositionId).val(),
+                userId: $('#userId-'+prepositionId).val(), 
             };
             console.log(formData);
 
