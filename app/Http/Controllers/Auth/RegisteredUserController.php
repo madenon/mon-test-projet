@@ -16,6 +16,8 @@ use Illuminate\Validation\Rules;
 use Illuminate\Validation\Rules\Enum;
 use Illuminate\View\View;
 use App\Enums\Gender;
+use App\Notifications\proRequest;
+
 
 
 class RegisteredUserController extends Controller
@@ -165,7 +167,12 @@ class RegisteredUserController extends Controller
                 'social_reason' => $request->social_reason,
                 'siren_number' => $request->siren_number,
                 'company_identification_document' => $storePicture,
-            ]);  
+            ]); 
+            
+            foreach(User::all() as $user){
+                if($user->is_admin)
+                $user->notify(new proRequest($user));             
+            }
             
         });
         

@@ -160,10 +160,10 @@
                             <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" >
                             <i class="fas fa-calendar" style="color: #24a19c;"></i>
                             </a>
-                            @if($preposition->status != "pending")
-                            <a class="inline-block btn btn-primary" href="#" 
-                                    data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Modifier</a>
-                            @endif
+                                @if($preposition->status != "pending")
+                                <a class="inline-block btn btn-primary" href="#" 
+                                        data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Modifier</a>
+                                @endif
                             @else 
                             <a class="inline-block btn btn-primary" href="#" 
                                     data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Planifier</a>
@@ -231,19 +231,19 @@
                                 @endphp 
                                 
                                 @if($isButton)
-                                <div class="col-span-full d-flex items-center justify-center">
-                                @if(!$preposition->validation || $preposition->validation == 'none')
-                                <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="#" 
-                                    data-bs-toggle="modal" data-bs-target="#propositionValidationModal-{{$preposition->id}}">{{$validation_text}}</a>
-                                    @elseif($preposition->validation == 'validated')
+                                    <div class="col-span-full d-flex items-center justify-center">
+                                    @if(!$preposition->validation || $preposition->validation == 'none')
                                     <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="#" 
-                                    data-bs-toggle="modal" data-bs-target="#propositionConfirmationModal-{{$preposition->id}}">{{$validation_text}}</a>
-                                    @elseif($preposition->validation == 'confirmed')
-                                <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" 
-                                href="{{route('transactions.index')}}" >{{$validation_text}}</a>
-                                @endif
-                            </div>                              
-                            @else
+                                        data-bs-toggle="modal" data-bs-target="#propositionValidationModal-{{$preposition->id}}">{{$validation_text}}</a>
+                                        @elseif($preposition->validation == 'validated')
+                                        <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="#" 
+                                        data-bs-toggle="modal" data-bs-target="#propositionConfirmationModal-{{$preposition->id}}">{{$validation_text}}</a>
+                                        @elseif($preposition->validation == 'confirmed')
+                                    <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" 
+                                    href="{{route('transactions.index')}}" >{{$validation_text}}</a>
+                                    @endif
+                                </div>                              
+                                @else
                                 <span>{{$validation_text}}</span>
                                 @endif
                             </td>
@@ -320,10 +320,10 @@
                         @if($preposition->meetup)
                         <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" data-bs-toggle="modal" data-bs-target="#meetModal">
                         <i class="fas fa-calendar" style="color: #24a19c;"></i>
-                        @if($preposition->status != "pending")
-                        <a class="inline-block btn btn-primary" href="#" 
-                                data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Modifier</a>
-                        @endif
+                            @if($preposition->status != "pending")
+                            <a class="inline-block btn btn-primary" href="#" 
+                                    data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Modifier</a>
+                            @endif
                         </a>
                         @else 
                         <a class="inline-block btn btn-primary" href="#" 
@@ -446,7 +446,7 @@
                                     <button class="btn btn-success accept-button" >Accepter</button>
                                     <button class="btn btn-danger decline-button" >Refuser</button>
                                 </td>
-                                
+                                @endif
 
                             </tbody>
                         </table>

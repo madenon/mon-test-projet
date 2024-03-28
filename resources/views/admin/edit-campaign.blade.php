@@ -15,37 +15,37 @@
         <!-- Lien pour la campagne -->
         <div class="form-group">
             <label for="description">Lien</label>
-            <textarea name="description" class="form-control" required>{{ $campaign->description }}</textarea>
+            <textarea name="description" class="form-control" required>{{ $campaign->link }}</textarea>
         </div>
-
         <div class="form-group">
             <label for="page">Page</label>
             <select name="page" class="form-control">
-                <option value="home">Page d'accueil</option>
-                <option value="alloffers">Page des offres</option>
-                <option value="all">Toutes les pages</option>
+                <option value="home" {{ $campaign->page == 'home' ? 'selected' : '' }}>Page d'accueil</option>
+                <option value="alloffers" {{ $campaign->page == 'alloffers' ? 'selected' : '' }}>Page des offres</option>
+                <option value="all" {{ $campaign->page == 'all' ? 'selected' : '' }}>Toutes les pages</option>
             </select>
         </div>
 
         <div class="form-group">
             <label for="position">Position</label>
             <select name="position" class="form-control">
-                <option value="top">Haut de page</option>
-                <option value="content">Dans le contenu</option>
-                <option value="left">Gauche</option>
-                <option value="right">Droite</option>
-                <option value="bottom">Bas de page</option>
+                <option value="top" {{ $campaign->position == 'top' ? 'selected' : '' }}>Haut de page</option>
+                <option value="content" {{ $campaign->position == 'content' ? 'selected' : '' }}>Dans le contenu</option>
+                <option value="left" {{ $campaign->position == 'left' ? 'selected' : '' }}>Gauche</option>
+                <option value="right" {{ $campaign->position == 'right' ? 'selected' : '' }}>Droite</option>
+                <option value="bottom" {{ $campaign->position == 'bottom' ? 'selected' : '' }}>Bas de page</option>
             </select>
         </div>
 
+        
         <div class="form-group">
             <label for="start_date">Date de début</label>
-            <input type="datetime-local" name="start_date" class="form-control" id="start_date_input">
+            <input type="datetime-local" name="start_date" class="form-control" id="start_date_input" value="{{ $campaign->start_date ? \Carbon\Carbon::parse($campaign->start_date)->format('Y-m-d\TH:i') : '' }}">
         </div>
 
         <div class="form-group">
             <label for="end_date">Date de fin</label>
-            <input type="datetime-local" name="end_date" class="form-control" id="end_date_input">
+            <input type="datetime-local" name="end_date" class="form-control" id="end_date_input" value="{{ $campaign->end_date ? \Carbon\Carbon::parse($campaign->end_date)->format('Y-m-d\TH:i') : '' }}">
         </div>
 
         <input type="text" id="timezone" name="timezone" class="form-control" hidden>

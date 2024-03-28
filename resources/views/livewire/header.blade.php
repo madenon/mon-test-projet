@@ -261,7 +261,7 @@
                                         @if($user->statusPro == "pending")  
                                             wire:ignore
                                             wire:click="accountPro"
-                                        @elseif($user->statusPro == "rejected")
+                                        @elseif($user->statusPro == "rejected" || $user->statusPro == "none")
                                             wire:ignore
                                             wire:click="becomePro"
                                         @else
