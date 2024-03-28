@@ -11,6 +11,8 @@ use App\Models\Offer;
 use App\Models\Type;
 use App\Models\Preposition;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+
 
 class AlloffersController extends Controller
 {
@@ -66,12 +68,15 @@ class AlloffersController extends Controller
         if ($maxPrice) {
             $queryBuilder->where('price', '<=', $maxPrice);
         }
-        if($online) {
-            $onlineUsers=User::where('is_online',true)->pluck('id')->toArray();
-            if($online=="online")
-            $queryBuilder->whereIn('user_id',$onlineUsers);
-            else
-            $queryBuilder->whereNotIn('user_id',$onlineUsers);
+        if($request->has('online')) {
+            $onlineUsers=DB::table('users')->select('id')->where('is_online', 1);
+            // $request->session()->flash('online', $online);
+            if($online){
+                $queryBuilder->whereIn('user_id',$onlineUsers);
+            }
+            else{
+                $queryBuilder->whereNotIn('user_id',$onlineUsers);
+            }
         }
         if($deps){
             $queryBuilder->whereIn('department_id', $deps);
@@ -103,8 +108,12 @@ class AlloffersController extends Controller
             'departments' => $deps,
             'subcategories' => $subs,
         ]);
+        
         $categoryName = Category::where('id', $category)->value('name');
         $banners=Campaign::all();
-        return view('alloffers.index', compact('offers','banners','departments','types','categoryName'));
+        $offersCount=$queryBuilder->count();
+
+        return view('alloffers.index', compact('offers','banners','departments','types','categoryName','offersCount'));
+    
     }
 }

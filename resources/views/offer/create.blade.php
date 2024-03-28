@@ -85,7 +85,7 @@
                                 id="type-dropdown" onchange="changerType(this)">
                                 <option value="0" selected hidden>Choisir le type de troc *</option>
                                 @foreach($types as $type)
-                                <option value="{{ $type->id }}" @if($type->name == "Bien") selected @endif>{{ $type->name }}</option>
+                                <option value="{{ $type->id }}">{{ $type->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -497,14 +497,14 @@
     const yearsOfExperienceDropdownElement = document.getElementById('experience-dropdown')
 
     const experienceOrLevel = (selectedValue) => {
-        const hasCondition = [2,3,5, "2","3","5"]
-        const hasExprience = 7
+        const hasCondition = [7,6,1, "7","6","1"]
+        const hasExprience = 2
         if(hasCondition.includes(selectedValue)){
-            // if bien, don, ... => show condition dropdown
+            // if bien, don, moment => show condition dropdown
             conditionDropdownElement.style.display = "inline-block"
             yearsOfExperienceDropdownElement.style.display = "none"
 
-        } else if(selectedValue === 7 || selectedValue === "7") {
+        } else if(selectedValue === 2 || selectedValue === "2") {
             // if service        => show experience dropdown
             conditionDropdownElement.style.display = "none"
             yearsOfExperienceDropdownElement.style.display = "inline-block"
@@ -594,6 +594,12 @@ additional_images.addEventListener("change", function () {
             
         });
         spanElementMultiple.textContent = selectedFilesMultiple.length + " fichier(s) sélectionné(s)";
+        var dataTransfer = new DataTransfer();
+        selectedFilesMultiple.forEach(function(file) {
+            dataTransfer.items.add(file);
+        });
+        additional_images.files = dataTransfer.files;
+        
     } else {
         spanElementMultiple.textContent = "Aucun fichier sélectionné";
         if(browse_additional_text.classList.contains("hidden"))
@@ -708,7 +714,6 @@ const changerCategory = (e) => {
 
     };
 
-    changerType(document.getElementById("type-dropdown"));    
 
 const changerDepartement = (e) => {
     const departments = @json($departments);

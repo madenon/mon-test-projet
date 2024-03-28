@@ -167,10 +167,9 @@ class MyAccountController extends Controller
         ->where('user_id', $user->id)
         ->first();
        
-        if ($request->has('default_image')) {
-            $offer->update(['offer_default_photo' => $request->default_image ]);} 
-       
-                return redirect(route('myaccount.offers'))->with(['success', 'Annonce mis à jours', ['offerId']]);
+        $offer->update(['default_image_id' => $request->default_image_id]);
+    
+        return redirect(route('myaccount.offers'))->with(['success', 'Annonce mis à jours', ['offerId']]);
     }
 
     public function updateOffer(Request $request, $offerId)

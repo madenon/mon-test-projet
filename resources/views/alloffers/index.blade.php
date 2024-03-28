@@ -92,7 +92,7 @@
 
         <div class="row">
                 <div class="col">
-                    @livewire('applied-filter')
+                    @livewire('applied-filter',["offersCount" =>$offersCount ])
                 </div>
             </div>
             <div class="row mt-4">
@@ -113,7 +113,7 @@
                 @foreach ($offers as $offer)
                 <div class="offer_list_card mt-0 mb-4">
                     <div class="offer_image w-2/5 relative">
-                        <img src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}" alt=""
+                        <img src="{{ route('offer-pictures-file-path',$offer->defaultImage->offer_photo) }}" alt=""
                             class="zoomD object-cover h-full w-full rounded-tl-lg rounded-bl-lg " />
                     </div>
                     <div class="offer_details md:ml-8 md:mr-4 md:mt-4 mr-2 ml-2 mt-2">

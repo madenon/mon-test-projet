@@ -38,13 +38,14 @@
         <div class="w-[50%] ml-12 partie-slide">
             <div class=" flex flex-col gap-6">
                 <div class="">
-                    <img src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}"
+                    <img src="{{ route('offer-pictures-file-path',$offer->defaultImage->offer_photo) }}"
                         alt="Image principale" id="mainImage"  class="zoomD h-[450px] w-[750px] rounded-lg " />
                 </div>
                 
                 <div class="flex space-x-10">
                     <div class="slick-carousel w-4/5 ">
                         @foreach ($images as $img)
+                            @if($offer->default_image_id != $img->id)
                             <div class="slick-item">
                                 <div class="relative">
                                     <img src="{{ route('offer-pictures-file-path', $img->offer_photo) }}" alt="Image produit"
@@ -54,11 +55,12 @@
                                         @if(auth()->check() && $offer->user_id === auth()->user()->id)
                                     <div>
                                         <button class="bg-red-500 text-white p-1 rounded-full" onclick="deleteImage('{{ $img->id }}')">Supprimer</button>
-                                        <button class="bg-blue-500 text-white p-1 rounded-full" onclick="selectImage('{{ $img->offer_photo }}')">Selectionner</button>
+                                        <button class="bg-blue-500 text-white p-1 rounded-full" onclick="selectImage('{{ $img->id }}')">Selectionner</button>
                                     </div>
                                     @endif
                                 </div>
                             </div>
+                            @endif
                         @endforeach
                     
                     </div>
@@ -165,13 +167,13 @@
                 });
             }
             //
-            function selectImage(imagePath) {
+            function selectImage(imageId) {
  
                     // Send AJAX request to update the server-side
                     $.ajax({
                         type: "POST",
                         url: "{{ route('myaccount.updateOfferImages', $offer->id) }}",
-                        data: { default_image: imagePath },
+                        data: { default_image_id: imageId },
                         success: function (response) {
                             location.reload();
                         },

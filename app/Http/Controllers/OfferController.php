@@ -210,6 +210,13 @@ class OfferController extends Controller
                 );
           
             Storage::putFileAs('public/offer_pictures', $request->default_image, $imageDefault);
+            $defaultImage = OfferImages::create([
+                'offer_photo' => $imageDefault,
+                'offer_id' => $id,
+            ]);
+            $offer = Offer::find($id);
+            $offer->default_image_id = $defaultImage->id;
+            $offer->save();
 
             if($request->has('additional_images')){
                 foreach ($request->additional_images as $key => $value) {

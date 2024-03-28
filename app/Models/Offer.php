@@ -38,7 +38,8 @@ class Offer extends Model
         'send_authorized',
         'active_offer',
         'expiration_date',
-        'active_animation'
+        'active_animation',
+        'default_image_id'
     ];
 
     protected $casts = [
@@ -84,6 +85,10 @@ class Offer extends Model
     public function offerImages(): HasMany
     {
         return $this->hasMany(OfferImages::class);
+    }
+    public function defaultImage(): BelongsTo
+    {
+        return $this->belongsTo(OfferImages::class,'default_image_id');
     }
     public function transaction(): HasOne
     {

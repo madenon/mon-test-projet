@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Offer;
+use App\Models\OfferImages;
 use Faker\Factory as Faker;
 
 
@@ -16,8 +17,8 @@ class OfferSeeder extends Seeder
     public function run(): void
     {
         $faker = Faker::create();
-        for ($i = 1; $i <= 100; $i++) {
-            Offer::create([
+        for ($i = 1; $i <= 100; $i++) { 
+            $offer = Offer::create([
                 'title' => $faker->sentence,
                 'description' => $faker->paragraph,
                 'condition' => $faker->randomElement(["NEW", "VERY_GOOD", "GOOD", "MEDIUM", "BAD", "BROKEN"]),
@@ -43,7 +44,13 @@ class OfferSeeder extends Seeder
                 'subcategory_id' => $faker->numberBetween(30, 200),
                 'deleted_at' => null,
                 'dynamic_inputs' => $faker->text,
-            ]);    
+            ]);  
+            $defaultImage = OfferImages::create([
+                'offer_photo' => '656ddc92f2ad6.png',
+                'offer_id' => $offer->id,
+            ]);
+            $offer->update(['default_image_id' => $defaultImage->id]);
+
         }
     }
 }
