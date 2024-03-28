@@ -9,8 +9,8 @@
                 </div>
             </li>
             
-            @php $filterChanged = false @endphp
             @foreach ($filters as $filter) 
+            
             <li class="mx-1 my-1">
                 @if($filter['type'])
                 <div class="border-2 rounded p-1">
@@ -19,8 +19,8 @@
                     @endif
                     {{$filter['name']}}
                     @php $type = $filter['type']; $key = $filter['key'] @endphp
-                    <a wire:click="remove('{{$type}}', '{{$key}}'); @php $filterChanged = true @endphp">
-                        <i class="fa fa-close inline-block border-2 rounded-full" onclick="removeFilter(this)"></i>
+                    <a wire:click="remove('{{$type}}', '{{$key}}')">
+                        <i class="fa fa-close inline-block border-2 rounded-full"></i>
                     </a>
                 </div>
                 @endif
@@ -28,8 +28,8 @@
             @endforeach
             
             @if($filterChanged)
-            <form wire:submit="applyFrom" method="GET">
-             <button class="mt-1 button-filter">Appliquer</button>             
+            <form method="GET" action="{{route('alloffers.index')}}">
+             <button type="submit" class="mt-1 button-filter">Appliquer</button>             
             </form>
             @endif
             
@@ -56,7 +56,6 @@
     <script>
         function removeFilter(el){
             const parent = el.parentElement.parentElement;
-            parent.classList.add("hidden");
         }
     document.addEventListener('DOMContentLoaded', function () {
         const toggleFilterButton = document.getElementById('toggleFilterButton');

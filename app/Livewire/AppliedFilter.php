@@ -18,6 +18,7 @@ class AppliedFilter extends Component
 {
     public $filters = [];
     public $offersCount = 0;
+    public $filterChanged = false;
     
     public function mount($offersCount){
         $this->offersCount = $offersCount;
@@ -25,6 +26,7 @@ class AppliedFilter extends Component
     
     public function render(Request $request)
     {
+        
         $departments = Department::all();
         $types=Type::all();
         $query = $request->input('query');
@@ -46,7 +48,8 @@ class AppliedFilter extends Component
         if($type)array_push($this->filters,[
             "type"=>"type",
             "key"=> Type::find($type)->name,
-            "name"=> Type::find($type)->name
+            "name"=> Type::find($type)->name,
+            'applied' => true
         ]);
         if($request->input('departments'))
         foreach($request->input('departments') as $dep){
@@ -55,6 +58,7 @@ class AppliedFilter extends Component
                 "name"=> Department::find($dep)->name,
                 "key"=> Department::find($dep)->name,
                 "icon"=>'fa-map-marker-alt',
+                'applied' => true
             ]);
         }
         $parentcategories = Category::whereNull('parent_id')->get();
@@ -66,6 +70,8 @@ class AppliedFilter extends Component
                 "name"=> Category::find($sub)->name,
                 "key" => $sub,
                 "icon"=> Category::find($sub)->parent->icon,
+                'applied' => true
+
             ]);  
         }
         if ($category){
@@ -75,6 +81,8 @@ class AppliedFilter extends Component
                 "key"=> $category->name,
                 "name"=> $category->name,
                 "icon"=>$category->icon,
+                'applied' => true
+
             ]);
         }
         $priceRange=($minPrice?$minPrice:0)." EUR~".($maxPrice?$maxPrice:4000)." EUR";
@@ -83,12 +91,16 @@ class AppliedFilter extends Component
             "key"=>"min_price",
             "name"=> $priceRange,
             "icon"=>'fa-money-bill',
+            'applied' => true
+
         ]);
         if($request->has('online'))array_push($this->filters,[
             "type"=>"online",
             "key"=> $online,
             "name"=> $online == 1?"En ligne":"Hors ligne",
             "icon"=>'fa-user',
+            'applied' => true
+
         ]);
             
     $filters = $this->filters;
@@ -107,10 +119,11 @@ class AppliedFilter extends Component
         }else{
             $request->request->remove($key);
         }
+        $this->filterChanged = true;
     }
     
     public function applyFrom(Request $request){
-        $request->flash();
-        return route('alloffers.index');
+        $request->session()->flash('input', $request->all());
+        return redirect()->route('alloffers.index');
     }
 }
