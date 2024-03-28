@@ -101,6 +101,16 @@ class TransactionController extends Controller
             $prep->validation = 'confirmedTransaction';
             $prep->save();
         }
+        if($transaction->applicant_status != 'Rejectée' || $transaction->offeror_status != 'Rejectée' ){
+            $offer = $transaction->proposition->offer;
+            foreach($offer->preposition as $prep){
+                $prep->status = "En cours";
+                $prep->validation = 'none';
+                $prep->save();
+            }
+            
+        }
+        
         
         $failureReason = request()->input('failure_reason', null);
            

@@ -89,6 +89,7 @@
                 <th>Rencontre</th>
                 <th>Chat</th>
                 <th>Validation</th>
+                <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -107,6 +108,7 @@
                         <td  style="background-color : WhiteSmoke; border-bottom : 0">
                             <span class="text-xs">{{ Carbon\Carbon::parse($preposition->created_at)->format('Y-m-d H:i:s'); }}</span>
                         </td>
+                        <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
                         <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
                         <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
                         <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
@@ -135,11 +137,8 @@
                                 ])
                         </td>
                         <td id="prepositionOfferName-{{$preposition->id}}">
-                            @livewire('split-long-text ', [
-                                'text' => $preposition->offer_name,
-                                'parentClass' => '#prepositionOfferName-'.$preposition->id,
-                                'len' => 4,
-                                ])
+                            <a class="no-underline font-medium hidden md:block text-sm md:text-base" href="{{route('offer.offer', [$preposition->offer->id, $preposition->offer->slug])}}">{{ $preposition->offer->title }}</a>
+
                         </td>
                         <td>{{ $preposition->offer->price}}</td>
                         <td>{{ $preposition->price }}</td>
@@ -156,17 +155,22 @@
                             </span>
                         </td>
                         <td>
-                            @if($preposition->meetup)
-                            <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" >
-                            <i class="fas fa-calendar" style="color: #24a19c;"></i>
-                            </a>
-                                @if($preposition->status != "pending")
-                                <a class="inline-block btn btn-primary" href="#" 
+                            @if($preposition->status == "Acceptée")
+                                @if($preposition->meetup)
+                                <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" >
+                                <i class="fas fa-calendar" style="color: #24a19c;"></i>
+                                </a>
+                                    @if($preposition->meetup->status == "rejected")
+                                    <a class="inline-block btn btn-primary" href="#" 
+                                        data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Ajouter</a>
+                                    @elseif($preposition->meetup->status == "accepted")
+                                    <a class="inline-block btn btn-primary" href="#" 
                                         data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Modifier</a>
+                                    @endif
+                                @else 
+                                <a class="inline-block btn btn-primary" href="#" 
+                                        data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Planifier</a>
                                 @endif
-                            @else 
-                            <a class="inline-block btn btn-primary" href="#" 
-                                    data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Planifier</a>
                             @endif
                         </td>
                         
@@ -185,22 +189,22 @@
                             else $counterparty = $preposition->offer->user;
 
                             $isButton=null;
-                                $validation_text=null;
-                                if(!$preposition->validation || $preposition->validation == 'none'){
-                                    if($preposition->status != 'Rejetée'){
-                                        $validation_text = $isReceiveid ? 'Valider la proposition' : 'En attente de validation';
-                                        $isButton = $isReceiveid ? true : false; 
-                                    }else{
-                                        $validation_text =  'La proposition a été rejetée';
-                                        $isButton = false; 
-                                    }
+                            $validation_text=null;
+                            if(!$preposition->validation || $preposition->validation == 'none'){
+                                if($preposition->status != 'Rejetée'){
+                                    $validation_text = $isReceiveid ? 'Valider la proposition' : 'En attente de validation';
+                                    $isButton = $isReceiveid ? true : false; 
+                                }else{
+                                    $validation_text =  'La proposition a été rejetée';
+                                    $isButton = false; 
                                 }
-                                else if($preposition->validation == 'validated'){
-                                    $validation_text = $isReceiveid ? 'En attente de confirmation' : 'Confirmer la proposition';
-                                    $isButton = $isReceiveid ? false : true; 
-                                }
-                                else if($preposition->validation == 'confirmed'){
-                                    $transaction = $preposition->transaction;
+                            }
+                            else if($preposition->validation == 'validated'){
+                                $validation_text = $isReceiveid ? 'En attente de confirmation' : 'Confirmer la proposition';
+                                $isButton = $isReceiveid ? false : true; 
+                            }
+                            else if($preposition->validation == 'confirmed'){
+                                $transaction = $preposition->transaction;
                                     if(auth()->id() == $preposition->user->id){
                                         if($transaction->applicant_status == 'En cours'){
                                             $validation_text = 'Valider la transaction' ;
@@ -218,7 +222,8 @@
                                             $isButton = false ;  
                                         }
                                     } 
-                                }else{// confirmedTransaction
+                                }
+                                else{// confirmedTransaction
                                     $isButton = false ;  
                                     $validation_text = 'Transaction completée' ;
                                     $transaction = $preposition->transaction;
@@ -247,7 +252,17 @@
                                 <span>{{$validation_text}}</span>
                                 @endif
                             </td>
-                            </tr>
+                            <td>
+                                @if($preposition->status!='Acceptée' && $preposition->user==auth()->user())
+                                <a type="button" class="btn edit-button" data-bs-toggle="modal" data-bs-target="#editModal{{ $preposition->id }}">
+                                    <i class="fas fa-edit" style="color: #ffc107;"></i>
+                                </a>
+                                <a type="button" class="btn  delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $preposition->id }}" data-preposition-id="{{ $preposition->id }}">
+                                    <i class="fas fa-trash-alt" style="color: red"></i>
+                                </a>                                
+                                @endif
+                            </td>
+                        </tr>
                 @endforeach
             </tbody>
         </table>
@@ -317,18 +332,24 @@
                         </a>
                     </div>
                     <div class="flex flex">
-                        @if($preposition->meetup)
-                        <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" data-bs-toggle="modal" data-bs-target="#meetModal">
-                        <i class="fas fa-calendar" style="color: #24a19c;"></i>
-                            @if($preposition->status != "pending")
-                            <a class="inline-block btn btn-primary" href="#" 
+                        @if($preposition->status == "Acceptée")
+                            @if($preposition->meetup)
+                            <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" >
+                            <i class="fas fa-calendar" style="color: #24a19c;"></i>
+                            </a>
+                                @if($preposition->meetup->status == "rejected")
+                                <a class="inline-block btn btn-primary" href="#" 
+                                    data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Ajouter</a>
+                                @elseif($preposition->meetup->status == "accepted")
+                                <a class="inline-block btn btn-primary" href="#" 
                                     data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Modifier</a>
+                                @endif
+                            @else 
+                            <a class="inline-block btn btn-primary" href="#" 
+                                    data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Planifier</a>
                             @endif
-                        </a>
-                        @else 
-                        <a class="inline-block btn btn-primary" href="#" 
-                        data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Planifiez</a>
                         @endif
+
                     </div>
                     <div class="flex flex-col">
                         <div class="flex">
@@ -410,6 +431,17 @@
                     </div>
                     @endif
                 </div>
+                
+                <div class="flex justify-center">
+                    @if($preposition->status!='Acceptée' && $preposition->user==auth()->user())
+                    <a type="button" class="btn edit-button" data-bs-toggle="modal" data-bs-target="#editModal{{ $preposition->id }}">
+                        <i class="fas fa-edit" style="color: #ffc107;"></i>
+                    </a>
+                    <a type="button" class="btn  delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $preposition->id }}" data-preposition-id="{{ $preposition->id }}">
+                        <i class="fas fa-trash-alt" style="color: red"></i>
+                    </a>                                
+                    @endif
+                </div>
 
                     
             </div>       
@@ -441,7 +473,7 @@
                                 <td id="meetTime"></td>
                                 <td id="meetDescription"></td>
                                 <td id="meetStatus"></td>
-                                @if( $preposition->meetup && $preposition->meetup->user_id != auth()->id() && $preposition->meetup->status == "pending")
+                                @if($preposition && $preposition->meetup && $preposition->meetup->user_id != auth()->id() && $preposition->meetup->status == "pending")
                                 <td id="meetActions">
                                     <button class="btn btn-success accept-button" >Accepter</button>
                                     <button class="btn btn-danger decline-button" >Refuser</button>

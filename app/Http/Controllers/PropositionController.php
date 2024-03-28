@@ -156,6 +156,7 @@ class PropositionController extends Controller
             foreach( $offer->preposition as $prep){
                 if($prep->id != $proposition->id){
                     $prep->status = "Rejetée";
+                    $prep->validation = 'none';                   
                     $prep->user->notify(new PropositionResult($prep,$prep->user));   
                     $prep->save();
                 }
