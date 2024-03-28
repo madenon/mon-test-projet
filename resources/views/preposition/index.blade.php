@@ -34,7 +34,7 @@
         @if((request()->has('in_progress')) && request()->input('in_progress')==0 )
         <form action="{{ route('propositions.index', ['in_progress'=>0]) }}" method="GET">
             <input type="text" name="in_progress" id="in_progress" value="0" hidden />
-            <div class="my-4 flex justify-between">
+            <div class="mx-1 my-4 grid md:grid-cols-4 grid-cols-1 md:gap-4 gap-1">
                 <div class="">
                     <select name="status" id="filterStatus" class="mt-1 p-2 border rounded-md" style="width: 200px;" onchange="this.form.submit()">
                         <option value="">Tous les status</option>
@@ -50,14 +50,20 @@
                     </select>
                     
                 </div>
-                <div class="flex justify-between items-center border">
-                    <div class="w-1/2 px-2">
+                <style>
+                    @media (max-width: 768px) {
+                        input, select{
+                            font-size: 0.75rem !important;
+                        }
+                    }
+                </style>
+                <div class="flex justify-between border py-1 w-4/5">
+                    <div class="px-1">
                         <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date')?? \Carbon\Carbon::now()->subMonths(6)->toDateString() }}" onchange="this.form.submit()">
                     </div>
-                    <div class="w-1/2 px-2">
+                    <div class="px-1">
                         <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date')?? now()->toDateString() }}" onchange="this.form.submit()">
                     </div>
-        
                 </div>
                 <div class="">
                     <input type="text" name="number_prop" value="{{ request('number_prop')}}" class="mt-1 p-2 border rounded-md" placeholder="N° proposition">
