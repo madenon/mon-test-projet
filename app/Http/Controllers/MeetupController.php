@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Meetup;
 use App\Models\Preposition;
-
+use App\Models\User;
+use App\Notifications\NewMeetUp;
 
 class MeetupController extends Controller
 {
@@ -39,6 +40,16 @@ class MeetupController extends Controller
             'user_id' => $userId,
         ]);
         $meetup->save();
+        $proposition = Preposition::where('id', $prepositionId)->firstOrFail();
+        $propositionuser=$proposition->user;
+        $offeruser=$proposition->offer->user;
+                $meetuser=User::find($userId);
+                if ($propositionuser->id !== $meetuser->id) {
+                   // $propositionuser->notify(new NewMeetUp($proposition,$propositionuser));
+                } elseif ($offeruser->id !== $meetuser->id) {
+                   // $offeruser->notify(new NewMeetUp($proposition, $offeruser));
+                } 
+        
 
         return response()->json(['success' => true]);
     }

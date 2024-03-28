@@ -140,8 +140,8 @@
                                     <div class="notification-dropdown-item-content" wire:click="read('{{$notification->id}}')">
                                         <a >
                                             <b>{{$notification?->data["name"] ?? null}}</b>
-                                            <span>{{$notification->data["content"]}}</span>
-                                            <strong>{{$notification->data["title"]}}</strong>
+                                            <span>{{$notification->data["content"] ?? null}}</span>
+                                            <strong>{{$notification->data["title"] ?? null}}</strong>
                                         </a>
                                         <button class="notification-delete-icon" data-notification-id="{{$notification->id}}">🗑️</button>
                                     </div>
