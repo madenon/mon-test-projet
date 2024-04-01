@@ -119,10 +119,7 @@ class User extends Authenticatable  implements MustVerifyEmail
         return $this->hasMany(Following::class, 'followed_id');
     }
     
-    public function sendEmailVerificationNotification()
-    {
-        $this->notify(new VerifyEmailNotification);
-    }
+   
     
      /**
      * Enter your own logic (e.g. if ($this->id === 1) to

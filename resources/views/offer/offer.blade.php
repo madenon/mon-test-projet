@@ -51,7 +51,7 @@
                                     <img src="{{ route('offer-pictures-file-path', $img->offer_photo) }}" alt="Image produit"
                                         class="zoomD h-[80px] hover:scale-110 rounded-lg hover:transition-transform hover:transform-gpu"
                                         onmouseover="changeMainImage('{{ $img->offer_photo }}')"
-                                        onmouseout="changeMainImage('{{ $offer->offer_default_photo }}')" />
+                                        onmouseout="changeMainImage('{{ $offer->defaultImage->offer_photo }}')" />
                                         @if(auth()->check() && $offer->user_id === auth()->user()->id)
                                     <div>
                                         <button class="bg-red-500 text-white p-1 rounded-full" onclick="deleteImage('{{ $img->id }}')">Supprimer</button>

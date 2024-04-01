@@ -34,7 +34,7 @@
         @if((request()->has('in_progress')) && request()->input('in_progress')==0 )
         <form action="{{ route('propositions.index', ['in_progress'=>0]) }}" method="GET">
             <input type="text" name="in_progress" id="in_progress" value="0" hidden />
-            <div class="mx-1 my-4 grid md:grid-cols-4 grid-cols-1 md:gap-4 gap-1">
+            <div class="my-4 flex justify-between">
                 <div class="">
                     <select name="status" id="filterStatus" class="mt-1 p-2 border rounded-md" style="width: 200px;" onchange="this.form.submit()">
                         <option value="">Tous les status</option>
@@ -50,20 +50,14 @@
                     </select>
                     
                 </div>
-                <style>
-                    @media (max-width: 768px) {
-                        input, select{
-                            font-size: 0.75rem !important;
-                        }
-                    }
-                </style>
-                <div class="flex justify-between border py-1 w-4/5">
-                    <div class="px-1">
+                <div class="flex justify-between items-center border">
+                    <div class="w-1/2 px-2">
                         <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date')?? \Carbon\Carbon::now()->subMonths(6)->toDateString() }}" onchange="this.form.submit()">
                     </div>
-                    <div class="px-1">
+                    <div class="w-1/2 px-2">
                         <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date')?? now()->toDateString() }}" onchange="this.form.submit()">
                     </div>
+        
                 </div>
                 <div class="">
                     <input type="text" name="number_prop" value="{{ request('number_prop')}}" class="mt-1 p-2 border rounded-md" placeholder="N° proposition">
@@ -95,7 +89,6 @@
                 <th>Rencontre</th>
                 <th>Chat</th>
                 <th>Validation</th>
-                <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -121,7 +114,6 @@
                         <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
                         <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
                         <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
-                        <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
                         <td nowrap  style="background-color : WhiteSmoke; border-bottom : 0" class="preposition-uuid">
                             <a type="button" href="#" style="color: #24a19c;">
                                 <span class="text-xs" >{{$preposition->uuid}}</span>
@@ -132,19 +124,22 @@
                     <tr>
                         <td>
                             @if($preposition->images)
-                            <img class="h-16 w-16 rounded-full" src="{{ route('proposition-pictures-file-path',$preposition->images) }}" alt="Proposition Image">
+                            <img class="h-16 w-16 rounded-full" src="{{ route('proposition-pictures-file-path',stripslashes(trim($preposition->images, '"'))) }}" alt="Proposition Image">
                             @endif
                         </td>
                         <td id="prepositioName-{{$preposition->id}}">
-                            <img src="{{ route('proposition-pictures-file-path',$preposition->images ?$preposition->images :'' ) }}" alt=""/>
+                            <img src="{{ route('proposition-pictures-file-path',stripslashes(trim($preposition->images, '"')) ?stripslashes(trim($preposition->images, '"')) :'' ) }}" alt=""/>
                             @livewire('split-long-text ', [
                                 'text' => $preposition->name,
                                 'parentClass' => '#prepositioName-'.$preposition->id,
                                 ])
                         </td>
                         <td id="prepositionOfferName-{{$preposition->id}}">
-                            <a class="no-underline font-medium hidden md:block text-sm md:text-base" href="{{route('offer.offer', [$preposition->offer->id, $preposition->offer->slug])}}">{{ $preposition->offer->title }}</a>
-
+                            @livewire('split-long-text ', [
+                                'text' => $preposition->offer_name,
+                                'parentClass' => '#prepositionOfferName-'.$preposition->id,
+                                'len' => 4,
+                                ])
                         </td>
                         <td>{{ $preposition->offer->price}}</td>
                         <td>{{ $preposition->price }}</td>
@@ -161,22 +156,17 @@
                             </span>
                         </td>
                         <td>
-                            @if($preposition->status == "Acceptée")
-                                @if($preposition->meetup)
-                                <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" >
-                                <i class="fas fa-calendar" style="color: #24a19c;"></i>
-                                </a>
-                                    @if($preposition->meetup->status == "rejected")
-                                    <a class="inline-block btn btn-primary" href="#" 
-                                        data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Ajouter</a>
-                                    @elseif($preposition->meetup->status == "accepted")
-                                    <a class="inline-block btn btn-primary" href="#" 
-                                        data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Modifier</a>
-                                    @endif
-                                @else 
-                                <a class="inline-block btn btn-primary" href="#" 
-                                        data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Planifier</a>
-                                @endif
+                            @if($preposition->meetup)
+                            <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" >
+                            <i class="fas fa-calendar" style="color: #24a19c;"></i>
+                            </a>
+                            @if($preposition->status != "pending")
+                            <a class="inline-block btn btn-primary" href="#" 
+                                    data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Modifier</a>
+                            @endif
+                            @else 
+                            <a class="inline-block btn btn-primary" href="#" 
+                                    data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Planifier</a>
                             @endif
                         </td>
                         
@@ -195,22 +185,22 @@
                             else $counterparty = $preposition->offer->user;
 
                             $isButton=null;
-                            $validation_text=null;
-                            if(!$preposition->validation || $preposition->validation == 'none'){
-                                if($preposition->status != 'Rejetée'){
-                                    $validation_text = $isReceiveid ? 'Valider la proposition' : 'En attente de validation';
-                                    $isButton = $isReceiveid ? true : false; 
-                                }else{
-                                    $validation_text =  'La proposition a été rejetée';
-                                    $isButton = false; 
+                                $validation_text=null;
+                                if(!$preposition->validation || $preposition->validation == 'none'){
+                                    if($preposition->status != 'Rejetée'){
+                                        $validation_text = $isReceiveid ? 'Valider la proposition' : 'En attente de validation';
+                                        $isButton = $isReceiveid ? true : false; 
+                                    }else{
+                                        $validation_text =  'La proposition a été rejetée';
+                                        $isButton = false; 
+                                    }
                                 }
-                            }
-                            else if($preposition->validation == 'validated'){
-                                $validation_text = $isReceiveid ? 'En attente de confirmation' : 'Confirmer la proposition';
-                                $isButton = $isReceiveid ? false : true; 
-                            }
-                            else if($preposition->validation == 'confirmed'){
-                                $transaction = $preposition->transaction;
+                                else if($preposition->validation == 'validated'){
+                                    $validation_text = $isReceiveid ? 'En attente de confirmation' : 'Confirmer la proposition';
+                                    $isButton = $isReceiveid ? false : true; 
+                                }
+                                else if($preposition->validation == 'confirmed'){
+                                    $transaction = $preposition->transaction;
                                     if(auth()->id() == $preposition->user->id){
                                         if($transaction->applicant_status == 'En cours'){
                                             $validation_text = 'Valider la transaction' ;
@@ -228,8 +218,7 @@
                                             $isButton = false ;  
                                         }
                                     } 
-                                }
-                                else{// confirmedTransaction
+                                }else{// confirmedTransaction
                                     $isButton = false ;  
                                     $validation_text = 'Transaction completée' ;
                                     $transaction = $preposition->transaction;
@@ -242,33 +231,23 @@
                                 @endphp 
                                 
                                 @if($isButton)
-                                    <div class="col-span-full d-flex items-center justify-center">
-                                    @if(!$preposition->validation || $preposition->validation == 'none')
+                                <div class="col-span-full d-flex items-center justify-center">
+                                @if(!$preposition->validation || $preposition->validation == 'none')
+                                <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="#" 
+                                    data-bs-toggle="modal" data-bs-target="#propositionValidationModal-{{$preposition->id}}">{{$validation_text}}</a>
+                                    @elseif($preposition->validation == 'validated')
                                     <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="#" 
-                                        data-bs-toggle="modal" data-bs-target="#propositionValidationModal-{{$preposition->id}}">{{$validation_text}}</a>
-                                        @elseif($preposition->validation == 'validated')
-                                        <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="#" 
-                                        data-bs-toggle="modal" data-bs-target="#propositionConfirmationModal-{{$preposition->id}}">{{$validation_text}}</a>
-                                        @elseif($preposition->validation == 'confirmed')
-                                    <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" 
-                                    href="{{route('transactions.index')}}" >{{$validation_text}}</a>
-                                    @endif
-                                </div>                              
-                                @else
+                                    data-bs-toggle="modal" data-bs-target="#propositionConfirmationModal-{{$preposition->id}}">{{$validation_text}}</a>
+                                    @elseif($preposition->validation == 'confirmed')
+                                <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" 
+                                href="{{route('transactions.index')}}" >{{$validation_text}}</a>
+                                @endif
+                            </div>                              
+                            @else
                                 <span>{{$validation_text}}</span>
                                 @endif
                             </td>
-                            <td>
-                                @if($preposition->status!='Acceptée' && $preposition->user==auth()->user())
-                                <a type="button" class="btn edit-button" data-bs-toggle="modal" data-bs-target="#editModal{{ $preposition->id }}">
-                                    <i class="fas fa-edit" style="color: #ffc107;"></i>
-                                </a>
-                                <a type="button" class="btn  delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $preposition->id }}" data-preposition-id="{{ $preposition->id }}">
-                                    <i class="fas fa-trash-alt" style="color: red"></i>
-                                </a>                                
-                                @endif
-                            </td>
-                        </tr>
+                            </tr>
                 @endforeach
             </tbody>
         </table>
@@ -293,7 +272,7 @@
             <div class="border border-2 border-gray-300 bg-white rounded-lg p-2 my-2">
                 <div class="flex justify-between">
                     <div>
-                        <img class="h-16 w-16 rounded-full" src="{{ route('proposition-pictures-file-path',$preposition->images??'') }}" alt="Proposition Image">
+                        <img class="h-16 w-16 rounded-full" src="{{ route('proposition-pictures-file-path',stripslashes(trim($preposition->images, '"'))??'') }}" alt="Proposition Image">
                         <!-- @if($preposition->images)
                         @endif -->
                     </div>
@@ -338,24 +317,18 @@
                         </a>
                     </div>
                     <div class="flex flex">
-                        @if($preposition->status == "Acceptée")
-                            @if($preposition->meetup)
-                            <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" >
-                            <i class="fas fa-calendar" style="color: #24a19c;"></i>
-                            </a>
-                                @if($preposition->meetup->status == "rejected")
-                                <a class="inline-block btn btn-primary" href="#" 
-                                    data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Ajouter</a>
-                                @elseif($preposition->meetup->status == "accepted")
-                                <a class="inline-block btn btn-primary" href="#" 
-                                    data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Modifier</a>
-                                @endif
-                            @else 
-                            <a class="inline-block btn btn-primary" href="#" 
-                                    data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Planifier</a>
-                            @endif
+                        @if($preposition->meetup)
+                        <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" data-bs-toggle="modal" data-bs-target="#meetModal">
+                        <i class="fas fa-calendar" style="color: #24a19c;"></i>
+                        @if($preposition->status != "pending")
+                        <a class="inline-block btn btn-primary" href="#" 
+                                data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Modifier</a>
                         @endif
-
+                        </a>
+                        @else 
+                        <a class="inline-block btn btn-primary" href="#" 
+                        data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Planifiez</a>
+                        @endif
                     </div>
                     <div class="flex flex-col">
                         <div class="flex">
@@ -437,17 +410,6 @@
                     </div>
                     @endif
                 </div>
-                
-                <div class="flex justify-center">
-                    @if($preposition->status!='Acceptée' && $preposition->user==auth()->user())
-                    <a type="button" class="btn edit-button" data-bs-toggle="modal" data-bs-target="#editModal{{ $preposition->id }}">
-                        <i class="fas fa-edit" style="color: #ffc107;"></i>
-                    </a>
-                    <a type="button" class="btn  delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $preposition->id }}" data-preposition-id="{{ $preposition->id }}">
-                        <i class="fas fa-trash-alt" style="color: red"></i>
-                    </a>                                
-                    @endif
-                </div>
 
                     
             </div>       
@@ -479,12 +441,11 @@
                                 <td id="meetTime"></td>
                                 <td id="meetDescription"></td>
                                 <td id="meetStatus"></td>
-                                @if($preposition && $preposition->meetup && $preposition->meetup->user_id != auth()->id() && $preposition->meetup->status == "pending")
                                 <td id="meetActions">
                                     <button class="btn btn-success accept-button" >Accepter</button>
                                     <button class="btn btn-danger decline-button" >Refuser</button>
                                 </td>
-                                @endif
+                                
 
                             </tbody>
                         </table>
@@ -589,9 +550,7 @@
         $('#meetModal #meetDate').text(meetDate);
         $('#meetModal #meetTime').text(meetTime);
         $('#meetModal #meetStatus').text(meetStatus);
-        if(descriptionData.status=="accepted"){
-            $('#meetModal #meetActions').hide();
-        }
+       
         var actions = $('#meetModal #meetActions');
         if (descriptionData.user_id != {{ auth()->id() }} && descriptionData.status == "pending") {
             actions.html('<button class="btn btn-success accept-button">Accepter</button> <button class="btn btn-danger decline-button">Refuser</button>');
