@@ -57,7 +57,7 @@
                     </select>
                     
                 </div>
-                <div class="flex justify-between items-center border py-1 w-4/5">
+                <div class=" border py-1 w-4/5">
                     <div class="px-1">
                         <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date')?? \Carbon\Carbon::now()->subMonths(6)->toDateString() }}" onchange="this.form.submit()">
                     </div>
@@ -66,15 +66,15 @@
                     </div>
         
                 </div>
-                <div class="">
-                    <input type="text" name="number_trans" value="{{ request('number_trans')}}" class="mt-1 p-2 border rounded-md" placeholder="N° transaction">
+                <div class="max-w-screen-lg">
+                    <input type="text" name="number_trans" value="{{ request('number_trans')}}" class=" md:w-1/2 mt-1 p-2 border rounded-md" placeholder="N° transaction">
                     
                     <button type="submit" class="ml-2 text-blue-500 hover:text-blue-700">
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
                 </div>
                 <div class="">
-                    <input type="text" name="name_offer" value="{{ request('name_offer') }}" class="mt-1 p-2 border rounded-md" placeholder = 'Offer name'>
+                    <input type="text" name="name_offer" value="{{ request('name_offer') }}" class="md:w-1/2 mt-1 p-2 border rounded-md" placeholder = 'Offer name'>
                     
                     <button type="submit" class="ml-2 text-blue-500 hover:text-blue-700">
                         <i class="fa fa-search" aria-hidden="true"></i>

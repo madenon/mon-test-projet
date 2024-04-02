@@ -40,7 +40,7 @@
                 <div class="mb-4">
                     <label for="offerPrice" class="block text-sm font-medium text-gray-600">Prix de l'offre:</label>
                     <div class="relative">
-                    <input type="text" class="form-input mt-1 block w-full" id="offerPrice" value="{{ $offer->price }}" readonly>
+                    <input type="number" class="form-input mt-1 block w-full" id="offerPrice" value="{{ $offer->price }}" readonly>
                     <div class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-600">
                             €
                         </div>
@@ -54,7 +54,7 @@
 
                     @endif
                     <div class="relative">
-                        <input type="text" class="form-input mt-1 block w-full pr-10" id="propositionPrice" name="price">
+                        <input type="number" step=0.01 class="form-input mt-1 block w-full pr-10" id="propositionPrice" name="price">
                         <div class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-600">
                             €
                         </div>

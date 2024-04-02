@@ -211,7 +211,7 @@
                             </div>
                         </div>
 
-                        <div class="offer_owner md:mb-3" >
+                        <div class="offer_owner md:mb-10" >
                             <div class="flex gap-3 ">
                                 <div class="relative">
                                     @if (!$offer->user->profile_photo_path)
@@ -240,7 +240,9 @@
 
                                         
                                     </span>
+                                    @if($offer->user->statusPro=='accepted')
                                     <img src="/images/Badge-pro.svg" alt="" class="pb-3 ">
+                                    @endif
                                 </div>
                             </div>
                         </div>

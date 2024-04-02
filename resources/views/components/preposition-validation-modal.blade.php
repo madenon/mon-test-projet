@@ -11,7 +11,6 @@
                 <table class="table align-middle mb-0 bg-white">
                     <thead class="bg-light">
                         <tr>
-                            <th class="hidden md:block">Image</th>
                             <th>Statut</th>
                             <th>Utilisateur</th>
                             <th>Actions</th>
@@ -19,7 +18,6 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td  class="hidden md:block"> <img id="modalImage" src="" class="w-full md:w-1/4 modalzoomD" style="max-width:200px;" alt="Image"> </td>
                             <td id="modalStatus">
                                 <span class="badge {{ getStatusBadgeClass($preposition->status) }} rounded-pill d-inline">
                                     {{ $preposition->status }}

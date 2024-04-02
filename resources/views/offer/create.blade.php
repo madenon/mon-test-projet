@@ -311,7 +311,7 @@
                                 <hr>
                                     <div class="form-group">
                                         <label for="valueInput">Valeur</label>
-                                        <input type="number" class="form-control" id="valueInput" name="valueInput" placeholder="Prix en €" value="0">
+                                        <input type="number" step="0.01" class="form-control" id="valueInput" name="valueInput" placeholder="Prix en €" value="0">
                                     </div>
 
                                     <!-- Checkbox for "autorise la vente" -->
@@ -497,7 +497,7 @@
     const yearsOfExperienceDropdownElement = document.getElementById('experience-dropdown')
 
     const experienceOrLevel = (selectedValue) => {
-        const hasCondition = [7,6,1, "7","6","1"]
+        const hasCondition = [6,1, ,"6","1"]
         const hasExprience = 2
         if(hasCondition.includes(selectedValue)){
             // if bien, don, moment => show condition dropdown
