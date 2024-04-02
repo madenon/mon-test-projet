@@ -93,6 +93,7 @@
                         <td class="py-2 px-4 border-b">{{ $user->userInfo->siren_number }}</td>
                         <td class="py-2 px-4 border-b">
                             <img class="h-16 w-16 rounded-full" src="{{ route('company_document_identification-file-path',$user->userInfo->company_identification_document??'') }}" alt="Document Image">
+                            <!-- <a class="h-16 w-16 rounded-full" href="{{ route('company_document_identification-file-path',$user->userInfo->company_identification_document??'') }}">{{$user->userInfo->company_identification_document}}</a> -->
 
                         </td>
                     </tr>

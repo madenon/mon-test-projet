@@ -67,7 +67,7 @@
                 
                 <div class="mt-4 professional flex items-center w-full relative border-dashed border-2 border-gray-300 rounded-md px-3 py-2 div-file">
                     <label for="company_identification_document" class="cursor-pointer w-full">
-                        <input id="company_identification_document" type="file" name="company_identification_document" accept="image/*, application/pdf"
+                        <input id="company_identification_document" type="file" name="company_identification_document" accept="application/pdf"
                             class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
                             style="width: 0; height: 0;">
                         <div class="flex items-center justify-center gap-4 text-center w-full">
