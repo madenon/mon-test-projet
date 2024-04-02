@@ -364,11 +364,26 @@
                             
                         </span>
                         @endif
+                        @if ($offer->send_authorized)
+                            <style>
+                                .bg-with-primary{
+                                    background-color : #24A19C;
+                                }
+                            </style>
+
+                            <span class="flex bg-with-primary  rounded-full px-1 py-1 gap-1 text-white">
+                                <span class="text-center text-xs md:text-base">€ Envoi autorisé</span>
+                            </span>
+                            @endif
                     </div>
                     <div class="m-4 bg-gray-100 p-4 rounded-lg">
+                        @if ($offer->type->name=='Moment')
+                        <h5>À PARTAGER AVEC :</h5>
+                        @else
                         <h5>À ÉCHANGER CONTRE :</h5>
+                        @endif
                         <span class="flex gap-2 px-5">
-                        @if($offer->specify_proposition)
+                        @if($offer->specify_proposition && $offer->type->name!='Moment' )
                             <img src="/images/Icon.svg" alt="">
                             <span>
                                 Etudie toute proposition
@@ -379,9 +394,15 @@
                         @foreach (json_decode($offer->dynamic_inputs, true)?? [] as $prop )
                         @if($prop!=null)
                         <span class="flex gap-2 px-5">
-                            <img src="/images/Icon.svg" alt="">  {{$prop}} </span>
+                        @if (!is_numeric($prop))
+                            <img src="/images/Icon.svg" alt="">  {{$prop}}
+                            @else
+                            <img src="/images/Icon.svg" alt="">  {{$prop}} partenaire(s).
+                        </span>
+                            @endif
                             @endif
                                 @endforeach
+
                                 @endif
                     </div>
                 </div>
