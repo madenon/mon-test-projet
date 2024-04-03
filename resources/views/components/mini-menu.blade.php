@@ -36,6 +36,7 @@
         </a>
     </li>
     @if(auth()->user()->statusPro != "none")
+    @if(auth()->user()->statusPro != "accepted" && auth()->user()->pro_on != false)
     <li>
         <a href="{{ route('myaccount.pro') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:w-56 group no-underline {{ request()->routeIs('myaccount.pro') ? 'font-bold' : '' }}">
             <img src="{{ asset('images/speech-bubble.svg') }}" class="header-user-avatar-dropdown-item-img w-4 h-4" alt="" />
@@ -43,5 +44,6 @@
             <span class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300"></span>
         </a>
     </li>
+    @endif
     @endif
 </ul>

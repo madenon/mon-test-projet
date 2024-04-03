@@ -424,7 +424,7 @@
                 showCancelButton: false,
                 showConfirmButton: false
             }).then((result) => {
-                location.reload();
+                window.location.href = "{{route('home')}}";
             });
         }else{
             Swal.fire({
