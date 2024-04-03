@@ -38,13 +38,12 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // dd($request->all());
         $request->validate([
             'first_name' => ['required', 'string', 'min:2', 'max:50'],
             'last_name' => ['required', 'string', 'min:2', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'phone' => ['required', 'string', 'unique:user_infos', 'regex:/(33)[0-9]{9}/'],
+            'phone' => ['required', 'string', 'unique:user_infos', 'regex:/[0-9]{9}/'],
             'gender' => [new Enum(Gender::class)],
             'bio' => ['nullable', 'string', 'max:300'],
             'nickname' => ['required', 'unique:user_infos', 'min:2', 'max:100'],
@@ -90,7 +89,8 @@ class RegisteredUserController extends Controller
                 'avatar'=> $storePicture,
                 'name' => trim($request->first_name) . ' ' . trim($request->last_name),
                 'is_pro' => false,
-                'statusPro' => $request->is_pro ? "pending" : "none"
+                "role" => "user",
+                'statusPro' => $request->is_pro ? "pending" : "none",
             ]);
             Storage::putFileAs('public/profile_pictures', $request->profile_photo_path, $storePicture);
             
@@ -120,7 +120,7 @@ class RegisteredUserController extends Controller
                 
         $user->userInfo()->create([
             'user_id' => $user->id,
-            'phone' => $data['phone'],
+            'phone' => '+33'.$data['phone'],
             'nickname' => $data['nickname'],
             'gender' => $data['gender'],
             'bio' => $data['bio'],

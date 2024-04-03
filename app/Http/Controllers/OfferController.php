@@ -118,6 +118,7 @@ class OfferController extends Controller
 
     public function store(Request $request)
     {
+        
         $request->validate([
             'type' => ['required'],
             'experience' => ['nullable'],

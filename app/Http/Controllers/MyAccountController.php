@@ -189,7 +189,7 @@ class MyAccountController extends Controller
             'subcategory' => ['required_if:old_subcategory, $offer->subcategory_id'],
             'region' => ['required_if:old_region, $offer->department->region_id'],
             'department' => ['required_if:old_department, $offer->department_id'],
-            'title' => ['required', 'string', 'between:5,100'],
+            'title' => ['required', 'string', 'between:2,100'],
             'description' => ['string'],
             'default_image' => ['nullable','image','mimes:jpeg,png','max:4096'], 
             'additional_images.*' => ['nullable','image','mimes:jpeg,png','max:4096'], 

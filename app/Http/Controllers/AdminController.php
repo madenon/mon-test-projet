@@ -183,6 +183,8 @@ class AdminController extends Controller
         $user = User::find($request->userId);
         if($user){
             $user->statusPro = $request->status;
+            if($request->status == "accepted") $user->pro_on = true;
+            else $user->pro_on = false;
             $user->pro_reason = $request->reason;
             $user->save();
         }
@@ -435,7 +437,7 @@ return view('admin.transaction-list', compact('transactions'));
         $campaign = Campaign::findOrFail($id);
        $campaign->delete();
 
-        //return redirect()->route('admin.transactions')->with('success', 'Transaction deleted successfully');
+        return redirect()->back()->with('success', 'Campaign deleted successfully');
     }
     public function addCampaign(Request $request){
         $campaigns = Campaign::all();

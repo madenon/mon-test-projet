@@ -136,18 +136,17 @@
                             @endif
                         </td>
                         <td id="prepositioName-{{$preposition->id}}">
-                            <img src="{{ route('proposition-pictures-file-path',stripslashes(trim($preposition->images, '"')) ?stripslashes(trim($preposition->images, '"')) :'' ) }}" alt=""/>
                             @livewire('split-long-text ', [
                                 'text' => $preposition->name,
                                 'parentClass' => '#prepositioName-'.$preposition->id,
                                 ])
                         </td>
                         <td id="prepositionOfferName-{{$preposition->id}}">
-                            @livewire('split-long-text ', [
-                                'text' => $preposition->offer_name,
-                                'parentClass' => '#prepositionOfferName-'.$preposition->id,
-                                'len' => 4,
-                                ])
+                            
+                            <a class="no-underline font-medium hidden md:block text-sm md:text-base" href="{{route('offer.offer', [$preposition->offer->id, $preposition->offer->slug])}}">
+                                {{$preposition->offer_name}}
+                            </a>
+                                
                         </td>
                         <td>{{ $preposition->offer->price}}</td>
                         <td>{{ $preposition->price }}</td>
@@ -299,7 +298,11 @@
                     </div>
                 </div>
                 <div class="mt-2">
-                    L'Offre : {{$preposition->offer_name}}
+                    L'Offre :
+                    <a class="no-underline font-medium md:block text-sm md:text-base" href="{{route('offer.offer', [$preposition->offer->id, $preposition->offer->slug])}}">
+                         {{$preposition->offer_name}}
+                    </a>
+                                
                 </div>
                 <div class="flex justify-between items-center my-1">
                     <div class="flex flex-col">

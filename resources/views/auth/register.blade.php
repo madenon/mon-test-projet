@@ -119,15 +119,32 @@
                         placeholder="Prenom" />
                     <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
                 </div>
-                <div class="flex space-x-4">
-                    <x-text-input id="email" class="block mt-1 w-full focus:border-primary-color" type="email"
+                <div class="flex space-x-8">
+                    <x-text-input id="email" class="block mt-1 focus:border-primary-color" type="email"
                         name="email" :value="old('email')" required autofocus autocomplete="email"
                         placeholder="Email" />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                    <x-text-input id="phone" class="block mt-1 w-full focus:border-primary-color" type="text"
-                        name="phone" :value="old('phone')" required autofocus autocomplete="phone"
-                        placeholder="Téléphone" />
-                    <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                    <style>
+                    /* Chrome, Safari, Edge, Opera */
+                    input::-webkit-outer-spin-button,
+                    input::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                    }
+
+                    /* Firefox */
+                    input[type=number] {
+                    -moz-appearance: textfield;
+                    }
+                    </style>
+                    <div class="flex space-x-2">
+                        <x-text-input id="phone" class="block mt-1 w-3/12 focus:border-primary-color" type="text"
+                        name="phone" :value="+33" require readonly value="+33" />
+                        <x-text-input id="phone" class="block mt-1 w-full focus:border-primary-color" type="number" pattern="[0-9]{9}"
+                            name="phone" :value="old('phone')" required autofocus autocomplete="phone"
+                            placeholder="Téléphone"  min="0"/>
+                        <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                    </div>
                 </div>
                 <div class="mt-4">
                     <x-text-input id="nickname" class="block mt-1 w-full focus:border-primary-color" type="text"

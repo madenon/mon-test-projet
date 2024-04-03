@@ -170,7 +170,7 @@
                             <div class="w-full">
                                 <label for="title" class="text-sm text-text block">Titre</label>
                                 <input id="title" name="title" placeholder="Titre d'annonce ici" type="text"
-                                    class="w-full rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover"
+                                    class="w-full rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover atLeast2"
                                      autofocus />
                                 <x-input-error class="mt-2" :messages="$errors->get('title')" />
                             </div>
@@ -895,7 +895,15 @@ function validateForm() {
     }else{
         y[i].classList.remove("invalid");
     }
+    
+    if(y[i].classList.contains("atLeast2")){
+        if(y[i].value.length < 2){
+            appendError("Le titre doit contenir au moins 2 lettres");
+            valid = false;
+        }
+    }
   }
+  
   for (i = 0; i < z.length; i++) {
     if ((window.getComputedStyle(z[i].parentNode, null).display != "none") && z[i].value === "0") {
         z[i].classList.add("invalid");

@@ -21,8 +21,8 @@
                 <label class="block text-sm font-medium text-gray-700">Filter by Status:</label>
                 <select name="isOpen" id="filterRole" class="mt-1 p-2 border rounded-md" onchange="this.form.submit()">
                     <option value=""> All satus</option>
-                    <option value="1" {{ $request->has('isOpen') && $request('isOpen') == 1? 'selected':'' }}>Open</option>
-                    <option value="0" {{ $request->has('isOpen') && $request('isOpen') == 0? 'selected':'' }}>Solved</option>
+                    <option value="1" {{ request()->has('isOpen') && request()->isOpen == 1? 'selected':'' }}>Open</option>
+                    <option value="0" {{ request()->has('isOpen') && request()->isOpen == 0? 'selected':'' }}>Solved</option>
                 </select>
             </div>
             <div class="mb-4">

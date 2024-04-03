@@ -10,7 +10,8 @@
                                 <div class="mt-4 col-3 flex flex-col justify-center">
                                     <img src="{{ route('profile_pictures-file-path',$user->avatar) }}" class="rounded-full w-20 h-20 border-slate-900 mx-auto"/>
                                     <div class="text-center mt-2">
-                                        <h3 class="text-lg text-slate-700 font-bold leading-normal mb-1">{{$user->first_name. " ". $user->last_name}}</h3>
+                                        <h3 class="text-lg text-slate-700 font-bold leading-normal mb-1">{{$user->name}}</h3>
+                                        <h6 class="text-slate-700 leading-normal mb-1">{{$user->first_name. " ". $user->last_name}}</h6>
                                         <div class="text-xs mt-0 mb-2 text-slate-400 font-bold uppercase">
                                             <i class="fas fa-map-marker-alt mr-2 text-slate-400 opacity-75"></i>Paris, France
                                         </div>
