@@ -149,7 +149,7 @@ class RegisteredUserController extends Controller
         ], [
             'social_reason' => 'La raison sociale est invalide',
             'siren_number' => 'Le numero de sirene est invalide',
-            'company_identification_document' => 'Le document d\'identification d\'entreprise est invalide',
+            'company_identification_document' => 'Le document est invalide. Veuillez entrer un fichier au format PDF.',
         ]);
         DB::transaction(function () use ($request) {            
             $extention = explode("/", $request->company_identification_document->getMimeType())[1];
@@ -169,9 +169,9 @@ class RegisteredUserController extends Controller
                 'company_identification_document' => $storePicture,
             ]); 
             
-            foreach(User::all() as $user){
-                if($user->is_admin)
-                $user->notify(new proRequest($user));             
+            foreach(User::all() as $oneuser){
+                if($oneuser->is_admin)
+                $oneuser->notify(new proRequest($user));             
             }
             
         });

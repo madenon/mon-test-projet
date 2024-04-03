@@ -311,7 +311,7 @@
                                 <hr>
                                     <div class="form-group">
                                         <label for="valueInput">Valeur</label>
-                                        <input type="number" step="0.01" class="form-control" id="valueInput" name="valueInput" placeholder="Prix en €" value="0">
+                                        <input type="number" step="any" min="0" class="form-control" id="valueInput" name="valueInput" placeholder="Prix en €" value="0">
                                     </div>
 
                                     <!-- Checkbox for "autorise la vente" -->

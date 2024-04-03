@@ -313,7 +313,7 @@
                             Le niveau:
                         </span>
                         <span class="text-titles text-lg flex gap-2 ">
-                            <p>{{ $experienceMapping[$offer->condition] }}</p>
+                            <p>{{ $experienceMapping[$offer->experience] }}</p>
                         </span>
                     </div>
                 </div>

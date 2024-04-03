@@ -45,9 +45,9 @@ class MeetupController extends Controller
         $offeruser=$proposition->offer->user;
                 $meetuser=User::find($userId);
                 if ($propositionuser->id !== $meetuser->id) {
-                   // $propositionuser->notify(new NewMeetUp($proposition,$propositionuser));
+                    $propositionuser->notify(new NewMeetUp($proposition,$propositionuser));
                 } elseif ($offeruser->id !== $meetuser->id) {
-                   // $offeruser->notify(new NewMeetUp($proposition, $offeruser));
+                    $offeruser->notify(new NewMeetUp($proposition, $offeruser));
                 } 
         
 

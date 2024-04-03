@@ -130,11 +130,13 @@ class OfferController extends Controller
             'description' => ['required','string'],
             'default_image' => ['required','image','mimes:jpeg,png','max:4096'],
             'additional_images.*' => ['nullable','image','mimes:jpeg,png','max:4096'],
+            'additional_images' => ['max:10'],
         'valueInput' => 'nullable|numeric',
         ], [
             'title' => 'Le nom de l\'annonce doit contenir entre 2 et 100 caractères.',
             'default_image.max' => 'Vous ne pouvez pas télécharger plus de 4mb.',
             'default_image.mimes' => 'Les fichiers téléchargés doivent être au format jpg ou png.',
+            'additional_images.max' => 'Le nombre maximal d\'images autorisé est :max.',
         ]);
 
         $slug = Str::slug($request->title, '-');
@@ -242,7 +244,6 @@ class OfferController extends Controller
             'default_image.max' => 'Vous ne pouvez pas télécharger plus de 4mb.',
             'default_image.mimes' => 'Les fichiers téléchargés doivent être au format jpg ou png.',
         ]);
-       
 
             if($request->has('additional_images')){
                 $offerId = $request->input('offer_id');

@@ -110,7 +110,7 @@ class TransactionController extends Controller
             }   
         }
         
-        if($transaction->applicant_status == 'Acceptée' || $transaction->offeror_status == 'Acceptée' ){
+        if($transaction->applicant_status == 'Réussi' && $transaction->offeror_status == 'Réussi' ){
             $offer = $transaction->proposition->offer;
             $offer->is_online = false;
             $offer->active_offer = false;

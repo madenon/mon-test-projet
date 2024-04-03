@@ -82,7 +82,7 @@ Route::get(
 Route::get(
     'storage/company_document_identification/{name}',
     function(Request $request){
-        $url=storage_path('app/public/company_document_identification/'.$request->name);
+        $url=storage_path('app/public/company_identification_document/'.$request->name);
         return response()->file($url);
     }
 )->name('company_document_identification-file-path');
