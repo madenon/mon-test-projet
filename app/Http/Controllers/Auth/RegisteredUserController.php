@@ -17,6 +17,7 @@ use Illuminate\Validation\Rules\Enum;
 use Illuminate\View\View;
 use App\Enums\Gender;
 use App\Notifications\proRequest;
+use Imagick;
 
 
 
@@ -67,7 +68,7 @@ class RegisteredUserController extends Controller
             $request->validate([
                 'social_reason' => ['required', 'string', 'min:2', 'max:150'],
                 'siren_number' => ['required', 'string', 'min:2', 'max:150'],
-                'company_identification_document' => ['required','image', 'max:12288', 'mimes:jpeg,jpg,png'],
+                'company_identification_document' => ['required','mimes:pdf', 'max:10000'],
             ], [
                 'social_reason' => 'La raison sociale est invalide',
                 'siren_number' => 'Le numero de sirene est invalide',
@@ -144,14 +145,13 @@ class RegisteredUserController extends Controller
         $request->validate([
             'social_reason' => ['required', 'string', 'min:2', 'max:150'],
             'siren_number' => ['required', 'string', 'min:2', 'max:150'],
-            'company_identification_document' => ['required','image', 'max:12288', 'mimes:jpeg,jpg,png'],
+            'company_identification_document' => ['required','mimes:pdf', 'max:10000'],
         ], [
             'social_reason' => 'La raison sociale est invalide',
             'siren_number' => 'Le numero de sirene est invalide',
             'company_identification_document' => 'Le document d\'identification d\'entreprise est invalide',
         ]);
-        DB::transaction(function () use ($request) {
-    
+        DB::transaction(function () use ($request) {            
             $extention = explode("/", $request->company_identification_document->getMimeType())[1];
             $storePicture = uniqid() . '.' . $extention;
             
