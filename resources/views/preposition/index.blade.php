@@ -23,6 +23,7 @@
         });
     </script>
     <div class="container px-0">    
+    <h1 class="my-6">Mes propositions</h1>
         <div class="flex space-x-4 mt-4 mx-2">
             <div class="pe-4" style="{{ !(request()->has('in_progress')) || request()->input('in_progress')==1 ?  'border-bottom: 2px solid #24a19c' : ''}}">
                 <a href="{{route('propositions.index', ['in_progress'=>1])}}" class="text-gray-600 hover:text-gray-800 no-underline focus:outline-none focus:text-gray-800 transition duration-300 ease-in-out">En cours</a>
@@ -34,9 +35,16 @@
         @if((request()->has('in_progress')) && request()->input('in_progress')==0 )
         <form action="{{ route('propositions.index', ['in_progress'=>0]) }}" method="GET">
             <input type="text" name="in_progress" id="in_progress" value="0" hidden />
-            <div class="my-4 flex justify-between">
+            <div class="mx-1 my-4 grid md:grid-cols-4 grid-cols-1 md:gap-4 gap-1">
+                <style>
+                    @media (max-width: 768px) {
+                        input, select{
+                            font-size: 0.75rem !important;
+                        }
+                    }
+                </style>
                 <div class="">
-                    <select name="status" id="filterStatus" class="mt-1 p-2 border rounded-md" style="width: 200px;" onchange="this.form.submit()">
+                    <select name="status" id="filterStatus" class="md:w-1/2 mt-1 p-2 border rounded-md" style="width: 200px;" onchange="this.form.submit()">
                         <option value="">Tous les status</option>
                         <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
                             pending
@@ -50,17 +58,17 @@
                     </select>
                     
                 </div>
-                <div class="flex justify-between items-center border">
-                    <div class="w-1/2 px-2">
+                <div class=" border py-1 w-4/5">
+                    <div class="px-2">
                         <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date')?? \Carbon\Carbon::now()->subMonths(6)->toDateString() }}" onchange="this.form.submit()">
                     </div>
-                    <div class="w-1/2 px-2">
+                    <div class="px-2">
                         <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date')?? now()->toDateString() }}" onchange="this.form.submit()">
                     </div>
         
                 </div>
                 <div class="">
-                    <input type="text" name="number_prop" value="{{ request('number_prop')}}" class="mt-1 p-2 border rounded-md" placeholder="N° proposition">
+                    <input type="text" name="number_prop" value="{{ request('number_prop')}}" class=" mt-1 p-2 border rounded-md" placeholder="N° proposition">
                     
                     <button type="submit" class="ml-2 text-blue-500 hover:text-blue-700">
                         <i class="fa fa-search" aria-hidden="true"></i>

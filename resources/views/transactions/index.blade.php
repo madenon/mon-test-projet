@@ -23,6 +23,7 @@
         });
     </script>
     <div class="container px-0">
+    <h1 class="my-6">Mes transactions</h1>
         <div class="flex space-x-4 mt-4 mx-2">
             <div class="pe-4" style="{{ !(request()->has('in_progress')) || request()->input('in_progress')==1 ?  'border-bottom: 2px solid #24a19c' : ''}}">
                 <a href="{{route('transactions.index', ['in_progress'=>1])}}" class="text-gray-600 hover:text-gray-800 no-underline focus:outline-none focus:text-gray-800 transition duration-300 ease-in-out">En cours</a>
@@ -42,8 +43,8 @@
                         }
                     }
                 </style>
-                <div class="">
-                    <select name="status" id="filterStatus" class="mt-1 p-2 border rounded-md" style="width: 200px;" onchange="this.form.submit()">
+                <div class="" style="width: 300px;">
+                    <select name="status" id="filterStatus" class="md:w-1/2 mt-1 p-2 border rounded-md"  onchange="this.form.submit()">
                         <option value="">Tous les status</option>
                         <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
                             pending

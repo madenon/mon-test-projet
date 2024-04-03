@@ -398,8 +398,9 @@
                             <img src="/images/Icon.svg" alt="">  {{$prop}}
                             @else
                             <img src="/images/Icon.svg" alt="">  {{$prop}} partenaire(s).
-                        </span>
                             @endif
+
+                        </span>
                             @endif
                                 @endforeach
 
@@ -437,7 +438,9 @@
                                 <span class="text-green-500">En ligne</span>
                                 @endif
                             </span>
+                            @if($offer->user->statusPro=='accepted')
                             <img src="/images/Badge-pro.svg" alt="" class="pb-3 ">
+                            @endif
                         </div>
                         <div class="flex flex-col ">
                             <span>

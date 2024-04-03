@@ -133,9 +133,27 @@
                             <img src="/images/Stack.svg" alt="" class="">
                             {{$offer->subcategory->name}}
                         </div>
+                       @if($offer->type->name!='Moment')
+                       @if($offer->specify_proposition)
                         <div class=" text-titles text-xs mt-3 hidden md:block">
-                            <h6 class=" font-normal ">A ECHANGER CONTRE</h6>
+                            <h6 class=" font-normal ">  Etudie toute proposition</h6>
                         </div>
+                        @endif
+                        @else
+                        <div class=" text-titles text-xs mt-3 hidden md:block">
+                            <h6 class=" font-normal ">À PARTAGER AVEC :</h6>
+                            @if($offer->dynamic_inputs)
+                        @foreach (json_decode($offer->dynamic_inputs, true)?? [] as $prop )
+                        @if($prop!=null && is_numeric($prop))
+                        <span class="px-5">
+                             {{$prop}} partenaire(s).
+                        </span>
+                            @endif
+                                @endforeach
+
+                                @endif
+                        </div>
+                        @endif
                         <div class=" mt-3 flex w-full md:mb-3 ">
                             <div class=" w-[40%] flex gap-1 items-center">
                                 <img src="/images/map-pin.svg" alt="">

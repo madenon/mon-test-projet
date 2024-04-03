@@ -87,7 +87,7 @@ Route::get(
     }
 )->name('company_document_identification-file-path');
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('check.offers');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
