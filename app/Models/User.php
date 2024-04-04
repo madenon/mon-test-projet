@@ -120,8 +120,11 @@ class User extends Authenticatable  implements MustVerifyEmail
         return $this->hasMany(Following::class, 'followed_id');
     }
     
-   
-    
+    public function badges()
+    {
+        return $this->belongsToMany(Badge::class);
+    }
+        
      /**
      * Enter your own logic (e.g. if ($this->id === 1) to
      *   enable this user to be able to add/edit blog posts
