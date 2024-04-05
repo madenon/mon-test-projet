@@ -28,6 +28,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 
 
@@ -101,7 +102,9 @@ Route::get('/about', function(){
     return view('about');
  })->name('about');
 
-
+//Oauth
+Route::get('auth/google', [AuthenticatedSessionController::class,'redirectToGoogle']);
+Route::get('auth/google/callback', [AuthenticatedSessionController::class,'handleGoogleCallback']);
 
 //Define Admin Routes
 Route::controller(AdminController::class)->prefix('/admin')->group(function () {

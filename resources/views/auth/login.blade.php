@@ -7,7 +7,7 @@
     </div>
     <div class="flex justify-center items-center space-x-4 mt-[6vh] google-fb">
         <!--  Bouton "Sign In with Google" -->
-        <a href=""
+        <a href="{{ url('auth/google') }}"
             class="bg-white border border-gray-300 hover:border-gray-400 text-gray-700 px-4 py-2 rounded-md flex items-center space-x-2 google">
             <svg class="w-6 h-6" viewBox="0 0 256 262" xmlns="http://www.w3.org/2000/svg"
                 preserveAspectRatio="xMidYMid">
