@@ -66,6 +66,7 @@ class AuthenticatedSessionController extends Controller
 
     public function handleGoogleCallback()
     {
+        try{
         $google_user = Socialite::driver('google')->user();
         $user=User::where('google_id',$google_user->getId())->first();
         if(!$user){
@@ -82,6 +83,8 @@ else {
     Auth::login($user);
      redirect()->intended(RouteServiceProvider::HOME);
 
+}} catch(\Throwable $th){
+    dd('erreur message :'. $th->getMessage());
 }
 
         // Use $user to log in or register the user
