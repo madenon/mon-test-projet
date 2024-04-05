@@ -70,18 +70,11 @@ class AuthenticatedSessionController extends Controller
         $google_user = Socialite::driver('google')->user();
         $user=User::where('google_id',$google_user->getId())->first();
         if(!$user){
-$newuser=User::create([
-    'name' =>  $google_user->getName(),
-    'email' => $google_user->getEmail(),
-    'google_id' => $google_user->getId()
-
-]);
-Auth::login($newuser);
- redirect()->intended(RouteServiceProvider::HOME);
+            return redirect()->route('register')->with(['user' => $user]);
 }
 else {
     Auth::login($user);
-     redirect()->intended(RouteServiceProvider::HOME);
+    return redirect()->intended('/');
 
 }} catch(\Throwable $th){
     dd('erreur message :'. $th->getMessage());

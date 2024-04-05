@@ -42,7 +42,7 @@ class RegisteredUserController extends Controller
             'first_name' => ['required', 'string', 'min:2', 'max:50'],
             'last_name' => ['required', 'string', 'min:2', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+           // 'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => ['required', 'string', 'unique:user_infos', 'regex:/[0-9]{9}/'],
             'gender' => [new Enum(Gender::class)],
             'bio' => ['nullable', 'string', 'max:300'],
