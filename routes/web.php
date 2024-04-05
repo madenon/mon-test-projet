@@ -27,6 +27,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\DB;
+
 
 
 /*
@@ -132,6 +134,11 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
    Route::get('/offerInfos',  function () {
         return view('admin.offer-info');
     })->middleware('admin')->name('admin.offerInfos');
+   Route::get('/blogAdmin',  function () {
+        if (DB::table('binshops_languages')->exists())
+            return redirect()->route('binshopsblog.admin.index');
+        return redirect()->route('binshopsblog.admin.setup');
+    })->middleware('admin')->name('admin.blog');
     
    Route::get('/badges',  'badges')->middleware('admin')->name('admin.badges');
    Route::get('/contests',  'contest')->middleware('admin')->name('admin.contests');
@@ -258,7 +265,7 @@ Route::get('/ratings/{id}', [RatingController::class, 'index'])->name('ratings.i
 Route::middleware('auth', 'verified')->group(function () {
     Route::get(RouteServiceProvider::MYMESSAGES.'/{id}/{msgId}', [MessagesController::class,'viewMessage'])->name('messages.viewMessage');    
 });
-Route::middleware('auth',)->group(function () {
+Route::middleware('auth')->group(function () {
     Route::post('/ratings/rateOfferCounterParty', [RatingController::class,'rateCounterParty'])->name('ratings.rateCounterParty');    
     Route::get('/followings/{followedId}', [FollowingController::class,'follow'])->name('followings.follow');    
     Route::get('/unfollowings/{followedId}', [FollowingController::class,'unfollow'])->name('followings.unfollow');    

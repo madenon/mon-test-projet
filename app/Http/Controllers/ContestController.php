@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Contest;
+use App\Models\User;
 use Carbon\Carbon; 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-
+use App\Notifications\NewBadge;
 
 class ContestController extends Controller
 {
@@ -31,12 +32,39 @@ class ContestController extends Controller
     
     public function reinitiliaze(Request $request)
     {    
+        if($request->price){
+            $query = User::query();
+            
+            $query->has('offer');
+            
+            $contest = Contest::find(1);
+            
+            if($contest) {
+                $query->whereHas('offer', function ($query) use ($contest){
+                    $query->where('created_at', '>=', $contest->last_datetime);
+                });
+            }
+            $query->withCount('offer')->orderBy('offer_count', 'desc');
+            
+            $user = $query->first();
+            if($user){
+                $users = User::get();
+                foreach($users as $u){
+                    $u->notify(new NewBadge($user, "ContestWinner"));
+                }
+                DB::table('badge_user')->insert([
+                    "badge_id" => 5, // ContestWinner
+                    "user_id" => $user->id,
+                ]);
+            }
+        }
+        dd("yep");
         $contestData = [
             'last_datetime' => Carbon::now(),
         ];
         
         Contest::updateOrCreate(['id' => 1],$contestData);
-        
+    
         return redirect()->back()->with('success', 'Contest reinitialize successfully!');
         
     }
