@@ -24,13 +24,11 @@
                 </div>   
                 
             </form>
-            <form action="{{ route('contests.reinitiliaze') }}" method="POST">
-                @csrf
-                <div>
-                     <button type="submit" class=" bg-lime-600 my-4 p-2 rounded text-black" href="{{route('contests.reinitiliaze')}}">Remettre à zero</button>
-                </div>
+
+            <div>
+                <button class=" bg-lime-600 my-4 p-2 rounded text-black" onclick="reinitialize()">Remettre à zero</button>
+            </div>
                 
-            </form>
         </div>
 
        
@@ -113,6 +111,58 @@
         });
         
     });
+    
+    function reward(price){
+        $.ajax({
+            url: '/contests/reinitiliaze',
+            type: 'POST', // or 'GET', 'PUT', 'DELETE', etc.
+            dataType: 'json',// Change the datatype as needed
+            data: {
+                "price" : price,
+            },
+            success: function(response) {
+                // Request was successful, handle response here
+                console.log('Request successful');
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                // Request failed, handle error here
+                console.error('Request failed:', error);
+            }
+        });
+    }
+    function reinitialize() {
+        console.log("yep");
+        Swal.fire({
+            title: 'Remettre à zero ',
+            text: 'Etes vous sur de reinitialiser',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Confirmer',
+            cancelButtonText: 'Annuler',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Recompenser le gagnant',
+                    text: 'Souhaiter vous recompenser le premier de cette periode?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Confirmer',
+                    cancelButtonText: 'Annuler',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        reward(true);
+                    }else{
+                        reward(false);
+                    }
+                });
+            }
+        });
+    }
 
     
 </script>
