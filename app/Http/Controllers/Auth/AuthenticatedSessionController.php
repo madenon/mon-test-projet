@@ -67,18 +67,16 @@ class AuthenticatedSessionController extends Controller
     public function handleGoogleCallback()
     {
         try{
-     //  $google_user = Socialite::driver('google')->user();
-        $user=User::where('id',16)->first();
-        if($user){
-           // return redirect()->route('register')->with(['user' => $user]);
-            return view('auth.register',['user' => $user]);
+       $google_user = Socialite::driver('google')->user();
+        $user=User::where('google_id',$google_user->getId())->first();
+        if(!$user){
+            return view('auth.register',['user' => $google_user]);
 }
 else {
     Auth::login($user);
     return redirect()->intended('/');
 
 } 
-return view('auth.register',['myvar' => $user]);
 
 } catch(\Throwable $th){
     dd('erreur message :'. $th->getMessage());
