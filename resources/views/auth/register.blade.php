@@ -110,19 +110,19 @@
                     <input type="hidden" name="gender" id="selectedGenre" value="female">
                 </div>
                 <div class="flex space-x-4 mb-3">
-    <x-text-input id="first_name" class="block mt-1 w-full focus:border-primary-color" type="text"
-        name="first_name" :value="old('first_name', optional($user)->user['given_name'])" required autofocus autocomplete="first_name"
-        placeholder="Nom" />
-    <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
-    <x-text-input id="last_name" class="block mt-1 w-full focus:border-primary-color" type="text"
-        name="last_name" :value="old('last_name', optional($user)->user['family_name'])" required autofocus autocomplete="last_name"
-        placeholder="Prenom" />
-    <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
-</div>
-<x-text-input id="email" class="block mt-1 focus:border-primary-color" type="email"
-    name="email" :value="old('email', optional($user)->email)" required autofocus autocomplete="email"
-    placeholder="Email" />
-
+                    <x-text-input id="first_name" class="block mt-1 w-full focus:border-primary-color" type="text"
+                    name="first_name" :value="old('first_name', isset($user['given_name']) ? $user['given_name'] : '')" required autofocus autocomplete="first_name"
+                        placeholder="Nom" />
+                    <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
+                    <x-text-input id="last_name" class="block mt-1 w-full focus:border-primary-color" type="text"
+                        name="last_name" :value="old('last_name', isset($user['family_name']) ? $user['family_name'] : '')" required autofocus autocomplete="last_name"
+                        placeholder="Prenom" />
+                    <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
+                </div>
+                <div class="flex space-x-8">
+                    <x-text-input id="email" class="block mt-1 focus:border-primary-color" type="email"
+                        name="email" :value="old('email',isset($user['email']) ? $user['email'] : '')" required autofocus autocomplete="email"
+                        placeholder="Email" />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     <style>
                     /* Chrome, Safari, Edge, Opera */
@@ -151,7 +151,9 @@
                         name="nickname" value="" placeholder="Pseudo" />
                     <x-input-error :messages="$errors->get('nickname')" class="mt-2" />
                 </div>
-@if($user)
+                <input type="hidden" name="google_id" value="{{ isset($user['id']) ? $user['id'] : null }}">
+
+@if(!$user)
                 <div class="mt-4 relative">
                     <div class="relative password-input">
                         <x-text-input id="password" type="password" name="password"
