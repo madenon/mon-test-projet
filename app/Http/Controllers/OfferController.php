@@ -258,15 +258,15 @@ class OfferController extends Controller
                     ]);
                 }
             }
-     
-
+            
+            
             return response()->json(['success' => 'Image deleted successfully.']);
-
-    }
-
-    public function update(Request $request, $offerId){
-        $request->validate([
-            'type' => ['required'],
+            
+        }
+        
+        public function update(Request $request, $offerId){
+            $request->validate([
+                'type' => ['required'],
             'experience' => ['nullable'],
             'condition' => ['nullable'],
             'category' => ['required'],
@@ -303,30 +303,43 @@ class OfferController extends Controller
         
         $offer->department_id = $department->id;
         $offer->description = $request->description;
-        $offer->price = $request->price;
-        $offer->perimeter = $request->perimeter;
+        // $offer->price = $request->price;
+        // $offer->perimeter = $request->perimeter;
         if($request->type_id==2){
-        $offer->condition = $request->condition;}
-        else {        $offer->condition = null;}
-        if($request->type_id==7){
+            $offer->condition = $request->condition;}
+            else {        $offer->condition = null;}
+            if($request->type_id==7){
             $offer->experience = $request->experience;}
             else {        $offer->experience = null;}
-
-
-
-        
-        $offer->save();
-        
-        if ($request->hasFile('default_image')) {
-            $image = $request->file('default_image');
-            $imagePath = $image->store('public/offer_pictures');
-            $offer->default_image()->update(['offer_photo' => $imagePath]);
+            
+            
+            
+            
+            $offer->save();
+            
+            if ($request->hasFile('default_image')) {
+                $extention = explode("/", $request->default_image->getMimeType())[1];
+            $imageDefault = uniqid() . '.' . $extention;
+            Storage::putFileAs('public/offer_pictures', $request->default_image, $imageDefault);
+            $defaultImage = OfferImages::create([
+                'offer_photo' => $imageDefault,
+                'offer_id' => $offer->id,
+            ]);
+            $offer->default_image_id = $defaultImage->id;
+            $offer->save();
+            
+            
         }
         
         if ($request->hasFile('additional_images')) {
             foreach ($request->file('additional_images') as $image) {
-                $imagePath = $image->store('public/offer_pictures');
-                $offer->images()->create(['offer_photo' => $imagePath]);
+                $ext = $image->getClientOriginalExtension();  // Get the file extension
+                $name = uniqid() . '.' . $ext;
+                Storage::putFileAs('public/offer_pictures', $image, $name);
+                OfferImages::create([
+                    'offer_photo' => $name,
+                    'offer_id' => $offer->id
+                ]);
             }
         }
        
