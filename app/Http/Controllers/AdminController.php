@@ -8,6 +8,8 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Campaign;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
+use App\Enums\ExperienceLevel;
+use App\Enums\Condition;
 use App\Models\Category;
 use App\Models\Department;
 use App\Models\Offer;
@@ -608,4 +610,39 @@ Campaign::create($campaignData);
         return redirect()->route('admin.edit-information')->with('success', 'Information updated successfully!');
     }
     
+    
+    public function editOffer($offerId)
+    {    
+        $this->authorize('modify-offer', Offer::find($offerId));
+        $user = Auth::user();
+        $categories = Category::whereNull("parent_id")->get();
+        $subcategories = Category::where("parent_id", '!=', NULL)->get();
+        $regions = Region::all();
+        $departments = Department::all();
+        $types = Type::all();
+                $offer = Offer::find($offerId);
+        $experienceLevels = ExperienceLevel::toArray();
+        $conditions = Condition::toArray();
+        $images = OfferImages::where('offer_id',$offerId)->get();
+
+        return view('admin.edit-offer')->with([
+            'user' => $user,
+            'types' => $types,
+            'departments' => $departments,
+            'regions' => $regions,
+            'categories' => $categories,
+            'offer' => $offer,
+            'subcategories' => $subcategories,
+            'experienceLevels' => $experienceLevels,
+            'conditions' => $conditions,
+            'images'=> $images
+        ]);
+        
+    }
+
+    public function updateOffer(Request $request, $offerId)
+    {    
+        (new OfferController)->update($request, $offerId);            
+        return redirect(route('admin.offers'))->with(['success', 'Annonce mis à jours', ['offerId']]);
+    }
 }

@@ -110,7 +110,11 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
     Route::get('/userss/{id}',  'show')->middleware('admin')->name('admin.user-details');
     Route::get('/pro',  'accountPro')->middleware('admin')->name('admin.pro');
     Route::post('/becomePro',  'becomePro')->middleware('admin')->name('admin.becomePro');
+    
     Route::get('/offers',  'offers')->middleware('admin','check.offers')->name('admin.offers');
+    Route::get('/offres/modifier/{offerId}', 'editOffer')->middleware('admin')->name('admin.editOffer');
+    Route::put('/offres/{offerId}', 'updateOffer')->middleware('admin')->name('admin.updateOffer');
+    
     Route::get('/transactions',  'transactions')->middleware('admin')->name('admin.transactions');
     Route::get('/transactions/{id}',  'editTransaction')->middleware('admin')->name('admin.edit-transaction');
     Route::put('/transactions/{id}',  'updateTransaction')->middleware('admin')->name('admin.update-transaction');
@@ -158,8 +162,6 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
     Route::put('/information', 'updateInformation')->middleware('admin')->name('admin.update-information');
     
     
-    Route::get('/offres/modifier/{offerId}', [MyAccountController::class, 'editOffer'])->middleware('admin')->name('admin.editOffer');
-    Route::put('/offres/{offerId}', [MyAccountController::class, 'updateOffer'])->middleware('admin')->name('admin.updateOffer');
     Route::post('/proposition/freeze/{id}', 'freezeProposition')->middleware('admin')->name('admin.freezeProposition');
     
 });
