@@ -43,8 +43,8 @@ class RegisteredUserController extends Controller
             'last_name' => ['required', 'string', 'min:2', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
            // 'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'phone' => ['required', 'string', 'unique:user_infos', 'regex:/[0-9]{9}/'],
-            'gender' => [new Enum(Gender::class)],
+           'phone' => ['required', 'string', 'unique:user_infos', 'regex:/^\+33\d{9}$/'],
+           'gender' => [new Enum(Gender::class)],
             'bio' => ['nullable', 'string', 'max:300'],
             'nickname' => ['required', 'unique:user_infos', 'min:2', 'max:100'],
             'profile_photo_path' => ['required','image', 'max:12288', 'mimes:jpeg,jpg,png'],
@@ -52,17 +52,24 @@ class RegisteredUserController extends Controller
         ], [
             'email' => 'Ce email existe dèja.',
             'phone.unique' => 'Ce numero existe dèja.',
-            'phone.regex' => 'Le format est +33**********',
+            'phone.regex' => 'Le format est +33*********',
             'phone.min' => 'Le numéro de téléphone doit comporter au moins 7 chiffres et au maximum 11 chiffres.',
             'nickname' => 'Ce pseudonyme existe déjà.',
-            'password' => 'Le mot de passe doit contenir au moins 6 caractères, une combinaison de majuscules et de minuscules, un chiffre et un symbole.',
+           // 'password' => 'Le mot de passe doit contenir au moins 6 caractères, une combinaison de majuscules et de minuscules, un chiffre et un symbole.',
             'profile_photo_path.max' => "L'image doit être moins de 12 Mo.",
             'profile_photo_path.required' => "Veuillez télécharger une photo de profil.",
             'profile_photo_path.mimes' => 'L\'image téléchargés doivent être au format jpg, jpeg ou png.',
             'is_pro' => "Le type est requis"
         ]);
+        if (!$request->google_id) {
+            $request->validate([
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            ], [
+                'password' => 'Le mot de passe doit contenir au moins 6 caractères, une combinaison de majuscules et de minuscules, un chiffre et un symbole.',
+            ]);
+        }
         
-        // dd("is_pro ".$request->is_pro );
+         //dd("is_pro ".$request->is_pro );
         if($request->is_pro === true){
             $request->validate([
                 'social_reason' => ['required', 'string', 'min:2', 'max:150'],
@@ -108,7 +115,12 @@ class RegisteredUserController extends Controller
             ]), $storePicture);
 
             event(new Registered($user));
-
+            if(request()->hasfile('company_identification_document')){
+            foreach(User::all() as $oneuser){
+                if($oneuser->is_admin)
+                $oneuser->notify(new proRequest($user));             
+            }
+        }
         });
         return redirect()->route('verification.notice');
 
@@ -121,7 +133,7 @@ class RegisteredUserController extends Controller
                 
         $user->userInfo()->create([
             'user_id' => $user->id,
-            'phone' => '+33'.$data['phone'],
+            'phone' => $data['phone'],
             'nickname' => $data['nickname'],
             'gender' => $data['gender'],
             'bio' => $data['bio'],

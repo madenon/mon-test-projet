@@ -57,7 +57,7 @@
                 @csrf
                 <div class="flex justify-center items-center space-x-4 mt-[6vh]">
                     <!--  Bouton "Sign In with Google" -->
-                    <a href=""
+                    <a href="{{ url('auth/google') }}"
                     class="bg-white border border-gray-300 hover:border-gray-400 text-gray-700 px-4 py-2 rounded-md flex items-center space-x-2">
                     <svg class="w-6 h-6" viewBox="0 0 256 262" xmlns="http://www.w3.org/2000/svg"
                             preserveAspectRatio="xMidYMid">
@@ -137,14 +137,10 @@
                     -moz-appearance: textfield;
                     }
                     </style>
-                    <div class="flex space-x-2">
-                        <x-text-input id="phone" class="block mt-1 w-3/12 focus:border-primary-color" type="text"
-                        name="phone" :value="+33" require readonly value="+33" />
-                        <x-text-input id="phone" class="block mt-1 w-full focus:border-primary-color" type="number" pattern="[0-9]{9}"
-                            name="phone" :value="old('phone')" required autofocus autocomplete="phone"
-                            placeholder="Téléphone"  min="0"/>
-                        <x-input-error :messages="$errors->get('phone')" class="mt-2" />
-                    </div>
+                    <x-text-input id="phone" class="block mt-1 w-full focus:border-primary-color" type="text" pattern="^\+33\d{9}$"
+                        name="phone" :value="old('phone')" value="+33" required autofocus autocomplete="phone"
+                        placeholder="Téléphone" />
+                    <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                 </div>
                 <div class="mt-4">
                     <x-text-input id="nickname" class="block mt-1 w-full focus:border-primary-color" type="text"
@@ -153,12 +149,12 @@
                 </div>
                 <input type="hidden" name="google_id" value="{{ isset($user['id']) ? $user['id'] : null }}">
 
-@if(!$user)
+@if(!isset($user))
                 <div class="mt-4 relative">
                     <div class="relative password-input">
                         <x-text-input id="password" type="password" name="password"
                             class="border password-input border-gray-300 rounded-md px-3 py-2 pr-10 focus:border-24A19C outline-none w-full focus:border-primary-color"
-                            required autocomplete="new-password" placeholder="Mot de passe" />
+                             autocomplete="new-password" placeholder="Mot de passe" />
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 focus:border-primary-color">
                             <button type="button" id="togglePassword" class="cursor-pointer focus:outline-none">
                                 <i id="eyeIcon" class="fas fa-eye text-gray-500"></i>
@@ -197,7 +193,7 @@
                             class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
                             style="width: 0; height: 0;">
                         <div class="flex items-center justify-center gap-4 text-center w-full">
-                            <img src="images/IconContainer.svg" alt="" srcset="">
+                            <img src="../../images/IconContainer.svg" alt="" srcset="">
                             <p class="text-gray-600 mt-2">Photo de profil</p>
                         </div>
                     </label>

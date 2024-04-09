@@ -40,7 +40,8 @@ class User extends Authenticatable  implements MustVerifyEmail
         'profile_photo_path',
         'is_online',
         'avatar',
-        'role'
+        'role',
+        'statusPro'
     ];
 
     /**
