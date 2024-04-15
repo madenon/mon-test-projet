@@ -17,13 +17,22 @@ use App\Models\Rating;
 use App\Models\Following;
 use App\Models\Transactions;
 use App\Notifications\VerifyEmailNotification;
-
+use App\Notifications\PasswordReset;
 
 
 class User extends Authenticatable  implements MustVerifyEmail
 {
         use HasApiTokens, HasFactory, Notifiable;
-
+/**
+ * Send the password reset notification.
+ *
+ * @param  string  $token
+ * @return void
+ */
+public function sendPasswordResetNotification($token)
+{
+    $this->notify(new PasswordReset($token));
+}
     /**
      * The attributes that are mass assignable.
      *
