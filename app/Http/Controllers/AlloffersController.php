@@ -95,6 +95,12 @@ class AlloffersController extends Controller
         } else if ($sortOrder === 'price_asc') {
             $queryBuilder->orderBy('price', 'ASC');
         }
+        
+        $queryBuilder->where(function ($query) {
+            $query->where('last_top', '>', \Carbon\Carbon::now()->addDays(2))
+                  ->orderBy('last_top', 'DESC');
+        })->orWhere('last_top', '<=', \Carbon\Carbon::now()->addDays(2));
+        
         $offers = $queryBuilder->paginate(10)->appends([
             'query' => $query,
             'category' => $category,
