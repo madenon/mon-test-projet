@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 class AppliedFilter extends Component
 {
     public $filters = [];
+    public $hiddenFilters = [];
     public $offersCount = 0;
     public $filterChanged = false;
     
@@ -111,15 +112,17 @@ class AppliedFilter extends Component
     }
     
     public function remove(Request $request, $type,$key){
-        if($type == "department"){
-            $request->request->remove("departments.".$key);
-        }
-        else if($type == "subcategory"){
-            $request->request->remove("subcategories.".$key);
-        }else{
-            $request->request->remove($key);
-        }
+        // if($type == "department"){
+        //     $request->request->remove("departments.".$key);
+        // }
+        // else if($type == "subcategory"){
+        //     $request->request->remove("subcategories.".$key);
+        // }else{
+        //     $request->request->remove($key);
+        // }
         $this->filterChanged = true;
+        $this->hiddenFilters[] = $type;
+        
     }
     
     public function applyFrom(Request $request){
