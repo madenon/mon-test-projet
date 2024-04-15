@@ -474,5 +474,33 @@ public function updateActiveAnimation(Request $request) {
         return response()->json(['success' => false]);
     }
 }
+    public function toogleActive(Request $request) {
+            // Retrieve offer ID from the request
+        $offerId = $request->input('offerId');
+
+        $offer = Offer::find($offerId);
+        if ($offer) {
+            $offer->update(['active_offer' => !$offer->active_offer]);
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false]);
+        }
+    }
+    public function putOnTop(Request $request) {
+        // Retrieve offer ID from the request
+        $offerId = $request->input('offerId');
+
+        // Assuming you have an "offers" table and an "active_animation" column
+        $offer = Offer::find($offerId);
+
+        if ($offer) {
+            // Toggle the value of the active_animation property
+            $offer->update(['last_top' => \Carbon\Carbon::now()]);
+
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false]);
+        }
+    }
 
 }

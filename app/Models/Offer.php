@@ -39,7 +39,8 @@ class Offer extends Model
         'active_offer',
         'expiration_date',
         'active_animation',
-        'default_image_id'
+        'default_image_id',
+        'last_top'
     ];
 
     protected $casts = [
