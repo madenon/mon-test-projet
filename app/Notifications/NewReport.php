@@ -55,7 +55,7 @@ class NewReport extends Notification
             'name' => $this->report->reporter->name,
             'title' => $this->report->title,
             'content' => 'a envoyé un signalement',
-            'link' => url('/admin/reports/'.$this->report->reporter_id)
+            'link' => url('/admin/reports')
         ];
     }
 }
