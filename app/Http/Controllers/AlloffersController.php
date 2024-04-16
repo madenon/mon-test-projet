@@ -44,8 +44,11 @@ class AlloffersController extends Controller
         }
         
         if ($category) {
-            $subcategoryIds = Category::find($category)->children->pluck('id')->toArray();
-            $queryBuilder->whereIn('subcategory_id', $subcategoryIds); // Filter by category ID
+            $cat = Category::find($category);
+            if($cat){
+                $subcategoryIds = $cat->children->pluck('id')->toArray();
+                $queryBuilder->whereIn('subcategory_id', $subcategoryIds);
+            }
         }
         if ($department) {
             $queryBuilder->where('department_id', $department); // Filter by category ID
@@ -64,7 +67,7 @@ class AlloffersController extends Controller
         if ($minPrice) {
             $queryBuilder->where('price', '>=', $minPrice);
         }
-    
+        
         if ($maxPrice) {
             $queryBuilder->where('price', '<=', $maxPrice);
         }
@@ -84,9 +87,9 @@ class AlloffersController extends Controller
         if($subs){
             $queryBuilder->whereIn('subcategory_id', $subs);   
         }
-
+        
          // Add sorting condition
-        if ($sortOrder === 'latest') {
+         if ($sortOrder === 'latest') {
             $queryBuilder->orderBy('created_at', 'DESC');
         } else if ($sortOrder === 'oldest') {
             $queryBuilder->orderBy('created_at', 'ASC');
@@ -98,9 +101,11 @@ class AlloffersController extends Controller
         
         $queryBuilder->where(function ($query) {
             $query->where('last_top', '>', \Carbon\Carbon::now()->addDays(2))
-                  ->orderBy('last_top', 'DESC');
-        })->orWhere('last_top', '<=', \Carbon\Carbon::now()->addDays(2));
+            ->orderBy('last_top', 'DESC')
+            ->orWhere('last_top', '<=', \Carbon\Carbon::now()->addDays(2));
+        });
         
+        $offersCount=$queryBuilder->count();
         $offers = $queryBuilder->paginate(10)->appends([
             'query' => $query,
             'category' => $category,
@@ -117,7 +122,6 @@ class AlloffersController extends Controller
         
         $categoryName = Category::where('id', $category)->value('name');
         $banners=Campaign::all();
-        $offersCount=$queryBuilder->count();
 
         return view('alloffers.index', compact('offers','banners','departments','types','categoryName','offersCount'));
     
