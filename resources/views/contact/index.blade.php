@@ -61,56 +61,56 @@
         <h1 class="text1 text-dark text-center mt-4" >CONTACTEZ-NOUS</h1>
 
         <div class="container">
-            <form class="custom-form" method="post" action="{{ route('contact.send') }}">
-                @csrf
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email address</label>
-                    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" required>
-                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                </div>
-                <div class="form-group">
-                    <label for="subject">Subject</label>
-                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Enter the subject" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea class="form-control" id="message" name="message" rows="5" placeholder="Enter your message" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Envoyer nous un message</button>
-            </form>
+    <form class="custom-form" method="post" action="{{ route('contact.send') }}">
+        @csrf
+        <div class="form-group">
+            <label for="name">Nom</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Entrez votre nom" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Adresse e-mail</label>
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Entrez votre adresse e-mail" required>
+            <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre adresse e-mail avec personne d'autre.</small>
+        </div>
+        <div class="form-group">
+            <label for="subject">Sujet</label>
+            <input type="text" class="form-control" id="subject" name="subject" placeholder="Entrez le sujet" required>
+        </div>
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea class="form-control" id="message" name="message" rows="5" placeholder="Entrez votre message" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Envoyez-nous un message</button>
+    </form>
 
-            <!-- Social media section -->
-            <div class="d-flex flex-column align-items-center mt-4">
-    <h1 class="text1 text-dark">SUIVEZ NOUS</h1>
-    <div class="separator small center"></div>
-    <h5>Suivez nous sur les réseaux sociaux et soyez à la une de toutes nos promotions.</h5>
-    <div class="d-flex justify-content-center">
-        <a class="circle_social" href="{{$information->facebook}}" target="_blank">
-            <span class="fa-stack">
-                <i class="fas fa-circle fa-stack-2x"></i>
-                <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-        <a class="circle_social" href="{{$information->instagram}}" target="_blank">
-            <span class="fa-stack">
-                <i class="fas fa-circle fa-stack-2x"></i>
-                <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-        <a class="circle_social" href="{{$information->youtube}}" target="_blank">
-            <span class="fa-stack">
-                <i class="fas fa-circle fa-stack-2x"></i>
-                <i class="fab fa-youtube fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
+    <!-- Section des réseaux sociaux -->
+    <div class="d-flex flex-column align-items-center mt-4">
+        <h1 class="text1 text-dark">SUIVEZ-NOUS</h1>
+        <div class="separator small center"></div>
+        <h5>Suivez-nous sur les réseaux sociaux et soyez informé de toutes nos promotions.</h5>
+        <div class="d-flex justify-content-center">
+            <a class="circle_social" href="{{$information->facebook}}" target="_blank">
+                <span class="fa-stack">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+            <a class="circle_social" href="{{$information->instagram}}" target="_blank">
+                <span class="fa-stack">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+            <a class="circle_social" href="{{$information->youtube}}" target="_blank">
+                <span class="fa-stack">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-youtube fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+        </div>
     </div>
 </div>
 
-        </div>
 
     </body>
     </html>

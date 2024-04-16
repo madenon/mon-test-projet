@@ -126,7 +126,7 @@
                             <li>
                                 <div class="notification-dropdown-item">
                                     <div class="notification-dropdown-item-content">
-                                            <b>You have no new notification</b>
+                                    <b>Vous n'avez aucune nouvelle notification</b>
                                     </div>
                                 </div>
                             </li>
@@ -167,7 +167,7 @@
                             <li>
                                 <div class="notification-dropdown-item">
                                     <div class="notification-dropdown-item-content">
-                                            <b>You have no new message</b>
+                                    <b>Vous n'avez aucun nouveau message</b>
                                     </div>
                                 </div>
                             </li>
@@ -239,12 +239,13 @@
                                     Mes transactions
                                 </a>
                             </li>
+                            <!--
                             <li>
                                 <a class="header-user-avatar-dropdown-item" href="#">
                                     <img src="{{asset('images/shield-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
                                     Crédibilité
                                 </a>
-                            </li>
+                            </li> -->
                             <li>
                                 <a class="header-user-avatar-dropdown-item" href="{{route('binshopsblog.index' , 'fr')}}">
                                     <img src="{{asset('images/shopping-bag-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
@@ -379,10 +380,10 @@
         <nav id="header-filter-dropdown-menu">
             <div class="header-filter-dropdown-menu-items">
             <form action="{{ request()->is('offer.*') ? route('offer.index') : route('alloffers.index') }}" method="GET">
-                <label for="min_price">Prix minimal:</label>
-                <input type="number" name="min_price" id="min_price" />
-                <label for="max_price">Prix maximal:</label>
-                <input type="number" name="max_price" id="max_price" />
+            <label for="min_price">Prix minimal:</label>
+<input type="number" name="min_price" id="min_price" step="0.01" min="0" placeholder="Entrez le prix minimal" required>
+<label for="max_price">Prix maximal:</label>
+<input type="number" name="max_price" id="max_price" step="0.01" min="0" placeholder="Entrez le prix maximal" required>
                 @if(request()->has('region'))
                     <input type="hidden" name="region" value="{{ request('region') }}">
                 @endif

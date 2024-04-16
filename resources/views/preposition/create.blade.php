@@ -54,7 +54,7 @@
 
                     @endif
                     <div class="relative">
-                        <input type="number" step=0.01 class="form-input mt-1 block w-full pr-10" id="propositionPrice" name="price">
+                        <input type="number" step=0.01 min="0" class="form-input mt-1 block w-full pr-10" id="propositionPrice" name="price">
                         <div class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-600">
                             €
                         </div>

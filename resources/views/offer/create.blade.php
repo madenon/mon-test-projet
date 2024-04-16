@@ -895,7 +895,20 @@ function validateForm() {
     }else{
         y[i].classList.remove("invalid");
     }
-    
+    var dynamicInputs = document.getElementsByName("dynamicInputs[]");
+    var exchangeCheckbox = document.getElementById("exchangeCheckbox");
+
+    // Check if there are any non-blank dynamic input fields
+    var hasNonBlankDynamicInputs = Array.from(dynamicInputs).some(input => input.value.trim() !== "");
+
+    // If there are no non-blank dynamic input fields and exchange checkbox is not checked, mark it as invalid
+    if (!hasNonBlankDynamicInputs && !exchangeCheckbox.checked) {
+        exchangeCheckbox.classList.add("invalid");
+        appendError("Veuillez choisir contre quoi vous souhaitez échanger ou cocher l'option 'Étudier toutes les propositions'.");
+        valid = false;
+    } else {
+        exchangeCheckbox.classList.remove("invalid");
+    }
     if(y[i].classList.contains("atLeast2")){
         if(y[i].value.length < 2){
             appendError("Le titre doit contenir au moins 2 lettres");
