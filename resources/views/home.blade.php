@@ -118,7 +118,7 @@
             <div class="flex flex-col justify-center items-center border shadow py-2 mx-2 mb-4">
                 <div class="bg-slate-100 rounded-full p-1 aspect-square"><i class="fa {{$categories[$i]['icon']}}"></i></div>
                 <div class="font-semibold pl-2">{{$categories[$i]->name}}</div>
-                <div class="text-sm">{{$categories[$i]->children->reduce(function($carry,$sub){return $carry+$sub->offer->count();})}} Offres</div>
+                <div class="text-sm">{{$categories[$i]->children->reduce(function($carry,$sub){return $carry+$sub->offer->where('active_offer', 1)->where('launch_date', null)->count();})}} Offres</div>
             </div>
         </a>
         @endfor
