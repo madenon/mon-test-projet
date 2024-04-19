@@ -3,9 +3,7 @@ import "./bootstrap";
 import Alpine from "alpinejs";
 // import "filepond/dist/filepond.min.css";
 // import "filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.css";
-import FilePond from "filepond";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
-
 window.Alpine = Alpine;
 
 Alpine.start();
@@ -26,3 +24,5 @@ FilePond.create(inputElement, {
         },
     },
 });
+
+

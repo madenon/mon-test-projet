@@ -23,8 +23,16 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TypeSeeder::class,
             CategorySeeder::class,
+            TypeCategorySeeder::class,
             RegionSeeder::class,
             DepartmentSeeder::class,
+            AdminSeeder::class,
+            ChatSeeder::class,
+            OfferSeeder::class,
+            BadgeSeeder::class,
+            InformationSeeder::class,
+            RolesTableSeeder::class,
+            
         ]);
     }
 }

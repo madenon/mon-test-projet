@@ -6,16 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use App\Enums\ExperienceLevel;
+use Orchid\Metrics\Chartable;
 
 
 class Offer extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
-
-
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, Chartable;
 
     protected $fillable = [
         'title',
@@ -30,15 +31,23 @@ class Offer extends Model
         'user_id',
         'type_id',
         'category_id',
+        'subcategory_id',
         'region_id',
         'department_id',
+        'buy_authorized',
+        'send_authorized',
+        'active_offer',
+        'expiration_date',
+        'active_animation',
+        'default_image_id',
+        'last_top'
     ];
-
 
     protected $casts = [
         'level' => ExperienceLevel::class,
+        'buy_authorized'=>'boolean',
+        'send_authorized'=>'boolean'
     ];
-
 
     public function user(): BelongsTo
     {
@@ -54,11 +63,15 @@ class Offer extends Model
     {
         return $this->belongsTo(Category::class);
     }
-
-    public function region(): BelongsTo
+    public function favoritedBy()
+{
+    return $this->belongsToMany(User::class, 'favorites', 'offer_id', 'user_id')->withTimestamps();
+}
+    public function subcategory(): BelongsTo
     {
-        return $this->belongsTo(Region::class);
+        return $this->belongsTo(Category::class,'subcategory_id');
     }
+
 
     public function department(): BelongsTo
     {
@@ -73,5 +86,13 @@ class Offer extends Model
     public function offerImages(): HasMany
     {
         return $this->hasMany(OfferImages::class);
+    }
+    public function defaultImage(): BelongsTo
+    {
+        return $this->belongsTo(OfferImages::class,'default_image_id');
+    }
+    public function transaction(): HasOne
+    {
+        return $this->hasOne(Transaction::class);
     }
 }

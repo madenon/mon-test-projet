@@ -12,11 +12,11 @@
                             <ul>
                                 <li>
                                     <span>Email:</span>
-                                    <a href="">contact@faistroquer.fr</a>
+                                    <a href="">{{$information->email}}</a>
                                 </li>
                                 <li>
                                     <span>Tel:</span>
-                                    <a href="">+343-33-32-40-43</a>
+                                    <a href="">{{$information->phone}}</a>
                                 </li>
                             </ul>
                             <div class="footer-socialmedias">
@@ -37,16 +37,16 @@
                                     <nav>
                                         <ul>
                                             <li>
-                                                <a href="">Contrat d'échange</a>
+                                                <a href="{{$information->contrat}}" target="_blank">Contrat d'échange</a>
                                             </li>
                                             <li>
-                                                <a href="">Aide</a>
+                                                <a href="{{route('help')}}">Aide</a>
                                             </li>
                                             <li>
-                                                <a href="">A propos</a>
+                                                <a href="{{route('about')}}">A propos</a>
                                             </li>
                                             <li>
-                                                <a href="">Contact</a>
+                                                <a href="/contact">Contact</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -57,19 +57,13 @@
                                     <h3>Categories</h3>
                                     <nav>
                                         <ul class="footer-content-links-grid">
-
                                             @if($parentcategories)
-
                                             @foreach($parentcategories as $parentcategory)
-
                                             <li>
-                                                <a href="">{{$parentcategory['name']}}</a>
+                                                <a href="{{route('alloffers.index',['category'=> $parentcategory['id']])}}">{{$parentcategory['name']}}</a>
                                             </li>
-
-                                            @endforeach
-                                        
+                                            @endforeach                                        
                                             @endif
-
                                         </ul>
                                     </nav>
                                 </div>
@@ -83,7 +77,7 @@
             <div class="container">
                 <div class="footer-copyright-content">
                     <div class="footer-copyright-text">
-                        Faistroquer.fr © 2023. Developed by <a href="">SEOMANIAK</a>
+                        Faistroquer.fr © 2023. Developed by <a href="https://seomaniak.ma">SEOMANIAK</a>
                     </div>
                     <div class="footer-links">
                         <ul>

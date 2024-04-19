@@ -16,11 +16,12 @@ return new class extends Migration {
             $table->string('last_name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->boolean('is_online')->default(false);
+            $table->string('password')->nullable();
+            $table->string('google_id')->nullable();
+            $table->string('is_online')->default(false);
             $table->timestamp('last_login')->nullable();
             $table->string('role')->nullable();
-            $table->boolean('active')->default(true);
+            $table->string('active')->default(true);
             $table->string('profile_photo_path', 2048)->nullable();
             $table->rememberToken();
             $table->timestamps();

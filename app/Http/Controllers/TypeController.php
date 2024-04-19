@@ -8,10 +8,9 @@ use Illuminate\Http\Request;
 
 class TypeController extends Controller
 {
-    public function index($type){
-
+    public function index($type)
+    {
         $ty = Type::first('id')->get();
-
         $offers = Offer::where('type_id', $ty);
 
         return view('type', compact('offers', 'type'));

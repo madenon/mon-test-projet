@@ -11,14 +11,10 @@ class Department extends Model
 {
     use HasFactory;
 
-    
-
     protected $fillable = [
         'name',
         'department_number',
     ];
-
-
 
     public function offer(): HasMany
     {

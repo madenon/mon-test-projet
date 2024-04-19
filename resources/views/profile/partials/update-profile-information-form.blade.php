@@ -9,28 +9,30 @@
         </p>
     </header>
 
-    
+
 
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
-        
 
-        <div>
-            <x-input-label for="profile_photo_path" :value="__('Profile Picture')" />
-            <img src="{{ url('' . auth()->user()->profile_photo_path) }}" name="profile_photo_path" alt="Profile Picture" class="rounded-full h-16 w-16" />
-            <input type="file" name="profile_photo_path"> 
-        </div>
+        @if (isset($user->profile_photo_path))
+            <div>
+                <x-input-label for="profile_photo_path" :value="__('Photo de profil')" />
+                <img src="{{route('profile_pictures-file-path',$user->profile_photo_path)}}" name="profile_photo_path" alt="Photo de profil" class="rounded-full h-16 w-16 mb-2" />
+                <input type="file" name="profile_photo_path">
+            </div>
+        @endif
+
 
         <div>
             <x-input-label for="last_name" :value="__('Nom')" />
-            <x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full" :value="old('last_name', $user->name)" required autofocus autocomplete="last_name" />
+            <x-text-input id="last_name" name="last_name" type="text" class="mt-1 block w-full" :value="old('last_name', $user->last_name)" required autofocus autocomplete="last_name" />
             <x-input-error class="mt-2" :messages="$errors->get('last_name')" />
         </div>
 
         <div>
             <x-input-label for="first_name" :value="__('Prénom')" />
-            <x-text-input id="first_name" name="first_name" type="text" class="mt-1 block w-full" :value="old('first_name', $user->name)" required autofocus autocomplete="first_name" />
+            <x-text-input id="first_name" name="first_name" type="text" class="mt-1 block w-full" :value="old('first_name', $user->first_name)" required autofocus autocomplete="first_name" />
             <x-input-error class="mt-2" :messages="$errors->get('first_name')" />
         </div>
 
@@ -60,19 +62,19 @@
 
         <div>
             <x-input-label for="phone" :value="__('Téléphone')" />
-            <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required autocomplete="phone" />
+            <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone', $user->userInfo->phone)" required autocomplete="phone" />
             <x-input-error :messages="$errors->get('phone')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="bio" :value="__('À propos de vous')" />
-            <x-text-input id="bio" class="block mt-1 w-full" type="text" name="bio"  required  />
+            <x-text-input id="bio" class="block mt-1 w-full" type="text" name="bio" :value="old('bio', $user->userInfo->bio)"  required  />
             <x-input-error :messages="$errors->get('bio')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="nickname" :value="__('Pseudo')" />
-            <x-text-input id="nickname" class="block mt-1 w-full" type="text" name="nickname"  required  />
+            <x-text-input id="nickname" class="block mt-1 w-full" type="text" name="nickname" :value="old('pseudo', $user->userInfo->nickname)" required  />
             <x-input-error :messages="$errors->get('nickname')" class="mt-2" />
         </div>
 

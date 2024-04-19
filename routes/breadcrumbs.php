@@ -7,13 +7,34 @@ use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
 // Home
 Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
-    $trail->push('home', route('home'));
+    $trail->push('Accueil', route('home'));
 });
 
 // Home > Offres
-Breadcrumbs::for('offers', function (BreadcrumbTrail $trail) {
+Breadcrumbs::for('offersall', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('offers', route('offer.index'));
+    $trail->push('Offres', route('alloffers.index', []));
+});
+// Home > Offres
+Breadcrumbs::for('offers', function (BreadcrumbTrail $trail) {
+    if(count(request()->all())){
+        $trail->parent('offersall');
+        $trail->push('Offres filtrés', route('alloffers.index'));
+    }else{
+        $trail->parent('home');
+        $trail->push('Offres', route('alloffers.index'));
+    }
+    
+});
+// Home > Offres
+Breadcrumbs::for('offer', function (BreadcrumbTrail $trail) {
+    $trail->parent('offersall');
+    $trail->push('Offre', route('offer.index', []));
+});
+// Home > Offres>Create
+Breadcrumbs::for('create', function (BreadcrumbTrail $trail) {
+    $trail->parent('offers');
+    $trail->push('create', route('offer.create'));
     
 });
 
@@ -27,4 +48,12 @@ Breadcrumbs::for('type', function (BreadcrumbTrail $trail, $type) {
 Breadcrumbs::for('category', function (BreadcrumbTrail $trail, $type, $category) {
     $trail->parent('type', $type);
     $trail->push($category, route('category.index', ['type' => $type, 'category' => $category]));
+});
+Breadcrumbs::for('account', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('account', route('myaccount.index'));
+});
+Breadcrumbs::for('ratings', function (BreadcrumbTrail $trail) {
+    $trail->parent('ratings');
+    $trail->push('ratings', route('ratings.index'));
 });

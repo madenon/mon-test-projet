@@ -11,8 +11,6 @@ class Category extends Model
 {
     use HasFactory;
 
-    
-
     protected $fillable = [
         'name',
         'category_photo',
@@ -21,11 +19,9 @@ class Category extends Model
         'type_id'
     ];
 
-
-
     public function offer(): HasMany
     {
-        return $this->hasMany(Offer::class);
+        return $this->hasMany(Offer::class,'subcategory_id');
     }
 
     public function type(): BelongsTo

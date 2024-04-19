@@ -22,7 +22,6 @@ class ProfileController extends Controller
     {
         return view('profile.edit', [
             'user' => $request->user(),
-            
         ]);
     }
 
@@ -31,7 +30,6 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-
         $user = $request->user();
         $data = $request->validated();
 
@@ -47,59 +45,27 @@ class ProfileController extends Controller
             $user->last_name = $request->input('last_name');
         }
 
-        
+        $user->name = trim($request->first_name) . ' ' . trim($request->last_name);
+
+        if ($request->hasFile('profile_photo_path')) {
+            $ext = $request->file('profile_photo_path')->getClientOriginalExtension();
+            $profileImage = uniqid() . '.' . $ext;
+            $request->file('profile_photo_path')->storeAs('public/profile_pictures', $profileImage);
+            $user->profile_photo_path = $profileImage;
+            $user->avatar = $profileImage;
+        }
 
         $this->updateUserInfos($user, $request->only(['phone', 'nickname', 'bio']));
 
-
-        if ($request->hasFile('profile_photo_path')) {
-            $this->updateProfilePicture($user, $request->file('profile_photo_path'));
-            
-        }
-
         $user->fill($data);
         $user->save();
-        
-        
-        
-        
-        
+     
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    /**
-     * Update profile picture.
-     */
-    protected function updateProfilePicture(User $user, UploadedFile $file)
-    {
-
-        
-        // Validate and store the new profile picture
-        if ($file->isValid()) {
-
-            $storagePath = 'storage/profile_pictures';
-            // Delete the old profile picture (if it exists)
-            if ($user->profile_photo_path) {
-                Storage::delete($user->profile_photo_path);
-            }
-
-            // Store the new profile picture
-            $path = $file->store($storagePath);
-
-            $path = str_replace($storagePath . '/', '', $path);
-
-            // Update the user's profile_photo_path with the new path
-            $user->update(['profile_photo_path' => $path]);
-            return Storage::url($path);
-            
-        }
-
-        return '';
-    }
 
     protected function updateUserInfos(User $user, array $data)
     {
-
         $user->userInfo()->update([
             'user_id' => $user->id,
             'phone' => $data['phone'],
@@ -118,14 +84,57 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
-
         Auth::logout();
-
         $user->delete();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function showProfile($id)
+    {
+        $user = User::findOrFail($id);
+        $offers = $user->offer;
+        $mesPropositions=$user->prepositions;
+        $totalTransactions = 0;
+        $totalTransactionsFromOffers = 0;
+        foreach ($offers as $offer) {
+            // Count transactions from propositions of the offer
+            $totalTransactionsFromOffers += $offer->preposition->flatMap->transactions
+            ->where('offeror_status', 'Réussi')
+            ->where('applicant_status', 'Réussi')
+            ->count();
+        }
+
+        // Count transactions from propositions
+        $totalTransactionsFromMesPropositions = $mesPropositions->flatMap->transactions
+        ->where('offeror_status', 'Réussi')
+        ->where('applicant_status', 'Réussi')            
+        ->count();
+
+        // Total transactions
+        $totalTransactions = $totalTransactionsFromOffers + $totalTransactionsFromMesPropositions;
+
+        $userInfo = UserInfos::where('user_id', $user->id)->first();
+        $offerPrepostion = $mesPropositions->count();
+        $finishedOffers =$totalTransactions ;
+         $offersInProgress = $user->offer()->whereNull('deleted_at')->get()->count();
+ 
+         $ratings=$user->ratings;
+         $ratingsCount=$ratings->count();
+         $ratingsAvg=$ratings->avg('stars');
+         $followersCount=$user->followings->count();
+ 
+         return view('profile.showProfile', compact(
+             'user',
+             'userInfo', 
+             'offerPrepostion', 
+             'finishedOffers', 
+             'offersInProgress',
+             'ratingsAvg',
+             'ratingsCount',
+             'followersCount',
+         ));    
     }
 }

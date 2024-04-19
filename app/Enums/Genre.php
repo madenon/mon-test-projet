@@ -9,7 +9,5 @@ use App\Models\UserInfos;
 enum Genre: string
     {
         case Male = 'male';
-        case Female = 'female';
-
-        
+        case Female = 'female';        
     }
