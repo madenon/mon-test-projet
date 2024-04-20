@@ -141,11 +141,16 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
    Route::get('/offerInfos',  function () {
         return view('admin.offer-info');
     })->middleware('admin')->name('admin.offerInfos');
+
+
+
    Route::get('/blogAdmin',  function () {
         if (DB::table('binshops_languages')->exists())
             return redirect()->route('binshopsblog.admin.index');
         return redirect()->route('binshopsblog.admin.setup');
     })->middleware('admin')->name('admin.blog');
+
+
     
    Route::get('/badges',  'badges')->middleware('admin')->name('admin.badges');
    Route::get('/contests',  'contest')->middleware('admin')->name('admin.contests');
