@@ -83,26 +83,26 @@
                 <!-- post article-->
 
             </div>
-            <div class="col-md-3 mb40">
-                <div class="mb40">
-                    <form>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search..."
-                                aria-describedby="basic-addon2">
-                            <button class="input-group-addon" id="basic-addon2"><i class="fa fa-search"></i></button>
-                        </div>
-                    </form>
+            <div class="col-md-3 ">
+            <div class="box categories">
+                @if (config('binshopsblog.search.search_enabled') )
+                    @include('binshopsblog::sitewide.search_form')
+                @endif
                 </div>
                 <!--/col-->
-                <div class="mb40">
-
-                    <h4 class="sidebar-title">Categories</h4>
-
-                    <ul class="list-unstyled categories">
-                       
-
-                    </ul>
-                </div>
+                <h4 class="headline text-muted">
+             Catégories
+            </h4>
+          
+                                    @if($categories)
+                        @include("binshopsblog::partials._category_partial", [
+                        'category_tree' => $categories,
+                        'name_chain' => $nameChain = "",
+                        'routeWithoutLocale' => $routeWithoutLocale
+                        ])
+                    @else
+                        <span>No Categories</span>
+                    @endif
                 <!--/col-->
                 <div>
                     <h4 class="sidebar-title">Latest News</h4>

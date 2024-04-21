@@ -27,11 +27,11 @@
                 <h2 style="text-align: center ;margin-top: 30px;margin-bottom: 30px;">{{$post->title}}</h2>
                 <h5 style="text-align: center;margin-top: 30px;margin-bottom: 30px;">{{$post->subtitle}}</h5>
 
-                <small class="text-muted" style="margin-top: 0px;margin-bottom: 30px;display: block;margin-left: auto;margin-right: auto;width: 50%;"><strong >par  {{$post->post->author->name}}</strong> |  Publié le {{date('d M Y ', strtotime($post->post->posted_at))}}  | 58 comments</small>
+                <small class="text-muted" style="margin-top: 0px;margin-bottom: 30px;display: block;margin-left: auto;margin-right: auto;width: 50%;"><strong >par  {{$post->post->author->name}}</strong> |  Publié le {{date('d M Y ', strtotime($post->post->posted_at))}} </small>
                 
 
                 <p class="m-top-sm m-bottom-sm">
-                {!! mb_strimwidth($post->post_body_output(), 10, 400, "...") !!}
+                {!! mb_strimwidth($post->post_body_output(), 0, 400, "...") !!}
                             </p>          
                 <a  class="btn btn-default" href="{{$post->url($locale, $routeWithoutLocale)}}"><i class="fa fa-angle-double-right"></i> Lire la suite</a>
                
@@ -42,54 +42,76 @@
     </div>
         
         <div class="col-md-4">
+        <div class="box categories">
+                @if (config('binshopsblog.search.search_enabled') )
+                    @include('binshopsblog::sitewide.search_form')
+                @endif
+                </div>
             <h4 class="headline text-muted">
-              POPULAR POST
-              <span class="line"></span>
+             Catégories
             </h4>
-            <div class="media popular-post">
-              <a class="pull-left" href="#">
-                <img src="https://www.bootdey.com/image/60x60/9400D3/000000" alt="Popular Post">
-              </a>
-              <div class="media-body">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              </div>
-            </div>  
-            <div class="media popular-post">
-              <a class="pull-left" href="#">
-                <img src="https://www.bootdey.com/image/60x60/4B0082/000000" alt="Popular Post">
-              </a>
-              <div class="media-body">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              </div>
-            </div>  
-            <div class="media popular-post">
-              <a class="pull-left" href="#">
-                <img src="https://www.bootdey.com/image/60x60/E6E6FA/000000" alt="Popular Post">
-              </a>
-              <div class="media-body">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              </div>
-            </div>    
-            <div class="media popular-post">
-              <a class="pull-left" href="#">
-                <img src="https://www.bootdey.com/image/60x60/FFFACD/000000" alt="Popular Post">
-              </a>
-              <div class="media-body">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              </div>
-            </div>    
-            <div class="media popular-post">
-              <a class="pull-left" href="#">
-                <img src="https://www.bootdey.com/image/60x60/E0FFFF/000000" alt="Popular Post">
-              </a>
-              <div class="media-body">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              </div>
-            </div>            
+           
+                                    @if($categories)
+                        @include("binshopsblog::partials._category_partial", [
+                        'category_tree' => $categories,
+                        'name_chain' => $nameChain = "",
+                        'routeWithoutLocale' => $routeWithoutLocale
+                        ])
+                    @else
+                        <span>No Categories</span>
+                    @endif
+                    <h4 class="headline text-muted">Articles récents
+            </h4>
+            <div class="box categories">
+            @foreach($lang_list as $lang)                      
+            <ul class="list-unstyled">
+        <li >
+        <a href="{{route("binshopsblog.index" , $lang->locale)}}">
+        <span>{{$lang->name}}</span>
+        </a>
+        </li>
+        </ul>   
+        
+        @endforeach
+        </div>   
+        <h4 class="headline text-muted">Commentaires récents
+            </h4>
+            <div class="box categories">
+            @foreach($lang_list as $lang)                      
+            <ul class="list-unstyled">
+        <li >
+        <a href="{{route("binshopsblog.index" , $lang->locale)}}">
+        <span>{{$lang->name}}</span>
+        </a>
+        </li>
+        </ul>   
+        
+        @endforeach
+        </div>   
+                    <h4 class="headline text-muted">
+             Traductions 
+            </h4>
+            <div class="box categories">
+            @foreach($lang_list as $lang)                      
+            <ul class="list-unstyled">
+        <li >
+        <a href="{{route("binshopsblog.index" , $lang->locale)}}">
+        <span>{{$lang->name}}</span>
+        </a>
+        </li>
+        </ul>   
+        
+        @endforeach
+        </div>   
+                     
         </div>
   </div>
 </div>
 <style>
+    a {
+    color: #24a19c;
+    text-decoration: none;
+}
    body{
   background: #f9f9f9;
 }
