@@ -3,7 +3,6 @@
 @case("built_in")
 {{-- default - show our own comments--}}
 @include("binshopsblog::partials.built_in_comments")
-@include("binshopsblog::partials.add_comment_form")
 @break
 
 @case("disqus")
