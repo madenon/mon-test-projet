@@ -196,7 +196,7 @@
                             </style>
 
                             <span class="flex bg-with-primary  rounded-full px-1 py-1 gap-1 text-white">
-                                <span class="text-center text-xs md:text-base">€ Envoi autorisé</span>
+                                <span class="text-center text-xs md:text-base"> <i class="fa-solid fa-dolly"></i> Envoi autorisé</span>
                             </span>
                             @endif
                         </div>

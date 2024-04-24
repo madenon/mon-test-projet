@@ -372,7 +372,7 @@
                             </style>
 
                             <span class="flex bg-with-primary  rounded-full px-1 py-1 gap-1 text-white">
-                                <span class="text-center text-xs md:text-base">€ Envoi autorisé</span>
+                                <span class="text-center text-xs md:text-base"><i class="fa-solid fa-dolly"></i> Envoi autorisé</span>
                             </span>
                             @endif
                     </div>
@@ -408,16 +408,16 @@
                     </div>
                 </div>
             </div>
-            <div class="report-button my-4 text-red-700 justify-center border-black py-2 border-b rounded-lg flex gap-2 w-52"
+            <div class="report-button my-4 text-red-700 justify-center border-black py-2 border-b rounded-lg flex gap-2 "
                 data-offer-id="{{ $offer->id }}" data-offer-name="{{ $offer->name }}">
                 <img src="/images/flag_FILL0_wght200_GRAD-25_opsz20 1.svg" alt="">
                 <span>
-                    Signalez ce troc
+                SIGNALEZ CETTE ANNONCE
                 </span>
             </div>
             @if(auth()->id() != $offer->user_id)
             <div class="border rounded-lg pb-4">
-                <h4 class="text-titles border-b px-5 py-4">Vendeur</h4>
+                <h4 class="text-titles border-b px-5 py-4">Troqueur</h4>
                 <div>
                     <div class="flex justify-between px-4 py-2">
                         <div class="flex gap-3  ">
@@ -428,7 +428,7 @@
                                 class="rounded-full">
                             @endif
                             <span class="flex flex-col">
-                                <span class="text-titles font-medium">
+                                <span class="text-titles font-medium text-decoration-underline">
                                     {{$offer->user->first_name . " " .
                                     $offer->user->last_name}}
                                 </span>
@@ -443,10 +443,10 @@
                             @endif
                         </div>
                         <div class="flex flex-col ">
-                            <span>
+                            <span class="text-decoration-underline">
                                 {{$offer->user->ratings->avg('stars')}} ({{$offer->user->ratings->count()}} avis)
                             </span>
-                            <span class="flex">
+                            <span class="flex text-decoration-underline">
                             @for ($i =1; $i <= 5; $i++)
                                     <input type="radio" id="star{{$i}}" name="rating" value="{{$i}}" class="hidden rate" />
                                     <label for="star{{$i}}" title="{{$i}} star" class="cursor-pointer text-2xl text-yellow-500 rate" >
@@ -466,8 +466,11 @@
                             Trocs
                         </div>
                         <div>
-                            <span class="bg-gray-200 rounded-full px-2">{{$offer->user->offer->count()}}</span>
+                            <a class="" href="{{route('alloffers.indexx',[$offer->user->id])}}">
+                                <span class="bg-gray-200 rounded-full px-2">{{$offer->user->offer->count()}}</span>
                             Offres
+                            </a>
+                            
                         </div>
                         <div>
                             <span class="bg-gray-200 rounded-full px-2">{{$offer->user->ratings->count()}}</span>
@@ -947,16 +950,16 @@ $(document).on('click', '.report-button', function () {
     });
     function reportOffer(offerId,offerName) {
     Swal.fire({
-        title: 'offer '+offerName,
+        title: 'signaler '+offerName,
         html: '<div class="flex justify-start">' +
-        '<input id="report-title" name="title" class="swal2-input ms-auto w-full"  placeholder="Title">' +
+        '<input id="report-title" name="title" class="swal2-input ms-auto w-full"  placeholder="titre">' +
         '</div>' +
             '<div id="flex justify-start description-container">' +
-            '<textarea id="report-description" name="description" class="swal2-textarea ms-auto w-full" rows="4"  placeholder="Give description"></textarea>' +
+            '<textarea id="report-description" name="description" class="swal2-textarea ms-auto w-full" rows="4"  placeholder="description"></textarea>' +
             '</div>',
         showCancelButton: true,
-        confirmButtonText: 'Report',
-        cancelButtonText: 'Cancel',
+        confirmButtonText: 'signaler',
+        cancelButtonText: 'annuler',
         showLoaderOnConfirm: true,
         preConfirm: (result) => {
         const titleValue = document.getElementById('report-title').value;
