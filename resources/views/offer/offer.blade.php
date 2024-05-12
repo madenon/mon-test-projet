@@ -10,6 +10,7 @@
         </div>
     @endif
     <div class="offre-page mx-9 my-2">
+        
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="page">{{ Diglactic\Breadcrumbs\Breadcrumbs::render('offer') }}</li>
@@ -33,10 +34,13 @@
         'MORE_THAN_25_YEARS' => '🔥 Expert',
     ];  
     @endphp
+
+
     <div id="lightbox"></div>
     <div class="flex md:gap-11 offre-page flex-col md:flex-row">
         <div class="w-[50%] ml-12 partie-slide">
             <div class=" flex flex-col gap-6">
+            <h2 class="text-titles  font-semibold">{{ $offer->title }}</h2>
                 <div class="">
                     <img src="{{ route('offer-pictures-file-path',$offer->defaultImage->offer_photo) }}"
                         alt="Image principale" id="mainImage"  class="zoomD h-[450px] w-[750px] rounded-lg " />
@@ -224,10 +228,7 @@
             </ul>
         </div>
         @endif
-        <div class="flex justify-between">
-            <h2 class="text-titles  font-semibold">{{ $offer->title }}</h2>
    
-</div>
 <div class="flex justify-between">
 @if ($offer->favoritedBy->contains(auth()->user()))
     <!-- If offer is favorited, show remove from favorites form -->
@@ -272,7 +273,7 @@
                         <span class="w-[35%]">
                             Type de troc:
                         </span>
-                        <span class="text-titles text-lg ">
+                        <span class="text-titles text-lg "style="color : #24A19C;font-weight: 700;" >
                             {{$offer->type->name }}
                         </span>
                     </div>
@@ -280,7 +281,7 @@
                         <span class="w-[35%]">
                             Categorie:
                         </span>
-                        <span class="text-titles text-lg flex items-center div-categorie">
+                        <span class="text-titles text-lg flex items-center div-categorie" style="color : #24A19C;font-weight: 700;">
                             <img src="/images/Stack.svg" alt="" class="mr-2">
                             {{$offer->subcategory->parent->name}}
                             <img src="/images/chevron-right.svg" alt="" class="px-2">
@@ -348,24 +349,32 @@
 </div>
 
                 <div class=" pt-3">
-                    <div class="px-12 flex justify-content-between  gap-2 items-center">
+                    <div class="px-12 flex justify-content-normal  gap-2 items-center"style="padding-top:1rem" >
                         @if($offer->price)
                         <span class="text-titles text-2xl font-semibold">
                             {{$offer->price}} €
                         </span>
                         @endif
+                        </div>
+
+                        <div class="px-12 flex justify-content-normal  gap-2 items-center"style="padding-top:1rem" >
+
                         @if ($offer->buy_authorized)
                         <style>
                             .bg-with-primary{
                                 background-color : #24A19C;
                             }
                         </style>
-                        <span class="flex bg-with-primary rounded-full px-3 py-1 gap-2 text-white">
+                        <span class="flex bg-with-primary rounded-full px-2 py-1 gap-1 text-white">
                             <span class="bg-with-primary px-2 rounded-full text-white">€</span>
                             <span>Vente autorisé</span> 
                             
                         </span>
-                        @endif
+                        @endif                      
+
+
+
+
                         @if ($offer->send_authorized)
                             <style>
                                 .bg-with-primary{
@@ -373,8 +382,8 @@
                                 }
                             </style>
 
-                            <span class="flex bg-with-primary  rounded-full px-1 py-1 gap-1 text-white">
-                                <span class="text-center text-xs md:text-base"><i class="fa-solid fa-dolly"></i> Envoi autorisé</span>
+                            <span class="flex bg-with-primary  rounded-full px-2 py-1 gap-1 text-white">
+                                <span class="bg-with-primary px-2 rounded-full text-white"><i class="fa-solid fa-dolly"></i></span><span> Envoi autorisé</span>
                             </span>
                             @endif
                     </div>
