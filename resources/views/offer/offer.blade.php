@@ -466,7 +466,7 @@
                             Trocs
                         </div>
                         <div>
-                            <a class="" href="{{route('alloffers.indexx',[$offer->user->id])}}">
+                            <a class="text-decoration-none text-secondary" href="{{route('alloffers.indexx',[$offer->user->id])}}">
                                 <span class="bg-gray-200 rounded-full px-2">{{$offer->user->offer->count()}}</span>
                             Offres
                             </a>
