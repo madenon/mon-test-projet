@@ -276,18 +276,18 @@
                     </div>
                     <div class="flex  items-center   ">
                         
-                        <span class="text-titles text-lg ">
+                        <span class="text-titles text-lg "style="color : #24A19C;font-weight: 700;" >
                             {{$offer->type->name }}
                         </span>
                     </div>
 
                     <div class="flex    items-center   ">
-                        <span class="w-[35%]>
+                        <span >
                             Categorie:
                         </span>
                     </div>
                     <div class="flex    items-center   ">
-                        <span class="text-titles text-lg flex items-center div-categorie">
+                        <span class="text-titles text-lg flex items-center div-categorie"style="color : #24A19C;font-weight: 700;" >
                             <img src="/images/Stack.svg" alt="" class="mr-2">
                             {{$offer->subcategory->parent->name}}
                             <img src="/images/chevron-right.svg" alt="" class="px-2">
