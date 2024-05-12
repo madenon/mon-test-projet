@@ -200,6 +200,7 @@
                             </span>
                             @endif
                         </div>
+                        @if($offer->expiration_date!=NULL)
                         <div class="pb-7 md:pb-12 md:mt-2 offer-container" data-expiration="{{ $offer->expiration_date }}">
                             <div class="flex gap-2 pr-3">
                                 <div class="w-1/4">
@@ -228,7 +229,7 @@
                                 </div>
                             </div>
                         </div>
-
+                         @endif
                         <div class="offer_owner md:mb-10" >
                             <div class="flex gap-3 ">
                                 <div class="relative">
