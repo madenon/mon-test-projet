@@ -123,7 +123,7 @@
                                     {{ Str::limit($offer->title, 35) }}</h1>
                             </a>
                         </div>
-                        <div class="flex gap-2 items-center text-xs md:text-base">
+                        <div class="flex gap-2 items-center text-xs md:text-base" style="color : #24A19C;font-weight: 900;">
                             <img src="/images/Stack.svg" alt="" class="">
                             {{$offer->type->name}}
                             <img src="/images/chevron-right.svg" alt="" class="">
