@@ -270,18 +270,24 @@
             <div class="border pt-4 flex rounded-lg flex-col ">
                 <div class="flex pb-3 px-12 gap-2 flex-col ">
                     <div class="flex  items-center   ">
-                        <span class="w-[35%]">
+                        <span >
                             Type de troc:
                         </span>
-                        <span class="text-titles text-lg "style="color : #24A19C;font-weight: 700;" >
+                    </div>
+                    <div class="flex  items-center   ">
+                        
+                        <span class="text-titles text-lg ">
                             {{$offer->type->name }}
                         </span>
                     </div>
+
                     <div class="flex    items-center   ">
-                        <span class="w-[35%]">
+                        <span class="w-[35%]>
                             Categorie:
                         </span>
-                        <span class="text-titles text-lg flex items-center div-categorie" style="color : #24A19C;font-weight: 700;">
+                    </div>
+                    <div class="flex    items-center   ">
+                        <span class="text-titles text-lg flex items-center div-categorie">
                             <img src="/images/Stack.svg" alt="" class="mr-2">
                             {{$offer->subcategory->parent->name}}
                             <img src="/images/chevron-right.svg" alt="" class="px-2">
@@ -289,20 +295,31 @@
                         </span>
                     </div>
                     <div class="flex    items-center   ">
-                        <span class="w-[35%]">
+                        <span >
                             Mis en ligne le:
                         </span>
+                       
+                    </div>
+                    <div class="flex    items-center   ">
+                       
                         <span class="text-titles text-lg flex ">
                             {{ $offer->created_at->format('d M Y | H:i:s') }}
                         </span>
                     </div>
+
                 </div>
                 @if($offer->condition && $offer->type->name=="Bien")
                 <div class=" border-y py-3 ">
                     <div class=" px-8 flex    items-center">
-                        <span class="w-[35%]">
+                        <span >
                             L’etat:
                         </span>
+                        
+                    </div>
+                </div>
+                <div class=" border-y py-3 ">
+                    <div class=" px-8 flex    items-center">
+                        
                         <span class="text-titles text-lg flex gap-2 ">
                             <p>{{ $conditionMapping[$offer->condition] }}</p>
                         </span>
@@ -312,9 +329,15 @@
                 @if($offer->experience && $offer->type->name=="Service")
                 <div class=" border-y py-3 ">
                     <div class=" px-8 flex    items-center">
-                        <span class="w-[35%]">
+                        <span >
                             Le niveau:
                         </span>
+                       
+                    </div>
+                </div>
+                <div class=" border-y py-3 ">
+                    <div class=" px-8 flex    items-center">
+                        
                         <span class="text-titles text-lg flex gap-2 ">
                             <p>{{ $experienceMapping[$offer->experience] }}</p>
                         </span>
@@ -387,7 +410,7 @@
                             </span>
                             @endif
                     </div>
-                    <div class="m-4 bg-gray-100 p-4 rounded-lg">
+                    <div class="m-4 bg-gray-100 p-4 rounded-lg" style="color: black;font-weight: 400;">
                         @if ($offer->type->name=='Moment')
                         <h5>À PARTAGER AVEC :</h5>
                         @else
@@ -395,7 +418,7 @@
                         @endif
                         <span class="flex gap-2 px-5">
                         @if($offer->specify_proposition && $offer->type->name!='Moment' )
-                            <img src="/images/Icon.svg" alt="">
+                        <i class="fa-solid fa-right-left"></i>
                             <span>
                                 Etudie toute proposition
                             </span>
@@ -404,11 +427,11 @@
                         @if($offer->dynamic_inputs)
                         @foreach (json_decode($offer->dynamic_inputs, true)?? [] as $prop )
                         @if($prop!=null)
-                        <span class="flex gap-2 px-5">
+                        <span class="flex gap-2 px-5 ">
                         @if (!is_numeric($prop))
-                            <img src="/images/Icon.svg" alt="">  {{$prop}}
+                        <i class="fa-solid fa-right-left"></i> {{$prop}}
                             @else
-                            <img src="/images/Icon.svg" alt="">  {{$prop}} partenaire(s).
+                            <i class="fa-solid fa-right-left"></i> {{$prop}} partenaire(s).
                             @endif
 
                         </span>
