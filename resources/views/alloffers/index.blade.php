@@ -239,7 +239,7 @@
                                     <img class="w-12 h-12 rounded-full" src="{{ route('profile_pictures-file-path',$offer->user->profile_photo_path) }}" alt=""
                                     class="rounded-full">
                                     @endif
-                                    <span class="status-indicator absolute bottom-0 right-0 transform translate-x-[-50%] translate-y-[-50%] 
+                                    <span class="status-indicator absolute top-0 right-0 transform translate-x-[-50%] translate-y-[-50%] 
                                     @if ($offer->user->is_online == 1) bg-green-600 @else bg-red-600 @endif">
                                     </span>
                                 </div>
