@@ -10,6 +10,7 @@
         </div>
     @endif
     <div class="offre-page mx-9 my-2">
+        
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="page">{{ Diglactic\Breadcrumbs\Breadcrumbs::render('offer') }}</li>
@@ -33,10 +34,13 @@
         'MORE_THAN_25_YEARS' => '🔥 Expert',
     ];  
     @endphp
+
+
     <div id="lightbox"></div>
     <div class="flex md:gap-11 offre-page flex-col md:flex-row">
         <div class="w-[50%] ml-12 partie-slide">
             <div class=" flex flex-col gap-6">
+            <h2 class="text-titles  font-semibold">{{ $offer->title }}</h2>
                 <div class="">
                     <img src="{{ route('offer-pictures-file-path',$offer->defaultImage->offer_photo) }}"
                         alt="Image principale" id="mainImage"  class="zoomD h-[450px] w-[750px] rounded-lg " />
@@ -225,7 +229,6 @@
         </div>
         @endif
         <div class="flex justify-between">
-            <h2 class="text-titles  font-semibold">{{ $offer->title }}</h2>
             @if ($offer->favoritedBy->contains(auth()->user()))
     <!-- If offer is favorited, show remove from favorites form -->
     <form method="POST" action="{{ route('offers.removeFromFavorites', ['offer' => $offer]) }}">
