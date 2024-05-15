@@ -1,30 +1,14 @@
-<div class='add_comment_area'>
-    <h5 class='text-center'>Add a comment</h5>
+<h4 class="mb40 text-uppercase font500">Post a comment</h4>
     <form method='post' action='{{route("binshopsblog.comments.add_new_comment",[app('request')->get('locale'),$post->slug])}}'>
         @csrf
 
 
-        <div class="form-group ">
-
-            <label id="comment_label" for="comment">Your Comment </label>
-                    <textarea
-                            class="form-control"
-                            name='comment'
-                            required
-                            id="comment"
-                            placeholder="Write your comment here"
-                            rows="7">{{old("comment")}}</textarea>
-
-
-        </div>
-
-        <div class='container-fluid'>
-            <div class='row'>
+      
 
                 @if(config("binshopsblog.comments.save_user_id_if_logged_in", true) == false || !\Auth::check())
 
-                    <div class='col'>
                         <div class="form-group ">
+                            
                             <label id="author_name_label" for="author_name">Your Name </label>
                             <input
                                     type='text'
@@ -35,7 +19,6 @@
                                     required
                                     value="{{old("author_name")}}">
                         </div>
-                    </div>
 
                     @if(config("binshopsblog.comments.ask_for_author_email"))
                         <div class='col'>
@@ -74,8 +57,7 @@
                     </div>
 
                 @endif
-            </div>
-        </div>
+         
 
 
         @if($captcha)
@@ -84,10 +66,11 @@
         @endif
 
 
-        <div class="form-group ">
-            <input type='submit' class="form-control input-sm btn btn-success "
+        
+        <div class="clearfix float-right">
+                            <button type="button" class="btn btn-primary btn-lg">Submit</button>
+                        </div>
+                        <input type='submit' class="form-control input-sm btn btn-success "
                    value='Add Comment'>
-        </div>
 
     </form>
-</div>

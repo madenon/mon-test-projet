@@ -247,9 +247,9 @@
                                 </a>
                             </li> -->
                             <li>
-                                <a class="header-user-avatar-dropdown-item" href="{{route('binshopsblog.index' , 'fr')}}">
-                                    <img src="{{asset('images/shopping-bag-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
-                                    Mon bloc
+                                <a class="header-user-avatar-dropdown-item" href="{{route('binshopsblog.index' , 'fr')}}" style="color:#24A19C;font-weight: 900">
+                                    <img src="{{asset('images/blog.png')}}" alt="" class="header-user-avatar-dropdown-item-img" />
+                                    BLOG
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>

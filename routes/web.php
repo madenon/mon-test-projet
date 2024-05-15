@@ -141,11 +141,16 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
    Route::get('/offerInfos',  function () {
         return view('admin.offer-info');
     })->middleware('admin')->name('admin.offerInfos');
+
+
+
    Route::get('/blogAdmin',  function () {
         if (DB::table('binshops_languages')->exists())
             return redirect()->route('binshopsblog.admin.index');
         return redirect()->route('binshopsblog.admin.setup');
     })->middleware('admin')->name('admin.blog');
+
+
     
    Route::get('/badges',  'badges')->middleware('admin')->name('admin.badges');
    Route::get('/contests',  'contest')->middleware('admin')->name('admin.contests');
@@ -205,6 +210,7 @@ Route::middleware('check.offers')->group(function () {
     Route::delete('/offres/{offer}/removeFromFavorites', [OfferController::class, 'removeFromFavorites'])->name('offers.removeFromFavorites');
     Route::delete('/offres/removeOfferImage', [OfferController::class, 'deleteImage'])->name('offers.deleteImage');
     Route::get('/alloffers', [AlloffersController::class, 'index'])->name('alloffers.index');
+    Route::get('/alloffers/{id}', [AlloffersController::class, 'indexx'])->name('alloffers.indexx');
     Route::post('/offres/updateActiveAnimation', [OfferController::class, 'updateActiveAnimation'])->name('offers.updateActiveAnimation');
     Route::post('/offres/toogleActive', [OfferController::class, 'toogleActive'])->name('offers.toogleActive');
     Route::post('/offres/putOnTop', [OfferController::class, 'putOnTop'])->name('offers.putOnTop');

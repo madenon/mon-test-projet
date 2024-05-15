@@ -112,9 +112,9 @@
            
                 @foreach ($offers as $offer)
                 <div class="offer_list_card mt-0 mb-4">
-                    <div class="offer_image w-2/5 relative">
-                        <img src="{{ route('offer-pictures-file-path',$offer->defaultImage->offer_photo) }}" alt=""
-                            class="zoomD object-cover h-full w-full rounded-tl-lg rounded-bl-lg " />
+                    <div class="mt-auto mb-auto w-1/2 relative">
+                        <img src="{{ route('offer-pictures-file-path',$offer->defaultImage->offer_photo) }}" alt="Responsive image"
+                            class="zoomD img-fluid" />
                     </div>
                     <div class="offer_details md:ml-8 md:mr-4 md:mt-4 mr-2 ml-2 mt-2">
                         <div class="">
@@ -123,16 +123,31 @@
                                     {{ Str::limit($offer->title, 35) }}</h1>
                             </a>
                         </div>
-                        <div class="flex gap-2 items-center text-xs md:text-base">
-                            <img src="/images/Stack.svg" alt="" class="">
-                            {{$offer->type->name}}
-                            <img src="/images/chevron-right.svg" alt="" class="">
-                            <img src="/images/Stack.svg" alt="" class="">
+                        <div class="flex  items-center   ">
+                        <span >
+                            Type de troc:
+                        </span>
+                    </div>
+                    <div class="flex  items-center   ">
+                        
+                        <span class="text-titles text-lg "style="color : #24A19C;font-weight: 700;" >
+                            {{$offer->type->name }}
+                        </span>
+                    </div>
+
+                    <div class="flex    items-center   ">
+                        <span >
+                            Categorie:
+                        </span>
+                    </div>
+                    <div class="flex    items-center   ">
+                        <span class="text-titles text-lg flex items-center div-categorie"style="color : #24A19C;font-weight: 700;" >
+                            <img src="/images/Stack.svg" alt="" class="mr-2">
                             {{$offer->subcategory->parent->name}}
-                            <img src="/images/chevron-right.svg" alt="" class="">
-                            <img src="/images/Stack.svg" alt="" class="">
+                            <img src="/images/chevron-right.svg" alt="" class="px-2">
                             {{$offer->subcategory->name}}
-                        </div>
+                        </span>
+                    </div>
                        @if($offer->type->name!='Moment')
                        @if($offer->specify_proposition)
                         <div class=" text-titles text-xs mt-3 hidden md:block">
@@ -196,10 +211,11 @@
                             </style>
 
                             <span class="flex bg-with-primary  rounded-full px-1 py-1 gap-1 text-white">
-                                <span class="text-center text-xs md:text-base">€ Envoi autorisé</span>
+                                <span class="text-center text-xs md:text-base"> <i class="fa-solid fa-dolly"></i> Envoi autorisé</span>
                             </span>
                             @endif
                         </div>
+                        @if($offer->expiration_date!=NULL)
                         <div class="pb-7 md:pb-12 md:mt-2 offer-container" data-expiration="{{ $offer->expiration_date }}">
                             <div class="flex gap-2 pr-3">
                                 <div class="w-1/4">
@@ -228,7 +244,7 @@
                                 </div>
                             </div>
                         </div>
-
+                         @endif
                         <div class="offer_owner md:mb-10" >
                             <div class="flex gap-3 ">
                                 <div class="relative">
@@ -238,7 +254,7 @@
                                     <img class="w-12 h-12 rounded-full" src="{{ route('profile_pictures-file-path',$offer->user->profile_photo_path) }}" alt=""
                                     class="rounded-full">
                                     @endif
-                                    <span class="status-indicator absolute bottom-0 right-0 transform translate-x-[-50%] translate-y-[-50%] 
+                                    <span class="status-indicator absolute top-0 right-0 transform translate-x-[-50%] translate-y-[-50%] 
                                     @if ($offer->user->is_online == 1) bg-green-600 @else bg-red-600 @endif">
                                     </span>
                                 </div>

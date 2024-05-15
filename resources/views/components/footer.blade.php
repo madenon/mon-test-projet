@@ -36,6 +36,12 @@
                                     <h3>Liens</h3>
                                     <nav>
                                         <ul>
+                                        <li>
+                                        <a href='{{route("binshopsblog.index" , app()->getLocale() )}}' >
+                       Blog
+                    </a>
+                                            </li>
+
                                             <li>
                                                 <a href="{{$information->contrat}}" target="_blank">Contrat d'échange</a>
                                             </li>

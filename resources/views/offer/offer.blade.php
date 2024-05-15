@@ -10,6 +10,7 @@
         </div>
     @endif
     <div class="offre-page mx-9 my-2">
+        
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="page">{{ Diglactic\Breadcrumbs\Breadcrumbs::render('offer') }}</li>
@@ -33,10 +34,13 @@
         'MORE_THAN_25_YEARS' => '🔥 Expert',
     ];  
     @endphp
+
+
     <div id="lightbox"></div>
     <div class="flex md:gap-11 offre-page flex-col md:flex-row">
         <div class="w-[50%] ml-12 partie-slide">
             <div class=" flex flex-col gap-6">
+            <h2 class="text-titles  font-semibold">{{ $offer->title }}</h2>
                 <div class="">
                     <img src="{{ route('offer-pictures-file-path',$offer->defaultImage->offer_photo) }}"
                         alt="Image principale" id="mainImage"  class="zoomD h-[450px] w-[750px] rounded-lg " />
@@ -224,9 +228,9 @@
             </ul>
         </div>
         @endif
-        <div class="flex justify-between">
-            <h2 class="text-titles  font-semibold">{{ $offer->title }}</h2>
-            @if ($offer->favoritedBy->contains(auth()->user()))
+   
+<div class="flex justify-between">
+@if ($offer->favoritedBy->contains(auth()->user()))
     <!-- If offer is favorited, show remove from favorites form -->
     <form method="POST" action="{{ route('offers.removeFromFavorites', ['offer' => $offer]) }}">
         @csrf
@@ -247,7 +251,6 @@
     </form>
 @endif
 </div>
-
             @auth
     @if(auth()->id() != $offer->user_id)
     <form action="{{ route('propositions.create', ['offerid' => $offer->id,'userid'=>auth()->id()]) }}" method="get">
@@ -267,18 +270,24 @@
             <div class="border pt-4 flex rounded-lg flex-col ">
                 <div class="flex pb-3 px-12 gap-2 flex-col ">
                     <div class="flex  items-center   ">
-                        <span class="w-[35%]">
+                        <span >
                             Type de troc:
                         </span>
-                        <span class="text-titles text-lg ">
+                    </div>
+                    <div class="flex  items-center   ">
+                        
+                        <span class="text-titles text-lg "style="color : #24A19C;font-weight: 700;" >
                             {{$offer->type->name }}
                         </span>
                     </div>
+
                     <div class="flex    items-center   ">
-                        <span class="w-[35%]">
+                        <span >
                             Categorie:
                         </span>
-                        <span class="text-titles text-lg flex items-center div-categorie">
+                    </div>
+                    <div class="flex    items-center   ">
+                        <span class="text-titles text-lg flex items-center div-categorie"style="color : #24A19C;font-weight: 700;" >
                             <img src="/images/Stack.svg" alt="" class="mr-2">
                             {{$offer->subcategory->parent->name}}
                             <img src="/images/chevron-right.svg" alt="" class="px-2">
@@ -286,20 +295,31 @@
                         </span>
                     </div>
                     <div class="flex    items-center   ">
-                        <span class="w-[35%]">
+                        <span >
                             Mis en ligne le:
                         </span>
+                       
+                    </div>
+                    <div class="flex    items-center   ">
+                       
                         <span class="text-titles text-lg flex ">
                             {{ $offer->created_at->format('d M Y | H:i:s') }}
                         </span>
                     </div>
+
                 </div>
                 @if($offer->condition && $offer->type->name=="Bien")
                 <div class=" border-y py-3 ">
                     <div class=" px-8 flex    items-center">
-                        <span class="w-[35%]">
+                        <span >
                             L’etat:
                         </span>
+                        
+                    </div>
+                </div>
+                <div class=" border-y py-3 ">
+                    <div class=" px-8 flex    items-center">
+                        
                         <span class="text-titles text-lg flex gap-2 ">
                             <p>{{ $conditionMapping[$offer->condition] }}</p>
                         </span>
@@ -309,9 +329,15 @@
                 @if($offer->experience && $offer->type->name=="Service")
                 <div class=" border-y py-3 ">
                     <div class=" px-8 flex    items-center">
-                        <span class="w-[35%]">
+                        <span >
                             Le niveau:
                         </span>
+                       
+                    </div>
+                </div>
+                <div class=" border-y py-3 ">
+                    <div class=" px-8 flex    items-center">
+                        
                         <span class="text-titles text-lg flex gap-2 ">
                             <p>{{ $experienceMapping[$offer->experience] }}</p>
                         </span>
@@ -346,24 +372,32 @@
 </div>
 
                 <div class=" pt-3">
-                    <div class="px-12 flex justify-content-between  gap-2 items-center">
+                    <div class="px-12 flex justify-content-normal  gap-2 items-center"style="padding-top:1rem" >
                         @if($offer->price)
                         <span class="text-titles text-2xl font-semibold">
                             {{$offer->price}} €
                         </span>
                         @endif
+                        </div>
+
+                        <div class="px-12 flex justify-content-normal  gap-2 items-center"style="padding-top:1rem" >
+
                         @if ($offer->buy_authorized)
                         <style>
                             .bg-with-primary{
                                 background-color : #24A19C;
                             }
                         </style>
-                        <span class="flex bg-with-primary rounded-full px-3 py-1 gap-2 text-white">
+                        <span class="flex bg-with-primary rounded-full px-2 py-1 gap-1 text-white">
                             <span class="bg-with-primary px-2 rounded-full text-white">€</span>
                             <span>Vente autorisé</span> 
                             
                         </span>
-                        @endif
+                        @endif                      
+
+
+
+
                         @if ($offer->send_authorized)
                             <style>
                                 .bg-with-primary{
@@ -371,12 +405,12 @@
                                 }
                             </style>
 
-                            <span class="flex bg-with-primary  rounded-full px-1 py-1 gap-1 text-white">
-                                <span class="text-center text-xs md:text-base">€ Envoi autorisé</span>
+                            <span class="flex bg-with-primary  rounded-full px-2 py-1 gap-1 text-white">
+                                <span class="bg-with-primary px-2 rounded-full text-white"><i class="fa-solid fa-dolly"></i></span><span> Envoi autorisé</span>
                             </span>
                             @endif
                     </div>
-                    <div class="m-4 bg-gray-100 p-4 rounded-lg">
+                    <div class="m-4 bg-gray-100 p-4 rounded-lg" style="color: black;font-weight: 400;">
                         @if ($offer->type->name=='Moment')
                         <h5>À PARTAGER AVEC :</h5>
                         @else
@@ -384,7 +418,7 @@
                         @endif
                         <span class="flex gap-2 px-5">
                         @if($offer->specify_proposition && $offer->type->name!='Moment' )
-                            <img src="/images/Icon.svg" alt="">
+                        <i class="fa-solid fa-right-left"></i>
                             <span>
                                 Etudie toute proposition
                             </span>
@@ -393,11 +427,11 @@
                         @if($offer->dynamic_inputs)
                         @foreach (json_decode($offer->dynamic_inputs, true)?? [] as $prop )
                         @if($prop!=null)
-                        <span class="flex gap-2 px-5">
+                        <span class="flex gap-2 px-5 ">
                         @if (!is_numeric($prop))
-                            <img src="/images/Icon.svg" alt="">  {{$prop}}
+                        <i class="fa-solid fa-right-left"></i> {{$prop}}
                             @else
-                            <img src="/images/Icon.svg" alt="">  {{$prop}} partenaire(s).
+                            <i class="fa-solid fa-right-left"></i> {{$prop}} partenaire(s).
                             @endif
 
                         </span>
@@ -408,16 +442,16 @@
                     </div>
                 </div>
             </div>
-            <div class="report-button my-4 text-red-700 justify-center border-black py-2 border-b rounded-lg flex gap-2 w-52"
+            <div class="report-button my-4 text-red-700 justify-center border-black py-2 border-b rounded-lg flex gap-2 "
                 data-offer-id="{{ $offer->id }}" data-offer-name="{{ $offer->name }}">
                 <img src="/images/flag_FILL0_wght200_GRAD-25_opsz20 1.svg" alt="">
                 <span>
-                    Signalez ce troc
+                SIGNALEZ CETTE ANNONCE
                 </span>
             </div>
             @if(auth()->id() != $offer->user_id)
             <div class="border rounded-lg pb-4">
-                <h4 class="text-titles border-b px-5 py-4">Vendeur</h4>
+                <h4 class="text-titles border-b px-5 py-4">Troqueur</h4>
                 <div>
                     <div class="flex justify-between px-4 py-2">
                         <div class="flex gap-3  ">
@@ -428,7 +462,7 @@
                                 class="rounded-full">
                             @endif
                             <span class="flex flex-col">
-                                <span class="text-titles font-medium">
+                                <span class="text-titles font-medium text-decoration-underline">
                                     {{$offer->user->first_name . " " .
                                     $offer->user->last_name}}
                                 </span>
@@ -443,10 +477,10 @@
                             @endif
                         </div>
                         <div class="flex flex-col ">
-                            <span>
+                            <span class="text-decoration-underline">
                                 {{$offer->user->ratings->avg('stars')}} ({{$offer->user->ratings->count()}} avis)
                             </span>
-                            <span class="flex">
+                            <span class="flex text-decoration-underline">
                             @for ($i =1; $i <= 5; $i++)
                                     <input type="radio" id="star{{$i}}" name="rating" value="{{$i}}" class="hidden rate" />
                                     <label for="star{{$i}}" title="{{$i}} star" class="cursor-pointer text-2xl text-yellow-500 rate" >
@@ -466,8 +500,11 @@
                             Trocs
                         </div>
                         <div>
-                            <span class="bg-gray-200 rounded-full px-2">{{$offer->user->offer->count()}}</span>
+                            <a class="text-decoration-none text-secondary" href="{{route('alloffers.indexx',[$offer->user->id])}}">
+                                <span class="bg-gray-200 rounded-full px-2">{{$offer->user->offer->count()}}</span>
                             Offres
+                            </a>
+                            
                         </div>
                         <div>
                             <span class="bg-gray-200 rounded-full px-2">{{$offer->user->ratings->count()}}</span>
@@ -512,10 +549,15 @@
         </div>
     </div>
     <section class="similarOffers mt-4">
-        <div class="flex justify-between px-24">
-            <h1 class="mb-6 ml-12 font-sans text-2xl font-bold text-gray-900">Offres similaire</h1>
-            <button class="bg-primary-color hover:bg-primary-hover mr-12 text-white font-bold py-2 px-4 rounded-2"><a class="no-underline font-medium text-white" href="{{route( 'alloffers.index',['sort_by'=>'latest', 'category' =>  $offer->subcategory->parent_id])}}">Voir plus</a></button>
-        </div>
+        <div style="text-align:center">
+            <h1 class="" >Offres similaires</h1>
+        </div>       
+         <div style="text-align:center">
+
+
+        <button class="bg-primary-color hover:bg-primary-hover  text-white font-bold py-2 px-4 rounded-2" ><a class="no-underline font-medium text-white" href="{{route( 'alloffers.index',['sort_by'=>'latest', 'category' =>  $offer->subcategory->parent_id])}}">Voir plus</a></button>
+        </div>       
+
         <div class="mx-auto grid max-w-screen-xl grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
                 @foreach ($similaroffers as $similar)
                 <x-offer-present-card :offer=$similar></x-offer-present-card>                  
@@ -947,16 +989,16 @@ $(document).on('click', '.report-button', function () {
     });
     function reportOffer(offerId,offerName) {
     Swal.fire({
-        title: 'offer '+offerName,
+        title: 'signaler '+offerName,
         html: '<div class="flex justify-start">' +
-        '<input id="report-title" name="title" class="swal2-input ms-auto w-full"  placeholder="Title">' +
+        '<input id="report-title" name="title" class="swal2-input ms-auto w-full"  placeholder="titre">' +
         '</div>' +
             '<div id="flex justify-start description-container">' +
-            '<textarea id="report-description" name="description" class="swal2-textarea ms-auto w-full" rows="4"  placeholder="Give description"></textarea>' +
+            '<textarea id="report-description" name="description" class="swal2-textarea ms-auto w-full" rows="4"  placeholder="description"></textarea>' +
             '</div>',
         showCancelButton: true,
-        confirmButtonText: 'Report',
-        cancelButtonText: 'Cancel',
+        confirmButtonText: 'signaler',
+        cancelButtonText: 'annuler',
         showLoaderOnConfirm: true,
         preConfirm: (result) => {
         const titleValue = document.getElementById('report-title').value;
