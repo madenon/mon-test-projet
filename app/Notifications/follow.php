@@ -42,7 +42,7 @@ class follow extends Notification
 
         return (new MailMessage)
                     ->subject($subject)
-                    ->line($followerName . ($this->is_following ? 'vous suit' : 'ne vous suit plus'));
+                    ->line($followerName . ($this->is_following ? ' vous suit' : ' ne vous suit plus'));
 
     }
 
@@ -55,9 +55,7 @@ class follow extends Notification
     {
         return [
             'id' => $this->follower->id,
-            'name' => 'Suivre',
-            'title' => $this->is_following ? 'Abonné' : 'Desbonné',
-            'content' => $this->follower->name. ($this->is_following ? 'vous suit' : 'ne vous suit plus'),
+            'content' => $this->follower->name. ($this->is_following ? ' vous suit' : ' ne vous suit plus'),
             'link' => url('/moncompte')
         ];
     }
