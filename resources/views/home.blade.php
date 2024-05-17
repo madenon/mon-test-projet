@@ -1,3 +1,4 @@
+
 <x-app-layout>
     <!-- (A) LIGHTBOX CONTAINER -->
 <div id="lightbox"></div>
@@ -166,7 +167,7 @@
             </div>
 
         </div>
-        <div id="recent-offers-container" class="flex flex-nowrap overflow-x-hidden space-x-5 mb-4">
+        <div id="recent-offers-container" class="flex flex-nowrap  space-x-5 mb-4 carousel carousel-slider" data-indicators="true">
             @for ($i=0;$i<count($recentOffers);$i++)
             <div class="basis-full md:basis-1/3 grow-0 shrink-0 @if($i>0) @endif">
                 <x-offer-present-card :offer=$recentOffers[$i]></x-offer-present-card>
@@ -489,6 +490,18 @@
 </style>
 
 <script>
+    (document).ready(function(){
+	$('.carousel').carousel({
+		fullWidth: true,
+		indicators: true
+	});
+
+	autoplay();
+	function autoplay() {
+		$('.carousel').carousel('next');
+		setTimeout(autoplay, 4500);
+	};
+});
     $(document).ready(function () {
         let all = document.getElementsByClassName("zoomD"),
         lightbox = document.getElementById("lightbox");

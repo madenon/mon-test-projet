@@ -229,6 +229,7 @@
         </div>
         @endif
         <div class="flex justify-between">
+            <h2 class="text-titles  font-semibold">{{ $offer->title }}</h2>
             @if ($offer->favoritedBy->contains(auth()->user()))
     <!-- If offer is favorited, show remove from favorites form -->
     <form method="POST" action="{{ route('offers.removeFromFavorites', ['offer' => $offer]) }}">
@@ -250,7 +251,6 @@
     </form>
 @endif
 </div>
-
             @auth
     @if(auth()->id() != $offer->user_id)
     <form action="{{ route('propositions.create', ['offerid' => $offer->id,'userid'=>auth()->id()]) }}" method="get">
