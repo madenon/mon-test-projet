@@ -546,7 +546,7 @@
 
 .owl-carousel .owl-item img {
     display: flex;
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
     
 }
 
