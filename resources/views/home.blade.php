@@ -117,7 +117,7 @@
     </div>
 </div> -->
 
-    <div class="grid grid-cols-3 md:grid-cols-6 justify-content place-items-stretch center my-4 ml-2 mr-2 md:mr-32 md:ml-32 ">
+    <div id="catcarousel" class="grid grid-cols-3 md:grid-cols-6 justify-content place-items-stretch center my-4 ml-2 mr-2 md:mr-32 md:ml-32 ">
         @for($i=0; $i< min(12,count($categories)) ;$i++ )
         <a class="no-underline text-black block" href="{{route('alloffers.index',['category'=> $categories[$i]->id])}}">
             <div class="flex flex-col justify-center items-center border shadow py-2 mx-2 mb-4">
@@ -127,6 +127,7 @@
             </div>
         </a>
         @endfor
+        </div>
 
         
         @if(count($categories)>12)
@@ -135,7 +136,6 @@
         </div>
         @endif
 
-    </div>
 
     <div id="featured-offers" class="flex flex-col my-4 ml-2 mr-2 md:mr-24 md:ml-24 pb-12">
         <div id="featured-offers-title" class="flex justify-between">
@@ -174,9 +174,9 @@
             </div>
 
         </div>
-        <div id="recent-offers-container" class="flex flex-nowrap overflow-x-hidden space-x-5 mb-4">
+        <div id="recent-offers-container" class="owl-carousel owl-six" data-inner-pagination="true" data-white-pagination="true" data-nav="false" data-autoPlay="true">
             @for ($i=0;$i<count($recentOffers);$i++)
-            <div class="basis-full md:basis-1/3 grow-0 shrink-0 @if($i>0) @endif">
+            <div class=" grow-0 shrink-0 @if($i>0) @endif" style="width: 100%;">
                 <x-offer-present-card :offer=$recentOffers[$i]></x-offer-present-card>
             </div>
             @endfor
@@ -698,9 +698,227 @@
     height: 100%;
     width: 100%
 }
+}
 
+@media only screen and (max-width: 600px) {
+  .owl-carousel {
+    height: 110px; 
+    width: 100%; 
+   }
+  .owl-carousel .owl-carousel-cell {
+     height: 100%; 
+     width: 40%; 
+     margin-right: 2%;
+   }
+   
+}
 </style>
+<style>
+    #catcarousel,#catcarousel.owl-item {
+    -webkit-tap-highlight-color: transparent;
+    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+    position: relative
+}
 
+#catcarousel {
+    display: none;
+    width: 100%;
+    z-index: 1
+}
+
+#catcarousel .owl-stage {
+    position: relative;
+    -ms-touch-action: pan-Y;
+    touch-action: manipulation;
+    -moz-backface-visibility: hidden
+}
+
+#catcarousel .owl-stage:after {
+    content: ".";
+    display: flex;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;"
+    height: 0
+}
+
+#catcarousel .owl-stage-outer {
+    position: relative;
+    -webkit-transform: translate3d(0,0,0)
+}
+
+#catcarousel .owl-item,#catcarousel .owl-wrapper {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -webkit-transform: translate3d(0,0,0);
+    -moz-transform: translate3d(0,0,0);
+    -ms-transform: translate3d(0,0,0)
+}
+
+#catcarousel .owl-item {
+    min-height: 1px;
+    float: left;
+    -webkit-backface-visibility: hidden;
+    -webkit-touch-callout: none
+}
+
+#catcarousel .owl-item img {
+    display: flex;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+    
+}
+
+#catcarousel .owl-dots.disabled,#catcarousel .owl-nav.disabled {
+    display: none
+}
+
+.no-js #catcarousel,#catcarousel.owl-loaded {
+    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;}
+
+    #catcarousel .owl-dot,#catcarousel.owl-nav .owl-next,#catcarousel .owl-nav .owl-prev {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+#catcarousel .owl-nav button.owl-next,#catcarousel .owl-nav button.owl-prev,#catcarousel button.owl-dot {
+    background: 0 0;
+    color: inherit;
+    border: none;
+    padding: 0!important;
+    font: inherit
+}
+
+#catcarousel.owl-loading {
+    opacity: 0;
+    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+}
+
+#catcarousel.owl-hidden {
+    opacity: 0
+}
+
+#catcarousel.owl-refresh .owl-item {
+    visibility: hidden
+}
+
+.owl-carousel.owl-drag .owl-item {
+    -ms-touch-action: pan-y;
+    touch-action: pan-y;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+#catcarousel.owl-grab {
+    cursor: move;
+    cursor: grab
+}
+
+#catcarousel.owl-rtl {
+    direction: rtl
+}
+
+#catcarousel.owl-rtl .owl-item {
+    float: right
+}
+
+#catcarousel .animated {
+    animation-duration: 1s;
+    animation-fill-mode: both
+}
+
+#catcarousel .owl-animated-in {
+    z-index: 0
+}
+
+#catcarousel .owl-animated-out {
+    z-index: 1
+}
+
+#catcarousel .fadeOut {
+    animation-name: fadeOut
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1
+    }
+
+    100% {
+        opacity: 0
+    }
+}
+
+.owl-height {
+    transition: height .5s ease-in-out
+}
+
+#catcarousel .owl-item .owl-lazy {
+    opacity: 0;
+    transition: opacity .4s ease
+}
+
+#catcarousel .owl-item .owl-lazy:not([src]),#catcarousel .owl-item .owl-lazy[src^=""] {
+    max-height: 0
+}
+
+#catcarousel .owl-item img.owl-lazy {
+    transform-style: preserve-3d
+}
+
+#catcarousel .owl-video-wrapper {
+    position: relative;
+    height: 100%;
+    background: #000
+}
+
+#catcarousel .owl-video-play-icon {
+    position: absolute;
+    height: 80px;
+    width: 80px;
+    left: 50%;
+    top: 50%;
+    margin-left: -40px;
+    margin-top: -40px;
+    background: url(owl.video.play.png) no-repeat;
+    cursor: pointer;
+    z-index: 1;
+    -webkit-backface-visibility: hidden;
+    transition: transform .1s ease
+}
+
+#catcarousel .owl-video-play-icon:hover {
+    -ms-transform: scale(1.3,1.3);
+    transform: scale(1.3,1.3)
+}
+
+#catcarousel .owl-video-playing .owl-video-play-icon,#catcarousel .owl-video-playing .owl-video-tn {
+    display: none
+}
+
+#catcarousel .owl-video-tn {
+    opacity: 0;
+    height: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: opacity .4s ease
+}
+
+#catcarousel .owl-video-frame {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    width: 100%
+}
+</style>
 <script>
     $(document).ready(function () {
         let all = document.getElementsByClassName("zoomD"),
@@ -708,8 +926,15 @@
         owl = $(".owl-carousel");
   owl.owlCarousel({
       loop:true,
-      autoplayTimeout:1000,
+      autoplayTimeout:2000,
       items:3,
+      autoplay:true
+  });
+  owlcat = $("#catcarousel");
+  owlcat.owlCarousel({
+      loop:true,
+      autoplayTimeout:2000,
+      items:6,
       autoplay:true
   });
         // (B) CLICK TO SHOW IMAGE IN LIGHTBOX
