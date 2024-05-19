@@ -3,6 +3,9 @@
 </script>
  <script src="https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/owl.carousel.js">
    </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+  <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <!-- (A) LIGHTBOX CONTAINER -->
 <div id="lightbox"></div>
@@ -62,18 +65,21 @@
 <div class="con" style="margin-left:20px; margin-right:310px;">
 @else
 <div >
-@endif    <div class="flex flex-col justify-center space-y-10 bg-primary-color" style="height:80vh" >
+@endif    
    
-        <div class="d-flex align-items-center justify-content-center">
-            <div >
-                <h1 class="title">Avez-vous un bien ou un service ?<br>cherchez, postez et troquez !</h1>
-                <div class="mt-12 d-flex align-items-center justify-content-center" >
-                    <a class="sg-btn" href="{{route('alloffers.index')}}">Consultez nos offres <i class="pl-2 fa fa-long-arrow-right"></i></a>
-                </div>
-            </div>
-         </div>
-         <h1 class="title text-center font-bold">Ne perdez plus votre temps et rejoignez notre réseau de troqueurs !</h1>
+<div class="swiper mySwiper flex flex-col justify-center space-y-10 " style="height:80vh">
+    <div class="swiper-wrapper">
+      <div class="flex swiper-slide"><img src="https://www.faistroquer.fr/public/img/slides/slide-1.png" alt="" ></div>
+      <div class="swiper-slide"><img src="https://www.faistroquer.fr/public/img/slides/slide-2.png" alt="" ></div>
+      <div class="swiper-slide"><img src="https://www.faistroquer.fr/public/img/slides/slide-3.png" alt="" ></div>
+      
     </div>
+    <div class=" swiper-button-next" style="color:#24A19C"></div>
+    <div class="swiper-button-prev" style="color:#24A19C"></div>
+    <div class="swiper-pagination" style="color:#24A19C"></div>
+  </div>
+
+    
 
 <!-- <div class="grid-container">
     <div class="s">
@@ -918,7 +924,52 @@
     height: 100%;
     width: 100%
 }
+.swiper {
+      width: 100%;
+      height: 100%;
+    }
+.swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+  overflow: hidden;
+  z-index: 1;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .swiper-pagination-bullet{
+        background-color:#24A19C !important;
+    }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+    var swiper = new Swiper(".mySwiper", {
+      spaceBetween: 30,
+      centeredSlides: true,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+    });
+  </script>
 <script>
     $(document).ready(function () {
         let all = document.getElementsByClassName("zoomD"),
