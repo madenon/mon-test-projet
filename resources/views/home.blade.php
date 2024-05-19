@@ -67,25 +67,35 @@
 <div >
 @endif    
 
-<div class="swiper mySwiper flex flex-col justify-center space-y-10 " style="height:80vh">
+<div class="swiper mySwiper flex flex-col justify-center " style="height:80vh">
+   <div class="content" style="width: 100%;
+    position: absolute;
+    top: 20%;
+    text-align: center;
+    z-index: 3;">
    
+   
+   <div class="d-flex align-items-center justify-content-center">
+       <div >
+           <h1 class="titlee">Avez-vous un bien ou un service ?<br>cherchez, postez et <span style="font-size: 41px;font-weight: 800;color:#24a19c;">troquez</span>  !</h1>
+           <div class="mt-12 d-flex align-items-center justify-content-center" >
+               <a class="sg-btn" href="{{route('alloffers.index')}}">Consultez nos offres <i class="pl-2 fa fa-long-arrow-right"></i></a>
+           </div>
+       </div>
+    </div>
+    <h1 class="titlee text-center font-bold">Ne perdez plus votre temps et rejoignez notre réseau de <span style="font-size: 41px;font-weight: 800;color:#24a19c;">troqueurs </span> !</h1>
+
+    </div>  
 
     <div class="swiper-wrapper" >
 
-      <div class="flex swiper-slide">     
-         
-<img  class="brightness" src="https://www.faistroquer.fr/public/img/slides/slide-1.png" alt="" >   
-</div>
-      <div class="swiper-slide"><img  class="brightness" src="https://www.faistroquer.fr/public/img/slides/slide-2.png" alt="" ></div>
-      <div class="swiper-slide"><img  class="brightness" src="https://www.faistroquer.fr/public/img/slides/slide-3.png" alt="" ></div>
+      <div class="swiper-slide">  <img  class="brightness" src="https://www.nowteam.net/wp-content/uploads/2021/01/AdobeStock_283137103-1080x675.jpeg" alt=""  >   </div>
+      <div class="swiper-slide"><img  class="brightness" src="https://www.londonlibrary.co.uk/images/CHARLOTTE/NEW_WEBSITE_IMAGES/LF_Wide_Back_Stacks.jpg" alt="" ></div>
+      <div class="swiper-slide"><img  class="brightness" src="https://static.vecteezy.com/system/resources/previews/024/903/858/non_2x/beautiful-women-in-fashionable-clothing-exude-elegance-generated-by-ai-free-photo.jpg" alt="" ></div>
       
     </div>
     
-    <div class=" swiper-button-next" style="color:#24A19C"></div>
-    <div class="swiper-button-prev" style="color:#24A19C"></div>
-    <div class="swiper-pagination" style="color:#24A19C"></div>
-    
-    <div class="content">Centered</div>   
+     
 
   </div>
 
@@ -450,6 +460,10 @@
     color: var(--titles-color);
     margin-top: 50px;
 }
+.titlee {
+    color: #ffff;
+    margin-top: 50px;
+}
 
 .title h1 {
     color: var(--secondary-color);
@@ -769,7 +783,7 @@
 
 #catcarousel {
     display: none;
-    width: 100%;
+    
     z-index: 1
 }
 
