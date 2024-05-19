@@ -66,17 +66,27 @@
 @else
 <div >
 @endif    
-   
+
 <div class="swiper mySwiper flex flex-col justify-center space-y-10 " style="height:80vh">
-    <div class="swiper-wrapper">
-      <div class="flex swiper-slide"><img class="brightness" src="https://www.faistroquer.fr/public/img/slides/slide-1.png" alt="" ></div>
-      <div class="swiper-slide"><img class="brightness" src="https://www.faistroquer.fr/public/img/slides/slide-2.png" alt="" ></div>
-      <div class="swiper-slide"><img class="brightness" src="https://www.faistroquer.fr/public/img/slides/slide-3.png" alt="" ></div>
+   
+
+    <div class="swiper-wrapper" >
+
+      <div class="flex swiper-slide">     
+         
+<img  class="brightness" src="https://www.faistroquer.fr/public/img/slides/slide-1.png" alt="" >   
+</div>
+      <div class="swiper-slide"><img  class="brightness" src="https://www.faistroquer.fr/public/img/slides/slide-2.png" alt="" ></div>
+      <div class="swiper-slide"><img  class="brightness" src="https://www.faistroquer.fr/public/img/slides/slide-3.png" alt="" ></div>
       
     </div>
+    
     <div class=" swiper-button-next" style="color:#24A19C"></div>
     <div class="swiper-button-prev" style="color:#24A19C"></div>
     <div class="swiper-pagination" style="color:#24A19C"></div>
+    
+    <div class="content">Centered</div>   
+
   </div>
 
     
@@ -394,6 +404,33 @@
 
 <style>
 
+.text{
+	font-family: 'arial black';
+	font-size: 60px;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+	margin-left: 50%;
+	transform: translateX(-200%);
+	opacity: 0;
+	animation: slide-in-anim 1.5s ease-out forwards;
+}
+
+@keyframes slide-in-anim {
+	20% {
+		opacity: 0;
+	}
+	60% {
+		transform: translateX(-45%);
+	}
+	75% {
+		transform: translateX(-52%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(-50%);
+	}
+}
 
 .brightness { filter: brightness(0.25); }
 /* Additional styles for the new content */
