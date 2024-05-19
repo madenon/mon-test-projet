@@ -69,9 +69,9 @@
    
 <div class="swiper mySwiper flex flex-col justify-center space-y-10 " style="height:80vh">
     <div class="swiper-wrapper">
-      <div class="flex swiper-slide"><img src="https://www.faistroquer.fr/public/img/slides/slide-1.png" alt="" ></div>
-      <div class="swiper-slide"><img src="https://www.faistroquer.fr/public/img/slides/slide-2.png" alt="" ></div>
-      <div class="swiper-slide"><img src="https://www.faistroquer.fr/public/img/slides/slide-3.png" alt="" ></div>
+      <div class="flex swiper-slide"><img class="brightness" src="https://www.faistroquer.fr/public/img/slides/slide-1.png" alt="" ></div>
+      <div class="swiper-slide"><img class="brightness" src="https://www.faistroquer.fr/public/img/slides/slide-2.png" alt="" ></div>
+      <div class="swiper-slide"><img class="brightness" src="https://www.faistroquer.fr/public/img/slides/slide-3.png" alt="" ></div>
       
     </div>
     <div class=" swiper-button-next" style="color:#24A19C"></div>
@@ -392,7 +392,11 @@
     </div>
 </x-app-layout>
 
-<style>/* Additional styles for the new content */
+<style>
+
+
+.brightness { filter: brightness(0.25); }
+/* Additional styles for the new content */
 .grid-container {
   display: grid;
   grid-template-columns: auto auto auto  ;
