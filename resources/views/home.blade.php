@@ -77,7 +77,7 @@
    
    <div class="d-flex align-items-center justify-content-center">
        <div >
-           <h1 class="titlee">Avez-vous un bien ou un service ?<br>cherchez, postez et <span style="font-size: 41px;font-weight: 800;color:#24a19c;">troquez</span>  !</h1>
+           <h1 class="titlee">Avez-vous un bien ou un service ?<br>cherchez, postez et <span style="font-size: 41px;font-weight: 800;color:#24a19c;" >troquez</span>  !</h1>
            <div class="mt-12 d-flex align-items-center justify-content-center" >
                <a class="sg-btn" href="{{route('alloffers.index')}}">Consultez nos offres <i class="pl-2 fa fa-long-arrow-right"></i></a>
            </div>
