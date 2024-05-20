@@ -1,4 +1,3 @@
-
 <x-app-layout>
 <script src="https://owlcarousel2.github.io/OwlCarousel2/assets/vendors/jquery.min.js">
 </script>
@@ -77,12 +76,13 @@
    
    
    <div class="d-flex align-items-center justify-content-center">
-       <div >
-           <h1 class="titlee">Avez-vous un bien ou un service ?<br>cherchez, postez et <span style="font-size: 41px;font-weight: 800;color:#24a19c;" >troquez</span>  !</h1>
+    <div>
+        <h1 class="titlee">Avez-vous un bien ou un service ?<br>cherchez, postez et <span style="font-size: 41px;font-weight: 800;color:#24a19c;" >troquez</span>  !</h1>
            <div class="mt-12 d-flex align-items-center justify-content-center" >
                <a class="sg-btn" href="{{route('alloffers.index')}}">Consultez nos offres <i class="pl-2 fa fa-long-arrow-right"></i></a>
-           </div>
        </div>
+    </div>
+           
     </div>
     <h1 class="titlee text-center font-bold">Ne perdez plus votre temps et rejoignez notre réseau de <span style="font-size: 41px;font-weight: 800;color:#24a19c;">troqueurs </span> !</h1>
 
@@ -90,9 +90,9 @@
 
     <div class="swiper-wrapper" >
 
-      <div class="swiper-slide" >  <img  class="brightness" src="https://www.nowteam.net/wp-content/uploads/2021/01/AdobeStock_283137103-1080x675.jpeg" alt=""  >   </div>
-      <div class="swiper-slide" ><img  class="brightness" src="https://www.londonlibrary.co.uk/images/CHARLOTTE/NEW_WEBSITE_IMAGES/LF_Wide_Back_Stacks.jpg" alt="" ></div>
-      <div class="swiper-slide" ><img  class="brightness" src="https://static.vecteezy.com/system/resources/previews/024/903/858/non_2x/beautiful-women-in-fashionable-clothing-exude-elegance-generated-by-ai-free-photo.jpg" alt="" ></div>
+      <div class="swiper-slide">  <img  class="brightness" src="https://www.nowteam.net/wp-content/uploads/2021/01/AdobeStock_283137103-1080x675.jpeg" alt=""  >   </div>
+      <div class="swiper-slide"><img  class="brightness" src="https://www.londonlibrary.co.uk/images/CHARLOTTE/NEW_WEBSITE_IMAGES/LF_Wide_Back_Stacks.jpg" alt="" ></div>
+      <div class="swiper-slide"><img  class="brightness" src="https://static.vecteezy.com/system/resources/previews/024/903/858/non_2x/beautiful-women-in-fashionable-clothing-exude-elegance-generated-by-ai-free-photo.jpg" alt="" ></div>
       
     </div>
     
@@ -173,33 +173,27 @@
             </div>
 
         </div>
+        <div id="featured-offers-container"  class="owl-carousel owl-six" data-inner-pagination="true" data-white-pagination="true" data-nav="false" data-autoPlay="true">
 
-        
-
-             <div id="featured-offers-container"  class="owl-carousel owl-six" data-inner-pagination="true" data-white-pagination="true" data-nav="false" data-autoPlay="true">
         @for ($i=0;$i<count($featuredOffers);$i++)
-        <div class="">
-            <div class="  grow-0 shrink-0 @if($i>0) @endif" style="width: 100%;">
+            <div class=" grow-0 shrink-0 @if($i>0) @endif" style="width: 100%;">
                 <x-offer-present-card :offer=$featuredOffers[$i]></x-offer-present-card>
             </div>
-        </div>
             @endfor
-          </div>
-
+        </div>
         @if(count($featuredOffers)>3)
         <div class="col-span-full d-flex items-center justify-end">
             <a class="more-btn" style="font-size:14px;margin:0" href="{{route('alloffers.index')}}">Voir plus<i class="pl-2 fa fa-long-arrow-right"></i></a>
         </div>
         @endif
-
-     </div>
+        </div>
 
 
         
-        
+      
     </div>
 
-    <div id="recent-offers" class="flex flex-col my-4 ml-2 mr-2 md:mr-24 md:ml-24 pb-12">
+    <div id="recent-offers" class="flex flex-col  ml-2 mr-2 md:mr-24 md:ml-24 pb-12">
         <div id="recent-offers-title" class="flex justify-between">
             <h4>Plus récentes</h4>
             <div class="flex">
@@ -224,29 +218,29 @@
         @endif
     </div>
 
-    <div class="flex flex-col justify-center space-y-10 bg-slate-100 pb-12" >
-        <h1 class="text-center mt-12">Comment ca marche?</h1>
-        <h4 class="text-center">Deposer une annonce</h4>
+    <div class="flex flex-col justify-center space-y-10 bg-slate-100 pb-12" style='background:#343a40 url("https://www.faistroquer.fr/public/img/bg-counters.png");' >
+        <h1 class="text-center mt-12" style ="color:white" >Comment ca marche?</h1>
+        <h4 class="text-center"style ="color:white" >Deposer une annonce</h4>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mx-16 my-2">
-            <div class="flex-1 border bg-white p-4 ">
+            <div class="flex-1 p-4 " style="background-color:#00000060">
                 <div class="flex justify-between items-center">
-                    <i class="fa fa-list "></i>
-                    <span class="text-5xl font-sans font-thin">01</span>
+                    <i class="fa fa-list " style ="color:white"></i>
+                    <span style ="color:white" class="text-5xl font-sans font-thin">01</span>
                 </div>
-                <h5>Créer un compte</h5>
-                <p>
+                <h5 style ="color:white">Créer un compte</h5>
+                <p style ="color:white" >
                 Pour créer un compte, appuyez simplement sur le bouton "S'authentifier" en haut : <img src="{{ asset('images/header.png') }}"/> et choisissez l'option "S'enregistrer".
                 Ajoutez vos informations essentielles pour finaliser le processus d'inscription.
                 </p>
             </div>
-            <div class="flex-1 border bg-white p-4 ">
+            <div class="flex-1 p-4 "style="background-color:#00000060">
                 <div class="flex justify-between items-center">
-                    <i class="fa fa-list "></i>
-                    <span class="text-5xl font-sans font-thin">02</span>
+                    <i class="fa fa-list " style ="color:white"></i>
+                    <span class="text-5xl font-sans font-thin"style ="color:white" >02</span>
                 </div>
-                <h5>Deposer une annonce</h5>
-                <p>
-                    Une fois votre compte créé, rendez-vous sur la rubrique <img src="{{ asset('images/add_offer.png') }}"/>
+                <h5 style ="color:white">Deposer une annonce</h5>
+                <p style ="color:white" >
+                    Une fois votre compte créé, rendez-vous sur la rubrique <img  src="{{ asset('images/add_offer.png') }}"/>
                     Remplissez le formulaire en indiquant les détails de votre offre.
                     Choisissez votre troc en précisant contre quoi vous souhaitez échanger.<br>
                     Facultatif : activez un compte à rebours pour une touche d'urgence.
@@ -254,21 +248,25 @@
                     Validez en cliquant sur "Déposer un troc" ou en appuyant sur la touche entrée.
                 </p>
             </div>
-            <div class="flex-1 border bg-white p-4 ">
+            <div class="flex-1 p-4 " style="background-color:#00000060">
                 <div class="flex justify-between items-center">
-                    <i class="fa fa-list "></i>
-                    <span class="text-5xl font-sans font-thin">03</span>
+                    <i class="fa fa-list " style ="color:white"></i>
+                    <span class="text-5xl font-sans font-thin"style ="color:white" >03</span>
                 </div>
-                <h5>Obtenir des propositions</h5>
-                <p>
+                <h5 style ="color:white">Obtenir des propositions</h5>
+                <p style ="color:white">
                 Une fois votre annonce publiée, attendez de recevoir des propositions d'autres membres.
             Pour maximiser vos chances d'être contacté, activez l'option "Étudie toutes propositions" en plus des autres détails de trocs que vous avez indiqués.
             Communiquez et négociez avec les autres membres via les messages.
             Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
                 </p>
             </div>
-        
-        </div>
+            </div>   
+
+        </div>   
+         <div class="flex flex-col justify-center space-y-10 bg-slate-100 pb-12" style='background-image:url("");' >
+
+
         <h4 class="text-center">Faire un troc</h4>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mx-16 my-2">
         <div class="flex-1 border bg-white p-4 ">
@@ -421,9 +419,6 @@
 </x-app-layout>
 
 <style>
-.swiper-slide{
-    margin-right:0px !important;
-}
 
 .text{
 	font-family: 'arial black';
@@ -473,7 +468,7 @@
 }
 .titlee {
     color: #ffff;
-    margin-top: 20px;
+    margin-top: 50px;
 }
 
 .title h1 {
@@ -568,11 +563,9 @@
 }
 .owl-carousel,.owl-carousel .owl-item {
     -webkit-tap-highlight-color: transparent;
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
     position: relative
 }
-
-
 
 .owl-carousel {
     display: none;
@@ -593,7 +586,7 @@
     clear: both;
     visibility: hidden;
     line-height: 0;
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;"
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;"
     height: 0
 }
 
@@ -629,7 +622,7 @@
 }
 
 .no-js .owl-carousel,.owl-carousel.owl-loaded {
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;}
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;}
 
 .owl-carousel .owl-dot,.owl-carousel .owl-nav .owl-next,.owl-carousel .owl-nav .owl-prev {
     cursor: pointer;
@@ -650,7 +643,7 @@
 
 .owl-carousel.owl-loading {
     opacity: 0;
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
 }
 
 .owl-carousel.owl-hidden {
@@ -790,7 +783,7 @@
 <style>
     #catcarousel,#catcarousel.owl-item {
     -webkit-tap-highlight-color: transparent;
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
     position: relative
 }
 
@@ -813,7 +806,7 @@
     clear: both;
     visibility: hidden;
     line-height: 0;
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;"
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;"
     height: 0
 }
 
@@ -849,7 +842,7 @@
 }
 
 .no-js #catcarousel,#catcarousel.owl-loaded {
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;}
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;}
 
     #catcarousel .owl-dot,#catcarousel.owl-nav .owl-next,#catcarousel .owl-nav .owl-prev {
     cursor: pointer;
@@ -870,7 +863,7 @@
 
 #catcarousel.owl-loading {
     opacity: 0;
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
 }
 
 #catcarousel.owl-hidden {
@@ -1054,24 +1047,7 @@
       loop:true,
       autoplayTimeout:2000,
       items:6,
-      autoplay:true,
-      responsiveClass:true,
-    responsive:{
-        0:{
-            items:2,
-            nav:true
-        },
-        600:{
-            items:3,
-            nav:false
-        },
-        1000:{
-            items:5,
-            nav:true,
-            loop:false
-        }
-    }
-      
+      autoplay:true
   });
         // (B) CLICK TO SHOW IMAGE IN LIGHTBOX
         // * SIMPLY CLONE INTO LIGHTBOX & SHOW
