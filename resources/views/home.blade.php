@@ -186,17 +186,17 @@
             @endfor
           </div>
 
-        
-
-     </div>
-
-
-        
         @if(count($featuredOffers)>3)
         <div class="col-span-full d-flex items-center justify-end">
             <a class="more-btn" style="font-size:14px;margin:0" href="{{route('alloffers.index')}}">Voir plus<i class="pl-2 fa fa-long-arrow-right"></i></a>
         </div>
         @endif
+
+     </div>
+
+
+        
+        
     </div>
 
     <div id="recent-offers" class="flex flex-col my-4 ml-2 mr-2 md:mr-24 md:ml-24 pb-12">
