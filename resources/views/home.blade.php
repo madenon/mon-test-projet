@@ -216,29 +216,29 @@
         @endif
     </div>
 
-    <div class="flex flex-col justify-center space-y-10 bg-slate-100 pb-12" >
-        <h1 class="text-center mt-12">Comment ca marche?</h1>
-        <h4 class="text-center">Deposer une annonce</h4>
+    <div class="flex flex-col justify-center space-y-10 bg-slate-100 pb-12" style='background:#343a40 url("https://www.faistroquer.fr/public/img/bg-counters.png");' >
+        <h1 class="text-center mt-12" style ="color:white" >Comment ca marche?</h1>
+        <h4 class="text-center"style ="color:white" >Deposer une annonce</h4>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mx-16 my-2">
-            <div class="flex-1 border bg-white p-4 ">
+            <div class="flex-1 p-4 " style="background-color:#00000060">
                 <div class="flex justify-between items-center">
-                    <i class="fa fa-list "></i>
-                    <span class="text-5xl font-sans font-thin">01</span>
+                    <i class="fa fa-list " style ="color:white"></i>
+                    <span style ="color:white" class="text-5xl font-sans font-thin">01</span>
                 </div>
-                <h5>Créer un compte</h5>
-                <p>
+                <h5 style ="color:white">Créer un compte</h5>
+                <p style ="color:white" >
                 Pour créer un compte, appuyez simplement sur le bouton "S'authentifier" en haut : <img src="{{ asset('images/header.png') }}"/> et choisissez l'option "S'enregistrer".
                 Ajoutez vos informations essentielles pour finaliser le processus d'inscription.
                 </p>
             </div>
-            <div class="flex-1 border bg-white p-4 ">
+            <div class="flex-1 p-4 "style="background-color:#00000060">
                 <div class="flex justify-between items-center">
-                    <i class="fa fa-list "></i>
-                    <span class="text-5xl font-sans font-thin">02</span>
+                    <i class="fa fa-list " style ="color:white"></i>
+                    <span class="text-5xl font-sans font-thin"style ="color:white" >02</span>
                 </div>
-                <h5>Deposer une annonce</h5>
-                <p>
-                    Une fois votre compte créé, rendez-vous sur la rubrique <img src="{{ asset('images/add_offer.png') }}"/>
+                <h5 style ="color:white">Deposer une annonce</h5>
+                <p style ="color:white" >
+                    Une fois votre compte créé, rendez-vous sur la rubrique <img  src="{{ asset('images/add_offer.png') }}"/>
                     Remplissez le formulaire en indiquant les détails de votre offre.
                     Choisissez votre troc en précisant contre quoi vous souhaitez échanger.<br>
                     Facultatif : activez un compte à rebours pour une touche d'urgence.
@@ -246,21 +246,25 @@
                     Validez en cliquant sur "Déposer un troc" ou en appuyant sur la touche entrée.
                 </p>
             </div>
-            <div class="flex-1 border bg-white p-4 ">
+            <div class="flex-1 p-4 " style="background-color:#00000060">
                 <div class="flex justify-between items-center">
-                    <i class="fa fa-list "></i>
-                    <span class="text-5xl font-sans font-thin">03</span>
+                    <i class="fa fa-list " style ="color:white"></i>
+                    <span class="text-5xl font-sans font-thin"style ="color:white" >03</span>
                 </div>
-                <h5>Obtenir des propositions</h5>
-                <p>
+                <h5 style ="color:white">Obtenir des propositions</h5>
+                <p style ="color:white">
                 Une fois votre annonce publiée, attendez de recevoir des propositions d'autres membres.
             Pour maximiser vos chances d'être contacté, activez l'option "Étudie toutes propositions" en plus des autres détails de trocs que vous avez indiqués.
             Communiquez et négociez avec les autres membres via les messages.
             Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
                 </p>
             </div>
-        
-        </div>
+            </div>   
+
+        </div>   
+         <div class="flex flex-col justify-center space-y-10 bg-slate-100 pb-12" style='background-image:url("");' >
+
+
         <h4 class="text-center">Faire un troc</h4>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mx-16 my-2">
         <div class="flex-1 border bg-white p-4 ">
