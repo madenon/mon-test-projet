@@ -605,7 +605,7 @@ body {
     font-size: 14px;
 }
 .footer-content-links nav ul li a:hover {
-    color: var(--primary-color);
+    color: #fff;
 }
 .footer-content-links-grid {
     display: grid;

@@ -76,12 +76,13 @@
    
    
    <div class="d-flex align-items-center justify-content-center">
-       <div >
-           <h1 class="titlee">Avez-vous un bien ou un service ?<br>cherchez, postez et <span style="font-size: 41px;font-weight: 800;color:#24a19c;" >troquez</span>  !</h1>
+    <div>
+        <h1 class="titlee">Avez-vous un bien ou un service ?<br>cherchez, postez et <span style="font-size: 41px;font-weight: 800;color:#24a19c;" >troquez</span>  !</h1>
            <div class="mt-12 d-flex align-items-center justify-content-center" >
                <a class="sg-btn" href="{{route('alloffers.index')}}">Consultez nos offres <i class="pl-2 fa fa-long-arrow-right"></i></a>
-           </div>
        </div>
+    </div>
+           
     </div>
     <h1 class="titlee text-center font-bold">Ne perdez plus votre temps et rejoignez notre réseau de <span style="font-size: 41px;font-weight: 800;color:#24a19c;">troqueurs </span> !</h1>
 
@@ -180,18 +181,19 @@
             </div>
             @endfor
         </div>
-        </div>
-
-
-        
         @if(count($featuredOffers)>3)
         <div class="col-span-full d-flex items-center justify-end">
             <a class="more-btn" style="font-size:14px;margin:0" href="{{route('alloffers.index')}}">Voir plus<i class="pl-2 fa fa-long-arrow-right"></i></a>
         </div>
         @endif
+        </div>
+
+
+        
+      
     </div>
 
-    <div id="recent-offers" class="flex flex-col my-4 ml-2 mr-2 md:mr-24 md:ml-24 pb-12">
+    <div id="recent-offers" class="flex flex-col  ml-2 mr-2 md:mr-24 md:ml-24 pb-12">
         <div id="recent-offers-title" class="flex justify-between">
             <h4>Plus récentes</h4>
             <div class="flex">
@@ -561,7 +563,7 @@
 }
 .owl-carousel,.owl-carousel .owl-item {
     -webkit-tap-highlight-color: transparent;
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
     position: relative
 }
 
@@ -584,7 +586,7 @@
     clear: both;
     visibility: hidden;
     line-height: 0;
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;"
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;"
     height: 0
 }
 
@@ -620,7 +622,7 @@
 }
 
 .no-js .owl-carousel,.owl-carousel.owl-loaded {
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;}
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;}
 
 .owl-carousel .owl-dot,.owl-carousel .owl-nav .owl-next,.owl-carousel .owl-nav .owl-prev {
     cursor: pointer;
@@ -641,7 +643,7 @@
 
 .owl-carousel.owl-loading {
     opacity: 0;
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
 }
 
 .owl-carousel.owl-hidden {
@@ -781,7 +783,7 @@
 <style>
     #catcarousel,#catcarousel.owl-item {
     -webkit-tap-highlight-color: transparent;
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
     position: relative
 }
 
@@ -804,7 +806,7 @@
     clear: both;
     visibility: hidden;
     line-height: 0;
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;"
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;"
     height: 0
 }
 
@@ -840,7 +842,7 @@
 }
 
 .no-js #catcarousel,#catcarousel.owl-loaded {
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;}
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;}
 
     #catcarousel .owl-dot,#catcarousel.owl-nav .owl-next,#catcarousel .owl-nav .owl-prev {
     cursor: pointer;
@@ -861,7 +863,7 @@
 
 #catcarousel.owl-loading {
     opacity: 0;
-    display:flex !important;margin-bottom: 1.5rem !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
 }
 
 #catcarousel.owl-hidden {
