@@ -112,9 +112,9 @@
            
                 @foreach ($offers as $offer)
                 <div class="offer_list_card mt-0 mb-4">
-                    <div class="offer_image w-2/5 relative">
-                        <img src="{{ route('offer-pictures-file-path',$offer->defaultImage->offer_photo) }}" alt=""
-                            class="zoomD object-cover h-full w-full rounded-tl-lg rounded-bl-lg " />
+                    <div class="mt-auto mb-auto w-1/2 relative">
+                        <img src="{{ route('offer-pictures-file-path',$offer->defaultImage->offer_photo) }}" alt="Responsive image"
+                            class="zoomD img-fluid" />
                     </div>
                     <div class="offer_details md:ml-8 md:mr-4 md:mt-4 mr-2 ml-2 mt-2">
                         <div class="">
@@ -123,16 +123,31 @@
                                     {{ Str::limit($offer->title, 35) }}</h1>
                             </a>
                         </div>
-                        <div class="flex gap-2 items-center text-xs md:text-base" style="color : #24A19C;font-weight: 900;">
-                            <img src="/images/Stack.svg" alt="" class="">
-                            {{$offer->type->name}}
-                            <img src="/images/chevron-right.svg" alt="" class="">
-                            <img src="/images/Stack.svg" alt="" class="">
+                        <div class="flex  items-center   ">
+                        <span >
+                            Type de troc:
+                        </span>
+                    </div>
+                    <div class="flex  items-center   ">
+                        
+                        <span class="text-titles text-lg "style="color : #24A19C;font-weight: 700;" >
+                            {{$offer->type->name }}
+                        </span>
+                    </div>
+
+                    <div class="flex    items-center   ">
+                        <span >
+                            Categorie:
+                        </span>
+                    </div>
+                    <div class="flex    items-center   ">
+                        <span class="text-titles text-lg flex items-center div-categorie"style="color : #24A19C;font-weight: 700;" >
+                            <img src="/images/Stack.svg" alt="" class="mr-2">
                             {{$offer->subcategory->parent->name}}
-                            <img src="/images/chevron-right.svg" alt="" class="">
-                            <img src="/images/Stack.svg" alt="" class="">
+                            <img src="/images/chevron-right.svg" alt="" class="px-2">
                             {{$offer->subcategory->name}}
-                        </div>
+                        </span>
+                    </div>
                        @if($offer->type->name!='Moment')
                        @if($offer->specify_proposition)
                         <div class=" text-titles text-xs mt-3 hidden md:block">

@@ -228,9 +228,9 @@
             </ul>
         </div>
         @endif
-        <div class="flex justify-between">
-            <h2 class="text-titles  font-semibold">{{ $offer->title }}</h2>
-            @if ($offer->favoritedBy->contains(auth()->user()))
+   
+<div class="flex justify-between">
+@if ($offer->favoritedBy->contains(auth()->user()))
     <!-- If offer is favorited, show remove from favorites form -->
     <form method="POST" action="{{ route('offers.removeFromFavorites', ['offer' => $offer]) }}">
         @csrf
@@ -276,18 +276,18 @@
                     </div>
                     <div class="flex  items-center   ">
                         
-                        <span class="text-titles text-lg ">
+                        <span class="text-titles text-lg "style="color : #24A19C;font-weight: 700;" >
                             {{$offer->type->name }}
                         </span>
                     </div>
 
                     <div class="flex    items-center   ">
-                        <span class="w-[35%]>
+                        <span >
                             Categorie:
                         </span>
                     </div>
                     <div class="flex    items-center   ">
-                        <span class="text-titles text-lg flex items-center div-categorie">
+                        <span class="text-titles text-lg flex items-center div-categorie"style="color : #24A19C;font-weight: 700;" >
                             <img src="/images/Stack.svg" alt="" class="mr-2">
                             {{$offer->subcategory->parent->name}}
                             <img src="/images/chevron-right.svg" alt="" class="px-2">
@@ -372,24 +372,32 @@
 </div>
 
                 <div class=" pt-3">
-                    <div class="px-12 flex justify-content-between  gap-2 items-center">
+                    <div class="px-12 flex justify-content-normal  gap-2 items-center"style="padding-top:1rem" >
                         @if($offer->price)
                         <span class="text-titles text-2xl font-semibold">
                             {{$offer->price}} €
                         </span>
                         @endif
+                        </div>
+
+                        <div class="px-12 flex justify-content-normal  gap-2 items-center"style="padding-top:1rem" >
+
                         @if ($offer->buy_authorized)
                         <style>
                             .bg-with-primary{
                                 background-color : #24A19C;
                             }
                         </style>
-                        <span class="flex bg-with-primary rounded-full px-3 py-1 gap-2 text-white">
+                        <span class="flex bg-with-primary rounded-full px-2 py-1 gap-1 text-white">
                             <span class="bg-with-primary px-2 rounded-full text-white">€</span>
                             <span>Vente autorisé</span> 
                             
                         </span>
-                        @endif
+                        @endif                      
+
+
+
+
                         @if ($offer->send_authorized)
                             <style>
                                 .bg-with-primary{
@@ -397,8 +405,8 @@
                                 }
                             </style>
 
-                            <span class="flex bg-with-primary  rounded-full px-1 py-1 gap-1 text-white">
-                                <span class="text-center text-xs md:text-base"><i class="fa-solid fa-dolly"></i> Envoi autorisé</span>
+                            <span class="flex bg-with-primary  rounded-full px-2 py-1 gap-1 text-white">
+                                <span class="bg-with-primary px-2 rounded-full text-white"><i class="fa-solid fa-dolly"></i></span><span> Envoi autorisé</span>
                             </span>
                             @endif
                     </div>
@@ -541,10 +549,15 @@
         </div>
     </div>
     <section class="similarOffers mt-4">
-        <div class="flex justify-between px-24">
-            <h1 class="mb-6 ml-12 font-sans text-2xl font-bold text-gray-900">Offres similaire</h1>
-            <button class="bg-primary-color hover:bg-primary-hover mr-12 text-white font-bold py-2 px-4 rounded-2"><a class="no-underline font-medium text-white" href="{{route( 'alloffers.index',['sort_by'=>'latest', 'category' =>  $offer->subcategory->parent_id])}}">Voir plus</a></button>
-        </div>
+        <div style="text-align:center">
+            <h1 class="" >Offres similaires</h1>
+        </div>       
+         <div style="text-align:center">
+
+
+        <button class="bg-primary-color hover:bg-primary-hover  text-white font-bold py-2 px-4 rounded-2" ><a class="no-underline font-medium text-white" href="{{route( 'alloffers.index',['sort_by'=>'latest', 'category' =>  $offer->subcategory->parent_id])}}">Voir plus</a></button>
+        </div>       
+
         <div class="mx-auto grid max-w-screen-xl grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
                 @foreach ($similaroffers as $similar)
                 <x-offer-present-card :offer=$similar></x-offer-present-card>                  

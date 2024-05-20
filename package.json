@@ -26,5 +26,12 @@
         "filepond-plugin-file-validate-type": "^1.2.8",
         "jquery": "^3.7.1",
         "slick-carousel": "^1.8.1"
-    }
+    },
+    
+      "main": "index.html",
+      "name": "swiper-autoplay",
+      
+      "tags": [
+        "swiper"
+      ]
 }
