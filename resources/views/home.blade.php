@@ -167,11 +167,11 @@
     <div id="featured-offers" class="flex flex-col my-4 ml-2 mr-2 md:mr-24 md:ml-24 pb-12">
         <div id="featured-offers-title" class="flex justify-between">
             <h4>Offres en vedette</h4>
-            <div class="flex">
-                <i class="pl-2 fa fa-long-arrow-left"></i>
-                <i class="pl-2 fa fa-long-arrow-right"></i>
-            </div>
-
+        <div class="flex">
+             <i class="owl-carousel__prev pl-2 fa fa-long-arrow-left"></i>
+             <i class="owl-carousel__next pl-2 fa fa-long-arrow-right"></i>
+ 
+        </div>
         </div>
         <div id="featured-offers-container"  class="owl-carousel owl-six" data-inner-pagination="true" data-white-pagination="true" data-nav="false" data-autoPlay="true">
 
@@ -180,7 +180,9 @@
                 <x-offer-present-card :offer=$featuredOffers[$i]></x-offer-present-card>
             </div>
             @endfor
-        </div>
+       
+        </div>    
+      
         @if(count($featuredOffers)>3)
         <div class="col-span-full d-flex items-center justify-end">
             <a class="more-btn" style="font-size:14px;margin:0" href="{{route('alloffers.index')}}">Voir plus<i class="pl-2 fa fa-long-arrow-right"></i></a>
@@ -197,9 +199,10 @@
         <div id="recent-offers-title" class="flex justify-between">
             <h4>Plus récentes</h4>
             <div class="flex">
-                <i class="pl-2 fa fa-long-arrow-left"></i>
-                <i class="pl-2 fa fa-long-arrow-right"></i>
-            </div>
+             <i class="owl-carousel__prev pl-2 fa fa-long-arrow-left"></i>
+             <i class="owl-carousel__next pl-2 fa fa-long-arrow-right"></i>
+ 
+        </div>
 
         </div>
         <div id="recent-offers-container" class="owl-carousel owl-six" data-inner-pagination="true" data-white-pagination="true" data-nav="false" data-autoPlay="true">
@@ -765,20 +768,36 @@
     height: 100%;
     width: 100%
 }
+
+
+.owl-carousel .nav-btn{
+  height: 47px;
+  position: absolute;
+  width: 26px;
+  cursor: pointer;
+  top: 100px !important;
 }
 
-@media only screen and (max-width: 600px) {
-  .owl-carousel {
-    height: 110px; 
-    width: 100%; 
-   }
-  .owl-carousel .owl-carousel-cell {
-     height: 100%; 
-     width: 40%; 
-     margin-right: 2%;
-   }
-   
+.owl-carousel .owl-prev.disabled,
+.owl-carousel .owl-next.disabled{
+pointer-events: none;
+opacity: 0.2;
 }
+
+.owl-carousel .prev-slide{
+  background: url(nav-icon.png) no-repeat scroll 0 0;
+  left: -33px;
+}
+.owl-carousel .next-slide{
+  background: url(nav-icon.png) no-repeat scroll -24px 0px;
+  right: -33px;
+}
+.owl-carousel .prev-slide:hover{
+ background-position: 0px -53px;
+}
+.owl-carousel .next-slide:hover{
+background-position: -24px -53px;
+}  
 </style>
 <style>
     #catcarousel,#catcarousel.owl-item {
@@ -985,6 +1004,10 @@
     height: 100%;
     width: 100%
 }
+.swiper-slide{
+    margin-right:0px !important;
+}
+
 .swiper {
       width: 100%;
       height: 100%;
@@ -1040,14 +1063,52 @@
       loop:true,
       autoplayTimeout:2000,
       items:3,
-      autoplay:true
+      autoplay:true, 
+      responsiveClass:true,
+    responsive:{
+        0:{
+            items:1,
+            nav:true
+        },
+        600:{
+            items:2,
+            nav:false
+        },
+        1000:{
+            items:3,
+            nav:true,
+            loop:false
+        }
+    }
+      
+
   });
+    
+  $('.owl-carousel__next').click(() => owl.trigger('next.owl.carousel'));
+  
+  $('.owl-carousel__prev').click(() => owl.trigger('prev.owl.carousel'));
   owlcat = $("#catcarousel");
   owlcat.owlCarousel({
       loop:true,
       autoplayTimeout:2000,
       items:6,
-      autoplay:true
+      autoplay:true,
+      responsiveClass:true,
+    responsive:{
+        0:{
+            items:2,
+            nav:true
+        },
+        600:{
+            items:3,
+            nav:false
+        },
+        1000:{
+            items:5,
+            nav:true,
+            loop:false
+        }
+    }
   });
         // (B) CLICK TO SHOW IMAGE IN LIGHTBOX
         // * SIMPLY CLONE INTO LIGHTBOX & SHOW
@@ -1079,30 +1140,7 @@
 
         }}); 
 // 
-        ['featured','recent'].forEach((el)=>{
-            if ($('#offers-container .basis-1\\/3').length > 0){
-                var scrollDistance = $(`#${el}-offers-container`).width()/3;
-            }else{
-                var scrollDistance = $(`#${el}-offers-container`).width();
-            }
-            $(`#${el}-offers-title .fa-long-arrow-right`).css(`-webkit-text-stroke`," 2px");
-            
-            $(`#${el}-offers-title .fa-long-arrow-left`).click(function () {
-                $(`#${el}-offers-container`).animate({scrollLeft: "-=" + scrollDistance}, "slow");
-                if($(`#${el}-offers-container`).scrollLeft() > 0)
-                $(`#${el}-offers-title .fa-long-arrow-left`).css("-webkit-text-stroke"," 2px");
-                else            
-                $(`#${el}-offers-title .fa-long-arrow-left`).css("-webkit-text-stroke"," 0.5px");
-            });
-            
-            $(`#${el}-offers-title .fa-long-arrow-right`).click(function () {
-                $(`#${el}-offers-container`).animate({scrollLeft: "+=" + scrollDistance}, "slow");
-                if($(`#${el}-offers-container`).scrollLeft() < $(`#${el}-offers-container`).prop("scrollWidth") - $(`#${el}-offers-container`).width())
-                $(`#${el}-offers-title .fa-long-arrow-right`).css("-webkit-text-stroke"," 2px");
-                else            
-                $(`#${el}-offers-title .fa-long-arrow-right`).css("-webkit-text-stroke"," 0.5px");
-            });
-        });
+      
         
 
     });
