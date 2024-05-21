@@ -1,4 +1,12 @@
 <x-app-layout>
+<script src="https://owlcarousel2.github.io/OwlCarousel2/assets/vendors/jquery.min.js">
+</script>
+ <script src="https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/owl.carousel.js">
+   </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+  <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
     <!-- (A) LIGHTBOX CONTAINER -->
 <div id="lightbox"></div>
 @php
@@ -57,18 +65,42 @@
 <div class="con" style="margin-left:20px; margin-right:310px;">
 @else
 <div >
-@endif    <div class="flex flex-col justify-center space-y-10 bg-primary-color" style="height:80vh" >
+@endif    
+
+<div class="swiper mySwiper flex flex-col justify-center " style="height:80vh">
+   <div class="content" style="width: 100%;
+    position: absolute;
+    top: 20%;
+    text-align: center;
+    z-index: 3;">
    
-        <div class="d-flex align-items-center justify-content-center">
-            <div >
-                <h1 class="title">Avez-vous un bien ou un service ?<br>cherchez, postez et troquez !</h1>
-                <div class="mt-12 d-flex align-items-center justify-content-center" >
-                    <a class="sg-btn" href="{{route('alloffers.index')}}">Consultez nos offres <i class="pl-2 fa fa-long-arrow-right"></i></a>
-                </div>
-            </div>
-         </div>
-         <h1 class="title text-center font-bold">Ne perdez plus votre temps et rejoignez notre réseau de troqueurs !</h1>
+   
+   <div class="d-flex align-items-center justify-content-center">
+    <div>
+        <h1 class="titlee">Avez-vous un bien ou un service ?<br>cherchez, postez et <span style="font-size: 41px;font-weight: 800;color:#24a19c;" >troquez</span>  !</h1>
+           <div class="mt-12 d-flex align-items-center justify-content-center" >
+               <a class="sg-btn" href="{{route('alloffers.index')}}">Consultez nos offres <i class="pl-2 fa fa-long-arrow-right"></i></a>
+       </div>
     </div>
+           
+    </div>
+    <h1 class="titlee text-center font-bold">Ne perdez plus votre temps et rejoignez notre réseau de <span style="font-size: 41px;font-weight: 800;color:#24a19c;">troqueurs </span> !</h1>
+
+    </div>  
+
+    <div class="swiper-wrapper" >
+
+      <div class="swiper-slide">  <img  class="brightness" src="https://www.nowteam.net/wp-content/uploads/2021/01/AdobeStock_283137103-1080x675.jpeg" alt=""  >   </div>
+      <div class="swiper-slide"><img  class="brightness" src="https://www.londonlibrary.co.uk/images/CHARLOTTE/NEW_WEBSITE_IMAGES/LF_Wide_Back_Stacks.jpg" alt="" ></div>
+      <div class="swiper-slide"><img  class="brightness" src="https://static.vecteezy.com/system/resources/previews/024/903/858/non_2x/beautiful-women-in-fashionable-clothing-exude-elegance-generated-by-ai-free-photo.jpg" alt="" ></div>
+      
+    </div>
+    
+     
+
+  </div>
+
+    
 
 <!-- <div class="grid-container">
     <div class="s">
@@ -112,7 +144,7 @@
     </div>
 </div> -->
 
-    <div class="grid grid-cols-3 md:grid-cols-6 justify-content place-items-stretch center my-4 ml-2 mr-2 md:mr-32 md:ml-32 ">
+    <div id="catcarousel" class="grid grid-cols-3 md:grid-cols-6 justify-content place-items-stretch center my-4 ml-2 mr-2 md:mr-32 md:ml-32 ">
         @for($i=0; $i< min(12,count($categories)) ;$i++ )
         <a class="no-underline text-black block" href="{{route('alloffers.index',['category'=> $categories[$i]->id])}}">
             <div class="flex flex-col justify-center items-center border shadow py-2 mx-2 mb-4">
@@ -122,6 +154,7 @@
             </div>
         </a>
         @endfor
+        </div>
 
         
         @if(count($categories)>12)
@@ -130,7 +163,6 @@
         </div>
         @endif
 
-    </div>
 
     <div id="featured-offers" class="flex flex-col my-4 ml-2 mr-2 md:mr-24 md:ml-24 pb-12">
         <div id="featured-offers-title" class="flex justify-between">
@@ -141,23 +173,27 @@
             </div>
 
         </div>
-        <div id="featured-offers-container" class="flex flex-nowrap overflow-x-hidden space-x-5 mb-4">
-            @for ($i=0;$i<count($featuredOffers);$i++)
-            <div class="basis-full md:basis-1/3 grow-0 shrink-0 @if($i>0) @endif">
+        <div id="featured-offers-container"  class="owl-carousel owl-six" data-inner-pagination="true" data-white-pagination="true" data-nav="false" data-autoPlay="true">
+
+        @for ($i=0;$i<count($featuredOffers);$i++)
+            <div class=" grow-0 shrink-0 @if($i>0) @endif" style="width: 100%;">
                 <x-offer-present-card :offer=$featuredOffers[$i]></x-offer-present-card>
             </div>
             @endfor
         </div>
-
-        
         @if(count($featuredOffers)>3)
         <div class="col-span-full d-flex items-center justify-end">
             <a class="more-btn" style="font-size:14px;margin:0" href="{{route('alloffers.index')}}">Voir plus<i class="pl-2 fa fa-long-arrow-right"></i></a>
         </div>
         @endif
+        </div>
+
+
+        
+      
     </div>
 
-    <div id="recent-offers" class="flex flex-col my-4 ml-2 mr-2 md:mr-24 md:ml-24 pb-12">
+    <div id="recent-offers" class="flex flex-col  ml-2 mr-2 md:mr-24 md:ml-24 pb-12">
         <div id="recent-offers-title" class="flex justify-between">
             <h4>Plus récentes</h4>
             <div class="flex">
@@ -166,9 +202,9 @@
             </div>
 
         </div>
-        <div id="recent-offers-container" class="flex flex-nowrap overflow-x-hidden space-x-5 mb-4">
+        <div id="recent-offers-container" class="owl-carousel owl-six" data-inner-pagination="true" data-white-pagination="true" data-nav="false" data-autoPlay="true">
             @for ($i=0;$i<count($recentOffers);$i++)
-            <div class="basis-full md:basis-1/3 grow-0 shrink-0 @if($i>0) @endif">
+            <div class=" grow-0 shrink-0 @if($i>0) @endif" style="width: 100%;">
                 <x-offer-present-card :offer=$recentOffers[$i]></x-offer-present-card>
             </div>
             @endfor
@@ -182,29 +218,29 @@
         @endif
     </div>
 
-    <div class="flex flex-col justify-center space-y-10 bg-slate-100 pb-12" >
-        <h1 class="text-center mt-12">Comment ca marche?</h1>
-        <h4 class="text-center">Deposer une annonce</h4>
+    <div class="flex flex-col justify-center space-y-10 bg-slate-100 pb-12" style='background:#343a40 url("https://www.faistroquer.fr/public/img/bg-counters.png");' >
+        <h1 class="text-center mt-12" style ="color:white" >Comment ca marche?</h1>
+        <h4 class="text-center"style ="color:white" >Deposer une annonce</h4>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mx-16 my-2">
-            <div class="flex-1 border bg-white p-4 ">
+            <div class="flex-1 p-4 " style="background-color:#00000060">
                 <div class="flex justify-between items-center">
-                    <i class="fa fa-list "></i>
-                    <span class="text-5xl font-sans font-thin">01</span>
+                    <i class="fa fa-list " style ="color:white"></i>
+                    <span style ="color:white" class="text-5xl font-sans font-thin">01</span>
                 </div>
-                <h5>Créer un compte</h5>
-                <p>
+                <h5 style ="color:white">Créer un compte</h5>
+                <p style ="color:white" >
                 Pour créer un compte, appuyez simplement sur le bouton "S'authentifier" en haut : <img src="{{ asset('images/header.png') }}"/> et choisissez l'option "S'enregistrer".
                 Ajoutez vos informations essentielles pour finaliser le processus d'inscription.
                 </p>
             </div>
-            <div class="flex-1 border bg-white p-4 ">
+            <div class="flex-1 p-4 "style="background-color:#00000060">
                 <div class="flex justify-between items-center">
-                    <i class="fa fa-list "></i>
-                    <span class="text-5xl font-sans font-thin">02</span>
+                    <i class="fa fa-list " style ="color:white"></i>
+                    <span class="text-5xl font-sans font-thin"style ="color:white" >02</span>
                 </div>
-                <h5>Deposer une annonce</h5>
-                <p>
-                    Une fois votre compte créé, rendez-vous sur la rubrique <img src="{{ asset('images/add_offer.png') }}"/>
+                <h5 style ="color:white">Deposer une annonce</h5>
+                <p style ="color:white" >
+                    Une fois votre compte créé, rendez-vous sur la rubrique <img  src="{{ asset('images/add_offer.png') }}"/>
                     Remplissez le formulaire en indiquant les détails de votre offre.
                     Choisissez votre troc en précisant contre quoi vous souhaitez échanger.<br>
                     Facultatif : activez un compte à rebours pour une touche d'urgence.
@@ -212,21 +248,25 @@
                     Validez en cliquant sur "Déposer un troc" ou en appuyant sur la touche entrée.
                 </p>
             </div>
-            <div class="flex-1 border bg-white p-4 ">
+            <div class="flex-1 p-4 " style="background-color:#00000060">
                 <div class="flex justify-between items-center">
-                    <i class="fa fa-list "></i>
-                    <span class="text-5xl font-sans font-thin">03</span>
+                    <i class="fa fa-list " style ="color:white"></i>
+                    <span class="text-5xl font-sans font-thin"style ="color:white" >03</span>
                 </div>
-                <h5>Obtenir des propositions</h5>
-                <p>
+                <h5 style ="color:white">Obtenir des propositions</h5>
+                <p style ="color:white">
                 Une fois votre annonce publiée, attendez de recevoir des propositions d'autres membres.
             Pour maximiser vos chances d'être contacté, activez l'option "Étudie toutes propositions" en plus des autres détails de trocs que vous avez indiqués.
             Communiquez et négociez avec les autres membres via les messages.
             Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
                 </p>
             </div>
-        
-        </div>
+            </div>   
+
+        </div>   
+         <div class="flex flex-col justify-center space-y-10 bg-slate-100 pb-12" style='background-image:url("");' >
+
+
         <h4 class="text-center">Faire un troc</h4>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mx-16 my-2">
         <div class="flex-1 border bg-white p-4 ">
@@ -378,7 +418,38 @@
     </div>
 </x-app-layout>
 
-<style>/* Additional styles for the new content */
+<style>
+
+.text{
+	font-family: 'arial black';
+	font-size: 60px;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+	margin-left: 50%;
+	transform: translateX(-200%);
+	opacity: 0;
+	animation: slide-in-anim 1.5s ease-out forwards;
+}
+
+@keyframes slide-in-anim {
+	20% {
+		opacity: 0;
+	}
+	60% {
+		transform: translateX(-45%);
+	}
+	75% {
+		transform: translateX(-52%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(-50%);
+	}
+}
+
+.brightness { filter: brightness(0.25); }
+/* Additional styles for the new content */
 .grid-container {
   display: grid;
   grid-template-columns: auto auto auto  ;
@@ -393,6 +464,10 @@
 
 .title {
     color: var(--titles-color);
+    margin-top: 50px;
+}
+.titlee {
+    color: #ffff;
     margin-top: 50px;
 }
 
@@ -486,13 +561,494 @@
 #description-website > .flex:nth-child(even) > .flex{
     order:1;
 }
-</style>
+.owl-carousel,.owl-carousel .owl-item {
+    -webkit-tap-highlight-color: transparent;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+    position: relative
+}
 
+.owl-carousel {
+    display: none;
+    width: 100%;
+    z-index: 1
+}
+
+.owl-carousel .owl-stage {
+    position: relative;
+    -ms-touch-action: pan-Y;
+    touch-action: manipulation;
+    -moz-backface-visibility: hidden
+}
+
+.owl-carousel .owl-stage:after {
+    content: ".";
+    display: flex;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;"
+    height: 0
+}
+
+.owl-carousel .owl-stage-outer {
+    position: relative;
+    -webkit-transform: translate3d(0,0,0)
+}
+
+.owl-carousel .owl-item,.owl-carousel .owl-wrapper {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -webkit-transform: translate3d(0,0,0);
+    -moz-transform: translate3d(0,0,0);
+    -ms-transform: translate3d(0,0,0)
+}
+
+.owl-carousel .owl-item {
+    min-height: 1px;
+    float: left;
+    -webkit-backface-visibility: hidden;
+    -webkit-touch-callout: none
+}
+
+.owl-carousel .owl-item img {
+    display: flex;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+    
+}
+
+.owl-carousel .owl-dots.disabled,.owl-carousel .owl-nav.disabled {
+    display: none
+}
+
+.no-js .owl-carousel,.owl-carousel.owl-loaded {
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;}
+
+.owl-carousel .owl-dot,.owl-carousel .owl-nav .owl-next,.owl-carousel .owl-nav .owl-prev {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+.owl-carousel .owl-nav button.owl-next,.owl-carousel .owl-nav button.owl-prev,.owl-carousel button.owl-dot {
+    background: 0 0;
+    color: inherit;
+    border: none;
+    padding: 0!important;
+    font: inherit
+}
+
+.owl-carousel.owl-loading {
+    opacity: 0;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+}
+
+.owl-carousel.owl-hidden {
+    opacity: 0
+}
+
+.owl-carousel.owl-refresh .owl-item {
+    visibility: hidden
+}
+
+.owl-carousel.owl-drag .owl-item {
+    -ms-touch-action: pan-y;
+    touch-action: pan-y;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+.owl-carousel.owl-grab {
+    cursor: move;
+    cursor: grab
+}
+
+.owl-carousel.owl-rtl {
+    direction: rtl
+}
+
+.owl-carousel.owl-rtl .owl-item {
+    float: right
+}
+
+.owl-carousel .animated {
+    animation-duration: 1s;
+    animation-fill-mode: both
+}
+
+.owl-carousel .owl-animated-in {
+    z-index: 0
+}
+
+.owl-carousel .owl-animated-out {
+    z-index: 1
+}
+
+.owl-carousel .fadeOut {
+    animation-name: fadeOut
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1
+    }
+
+    100% {
+        opacity: 0
+    }
+}
+
+.owl-height {
+    transition: height .5s ease-in-out
+}
+
+.owl-carousel .owl-item .owl-lazy {
+    opacity: 0;
+    transition: opacity .4s ease
+}
+
+.owl-carousel .owl-item .owl-lazy:not([src]),.owl-carousel .owl-item .owl-lazy[src^=""] {
+    max-height: 0
+}
+
+.owl-carousel .owl-item img.owl-lazy {
+    transform-style: preserve-3d
+}
+
+.owl-carousel .owl-video-wrapper {
+    position: relative;
+    height: 100%;
+    background: #000
+}
+
+.owl-carousel .owl-video-play-icon {
+    position: absolute;
+    height: 80px;
+    width: 80px;
+    left: 50%;
+    top: 50%;
+    margin-left: -40px;
+    margin-top: -40px;
+    background: url(owl.video.play.png) no-repeat;
+    cursor: pointer;
+    z-index: 1;
+    -webkit-backface-visibility: hidden;
+    transition: transform .1s ease
+}
+
+.owl-carousel .owl-video-play-icon:hover {
+    -ms-transform: scale(1.3,1.3);
+    transform: scale(1.3,1.3)
+}
+
+.owl-carousel .owl-video-playing .owl-video-play-icon,.owl-carousel .owl-video-playing .owl-video-tn {
+    display: none
+}
+
+.owl-carousel .owl-video-tn {
+    opacity: 0;
+    height: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: opacity .4s ease
+}
+
+.owl-carousel .owl-video-frame {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    width: 100%
+}
+}
+
+@media only screen and (max-width: 600px) {
+  .owl-carousel {
+    height: 110px; 
+    width: 100%; 
+   }
+  .owl-carousel .owl-carousel-cell {
+     height: 100%; 
+     width: 40%; 
+     margin-right: 2%;
+   }
+   
+}
+</style>
+<style>
+    #catcarousel,#catcarousel.owl-item {
+    -webkit-tap-highlight-color: transparent;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+    position: relative
+}
+
+#catcarousel {
+    display: none;
+    
+    z-index: 1
+}
+
+#catcarousel .owl-stage {
+    position: relative;
+    -ms-touch-action: pan-Y;
+    touch-action: manipulation;
+    -moz-backface-visibility: hidden
+}
+
+#catcarousel .owl-stage:after {
+    content: ".";
+    display: flex;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;"
+    height: 0
+}
+
+#catcarousel .owl-stage-outer {
+    position: relative;
+    -webkit-transform: translate3d(0,0,0)
+}
+
+#catcarousel .owl-item,#catcarousel .owl-wrapper {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -webkit-transform: translate3d(0,0,0);
+    -moz-transform: translate3d(0,0,0);
+    -ms-transform: translate3d(0,0,0)
+}
+
+#catcarousel .owl-item {
+    min-height: 1px;
+    float: left;
+    -webkit-backface-visibility: hidden;
+    -webkit-touch-callout: none
+}
+
+#catcarousel .owl-item img {
+    display: flex;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+    
+}
+
+#catcarousel .owl-dots.disabled,#catcarousel .owl-nav.disabled {
+    display: none
+}
+
+.no-js #catcarousel,#catcarousel.owl-loaded {
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;}
+
+    #catcarousel .owl-dot,#catcarousel.owl-nav .owl-next,#catcarousel .owl-nav .owl-prev {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+#catcarousel .owl-nav button.owl-next,#catcarousel .owl-nav button.owl-prev,#catcarousel button.owl-dot {
+    background: 0 0;
+    color: inherit;
+    border: none;
+    padding: 0!important;
+    font: inherit
+}
+
+#catcarousel.owl-loading {
+    opacity: 0;
+    display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
+}
+
+#catcarousel.owl-hidden {
+    opacity: 0
+}
+
+#catcarousel.owl-refresh .owl-item {
+    visibility: hidden
+}
+
+.owl-carousel.owl-drag .owl-item {
+    -ms-touch-action: pan-y;
+    touch-action: pan-y;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+#catcarousel.owl-grab {
+    cursor: move;
+    cursor: grab
+}
+
+#catcarousel.owl-rtl {
+    direction: rtl
+}
+
+#catcarousel.owl-rtl .owl-item {
+    float: right
+}
+
+#catcarousel .animated {
+    animation-duration: 1s;
+    animation-fill-mode: both
+}
+
+#catcarousel .owl-animated-in {
+    z-index: 0
+}
+
+#catcarousel .owl-animated-out {
+    z-index: 1
+}
+
+#catcarousel .fadeOut {
+    animation-name: fadeOut
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1
+    }
+
+    100% {
+        opacity: 0
+    }
+}
+
+.owl-height {
+    transition: height .5s ease-in-out
+}
+
+#catcarousel .owl-item .owl-lazy {
+    opacity: 0;
+    transition: opacity .4s ease
+}
+
+#catcarousel .owl-item .owl-lazy:not([src]),#catcarousel .owl-item .owl-lazy[src^=""] {
+    max-height: 0
+}
+
+#catcarousel .owl-item img.owl-lazy {
+    transform-style: preserve-3d
+}
+
+#catcarousel .owl-video-wrapper {
+    position: relative;
+    height: 100%;
+    background: #000
+}
+
+#catcarousel .owl-video-play-icon {
+    position: absolute;
+    height: 80px;
+    width: 80px;
+    left: 50%;
+    top: 50%;
+    margin-left: -40px;
+    margin-top: -40px;
+    background: url(owl.video.play.png) no-repeat;
+    cursor: pointer;
+    z-index: 1;
+    -webkit-backface-visibility: hidden;
+    transition: transform .1s ease
+}
+
+#catcarousel .owl-video-play-icon:hover {
+    -ms-transform: scale(1.3,1.3);
+    transform: scale(1.3,1.3)
+}
+
+#catcarousel .owl-video-playing .owl-video-play-icon,#catcarousel .owl-video-playing .owl-video-tn {
+    display: none
+}
+
+#catcarousel .owl-video-tn {
+    opacity: 0;
+    height: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: opacity .4s ease
+}
+
+#catcarousel .owl-video-frame {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    width: 100%
+}
+.swiper {
+      width: 100%;
+      height: 100%;
+    }
+.swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+  overflow: hidden;
+  z-index: 1;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .swiper-pagination-bullet{
+        background-color:#24A19C !important;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+    var swiper = new Swiper(".mySwiper", {
+      spaceBetween: 30,
+      centeredSlides: true,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+    });
+  </script>
 <script>
     $(document).ready(function () {
         let all = document.getElementsByClassName("zoomD"),
         lightbox = document.getElementById("lightbox");
-        
+        owl = $(".owl-carousel");
+  owl.owlCarousel({
+      loop:true,
+      autoplayTimeout:2000,
+      items:3,
+      autoplay:true
+  });
+  owlcat = $("#catcarousel");
+  owlcat.owlCarousel({
+      loop:true,
+      autoplayTimeout:2000,
+      items:6,
+      autoplay:true
+  });
         // (B) CLICK TO SHOW IMAGE IN LIGHTBOX
         // * SIMPLY CLONE INTO LIGHTBOX & SHOW
         if (all.length>0) { for (let i of all) {
