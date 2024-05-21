@@ -78,7 +78,7 @@
    <div class="d-flex align-items-center justify-content-center">
     <div>
         <h1 class="titlee">Avez-vous un bien ou un service ?<br>cherchez, postez et <span style="font-size: 41px;font-weight: 800;color:#24a19c;" >troquez</span>  !</h1>
-           <div class="mt-12 d-flex align-items-center justify-content-center" >
+           <div class="mt-3 d-flex align-items-center justify-content-center" >
                <a class="sg-btn" href="{{route('alloffers.index')}}">Consultez nos offres <i class="pl-2 fa fa-long-arrow-right"></i></a>
        </div>
     </div>
@@ -91,8 +91,8 @@
     <div class="swiper-wrapper" >
 
       <div class="swiper-slide">  <img  class="brightness" src="https://www.nowteam.net/wp-content/uploads/2021/01/AdobeStock_283137103-1080x675.jpeg" alt=""  >   </div>
-      <div class="swiper-slide"><img  class="brightness" src="https://www.londonlibrary.co.uk/images/CHARLOTTE/NEW_WEBSITE_IMAGES/LF_Wide_Back_Stacks.jpg" alt="" ></div>
-      <div class="swiper-slide"><img  class="brightness" src="https://static.vecteezy.com/system/resources/previews/024/903/858/non_2x/beautiful-women-in-fashionable-clothing-exude-elegance-generated-by-ai-free-photo.jpg" alt="" ></div>
+      <div class="swiper-slide" id ="slide2"><img  class="brightness" src="https://www.londonlibrary.co.uk/images/CHARLOTTE/NEW_WEBSITE_IMAGES/LF_Wide_Back_Stacks.jpg" alt="" ></div>
+      <div class="swiper-slide" id ="slide3"><img  class="brightness" src="https://static.vecteezy.com/system/resources/previews/024/903/858/non_2x/beautiful-women-in-fashionable-clothing-exude-elegance-generated-by-ai-free-photo.jpg" alt="" ></div>
       
     </div>
     
@@ -471,7 +471,7 @@
 }
 .titlee {
     color: #ffff;
-    margin-top: 50px;
+    margin-top: 16px;
 }
 
 .title h1 {
@@ -1007,7 +1007,12 @@ background-position: -24px -53px;
 .swiper-slide{
     margin-right:0px !important;
 }
-
+#slide3{
+    width:1427px !important; 
+}
+#slide2{
+    width:1387px !important; 
+}
 .swiper {
       width: 100%;
       height: 100%;
