@@ -1082,7 +1082,7 @@ background-position: -24px -53px;
         1000:{
             items:3,
             nav:true,
-            loop:false
+            loop:true
         }
     }
       
@@ -1111,7 +1111,7 @@ background-position: -24px -53px;
         1000:{
             items:5,
             nav:true,
-            loop:false
+            loop:true
         }
     }
   });
