@@ -22,7 +22,7 @@ if($mes->replies){
     <div class="w-full">
         <div class="mb-2">
             <span class="font-bold">{{$user->name}} </span>&#8226; 
-            <span class="text-slate-300">{{$created_at->format('H:i A')}}</span> 
+            <span class="text-slate-300">{{$created_at->format('H:i')}}</span> 
             {!! $SeenShow !!}
 
         </div>
