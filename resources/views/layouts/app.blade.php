@@ -75,6 +75,40 @@
 </script>
 
 <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
+<style>
+#scrollUp
+{
+position: fixed;
+bottom : 10px;
+right: -100px;
+opacity: 0.5;
+}
+</style>
+ 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+ 
+<script>
+            jQuery(function(){
+                $(function () {
+                    $(window).scroll(function () {
+                        if ($(this).scrollTop() > 200 ) { 
+                            $('#scrollUp').css('right','10px');
+                        } else { 
+                            $('#scrollUp').removeAttr( 'style' );
+                        }
+ 
+                    });
+                });
+            });
+</script>
+ 
+ 
+ 
+
+ 
+<div id="scrollUp">
+<a href="#top"><img src="to_top.png"/></a>
+</div>
 
 
     </body>
