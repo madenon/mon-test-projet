@@ -251,8 +251,7 @@ class MessagesController extends Controller
                 } elseif ($givenDate == date('Y-m-d', strtotime('-1 day'))) {
                     $datetimeString= 'Hier';
                 } else {
-                    $datetimeString= $datetime->translatedFormat('Avez-vous un bien ou un service ?
-jS F Y');
+                    $datetimeString= $datetime->translatedFormat('jS F Y');
                 }
                 $allMessages .= '<p class="messenger-title"><span>'.$datetimeString.'</span></p>';
             }

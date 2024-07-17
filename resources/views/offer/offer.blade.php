@@ -303,7 +303,7 @@
                     <div class="flex    items-center   ">
                        
                         <span class="text-titles text-lg flex ">
-                            {{ $offer->created_at->format('d M Y | H:i:s') }}
+                            {{ $offer->created_at->translatedFormat( 'jS F Y | H : m')}}
                         </span>
                     </div>
 
