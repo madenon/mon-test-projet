@@ -201,8 +201,11 @@ Route::middleware('auth', 'check.offers', 'verified')->group(function () {
 });
 
 Route::middleware('check.offers')->group(function () {
+    Route::get('/offres/success/{offerId}/{slug}', function ($offerId, $slug) {
+        return view('offer.success', ['offerId' => $offerId, 'slug' => $slug]);
+    })->name('offer.success');
+    
     Route::get('/offres/{offerId}/{slug}', [OfferController::class, 'show'])->name('offer.offer');
-
     Route::get('/offres/{type}/{category}', [CategoryController::class, 'index'])->name('category.index');
     Route::get('/offres/{offer}/{category_id}/{category_name}', [CategoryController::class, 'showSimilarOffers'])->name('category.showSimilarOffers');
     Route::get('/offres/{slug}', [CategoryController::class, 'showOffersByCategory'])->name('category.showOffersByCategory');
@@ -214,13 +217,13 @@ Route::middleware('check.offers')->group(function () {
     Route::post('/offres/updateActiveAnimation', [OfferController::class, 'updateActiveAnimation'])->name('offers.updateActiveAnimation');
     Route::post('/offres/toogleActive', [OfferController::class, 'toogleActive'])->name('offers.toogleActive');
     Route::post('/offres/putOnTop', [OfferController::class, 'putOnTop'])->name('offers.putOnTop');
-
-
-
+    
     Route::get('/offres/{type}', [TypeController::class, 'index'])->name('type.index');
     Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
     Route::get('/offres/search', [OfferController::class, 'search'])->name('offer.search');
+    
 });
+
 
 
 Route::middleware('auth', 'verified')->group(function () {

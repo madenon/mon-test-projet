@@ -240,7 +240,7 @@ class OfferController extends Controller
             return $id;
         });
 
-        return redirect()->route('offer.offer', ['offerId'=>$id, 'slug'=>$slug])->with('success', 'produit ajouté');
+        return redirect()->route('offer.success', ['offerId'=>$id, 'slug'=>$slug])->with('success', 'produit ajouté');
 
     }
     public function storeOfferImage(Request $request)

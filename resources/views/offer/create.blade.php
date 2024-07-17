@@ -314,21 +314,24 @@
                             </div>
 
                             <!-- Right Section: Your Estimation -->
-                            <div class="col-md-6">
+                            <div class="col-md-5 offset-md-1 mt-4 mt-md-0">
                                 <h3 class="text-lg font-bold text-titles mb-3">Votre estimation</h3>
                                 <hr>
-                                    <div class="form-group">
+                                    <div class="form-group mb-2 mt-2">
                                         <label for="valueInput">Valeur</label>
-                                        <input type="number" step="any" min="0" class="form-control" id="valueInput" name="valueInput" placeholder="Prix en €" value="0">
+                                        <div class="input-group">
+                                            <input type="number" step="any" min="0" class="form-control" id="valueInput" name="valueInput" placeholder="Prix en €">
+                                            <button class="btn btn-outline-secondary" type="button">€</button>
+                                        </div>
                                     </div>
 
                                     <!-- Checkbox for "autorise la vente" -->
-                                    <div class="form-check">
+                                    <div class="form-check mt-1">
                                         <input type="checkbox" class="form-check-input" name="sellCheckbox" id="sellCheckbox">
                                         <label class="form-check-label" for="sellCheckbox">Autorise la vente</label>
                                     </div>
                                     <!-- Checkbox for "autorise la vente" -->
-                                    <div class="form-check">
+                                    <div class="form-check mt-1">
                                         <input type="checkbox" class="form-check-input" name="sendCheckbox" id="sendCheckbox">
                                         <label class="form-check-label" for="sendCheckbox">Autorise l'envoi</label>
                                     </div>
@@ -388,8 +391,8 @@
                         <h3 class="text-lg font-bold text-titles mb-3">Mise en ligne de l'annonce</h3>
                         <div class="flex space-x-4">
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="immediatCheckbox" name="launchOption" value="immediat">
-                                    <label class="form-check-label" for="immediatCheckbox">Immédiat</label>
+                                    <input type="checkbox" class="form-check-input" id="immediatCheckbox" name="launchOption" value="immediat" checked>
+                                    <label class="form-check-label" for="immediatCheckbox" >Immédiat</label>
                                 </div>
     
                                 <div class="form-check">
@@ -852,7 +855,7 @@ function validatePrimaryPhoto() {
 
 
 
-var currentTab = 2; 
+var currentTab = 0; 
 showTab(currentTab);
 function showTab(n) {
   var x = document.getElementsByClassName("stepTab");

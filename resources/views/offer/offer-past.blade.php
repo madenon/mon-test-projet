@@ -396,12 +396,12 @@ location.reload();
                         </span>
                         @if($offer->dynamic_inputs)
                         @foreach (json_decode($offer->dynamic_inputs, true)?? [] as $prop )
-                        @if($prop!=null)
-                        <span class="flex gap-2 px-5">
+                            @if($prop!=null)
+                            <span class="flex gap-2 px-5">
                             <img src="/images/Icon.svg" alt="">  {{$prop}} </span>
                             @endif
-                                @endforeach
-                                @endif
+                        @endforeach
+                        @endif
                     </div>
                 </div>
             </div>

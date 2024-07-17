@@ -148,24 +148,26 @@
                             {{$offer->subcategory->name}}
                         </span>
                     </div>
-                       @if($offer->type->name!='Moment')
-                       @if($offer->specify_proposition)
-                       <div class="flex  items-center  hidden md:block">
-                            <span >
-                                A echanger contre:
-                            </span>
-                        </div>
-                        <div class=" text-titles text-xs hidden md:block">
-                            <h6 class=" font-normal ">  Etudie toute proposition</h6>
-                        </div>
-                        @endif
+                       @if($offer->type->name=='Don')
+                       @elseif($offer->type->name!='Moment')
+                        
+                        @if($offer->specify_proposition)
+                        <div class="flex  items-center  hidden md:block">
+                                <span >
+                                    À ÉCHANGER CONTRE:
+                                </span>
+                            </div>
+                            <div class=" text-titles text-xs hidden md:block">
+                                <h6 class=" font-normal ">  Etudie toute proposition</h6>
+                            </div>
+                            @endif
                         @else
                             @if($offer->dynamic_inputs)
                             <div class=" text-titles text-xs mt-3 hidden md:block">
-                                <h6 class=" font-normal ">À partager avec :</h6>
+                                <h6 class=" font-normal ">À PARTAGER AVEC:</h6>
                                     @foreach (json_decode($offer->dynamic_inputs, true)?? [] as $prop )
                                     @if($prop!=null && is_numeric($prop))
-                                    <span class="px-5">
+                                    <span>
                                         {{$prop}} partenaire(s).
                                     </span>
                                     @endif

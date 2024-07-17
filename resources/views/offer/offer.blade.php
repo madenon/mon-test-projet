@@ -411,7 +411,8 @@
                             @endif
                     </div>
                     <div class="m-4 bg-gray-100 p-4 rounded-lg" style="color: black;font-weight: 400;">
-                        @if ($offer->type->name=='Moment')
+                        @if($offer->type->name=='Don')
+                        @elseif ($offer->type->name=='Moment')
                         <h5>À PARTAGER AVEC :</h5>
                         @else
                         <h5>À ÉCHANGER CONTRE :</h5>
