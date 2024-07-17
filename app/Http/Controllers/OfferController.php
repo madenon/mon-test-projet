@@ -129,7 +129,7 @@ class OfferController extends Controller
             'department' => ['required'],
             'title' => ['required', 'string', 'between:2,100'],
             'description' => ['required','string'],
-            'default_image' => ['required','image','mimes:jpeg,png','max:4096'],
+            'default_image' => ['nullable','image','mimes:jpeg,png','max:4096'],
             'additional_images.*' => ['nullable','image','mimes:jpeg,png','max:4096'],
             'additional_images' => ['max:10'],
         'valueInput' => 'nullable|numeric',
@@ -148,8 +148,14 @@ class OfferController extends Controller
             $region = Region::find($request->region);
             $department = Department::find($request->department);
             $type = Type::find($request->type);
-            $extention = explode("/", $request->default_image->getMimeType())[1];
-            $imageDefault = uniqid() . '.' . $extention;
+            $image = $request->default_image;
+            $imageDefault = '';
+            if(!$image){
+                $imageDefault = 'default.png';
+            }else{
+                $extention = explode("/",$image->getMimeType())[1];
+                $imageDefault = uniqid() . '.' . $extention;
+            }
             $experience = $request->has('experience')? $request->experience : null;
             $condition  = $request->has('condition')? $request->condition : null;
             // Retrieve values from dynamic inputs
@@ -212,7 +218,7 @@ class OfferController extends Controller
                     ]
                 );
           
-            Storage::putFileAs('public/offer_pictures', $request->default_image, $imageDefault);
+            if($image)Storage::putFileAs('public/offer_pictures', $request->default_image, $imageDefault);
             $defaultImage = OfferImages::create([
                 'offer_photo' => $imageDefault,
                 'offer_id' => $id,

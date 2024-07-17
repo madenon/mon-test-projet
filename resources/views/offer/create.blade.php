@@ -57,7 +57,7 @@
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                     </svg>
                     <span class="me-1 sm:me-2 num">5</span>
-                    <span class="name">Poster</span>
+                    <span class="name">Publier</span>
                 </span>
             </li>
         </ol>
@@ -189,7 +189,7 @@
                                 <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 ">
                                     <label for="default_image" class="cursor-pointer w-full" >
                                         <input id="default_image" type="file" name="default_image" accept="image/*"  oninput="validatePrimaryPhoto()"
-                                            class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
+                                            class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color notRequired"
                                             style="width: 0; height: 0;">
                                         <div class="flex items-center justify-center gap-4 text-center w-full">
                                             <img src="/images/IconContainer.svg" alt="" srcset="">
@@ -202,10 +202,15 @@
                                         sélectionné</span>
                                 </div>
                                 <div class="my-2 text-sm">
-                                    Si vous ne choississez pas d'image, l'annonce aura pou image par defaut le logo de faistroquer.   
+                                    Si vous ne choississez pas d'image, l'annonce aura pour image par defaut le logo de faistroquer.   
                                 </div>
-                                <div class="my-2">
-                                    <img id="defaultImageSelected" src="" alt="" width="150px">
+                                <div class="my-3 hidden">
+                                    <div class="relative w-60 h-36">
+                                        <img id="defaultImageSelected" src="" alt="" class="w-full h-full object-cover zoomD">
+                                        <button id="deleteDefaultImage" class="absolute top-0 right-0">
+                                            <img src="{{ asset('/images/trash-icon.png') }}" alt="Delete" class="w-6 h-6">
+                                        </button>
+                                    </div>
                                 </div>
                                 <x-input-error :messages="$errors->get('default_image')" class="mt-2" />
                                 <span for="" class="text-sm text-text mt-4">
@@ -213,7 +218,7 @@
                                 <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 bg-neutral-300">
                                     <label for="additional_images" class="cursor-pointer w-full" >
                                         <input id="additional_images" type="file" name="additional_images[]" accept="image/*" multiple disabled
-                                        class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
+                                        class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color notRequired"
                                         style="width: 0; height: 0;" />
                                         <div class="flex items-center justify-center gap-4 text-center w-full">
                                             <img src="/images/IconContainer.svg" alt="" srcset="">
@@ -529,7 +534,7 @@
     const spanElement = document.getElementById("selectedFileName");
     const defaultImageSelected = document.getElementById("defaultImageSelected");
     const browse_default_text = document.getElementById("browse_default_text");
-    
+    const deleteDefaultImage = document.getElementById("deleteDefaultImage");
     
     inputElement.addEventListener("change", function () {
         const selectedFiles = inputElement.files;
@@ -548,6 +553,25 @@
             if(browse_default_text.classList.contains("hidden"))
             browse_default_text.classList.remove("hidden");
     }
+    
+    deleteDefaultImage.onclick = () =>{
+        event.preventDefault();
+        const div = deleteDefaultImage.parentElement.parentElement;
+        if(browse_default_text.classList.contains("hidden"))
+        browse_default_text.classList.remove("hidden");
+        if(!div.classList.contains("hidden"))
+        div.classList.add("hidden");
+    spanElement.textContent = "Aucun fichier sélectionné";
+        defaultImageSelected.src = '';
+        inputElement.value = '';
+        additional_images.disabled = true; 
+        if(!defaultImageSelected.parentElement.parentElement.classList.contains("hidden"))
+        defaultImageSelected.parentElement.parentElement.classList.add("hidden");
+        if(!additional_images.parentElement.parentElement.classList.contains("bg-neutral-300"))
+        additional_images.parentElement.parentElement.classList.add("bg-neutral-300");
+
+    };
+
 });
 
 
@@ -566,22 +590,29 @@ additional_images.addEventListener("change", function () {
         browse_additional_text.classList.add("hidden");
         selectedFilesMultiple.forEach((item, index) => {
             const divElement = document.createElement('div');
-            divElement.className = 'me-4';
+            divElement.className = 'm-4 relative';
+            divElement.style.width = '100px';
+            divElement.style.height = '50px';
             
             const imgElement = document.createElement('img');
+            imgElement.style.width = '100%';
+            imgElement.style.height = '100%'; 
+            imgElement.style.objectFit = 'cover';
+            imgElement.alt = '';
+
             const reader = new FileReader();
             reader.onload = function (e) {
                 imgElement.src = e.target.result;
-                imgElement.setAttribute("style","height:30px");
+                // imgElement.setAttribute("style","width:200px");
             }
             reader.readAsDataURL(item);
             imgElement.alt = '';
             const buttonElement = document.createElement('button');
             const imgTrashElement = document.createElement('img');
-            buttonElement.className = 'w-full';
+            buttonElement.className = 'absolute top-0 right-0';
             imgTrashElement.src = '{{asset("/images/trash-icon.png")}}';
             imgTrashElement.className = 'mx-auto my-2';
-            imgTrashElement.style.width = "25px";
+            imgTrashElement.className = 'w-4 h-4 mx-1 my-1';
             buttonElement.onclick = () =>{
                 event.preventDefault();
                 buttonElement.parentNode.remove();
@@ -593,7 +624,6 @@ additional_images.addEventListener("change", function () {
             divElement.appendChild(imgElement);
             divElement.appendChild(buttonElement);
             additionalImageSelected.appendChild(divElement);
-            
             
         });
         spanElementMultiple.textContent = selectedFilesMultiple.length + " fichier(s) sélectionné(s)";
@@ -809,21 +839,20 @@ function validatePrimaryPhoto() {
     const default_image = document.getElementById("default_image").value.trim();
     var additional_images = document.getElementById("additional_images");
     if ( default_image === '') {
-        
         additional_images.value = ''; 
         additional_images.disabled = true; 
         // console.log(additional_images.parentElement.parentElement);
         
     } else {
+        defaultImageSelected.parentElement.parentElement.classList.remove("hidden");
         additional_images.parentElement.parentElement.classList.remove("bg-neutral-300");
-        console.log(additional_images.parentElement.parentElement);
         additional_images.disabled = false; 
     }
 }
 
 
 
-var currentTab = 0; 
+var currentTab = 2; 
 showTab(currentTab);
 function showTab(n) {
   var x = document.getElementsByClassName("stepTab");
@@ -893,10 +922,11 @@ function validateForm() {
     if ((window.getComputedStyle(y[i].parentNode, null).display != "none") && y[i].value === "" ) {
       if(y[i].classList.contains("notRequired"))continue;
       y[i].classList.add("invalid");
-        
+      
       appendError("Veuillez ne pas laisser les champs en * vide, elles sont obligatoires");
       valid = false;
     }else{
+        if(y[i].classList.contains("notRequired"))continue;
         y[i].classList.remove("invalid");
     }
     var dynamicInputs = document.getElementsByName("dynamicInputs[]");
