@@ -1,5 +1,5 @@
 <div>
-    <div class="flex">
+    <div class="flex flex-wrap sm:flex-nowrap">
         <ul class="flex flex-wrap items-center text-gray-900 dark:text-white m">
             <li class="me-2 my-1">
                 <div class="border-2 rounded p-1 flex">

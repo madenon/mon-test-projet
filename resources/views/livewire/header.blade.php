@@ -420,7 +420,7 @@
     function changePro(pro_on){
         if(pro_on){
             Swal.fire({
-                title: 'Vous avez activer votre compte proffessionel',
+                title: 'Vous avez activé votre compte proffessionel',
                 timer: 2500,
                 showCancelButton: false,
                 showConfirmButton: false
@@ -429,7 +429,7 @@
             });
         }else{
             Swal.fire({
-                title: 'Vous avez activer votre compte particulier',
+                title: 'Vous avez activé votre compte particulier',
                 timer: 2500,
                 showCancelButton: false,
                 showConfirmButton: false

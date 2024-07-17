@@ -201,6 +201,9 @@
                                     <span id="selectedFileName" class="text-text text-sm mt-2">Aucun fichier
                                         sélectionné</span>
                                 </div>
+                                <div class="my-2 text-sm">
+                                    Si vous ne choississez pas d'image, l'annonce aura pou image par defaut le logo de faistroquer.   
+                                </div>
                                 <div class="my-2">
                                     <img id="defaultImageSelected" src="" alt="" width="150px">
                                 </div>
@@ -806,6 +809,7 @@ function validatePrimaryPhoto() {
     const default_image = document.getElementById("default_image").value.trim();
     var additional_images = document.getElementById("additional_images");
     if ( default_image === '') {
+        
         additional_images.value = ''; 
         additional_images.disabled = true; 
         // console.log(additional_images.parentElement.parentElement);

@@ -358,3 +358,10 @@ select:focus {
   .modalzoomD{
       cursor:zoom-in;
   }
+  
+  
+#active-page {
+    display : inline-block;
+    color: var(--primary-color); 
+    border-color: var(--primary-color);
+}
