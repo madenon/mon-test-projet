@@ -464,8 +464,7 @@
                             @endif
                             <span class="flex flex-col">
                                 <span class="text-titles font-medium text-decoration-underline">
-                                    {{$offer->user->first_name . " " .
-                                    $offer->user->last_name}}
+                                    {{$offer->user->name}}
                                 </span>
                                 @if ($offer->user->is_online=="Offline")
                                 <span class="text-red-500">Hors ligne</span>

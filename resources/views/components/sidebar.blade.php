@@ -6,7 +6,7 @@
             {{--  <img src="{{ auth()->user()->profile_photo_path }} " alt="" />  --}}
         </div>
         <div class="flex flex-col ">
-            <span class="mb-0 text-black font-medium text-lg">{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</span>
+            <span class="mb-0 text-black font-medium text-lg">{{ auth()->user()->name }}</span>
             <span>{{ auth()->user()->role }}</span>
         </div>
         @endif

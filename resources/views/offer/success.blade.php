@@ -54,7 +54,7 @@
             setTimeout(function () {
                 // Remove the class that hides the buttons
                 document.getElementById('buttonContainer').classList.remove('hidden');
-            }, 3000); // 3000 milliseconds = 3 seconds
+            }, 1500); // 3000 milliseconds = 3 seconds
         });
     </script>
 

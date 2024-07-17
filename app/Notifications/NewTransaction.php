@@ -40,7 +40,7 @@ class NewTransaction extends Notification
         $url = url('/transactions');
         return (new MailMessage)
         ->subject('Nouvelle Transaction')
-        ->greeting('Bonjour '. $this->taker->first_name)
+        ->greeting('Bonjour '. $this->taker->name)
         ->line('Vous avez reçu une nouvelle transaction.')
         ->action('Voir la Transaction', $url)
         ->line(new HtmlString('Merci de consulter votre compte sur <a href="https://darkorange-wolf-733627.hostingersite.com/">faistroquer.fr</a> pour avoir plus d\'informations.'));

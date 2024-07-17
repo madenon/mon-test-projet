@@ -42,14 +42,15 @@
             <div class="mt-[8vh]">
                 <h1 class="text-center text-primary-color text-4xl">{{ __('Devenir professionel') }}</h1>
             </div>
-            <div class="flex  justify-center mt-10 rounded-md bg-gray-100 py-3 types-div">
-                <div class="border border-gray-300 rounded-l-md py-2 px-3 bg-primary-color text-white cursor-pointer "
-                    id="particulier" onclick="selectType('particulier')">
-                    Professionnel
+            <div class="flex justify-center mt-10 rounded-md bg-gray-100 py-3 types-div w-full">
+                <div class="border border-gray-300 rounded-md py-2 px-10 bg-primary-color text-white cursor-pointer w-1/2 flex justify-center"
+                    id="professionnel" onclick="selectType('professionnel')">
+                    <div>Professionnel</div>
                 </div>
-
-                {{-- <input type="hidden" name="role" id="selectedType" value="particulier"> --}}
+                
             </div>
+            {{-- <input type="hidden" name="role" id="selectedType" value="particulier"> --}}
+            
             <form method="POST" action="{{ route('becomePro') }}" enctype="multipart/form-data">
                 @csrf
                 

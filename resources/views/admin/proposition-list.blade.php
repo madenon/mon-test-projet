@@ -57,7 +57,7 @@
                             {{ $preposition->status }}
                         </span></td>
            
-                        <td>{{ $preposition->offer? $preposition->offer->user->first_name:'' }}</td>
+                        <td>{{ $preposition->offer? $preposition->offer->user->name:'' }}</td>
                         <td>{{ $preposition->offer_name }}</td>
                         <td>@if($preposition->meetup)
                             <button type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button " data-bs-toggle="modal" data-bs-target="#meetModal">

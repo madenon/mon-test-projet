@@ -208,7 +208,7 @@
                                     <div class="relative w-60 h-36">
                                         <img id="defaultImageSelected" src="" alt="" class="w-full h-full object-cover zoomD">
                                         <button id="deleteDefaultImage" class="absolute top-0 right-0">
-                                            <img src="{{ asset('/images/trash-icon.png') }}" alt="Delete" class="w-6 h-6">
+                                            <img src="{{ asset('/images/close-icon.png') }}" alt="Delete" class="w-6 h-6">
                                         </button>
                                     </div>
                                 </div>
@@ -613,7 +613,7 @@ additional_images.addEventListener("change", function () {
             const buttonElement = document.createElement('button');
             const imgTrashElement = document.createElement('img');
             buttonElement.className = 'absolute top-0 right-0';
-            imgTrashElement.src = '{{asset("/images/trash-icon.png")}}';
+            imgTrashElement.src = '{{asset("/images/close-icon.png")}}';
             imgTrashElement.className = 'mx-auto my-2';
             imgTrashElement.className = 'w-4 h-4 mx-1 my-1';
             buttonElement.onclick = () =>{

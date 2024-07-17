@@ -153,7 +153,7 @@
                         <td>
                             <a type="button" class="btn  chat-button" href="{{route('profile.showProfile',$counterparty->id)}}">
                                 <span style="color: #24a19c;">
-                                {{ $counterparty->first_name . ' ' . $counterparty->last_name }}
+                                {{ $counterparty->name }}
                                 </span>
                             </a>
                         </td>
@@ -323,7 +323,7 @@
                     <div class="flex flex-col">
                         <a type="button" class="block no-underline" href="{{route('profile.showProfile',$counterparty->id)}}">
                             <span class="text-sm" style="color: #24a19c;">
-                            {{Str::limit($counterparty->first_name . ' ' . $counterparty->last_name, 15)}}
+                            {{Str::limit($counterparty->name, 15)}}
                             </span>
                         </a>
                     </div>

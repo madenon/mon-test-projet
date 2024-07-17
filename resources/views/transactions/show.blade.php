@@ -54,7 +54,7 @@
                 <p class="text-lg p-0 m-0">
                     <a type="button" class="btn  chat-button" href="{{route('profile.showProfile',$counterparty->id)}}">
                         <span style="color: #24a19c;">
-                        {{ $counterparty->first_name . ' ' . $counterparty->last_name }}
+                        {{ $counterparty->name }}
                         </span>
                     </a>               
                 </p>

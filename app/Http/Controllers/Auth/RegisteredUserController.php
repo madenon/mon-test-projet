@@ -95,7 +95,7 @@ class RegisteredUserController extends Controller
                 'google_id'=> $request->google_id,
                 'profile_photo_path' => $storePicture,
                 'avatar'=> $storePicture,
-                'name' => trim($request->first_name) . ' ' . trim($request->last_name),
+                'name' => $request->nickname,
                 'is_pro' => false,
                 "role" => "user",
                 'statusPro' => $request->is_pro ? "pending" : "none",
@@ -109,7 +109,7 @@ class RegisteredUserController extends Controller
                 Storage::putFileAs('public/company_identification_document', $request->company_identification_document, $storePicture);
             }else $storePicture = null;            
             
-            
+            $request->merge(['bio' => 'none']);
             $this->createUserInfos($user, $request->only([
                 'phone', 'nickname', 'gender', 'bio','social_reason','siren_number'
             ]), $storePicture);
