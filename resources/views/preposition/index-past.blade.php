@@ -37,7 +37,7 @@
                         </span></td>
            
                         <td>
-                        {{ $isReceiveid? $preposition->user->first_name . ' ' . $preposition->user->last_name  : $preposition->offer->user->last_name . ' ' . $preposition->offer->user->first_name}}
+                        {{ $isReceiveid? $preposition->user->name  : $preposition->offer->user->name}}
                         </td>
                         <td id="prepositionOfferName-{{$preposition->id}}">
                             @livewire('split-long-text ', [

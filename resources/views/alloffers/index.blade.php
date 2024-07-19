@@ -87,7 +87,7 @@
     </style>
     <div id="offCanvas" class="fixed inset-y-0 right-0 w-64 bg-gray-800 text-white z-50 p-4 ease-in-out duration-300">
         <button id="closeFilterButton" class="text-white">&times; Close</button>
-        <!-- <x-filters></x-filters>       -->
+        <x-filters-sm></x-filters-sm>      
     </div>
 
         <div class="row">
@@ -124,15 +124,15 @@
                             </a>
                         </div>
                         <div class="flex  items-center   ">
-                        <span >
-                            Type de troc:
-                        </span>
-                    </div>
+                            <span >
+                                Type de troc:
+                            </span>
+                        </div>
                     <div class="flex  items-center   ">
-                        
                         <span class="text-titles text-lg "style="color : #24A19C;font-weight: 700;" >
                             {{$offer->type->name }}
                         </span>
+                        
                     </div>
 
                     <div class="flex    items-center   ">
@@ -148,26 +148,33 @@
                             {{$offer->subcategory->name}}
                         </span>
                     </div>
-                       @if($offer->type->name!='Moment')
-                       @if($offer->specify_proposition)
-                        <div class=" text-titles text-xs mt-3 hidden md:block">
-                            <h6 class=" font-normal ">  Etudie toute proposition</h6>
-                        </div>
-                        @endif
-                        @else
-                        <div class=" text-titles text-xs mt-3 hidden md:block">
-                            <h6 class=" font-normal ">À PARTAGER AVEC :</h6>
-                            @if($offer->dynamic_inputs)
-                        @foreach (json_decode($offer->dynamic_inputs, true)?? [] as $prop )
-                        @if($prop!=null && is_numeric($prop))
-                        <span class="px-5">
-                             {{$prop}} partenaire(s).
-                        </span>
+                       @if($offer->type->name=='Don')
+                       @elseif($offer->type->name!='Moment')
+                        
+                        @if($offer->specify_proposition)
+                        <div class="flex  items-center  hidden md:block">
+                                <span >
+                                    À ÉCHANGER CONTRE:
+                                </span>
+                            </div>
+                            <div class=" text-titles text-xs hidden md:block">
+                                <h6 class=" font-normal ">  Etudie toute proposition</h6>
+                            </div>
                             @endif
-                                @endforeach
+                        @else
+                            @if($offer->dynamic_inputs)
+                            <div class=" text-titles text-xs mt-3 hidden md:block">
+                                <h6 class=" font-normal ">À PARTAGER AVEC:</h6>
+                                    @foreach (json_decode($offer->dynamic_inputs, true)?? [] as $prop )
+                                    @if($prop!=null && is_numeric($prop))
+                                    <span>
+                                        {{$prop}} partenaire(s).
+                                    </span>
+                                    @endif
+                                    @endforeach
 
-                                @endif
-                        </div>
+                            </div>
+                            @endif
                         @endif
                         <div class=" mt-3 flex w-full md:mb-3 ">
                             <div class=" w-[40%] flex gap-1 items-center">
@@ -259,9 +266,9 @@
                                     </span>
                                 </div>
                             <div class="flex space-x-2 md:space-x-4">
-                                <span class="flex flex-col w-1/2 relative">
+                                <span class="flex flex-col w-full relative">
                                     <span class="text-titles font-medium text-xs md:text-base break-words">
-                                            {{Str::limit($offer->user->name,10)}}
+                                            {{$offer->user->name}}
                                         </span>
                                         <style>
                                             .status-indicator {

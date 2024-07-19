@@ -117,7 +117,7 @@
                             <a class="no-underline font-medium hidden md:block text-sm md:text-base" href="{{route('offer.offer', [$transaction->proposition->offer->id, $transaction->proposition->offer->slug])}}">{{ $transaction->proposition->offer->title }}</a>
                             <a class="no-underline font-medium block md:hidden text-sm md:text-base" href="{{route('offer.offer', [$transaction->proposition->offer->id, $transaction->proposition->offer->slug])}}">{{ Str::limit($transaction->proposition->offer->title, 8)}}</a>
                         </td>
-                        <td class="hidden md:table-cell">{{ $counterparty->first_name }} {{$counterparty->last_name }}</td>
+                        <td class="hidden md:table-cell">{{ $counterparty->name }}</td>
                         <td class="text-xs md:text-base">{{ $transaction->amount }}</td>
                         <td class="hidden md:table-cell">{{ $transaction->date }}</td>
                         <td>

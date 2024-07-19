@@ -182,7 +182,7 @@
                                     @foreach ($images as $image)
                                         <div class="me-4">
                                             <img alt="" src="{{ route('offer-pictures-file-path',$image->offer_photo) }}" style="height:30px"><button class="w-full">
-                                            <img src="{{asset('images/trash-icon.png')}}" class="mx-auto my-2" style="width: 25px;"></button>
+                                            <img src="{{asset('images/close-icon.png')}}" class="mx-auto my-2" style="width: 25px;"></button>
                                         </div>
                                     @endforeach
                                 </div>
@@ -324,7 +324,7 @@ additional_images.addEventListener("change", function () {
             const buttonElement = document.createElement('button');
             const imgTrashElement = document.createElement('img');
             buttonElement.className = 'w-full';
-            imgTrashElement.src = '{{asset("/images/trash-icon.png")}}';
+            imgTrashElement.src = '{{asset("/images/close-icon.png")}}';
             imgTrashElement.className = 'mx-auto my-2';
             imgTrashElement.style.width = "25px";
             buttonElement.onclick = () =>{

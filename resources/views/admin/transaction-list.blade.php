@@ -46,7 +46,7 @@
                 @foreach ($transactions as $transaction)
                     <tr>
                         <td>{{ $transaction->name }}</td>
-                        <td>{{ $transaction->proposition->user->first_name }} {{ $transaction->proposition->user->last_name }}</td>
+                        <td>{{ $transaction->proposition->user->name }}</td>
                         <td>{{ $transaction->amount }}</td>
                         <td>{{ $transaction->date }}</td>
                         <td>

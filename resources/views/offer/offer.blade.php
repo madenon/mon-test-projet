@@ -303,7 +303,7 @@
                     <div class="flex    items-center   ">
                        
                         <span class="text-titles text-lg flex ">
-                            {{ $offer->created_at->format('d M Y | H:i:s') }}
+                            {{ $offer->created_at->translatedFormat( 'jS F Y | H : m')}}
                         </span>
                     </div>
 
@@ -411,7 +411,8 @@
                             @endif
                     </div>
                     <div class="m-4 bg-gray-100 p-4 rounded-lg" style="color: black;font-weight: 400;">
-                        @if ($offer->type->name=='Moment')
+                        @if($offer->type->name=='Don')
+                        @elseif ($offer->type->name=='Moment')
                         <h5>À PARTAGER AVEC :</h5>
                         @else
                         <h5>À ÉCHANGER CONTRE :</h5>
@@ -463,8 +464,7 @@
                             @endif
                             <span class="flex flex-col">
                                 <span class="text-titles font-medium text-decoration-underline">
-                                    {{$offer->user->first_name . " " .
-                                    $offer->user->last_name}}
+                                    {{$offer->user->name}}
                                 </span>
                                 @if ($offer->user->is_online=="Offline")
                                 <span class="text-red-500">Hors ligne</span>

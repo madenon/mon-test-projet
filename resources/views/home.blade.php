@@ -78,11 +78,10 @@
    <div class="d-flex align-items-center justify-content-center">
     <div>
         <h1 class="titlee">Avez-vous un bien ou un service ?<br>cherchez, postez et <span style="font-size: 41px;font-weight: 800;color:#24a19c;" >troquez</span>  !</h1>
-           <div class="mt-3 d-flex align-items-center justify-content-center" >
-               <a class="sg-btn" href="{{route('alloffers.index')}}">Consultez nos offres <i class="pl-2 fa fa-long-arrow-right"></i></a>
-       </div>
-    </div>
-           
+        <div class="mt-4 d-flex align-items-center justify-content-center" >
+            <a class="sg-btn" href="{{route('alloffers.index')}}">Consultez nos offres <i class="pl-2 fa fa-long-arrow-right"></i></a>
+        </div>
+    </div>  
     </div>
     <h1 class="titlee text-center font-bold">Ne perdez plus votre temps et rejoignez notre réseau de <span style="font-size: 41px;font-weight: 800;color:#24a19c;">troqueurs </span> !</h1>
 
@@ -144,18 +143,19 @@
     </div>
 </div> -->
 
-    <div id="catcarousel" class="grid grid-cols-3 md:grid-cols-6 justify-content place-items-stretch center my-4 ml-2 mr-2 md:mr-32 md:ml-32 ">
-        @for($i=0; $i< min(12,count($categories)) ;$i++ )
-        <a class="no-underline text-black block" href="{{route('alloffers.index',['category'=> $categories[$i]->id])}}">
-            <div class="flex flex-col justify-center items-center border shadow py-2 mx-2 mb-4">
-                <div class="bg-slate-100 rounded-full p-1 aspect-square"><i class="fa {{$categories[$i]['icon']}}"></i></div>
-                <div class="font-semibold pl-2">{{$categories[$i]->name}}</div>
-                <div class="text-sm">{{$categories[$i]->children->reduce(function($carry,$sub){return $carry+$sub->offer->where('active_offer', 1)->where('launch_date', null)->count();})}} Offres</div>
-            </div>
-        </a>
-        @endfor
+        <div id="catcarousel" class="grid grid-cols-3 md:grid-cols-6 justify-content place-items-stretch center my-4 ml-2 mr-2 md:mr-32 md:ml-32">
+            @for($i=0; $i< min(12,count($categories)); $i++)
+            <a class="no-underline text-black block" href="{{route('alloffers.index',['category'=> $categories[$i]->id])}}">
+                <div class="flex flex-col justify-between items-center border shadow py-2 mx-2 mb-4 h-full">
+                    <div class="flex flex-col items-center">
+                        <div class="bg-slate-100 rounded-full p-1 aspect-square"><i class="fa {{$categories[$i]['icon']}}"></i></div>
+                        <div class="font-semibold pl-2">{{$categories[$i]->name}}</div>
+                    </div>
+                    <div class="text-sm">{{$categories[$i]->children->reduce(function($carry, $sub){return $carry + $sub->offer->where('active_offer', 1)->where('launch_date', null)->count();})}} Offres</div>
+                </div>
+            </a>
+            @endfor
         </div>
-
         
         @if(count($categories)>12)
         <div class="col-span-full d-flex items-center justify-center">
@@ -176,7 +176,7 @@
         <div id="featured-offers-container"  class="owl-carousel owl-six" data-inner-pagination="true" data-white-pagination="true" data-nav="false" data-autoPlay="true">
 
         @for ($i=0;$i<count($featuredOffers);$i++)
-            <div class=" grow-0 shrink-0 @if($i>0) @endif" style="width: 100%;">
+            <div class=" grow-0 shrink-0 @if($i>0) @endif h-full" style="width: 100%;">
                 <x-offer-present-card :offer=$featuredOffers[$i]></x-offer-present-card>
             </div>
             @endfor
@@ -207,7 +207,7 @@
         </div>
         <div id="recent-offers-container" class="owl-carousel owl-six" data-inner-pagination="true" data-white-pagination="true" data-nav="false" data-autoPlay="true">
             @for ($i=0;$i<count($recentOffers);$i++)
-            <div class=" grow-0 shrink-0 @if($i>0) @endif" style="width: 100%;">
+            <div class=" grow-0 shrink-0 @if($i>0) @endif h-full" style="width: 100%;">
                 <x-offer-present-card :offer=$recentOffers[$i]></x-offer-present-card>
             </div>
             @endfor
@@ -499,14 +499,14 @@
     padding: 10px 20px;
     color: black;
     text-decoration: none;
-    background-color: white;
+    background-color: var(--primary-color-hover);
     border-radius: 5px;
     transition: background-color 0.3s ease;
-    font-size: 24px;
+    font-size: 30px;
 }
 
 .sg-btn:hover {
-    background-color: var(--primary-color-hover);
+    background-color: white;
 }
 .bg-primary-color{
     background-color: var(--primary-color);

@@ -43,14 +43,14 @@
                 <h1 class="text-center text-primary-color text-4xl">{{ __('S\'enregistrer') }}</h1>
             </div>
             <div class="flex  justify-center mt-10 rounded-md bg-gray-100 py-3 types-div">
-                <div class="border border-gray-300 rounded-l-md py-2 px-3 bg-primary-color text-white cursor-pointer "
+                <div class="border border-gray-300 rounded-l-md py-2 bg-primary-color text-white cursor-pointer w-1/2 flex justify-center"
                     id="particulier" onclick="selectType('particulier')">
-                    Particulier
+                    <div>Particulier</div>
                 </div>
-                <div class="border-t border-b border border-gray-300 rounded-r-md py-2 px-3 bg-white cursor-pointer"
-                id="professionnel" onclick="selectType('professionnel')">
-                Professionnel
-            </div>
+                <div class="border-t border-b border border-gray-300 rounded-r-md py-2 px-3 bg-white cursor-pointer w-1/2 flex justify-center"
+                    id="professionnel" onclick="selectType('professionnel')">
+                    <div>Professionnel</div>
+                </div>
                 {{-- <input type="hidden" name="role" id="selectedType" value="particulier"> --}}
             </div>
             <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
@@ -119,29 +119,35 @@
                         placeholder="Prenom" />
                     <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
                 </div>
-                <div class="flex space-x-8">
-                    <x-text-input id="email" class="block mt-1 focus:border-primary-color" type="email"
-                        name="email" :value="old('email',isset($user['email']) ? $user['email'] : '')" required autofocus autocomplete="email"
-                        placeholder="Email" />
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                    <style>
-                    /* Chrome, Safari, Edge, Opera */
-                    input::-webkit-outer-spin-button,
-                    input::-webkit-inner-spin-button {
-                    -webkit-appearance: none;
-                    margin: 0;
-                    }
+                <div class="flex flex-col space-y-4 sm:flex-row sm:space-x-8 sm:space-y-0">
+                    <div class="flex-1">
+                        <x-text-input id="email" class="block w-full mt-1 focus:border-primary-color" type="email"
+                            name="email" :value="old('email', isset($user['email']) ? $user['email'] : '')" required autofocus autocomplete="email"
+                            placeholder="Email" />
+                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    </div>
 
-                    /* Firefox */
-                    input[type=number] {
-                    -moz-appearance: textfield;
-                    }
-                    </style>
-                    <x-text-input id="phone" class="block mt-1 w-full focus:border-primary-color" type="text" pattern="^\+33\d{9}$"
-                        name="phone" :value="old('phone')" value="+33" required autofocus autocomplete="phone"
-                        placeholder="Téléphone" />
-                    <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                    <div class="flex-1">
+                        <style>
+                            /* Chrome, Safari, Edge, Opera */
+                            input::-webkit-outer-spin-button,
+                            input::-webkit-inner-spin-button {
+                                -webkit-appearance: none;
+                                margin: 0;
+                            }
+
+                            /* Firefox */
+                            input[type=number] {
+                                -moz-appearance: textfield;
+                            }
+                        </style>
+                        <x-text-input id="phone" class="block w-full mt-1 focus:border-primary-color" type="text" pattern="^\+33\d{9}$"
+                            name="phone" :value="old('phone')" value="+33" required autofocus autocomplete="phone"
+                            placeholder="Téléphone" />
+                        <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                    </div>
                 </div>
+
                 <div class="mt-4">
                     <x-text-input id="nickname" class="block mt-1 w-full focus:border-primary-color" type="text"
                         name="nickname" value="" placeholder="Pseudo" />
@@ -180,14 +186,7 @@
                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                 </div>
                 @endif
-                <div class="mt-4">
-                    <textarea id="bio"
-                        class="block mt-1 w-full rounded-md border-gray-400 mb-10 focus:border-primary-color" name="bio"
-                        required placeholder="À propos de moi"></textarea>
-                    <x-input-error :messages="$errors->get('bio')" class="mt-2" />
-                </div>
-                <div
-                    class="flex items-center w-full relative border-dashed border-2 border-gray-300 rounded-md px-3 py-2 div-file">
+                <div class="flex items-center w-full relative border-dashed border-2 border-gray-300 rounded-md mt-4 px-3 py-2 div-file">
                     <label for="profile_photo_path" class="cursor-pointer w-full">
                         <input id="profile_photo_path" type="file" name="profile_photo_path" accept="image/*"
                             class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
@@ -232,15 +231,12 @@
                 </div>
                 
                 <div class="my-6 flex items-center checkbox-register">
-                    <input type="checkbox" id="agree" name="agree" class=" border-gray-300 rounded text-primary-color"
-                    required>
-                    <label for="agree" class="ml-2 text-gray-700 ">
-                        {{ __('I\'ve read and agree with your ') }} <a href="#"
-                            class="font-semibold text-black hover:underline">Privacy
-                            Policy</a> and <a href="#" class="font-semibold text-black hover:underline">Terms &
-                            Conditions</a>
+                    <input type="checkbox" id="agree" name="agree" class="border-gray-300 rounded text-primary-color" required>
+                    <label for="agree" class="ml-2 text-gray-700">
+                        {{ __('J\'ai lu et j\'accepte votre ') }} <a href="#" class="font-semibold text-black hover:underline">Politique de Confidentialité</a> et <a href="#" class="font-semibold text-black hover:underline">Conditions Générales</a>
                     </label>
                 </div>
+
                 <button class="w-full text-white  font-semibold py-3 rounded-md bg-primary-color hover:bg-primary-hover"
                     type="submit">
                     <div class="  transition-transform transform hover:translate-x-3 flex items-center justify-center">

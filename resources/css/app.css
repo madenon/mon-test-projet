@@ -19,11 +19,6 @@
     background-color: #888888;
   }
  
-#particulier,
-#professionnel {
-    width: 45%;
-    padding-left: 15% !important;
-}
 
 select:active,
 select:focus {
@@ -110,10 +105,7 @@ select:focus {
     }
 }
 @media (max-width: 900px) {
-    #particulier,
-    #professionnel {
-        padding-left: 12% !important;
-    }
+
 }
 @media (max-width: 885px) {
     .title-div span {
@@ -261,11 +253,6 @@ select:focus {
     }
 }
 @media (max-width: 300px) {
-    #particulier,
-    #professionnel {
-        padding-left: 5% !important;
-        width: 50%;
-    }
     .footer-login {
         position: none !important;
         height: 40%;
@@ -358,3 +345,10 @@ select:focus {
   .modalzoomD{
       cursor:zoom-in;
   }
+  
+  
+#active-page {
+    display : inline-block;
+    color: var(--primary-color); 
+    border-color: var(--primary-color);
+}

@@ -106,6 +106,12 @@
                     <span>Filtre</span>
                 </button>
             </div>
+            <div >
+                <a class="header-user-avatar-dropdown-item" href="{{route('binshopsblog.index' , 'fr')}}" style="color:#24A19C;font-weight: 900">
+                    <img src="{{asset('images/blog.png')}}" alt="" class="header-user-avatar-dropdown-item-img" />
+                    <span hidden md:inline>BLOG</span>
+                </a>
+            </div>
             <div id="header-user">
                 @auth
                 <!-- Authenticated User -->
@@ -420,7 +426,7 @@
     function changePro(pro_on){
         if(pro_on){
             Swal.fire({
-                title: 'Vous avez activer votre compte proffessionel',
+                title: 'Vous avez activé votre compte proffessionel',
                 timer: 2500,
                 showCancelButton: false,
                 showConfirmButton: false
@@ -429,7 +435,7 @@
             });
         }else{
             Swal.fire({
-                title: 'Vous avez activer votre compte particulier',
+                title: 'Vous avez activé votre compte particulier',
                 timer: 2500,
                 showCancelButton: false,
                 showConfirmButton: false
