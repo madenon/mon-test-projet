@@ -419,6 +419,18 @@
             @endif
     @endforeach
     </div>
+     <div id="footer-create-add-button" >
+                <a class="" href="{{ route('offer.create') }}">
+                    <div class="footer-create-add-button-img">
+                        <img src="{{ asset('images/plus-icon-white.svg') }}" alt="" />
+                    </div>
+                    <span class="footer-create-add-button-span">
+                        Déposer <br />
+                        une annonce
+                    </span>
+                </a>
+            </div>
+
 </x-app-layout>
 
 <style>
@@ -1151,37 +1163,3 @@ background-position: -24px -53px;
     });
 </script>
  
-<style>
-#scrollUp
-{
-position: fixed;
-bottom : 10px;
-right: -100px;
-opacity: 0.5;
-}
-</style>
- 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
- 
-<script>
-            jQuery(function(){
-                $(function () {
-                    $(window).scroll(function () {
-                        if ($(this).scrollTop() > 200 ) { 
-                            $('#scrollUp').css('right','10px');
-                        } else { 
-                            $('#scrollUp').removeAttr( 'style' );
-                        }
- 
-                    });
-                });
-            });
-</script>
- 
- 
- 
-
- 
-<div id="scrollUp">
-<a href="#top"><img src="to_top.png"/></a>
-</div>

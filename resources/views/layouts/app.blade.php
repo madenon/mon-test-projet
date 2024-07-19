@@ -74,7 +74,6 @@
     });
 </script>
 
-<script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
 <style>
 #scrollUp
 {
@@ -85,7 +84,6 @@ opacity: 0.5;
 }
 </style>
  
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
  
 <script>
             jQuery(function(){
@@ -105,11 +103,10 @@ opacity: 0.5;
  
  
 
- 
+
 <div id="scrollUp">
-<a href="#top"><img src="to_top.png"/></a>
+<a href="#top"><img src="{{ asset('to_top.png') }}"/></a>
 </div>
 
 
-    </body>
-</html>
+ 
