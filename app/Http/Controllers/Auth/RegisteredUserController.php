@@ -121,11 +121,11 @@ class RegisteredUserController extends Controller
                 'phone', 'nickname', 'gender', 'bio','social_reason','siren_number'
             ]), $storePicture);
 
-           // event(new Registered($user));
+            event(new Registered($user));
             if(request()->hasfile('company_identification_document')){
             foreach(User::all() as $oneuser){
-               // if($oneuser->is_admin)
-              //  $oneuser->notify(new proRequest($user));             
+                if($oneuser->is_admin)
+                $oneuser->notify(new proRequest($user));             
             }
         }
         });
