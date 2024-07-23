@@ -20,6 +20,7 @@
                 <div class="w-[45%] login-div px-12 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                     {{ $slot }}
                 </div>
+                
                 <div class="footer-login text-xs">
                     <div class="absolute bottom-4 left-4 partie-droite">
                         <p class="text-white">Faistroquer.fr © 2023. Design by SEOMANIAK</p>

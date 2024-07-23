@@ -410,12 +410,12 @@
                             </span>
                             @endif
                     </div>
-                    <div class="m-4 bg-gray-100 p-4 rounded-lg" style="color: black;font-weight: 400;">
+                    <div class="m-4  p-4 " style="color: black;font-weight: 400;border-radius: 15px 50px;border: 2px solid #24A19C;">
                         @if($offer->type->name=='Don')
                         @elseif ($offer->type->name=='Moment')
-                        <h5>À PARTAGER AVEC :</h5>
+                        <h5 style="color: #24A19C;font-family: 'Oswald', sans-serif;font-size: 15px;line-height: 21px;font-weight: 700;" >À PARTAGER AVEC :</h5>
                         @else
-                        <h5>À ÉCHANGER CONTRE :</h5>
+                        <h5 style="color: #24A19C;font-family: 'Oswald', sans-serif;font-size: 15px;line-height: 21px;font-weight: 700;">À ÉCHANGER CONTRE :</h5>
                         @endif
                         <span class="flex gap-2 px-5">
                         @if($offer->specify_proposition && $offer->type->name!='Moment' )
