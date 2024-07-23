@@ -18,6 +18,10 @@ use Illuminate\View\View;
 use App\Enums\Gender;
 use App\Notifications\proRequest;
 use Imagick;
+use App\Helpers\ImageHelper;
+
+use Intervention\Image\Facades\Image;
+
 
 
 
@@ -100,9 +104,12 @@ class RegisteredUserController extends Controller
                 "role" => "user",
                 'statusPro' => $request->is_pro ? "pending" : "none",
             ]);
-            Storage::putFileAs('public/profile_pictures', $request->profile_photo_path, $storePicture);
+          //  Storage::putFileAs('public/profile_pictures', $request->profile_photo_path, $storePicture);
             
-            
+          // Get the uploaded file
+        $file = $request->file('profile_photo_path');
+       $storePath = 'public/profile_pictures/' . $storePicture;
+        ImageHelper::addWatermarkAndSave($file,$storePath);
             if(request()->hasfile('company_identification_document')){
                 $extention = explode("/", $request->company_identification_document->getMimeType())[1];
                 $storePicture = uniqid() . '.' . $extention;
@@ -114,11 +121,11 @@ class RegisteredUserController extends Controller
                 'phone', 'nickname', 'gender', 'bio','social_reason','siren_number'
             ]), $storePicture);
 
-            event(new Registered($user));
+           // event(new Registered($user));
             if(request()->hasfile('company_identification_document')){
             foreach(User::all() as $oneuser){
-                if($oneuser->is_admin)
-                $oneuser->notify(new proRequest($user));             
+               // if($oneuser->is_admin)
+              //  $oneuser->notify(new proRequest($user));             
             }
         }
         });

@@ -206,9 +206,9 @@
                                 </div>
                                 <div class="my-3 hidden">
                                     <div class="relative w-60 h-36">
-                                        <img id="defaultImageSelected" src="" alt="" class="w-full h-full object-cover zoomD">
+                                        <img id="defaultImageSelected" src="" alt="" class="w-full h-full object-cover ">
                                         <button id="deleteDefaultImage" class="absolute top-0 right-0">
-                                            <img src="{{ asset('/images/close-icon.png') }}" alt="Delete" class="w-6 h-6">
+                                            <img src="{{ asset('/images/close-icon2.png') }}" alt="Delete" class="w-6 h-6">
                                         </button>
                                     </div>
                                 </div>

@@ -22,6 +22,7 @@ use App\Http\Controllers\PusherController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\FollowingController;
 use App\Http\Controllers\ContestController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -293,6 +294,7 @@ Route::controller(ContestController::class)->prefix('/contests')->group(function
     Route::get('/compete/{contestId}', 'index')->name('contests.compete');
     Route::get('/{contestId}', 'contestRegistration' )->name('contests.registration');
 });
+Route::get('/test-image', [ImageController::class, 'createImage']);
 
 
 require __DIR__.'/auth.php';

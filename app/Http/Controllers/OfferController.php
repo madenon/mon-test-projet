@@ -19,7 +19,7 @@ use App\Enums\ExperienceLevel;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use App\Notifications\NewReport;
-
+use App\Helpers\ImageHelper;
 
 
 class OfferController extends Controller
@@ -218,7 +218,10 @@ class OfferController extends Controller
                     ]
                 );
           
-            if($image)Storage::putFileAs('public/offer_pictures', $request->default_image, $imageDefault);
+            if($image){$file = $request->file('default_image');
+                $storePath = 'public/offer_pictures/' . $imageDefault;
+                 ImageHelper::addWatermarkAndSave($file,$storePath);}
+                //Storage::putFileAs('public/offer_pictures', $request->default_image, $imageDefault);
             $defaultImage = OfferImages::create([
                 'offer_photo' => $imageDefault,
                 'offer_id' => $id,
@@ -230,7 +233,9 @@ class OfferController extends Controller
             if($request->has('additional_images')){
                 foreach ($request->additional_images as $key => $value) {
                     $name = uniqid() . '.' . $extention;
-                    Storage::putFileAs('public/offer_pictures', $value, $name);
+                  //  Storage::putFileAs('public/offer_pictures', $value, $name);
+                $storePath = 'public/offer_pictures/' . $name;
+                 ImageHelper::addWatermarkAndSave($value,$storePath);
                     OfferImages::create([
                         'offer_photo' => $name,
                         'offer_id' => $id
@@ -257,7 +262,9 @@ class OfferController extends Controller
                 foreach ($request->additional_images as $key => $value) {
                     $ext = $value->getClientOriginalExtension();  // Get the file extension
                     $name = uniqid() . '.' . $ext;
-                    Storage::putFileAs('public/offer_pictures', $value, $name);
+                $storePath = 'public/offer_pictures/' . $name;
+                 ImageHelper::addWatermarkAndSave($value,$storePath);
+                   // Storage::putFileAs('public/offer_pictures', $value, $name);
                     OfferImages::create([
                         'offer_photo' => $name,
                         'offer_id' => $offerId
@@ -326,7 +333,10 @@ class OfferController extends Controller
             if ($request->hasFile('default_image')) {
                 $extention = explode("/", $request->default_image->getMimeType())[1];
             $imageDefault = uniqid() . '.' . $extention;
-            Storage::putFileAs('public/offer_pictures', $request->default_image, $imageDefault);
+            $file = $request->file('default_image');
+                $storePath = 'public/offer_pictures/' . $imageDefault;
+                 ImageHelper::addWatermarkAndSave($file,$storePath);
+           // Storage::putFileAs('public/offer_pictures', $request->default_image, $imageDefault);
             $defaultImage = OfferImages::create([
                 'offer_photo' => $imageDefault,
                 'offer_id' => $offer->id,
@@ -341,7 +351,10 @@ class OfferController extends Controller
             foreach ($request->file('additional_images') as $image) {
                 $ext = $image->getClientOriginalExtension();  // Get the file extension
                 $name = uniqid() . '.' . $ext;
-                Storage::putFileAs('public/offer_pictures', $image, $name);
+                
+               // Storage::putFileAs('public/offer_pictures', $image, $name);
+                $storePath = 'public/profile_pictures/' . $name;
+                 ImageHelper::addWatermarkAndSave($image,$storePath);
                 OfferImages::create([
                     'offer_photo' => $name,
                     'offer_id' => $offer->id

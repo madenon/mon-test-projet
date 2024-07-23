@@ -18,7 +18,7 @@ use App\Notifications\PropositionConfirmation;
 use Illuminate\Support\Facades\Log;
 use App\Events\PropositionStatusUpdated;
 use Illuminate\Support\Facades\DB;
-
+use App\Helpers\ImageHelper;
 
 class PropositionController extends Controller
 {
@@ -110,7 +110,9 @@ class PropositionController extends Controller
   if ($request->hasFile('image')) {
     $image = $request->file('image');
     $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
-    $image->storeAs('public/proposition_pictures', $imageName);
+    $storePath = 'public/proposition_pictures/' . $imageName;
+     ImageHelper::addWatermarkAndSave($image,$storePath);
+   // $image->storeAs('public/proposition_pictures', $imageName);
     // You can save $imageName to the database if needed
 }
 

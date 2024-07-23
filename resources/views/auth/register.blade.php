@@ -199,9 +199,16 @@
 
                     <!-- Affiche le nom du fichier sélectionné (facultatif) -->
                     <span id="selectedFileName" class="text-gray-600 mt-2">Aucun fichier sélectionné</span>
-                    <x-input-error :messages="$errors->get('profile_photo_path')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('profile_photo_path')" class="mt-2" id="profilePhotoErrors" />
                 </div>
-                
+                <div class="my-3 hidden">
+                                    <div class="relative w-60 h-36">
+                                        <img id="defaultImageSelected" src="" alt="" class="w-full h-full object-cover ">
+                                        <button id="deleteDefaultImage" class="absolute top-0 right-0">
+                                            <img src="{{ asset('/images/close-icon2.png') }}" alt="Delete" class="w-6 h-6">
+                                        </button>
+                                    </div>
+                                </div>
                 <div class="mt-4 professional hidden">
                     <x-text-input id="social_reason" class="block mt-1 w-full focus:border-primary-color" type="text"
                         name="social_reason" value="" placeholder="Raison social" />
@@ -310,10 +317,52 @@ const selectedCompanyFileName = document.getElementById('selectedCompanyFileName
 companyFileInput.addEventListener('change', (event) => {
     selectedCompanyFileName.textContent = event.target.files[0] ? event.target.files[0].name : 'Aucun fichier sélectionné';
 });
-fileInput.addEventListener('change', (event) => {
-    selectedFileName.textContent = event.target.files[0] ? event.target.files[0].name : 'Aucun fichier sélectionné';
-});
 
+    const spanElement = document.getElementById("selectedFileName");
+    const defaultImageSelected = document.getElementById("defaultImageSelected");
+    const deleteDefaultImage = document.getElementById("deleteDefaultImage");
+    
+    fileInput.addEventListener("change", function () {
+        const selectedFiles = fileInput.files;
+        if (selectedFiles.length > 0) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                defaultImageSelected.src = e.target.result;
+            }
+            reader.readAsDataURL(selectedFiles[0]);
+            spanElement.textContent = selectedFiles[0].name;
+            defaultImageSelected.parentElement.parentElement.classList.remove("hidden");
+            const errorList = document.querySelector('ul.text-red-600');
+            
+            // Clear all error messages
+            if (errorList) {
+                while (errorList.firstChild) {
+                    errorList.removeChild(errorList.firstChild);
+                }
+            }
+           // browse_default_text.classList.add("hidden");
+        } else {
+            spanElement.textContent = "Aucun fichier sélectionné";
+           // if(browse_default_text.classList.contains("hidden"))
+           // browse_default_text.classList.remove("hidden");
+    }
+    
+    deleteDefaultImage.onclick = () =>{
+        event.preventDefault();
+        const div = deleteDefaultImage.parentElement.parentElement;
+       // if(browse_default_text.classList.contains("hidden"))
+       // browse_default_text.classList.remove("hidden");
+        if(!div.classList.contains("hidden"))
+        div.classList.add("hidden");
+    spanElement.textContent = "Aucun fichier sélectionné";
+        defaultImageSelected.src = '';
+        fileInput.value = '';
+        if(!defaultImageSelected.parentElement.parentElement.classList.contains("hidden"))
+        defaultImageSelected.parentElement.parentElement.classList.add("hidden");
+
+    };
+
+});
 
 
 
