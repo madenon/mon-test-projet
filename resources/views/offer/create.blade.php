@@ -111,7 +111,10 @@
                                 @endforeach
                             </select>
                         </div>
-
+                        <div class="md:flex-1 w-full hidden" id="date-dropdown">
+                            <label for="date" class="text-sm text-text block">Date</label>
+                            <input type="date" name="date" id="date" class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
+                        </div>
                         <div class="md:flex-1 w-full">
                             <label for="" class="text-sm text-text block">Catégorie du troc</label>
                             <select  name='category' id="select_type"
@@ -506,23 +509,33 @@
     // 
     const conditionDropdownElement = document.getElementById('condition-dropdown')
     const yearsOfExperienceDropdownElement = document.getElementById('experience-dropdown')
+    const dateDropdownElement = document.getElementById('date-dropdown')
 
     const experienceOrLevel = (selectedValue) => {
-        const hasCondition = [6,1, ,"6","1"]
+        const hasCondition = [6,1, "6","1"]
         const hasExprience = 2
+        const hasDate = 3
         if(hasCondition.includes(selectedValue)){
             // if bien, don, moment => show condition dropdown
             conditionDropdownElement.style.display = "inline-block"
             yearsOfExperienceDropdownElement.style.display = "none"
+            dateDropdownElement.style.display = "none"
 
         } else if(selectedValue === 2 || selectedValue === "2") {
             // if service        => show experience dropdown
-            conditionDropdownElement.style.display = "none"
             yearsOfExperienceDropdownElement.style.display = "inline-block"
+            conditionDropdownElement.style.display = "none"
+            dateDropdownElement.style.display = "none"
+        } else if(selectedValue === 3 || selectedValue === "3") {
+            // if service        => show experience dropdown
+            yearsOfExperienceDropdownElement.style.display = ""
+            conditionDropdownElement.style.display = "none"
+            dateDropdownElement.style.display = "inline-block"
         } else {
             // else              => show nothing
             conditionDropdownElement.style.display = "none"
             yearsOfExperienceDropdownElement.style.display = "none"
+            dateDropdownElement.style.display = "none"
         }
     }
     // Type dropdown change handler
