@@ -8,7 +8,7 @@ if ($user){
 
 @endphp
 <x-app-layout>
-            <div class="mx-4" style="width: 2000px;">
+            <div class="mx-4" >
                 <h1 class="mb-5 mt-5">Mes Annonces</h1>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     @if(count($offers) > 0 && !$offers->every('deleted_at'))
