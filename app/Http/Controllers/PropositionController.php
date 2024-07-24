@@ -43,6 +43,19 @@ class PropositionController extends Controller
                     });
             });
         }
+         // Add condition to filter based on `buy_authorized`
+         if ($request->has('buy_authorized')) {
+            $buyAuthorized = $request->input('buy_authorized');
+            $prepositions = $prepositions->whereHas('offer', function ($query) use ($buyAuthorized) {
+                $query->where('buy_authorized', $buyAuthorized);
+            });
+        } else {
+            $prepositions = $prepositions->whereHas('offer', function ($query) {
+                $query->where('buy_authorized', 0);
+            });
+        }
+        
+       
         if ($status = request('status')) {
             if($status == 'pending') $status = 'En cours';
             if($status == 'accepted') $status = 'Acceptée';
