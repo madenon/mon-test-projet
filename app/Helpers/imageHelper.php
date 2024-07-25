@@ -8,7 +8,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class ImageHelper
 {
-    public static function addWatermarkAndSave($file,$storePath, $text = 'Faistroquer', $fontSize = 15, $fontColor = '#ffffff', $angle = 90)
+    public static function addWatermarkAndSave($file,$storePath, $text = 'Faistroquer', $fontSize = 15, $fontColor = '#a0a0a0', $angle = 90)
     {
         // Create an image instance
         $image = Image::make($file->getPathname());
