@@ -70,7 +70,7 @@
                     </div>
                     @if(auth()->check() && $offer->user_id === auth()->user()->id)
                     <div class="slick-item" style="height: 30px; width: 30px;" >
-                            <input id="additional_images" type="file" name="additional_images[]" multiple style="display: none;">
+                            <input id="additional_images" type="file" name="additional_images[]" multiple style="display: none;" accept="image/*">
                             <button  onclick="openAdditionalImageInput()"><img src="{{ asset('images/add_icon.png') }}" /></button>
                             </div>
                             <div class="slick-item" style="height: 30px; width: 30px;" >

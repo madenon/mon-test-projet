@@ -24,6 +24,8 @@ class Offer extends Model
         'description',
         'exchange_state',
         'experience',
+        'date',
+        'condition',
         'offer_default_photo',
         'price',
         'slug',
