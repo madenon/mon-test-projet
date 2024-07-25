@@ -9,18 +9,18 @@
                 </div>
                 <div class="mt-1 hidden elements">
                     <ul class="max-w-md divide-y p-0 divide-gray-200 dark:divide-gray-700">
-                        @for($i=0; $i< count($parentcategories);$i++ )
+                        @for($i=0; $i< count($parentcategories_sm);$i++ )
                         <li id="sm-filter-1-{{$i+1}}">
                             <div class="flex justify-between my-2">
                                 <label for="type">
-                                    <i class="fa {{$parentcategories[$i]['icon']}}"></i>
-                                    {{ $parentcategories[$i]['name'] }}
+                                    <i class="fa {{$parentcategories_sm[$i]['icon']}}"></i>
+                                    {{ $parentcategories_sm[$i]['name'] }}
                                 </label>
                                 <i class="fa fa-plus toggle-arrow"></i>
                                 <i class="fa fa-minus hidden toggle-arrow"></i>
                             </div>
                             <div class="mt-1 hidden elements">
-                                @foreach($parentcategories[$i]->children as $subcategory)
+                                @foreach($parentcategories_sm[$i]->children as $subcategory)
                                 <div class="my-1">
                                     <input type="checkbox" id="sm-{{$subcategory->name}}" name="subcategories[]" value="{{ $subcategory->id }}" {{ request()->input($subcategory->name) ? 'checked' : '' }}>
                                     <label for="{{ $subcategory->id }}"class="text-sm">{{ $subcategory->name }}</label><br>
@@ -39,7 +39,7 @@
                     <i class="fa fa-angle-up hidden toggle-arrow"></i>
                 </div>
                 <div class="mt-1 hidden elements">
-                    @foreach($types as $type)
+                    @foreach($types_sm as $type)
                     <div class="my-1">
                         <input type="radio" id="sm-name" name="type" value="{{ $type->id }}" {{ $type->id == request()->input('type') ? 'checked' : '' }}>
                         <label for="{{ $type->id }}"class="text-sm">{{ $type->name }}</label><br>
@@ -82,10 +82,10 @@
                         </div>
                     </form>
 
-                    @for($i=0; $i<count($departments); $i++)
-                    <div class="my-1 region-item flex flex-row" data-name="{{ $departments[$i]->name.', '.$departments[$i]->region->name.', France' }}">
-                        <input type="checkbox" id="sm-name_{{ $departments[$i]->id }}" name="departments[]" value="{{ $departments[$i]->id }}" {{ request()->input($departments[$i]->name) ? 'checked' : '' }}>
-                        <label for="name_{{ $departments[$i]->id }}" class="text-sm ps-1">{{ $departments[$i]->name.', '.$departments[$i]->region->name.', France' }}</label><br>
+                    @for($i=0; $i<count($departments_sm); $i++)
+                    <div class="my-1 region-item flex flex-row" data-name="{{ $departments_sm[$i]->name.', '.$departments_sm[$i]->region->name.', France' }}">
+                        <input type="checkbox" id="sm-name_{{ $departments_sm[$i]->id }}" name="departments[]" value="{{ $departments_sm[$i]->id }}" {{ request()->input($departments_sm[$i]->name) ? 'checked' : '' }}>
+                        <label for="name_{{ $departments_sm[$i]->id }}" class="text-sm ps-1">{{ $departments_sm[$i]->name.', '.$departments_sm[$i]->region->name.', France' }}</label><br>
                     </div>
                     @endfor
                 </div>

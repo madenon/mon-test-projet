@@ -27,25 +27,25 @@ class FiltersSM extends Component
      */
     public function render(): View|Closure|string
     {
-        $departments = Department::all();
-        $regions = Region::all();
-        $types=Type::all();
-        $query =request()->input('query');
-        $category =request()->input('category'); // Retrieve the selected category
-        $department =request()->input('department');
-        $region =request()->input('region');
-        $type =request()->input('type');
-        $minPrice =request()->input('min_price');
-        $maxPrice =request()->input('max_price');
+        $departments_sm = Department::all();
+        $regions_sm = Region::all();
+        $types_sm =Type::all();
+        $query_sm =request()->input('query');
+        $category_sm =request()->input('category'); // Retrieve the selected category
+        $department_sm =request()->input('department');
+        $region_sm =request()->input('region');
+        $type_sm =request()->input('type');
+        $minPrice_sm =request()->input('min_price');
+        $maxPrice_sm =request()->input('max_price');
         
-        $categoryName = Category::where('id', $category)->value('name');
+        $categoryName_sm = Category::where('id', $category_sm)->value('name');
 
 
-        $parentcategories = Category::whereNull('parent_id')->get();
+        $parentcategories_sm = Category::whereNull('parent_id')->get();
 
 
 
-        return view('components.filters-sm', compact('departments','types',
-            'categoryName','parentcategories','regions'));
+        return view('components.filters-sm', compact('departments_sm','types_sm',
+            'categoryName_sm','parentcategories_sm','regions_sm'));
     }
 }

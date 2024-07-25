@@ -85,7 +85,7 @@
             transform: translateX(100%);
         }
     </style>
-    <div id="offCanvas" class="fixed inset-y-0 right-0 w-64 bg-gray-800 text-white z-50 p-4 ease-in-out duration-300">
+    <div id="offCanvas" class="fixed inset-y-0 right-0 w-64 bg-gray-800 text-white z-50 p-4 ease-in-out duration-300 mt-5">
         <button id="closeFilterButton" class="text-white">&times; Close</button>
         <x-filters-sm></x-filters-sm>      
     </div>
