@@ -158,7 +158,7 @@ class OfferController extends Controller
             }
             $experience = $request->has('experience')? $request->experience : null;
             $condition  = $request->has('condition')? $request->condition : null;
-            $date  = $request->has('condition')? $request->condition : null;
+          //  $date  = $request->has('condition')? $request->condition : null;
             // Retrieve values from dynamic inputs
             $dynamicInputs = $request->input('dynamicInputs');
             // Serialize the values before saving to the database
@@ -208,7 +208,7 @@ class OfferController extends Controller
                         'department_id' => $department->id,
                         'experience' => $experience,
                        'condition' => $condition,
-                       'date' => $date,
+                      // 'date' => $date,
                        'expiration_date'=>$expirationDate,
                        'launch_date'=>$launchDate,
                        'price'=>$request->valueInput ? $request->valueInput : 0 ,
