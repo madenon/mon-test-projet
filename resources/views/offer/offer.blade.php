@@ -283,7 +283,7 @@
 
                     <div class="flex    items-center   ">
                         <span >
-                            Categorie:
+                            Catégorie:
                         </span>
                     </div>
                     <div class="flex    items-center   ">
@@ -312,7 +312,7 @@
                 <div class=" border-y py-3 ">
                     <div class=" px-8 flex    items-center">
                         <span >
-                            L’etat:
+                            L'état:
                         </span>
                         
                     </div>

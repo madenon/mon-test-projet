@@ -352,3 +352,49 @@ select:focus {
     color: var(--primary-color); 
     border-color: var(--primary-color);
 }
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Ajustez selon vos besoins */
+    margin: auto;
+    overflow: hidden;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    min-width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    text-align: center;
+}
+
+.fleche {
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    user-select: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    z-index: 1000;
+}
+
+.fleche.gauche {
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.fleche.droite {
+    right: 0;
+    transform: translateY(-50%);
+}
+
+

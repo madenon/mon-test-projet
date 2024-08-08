@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <div id="modalbox"></div>
-                <div class="w-full text-xs text-red-600">(*) Si vous acceptez cette proposition, vous ne pourrez plus accepter d'autres propositions liées a cette offre, à moins ce que la contrepartie ne confirme pas la proposition</div>
+                <div class="w-full text-xs text-red-600">(*) Si vous acceptez cette proposition, vous ne pourrez plus accepter d'autres propositions liées a cette offre, à moins ce que la contre partie ne confirme pas la proposition</div>
                 <table class="table align-middle mb-0 bg-white">
                     <thead class="bg-light">
                         <tr>

@@ -60,7 +60,7 @@
                             </div>
                             <div class="col-sm-12 col-md-8">
                                 <div class="footer-content-links">
-                                    <h3>Categories</h3>
+                                    <h3>Catégories</h3>
                                     <nav>
                                         <ul class="footer-content-links-grid">
                                             @if($parentcategories)
@@ -83,7 +83,7 @@
             <div class="container">
                 <div class="footer-copyright-content">
                     <div class="footer-copyright-text">
-                        Faistroquer.fr © 2023. Developed by <a href="https://seomaniak.ma">SEOMANIAK</a>
+                        Faistroquer.fr © 2023. Développé par <a href="https://seomaniak.ma">SEOMANIAK</a>
                     </div>
                     <div class="footer-links">
                         <ul>

@@ -35,7 +35,7 @@
         </a>
         <a href="#" class="sidebar-link flex p-2 gap-2    text-gray-500 text-lg font-medium no-underline">
             <img alt="" src="{{ asset('/images/log-out-icon-16.svg') }}">
-            <span>Sign Out</span>
+            <span>Se déconnecter</span>
         </a>
     </div>
 

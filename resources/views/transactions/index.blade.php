@@ -47,13 +47,13 @@
                     <select name="status" id="filterStatus" class="md:w-1/2 mt-1 p-2 border rounded-md"  onchange="this.form.submit()">
                         <option value="">Tous les status</option>
                         <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
-                            pending
+                        en attente
                         </option>
                         <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>
-                            rejected
+                        rejeté
                         </option>
                         <option value="accepted" {{ request('status') == 'accepted' ? 'selected' : '' }}>
-                            accepted
+                        accepté
                         </option>
                     </select>
                     
