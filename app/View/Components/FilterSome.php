@@ -12,7 +12,7 @@ use App\Models\Region;
 use App\Models\Offer;
 use App\Models\Type;
 
-class FiltersSM extends Component
+class FilterSome extends Component
 {
     /**
      * Create a new component instance.
@@ -45,7 +45,7 @@ class FiltersSM extends Component
 
 
 
-        return view('components.filters-sm', compact('departments_sm','types_sm',
+        return view('components.filter-some', compact('departments_sm','types_sm',
             'categoryName_sm','parentcategories_sm','regions_sm'));
     }
 }

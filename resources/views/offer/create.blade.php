@@ -111,10 +111,89 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="md:flex-1 w-full hidden" id="date-dropdown">
-                            <label for="date" class="text-sm text-text block">Date</label>
-                            <input type="date" name="date" id="date" class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
-                        </div>
+                        <input type="hidden" name="availability" class="notRequired" id="availability">
+<div class="md:flex-1 w-full hidden" id="calendar-container">
+    <label for="calendar" class="text-sm text-text block">Disponibilités</label>
+    <div id="calendar"></div>
+</div>
+
+<style>
+    /* Calendar container */
+    #calendar-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    /* Calendar title */
+    .fc .fc-toolbar-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2D3748; /* Dark gray color */
+        text-align: center;
+    }
+    a{
+        text-decoration: none;
+    }
+
+    /* Month grid styling */
+    .fc .fc-daygrid-day {
+        border: 1px solid #CBD5E0; /* Light gray border */
+        padding: 5px;
+    }
+
+    /* Day number styling */
+    .fc .fc-daygrid-day-number {
+        color: #2D3748; /* Dark gray color */
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    /* Day name styling */
+    .fc .fc-daygrid-day-name {
+        color: #4A5568; /* Darker gray color */
+        font-size: 0.875rem;
+        font-weight: 700;
+    }
+
+    /* Event styling */
+    .fc .fc-daygrid-event {
+        background-color: #38B2AC; /* Teal color */
+        color: #FFFFFF;
+        border-radius: 4px;
+        padding: 2px 4px;
+    }
+
+    .fc .fc-daygrid-event:hover {
+        background-color: #2C7A7B; /* Darker teal */
+    }
+
+    /* Button styling */
+    .fc .fc-button-primary {
+        background-color: #38B2AC; /* Teal color */
+        border: none;
+        color: #FFFFFF;
+    }
+
+    .fc .fc-button-primary:hover {
+        background-color: #2C7A7B; /* Darker teal */
+    }
+
+    /* Hide scrollbars */
+    .fc .fc-daygrid-day { 
+        overflow: hidden; /* Prevent scrolling */
+    }
+
+    /* Ensure calendar shows only the current month */
+    .fc .fc-daygrid-day {
+        max-height: 100px; /* Set a max-height to avoid vertical scrolling */
+        overflow: hidden;
+    }
+     .default-day-background {
+        background-color: red !important;
+    }
+</style>
+
                         <div class="md:flex-1 w-full">
                             <label for="" class="text-sm text-text block">Catégorie du troc</label>
                             <select  name='category' id="select_type"
@@ -323,8 +402,8 @@
                                     <div class="form-group mb-2 mt-2">
                                         <label for="valueInput">Valeur</label>
                                         <div class="input-group">
-                                            <input type="number" step="any" min="0" class="form-control" id="valueInput" name="valueInput" placeholder="Prix en €">
-                                            <button class="btn btn-outline-secondary" type="button">€</button>
+                                        <input type="number" step="any" min="0" class="form-control" id="valueInput" name="valueInput" placeholder="Prix en €" value="0">
+                                        <button class="btn btn-outline-secondary" type="button">€</button>
                                         </div>
                                     </div>
 
@@ -738,7 +817,60 @@ const changerCategory = (e) => {
                 donation.classList.remove('hidden');
                 donation.classList.add('row');
             }
-        }else{ 
+        }else if(selectedTypeId == 3){ // pret et location
+                if (partner.classList.contains('row')){
+                partner.classList.remove('row');
+                partner.classList.add('hidden');
+                Array.from(partner.getElementsByTagName("input")).forEach(e =>{
+                    e.classList.add("notRequired");
+                });
+            }
+            if (donation.classList.contains('row')){
+                donation.classList.remove('row');
+                donation.classList.add('hidden');
+                Array.from(donation.getElementsByTagName("input")).forEach(e =>{
+                    e.classList.add("notRequired");
+                });
+            }
+            if (exchange.classList.contains('hidden')){
+                exchange.classList.remove('hidden');
+                exchange.classList.add('row');
+            }
+            document.querySelector('#calendar-container').classList.remove('hidden');
+            var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'fr', // Set the locale to French
+            selectable: true,
+            select: function(info) {
+                // Toggle date availability
+                let event = calendar.getEventById(info.startStr);
+                if (event) {
+                    event.remove();
+                } else {
+                    calendar.addEvent({
+                        id: info.startStr,
+                        start: info.startStr,
+                        end: info.endStr,
+                        color: 'green'
+                    });
+                }
+            },
+            events: [
+                // Load existing availability data
+            ]
+        });
+        calendar.render();
+
+        document.getElementById('submitBtn').addEventListener('click', function(e) {
+            var events = calendar.getEvents();
+            var dates = events.map(event => ({
+                date: event.startStr,
+            }));
+            document.getElementById('availability').value = JSON.stringify(dates);
+        });
+        }
+        else{ 
             if (partner.classList.contains('row')){
                 partner.classList.remove('row');
                 partner.classList.add('hidden');
@@ -895,7 +1027,7 @@ function showTab(n) {
 function nextPrev(n) {
   var x = document.getElementsByClassName("stepTab");
     
-  if (n == 1 && !validateForm()) {
+ if (n == 1 && !validateForm()) {
     return false;
   }
 

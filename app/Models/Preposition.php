@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Preposition extends Model
 {
@@ -28,6 +29,10 @@ class Preposition extends Model
     public function offer(): BelongsTo
     {
         return $this->belongsTo(Offer::class);
+    }
+    public function propositionImages(): HasMany
+    {
+        return $this->hasMany(PropositionImages::class,'proposition_id', 'id');
     }
     public function meetup()
     {

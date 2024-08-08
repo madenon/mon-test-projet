@@ -9,7 +9,7 @@
             {{ session('status') }}
         </div>
     @endif
-    <div class="offre-page mx-9 my-2">
+    <div class="offre-page mx-9 my-2 top-first">
         
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -17,6 +17,12 @@
             </ol>
         </nav>
     </div>
+    <style>
+    @media (max-width: 768px) {
+  .top-first{
+    margin-top: 100px !important;
+  }
+}</style>
     @php
     $conditionMapping = [
     'NEW' => '🙂 Neuf',          
@@ -370,6 +376,115 @@
         @endforeach
     @endif
 </div>
+@if($offer->type->name == 'Prêt & Location')
+        <div class="md:flex-1 w-full" id="calendar-container">
+            <label for="calendar" class="text-sm text-text block">Disponibilités</label>
+            <div id="calendar"></div>
+        </div>
+    @endif
+
+    <!-- FullCalendar JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'fr', // Set the locale to French
+                height: 'auto',
+                views: {
+                    dayGridMonth: {
+                        titleFormat: { year: 'numeric', month: 'long' } // Full month name
+                    }
+                },
+                events: [
+                    @foreach($offer->availabilities as $availability)
+                        {
+                            start: '{{ $availability->date }}',
+                            display: 'background',
+                            backgroundColor: 'green'
+                        },
+                    @endforeach
+                ]               
+        });
+            calendar.render();
+        });
+    </script>
+    <style>
+    /* Calendar container */
+    #calendar-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    /* Calendar title */
+    .fc .fc-toolbar-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2D3748; /* Dark gray color */
+        text-align: center;
+    }
+    a{
+        text-decoration: none;
+    }
+
+    /* Month grid styling */
+    .fc .fc-daygrid-day {
+        border: 1px solid #CBD5E0; /* Light gray border */
+        padding: 5px;
+    }
+
+    /* Day number styling */
+    .fc .fc-daygrid-day-number {
+        color: #2D3748; /* Dark gray color */
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    /* Day name styling */
+    .fc .fc-daygrid-day-name {
+        color: #4A5568; /* Darker gray color */
+        font-size: 0.875rem;
+        font-weight: 700;
+    }
+
+    /* Event styling */
+    .fc .fc-daygrid-event {
+        background-color: #38B2AC; /* Teal color */
+        color: #FFFFFF;
+        border-radius: 4px;
+        padding: 2px 4px;
+    }
+
+    .fc .fc-daygrid-event:hover {
+        background-color: #2C7A7B; /* Darker teal */
+    }
+
+    /* Button styling */
+    .fc .fc-button-primary {
+        background-color: #38B2AC; /* Teal color */
+        border: none;
+        color: #FFFFFF;
+    }
+
+    .fc .fc-button-primary:hover {
+        background-color: #2C7A7B; /* Darker teal */
+    }
+
+    /* Hide scrollbars */
+    .fc .fc-daygrid-day { 
+        overflow: hidden; /* Prevent scrolling */
+    }
+
+    /* Ensure calendar shows only the current month */
+    .fc .fc-daygrid-day {
+        max-height: 100px; /* Set a max-height to avoid vertical scrolling */
+        overflow: hidden;
+    }
+     .default-day-background {
+        background-color: red !important;
+    }
+</style>
 
                 <div class=" pt-3">
                     <div class="px-12 flex justify-content-normal  gap-2 items-center"style="padding-top:1rem" >

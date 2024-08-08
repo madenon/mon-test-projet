@@ -95,9 +95,9 @@ if ($user){
                                     <td class="px-2 py-1">
                                         <button id="toggleOnline{{$offer->id}}" onclick="toggleActive('{{$offer->id}}')">
                                             @if ($offer->active_offer)
-                                            <img src="{{ asset('images/pause.png') }}" />
+                                            <img src="{{ asset('images/pause.png') }}" class="h-12" />
                                             @else
-                                            <img src="{{ asset('images/play.png') }}" />
+                                            <img src="{{ asset('images/play.png') }}" class="h-12" />
                                             @endif
                                         </button>
                                     </td>

@@ -512,10 +512,16 @@ display: none !important;
    
     bottom: 0;
     
+    z-index: 100;  
+}
+#goToOffer{
+    border-radius: 4px;
+    border: 1px solid var(--primary-color);
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
     z-index: 100;
-   
-   
-    
+    padding: 10 px;  
 }
 #header-create-add-button a {
     display: none;

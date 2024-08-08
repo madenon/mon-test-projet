@@ -231,7 +231,22 @@ class OfferController extends Controller
             $offer = Offer::find($id);
             $offer->default_image_id = $defaultImage->id;
             $offer->save();
+ // Check if availability dates are provided
+ if ($request->has('availability')) {
+    $availabilityDates = json_decode($request->input('availability'), true);
 
+    if (is_array($availabilityDates)) {
+        foreach ($availabilityDates as $availability) {
+            if (isset($availability['date'])) {
+                $formattedDate = Carbon::parse($availability['date'])->format('Y-m-d'); // Ensuring the date is correctly formatted
+                $offer->availabilities()->create([
+                    'date' => $formattedDate,
+                    'is_available' => true // or any other logic to set availability
+                ]);
+            }
+        }
+    }
+}
             if($request->has('additional_images')){
                 foreach ($request->additional_images as $key => $value) {
                     $name = uniqid() . '.' . $extention;
@@ -301,71 +316,91 @@ class OfferController extends Controller
             'additional_images.max' => 'Le nombre maximal d\'images autorisé est :max.',
         ]);
         
-        $offer = Offer::findOrFail($offerId);
+            // Fetch the offer
+            $offer = Offer::findOrFail($offerId);
         
-        $category = Category::find($request->category);
-        $subcategory = Category::find($request->subcategory);
-        $region = Region::find($request->region);
-        $department = Department::find($request->department);
-        $type = Type::find($request->type);
-        $experience = $request->has('experience')? $request->experience : null;
-        $condition  = $request->has('condition')? $request->condition : null;
+            // Begin a transaction to ensure data integrity
+            DB::beginTransaction();
         
-        $offer->title = $request->title;
-        $offer->type_id = $type->id;
-        $offer->subcategory_id=$subcategory->id;
-
+            try {
+                // Fetch related entities
+                $category = Category::find($request->category);
+                $subcategory = Category::find($request->subcategory);
+                $region = Region::find($request->region);
+                $department = Department::find($request->department);
+                $type = Type::find($request->type);
         
-        $offer->department_id = $department->id;
-        $offer->description = $request->description;
-        // $offer->price = $request->price;
-        // $offer->perimeter = $request->perimeter;
-        if($request->type_id==2){
-            $offer->condition = $request->condition;}
-            else {        $offer->condition = null;}
-            if($request->type_id==7){
-            $offer->experience = $request->experience;}
-            else {        $offer->experience = null;}
-            
-            
-            
-            
-            $offer->save();
-            
-            if ($request->hasFile('default_image')) {
-                $extention = explode("/", $request->default_image->getMimeType())[1];
-            $imageDefault = uniqid() . '.' . $extention;
-            $file = $request->file('default_image');
-                $storePath = 'public/offer_pictures/' . $imageDefault;
-                 ImageHelper::addWatermarkAndSave($file,$storePath);
-           // Storage::putFileAs('public/offer_pictures', $request->default_image, $imageDefault);
-            $defaultImage = OfferImages::create([
-                'offer_photo' => $imageDefault,
-                'offer_id' => $offer->id,
-            ]);
-            $offer->default_image_id = $defaultImage->id;
-            $offer->save();
-            
-            
-        }
+                // Update offer details
+                $offer->title = $request->title;
+                $offer->type_id = $type->id;
+                $offer->subcategory_id = $subcategory->id;
+                $offer->department_id = $department->id;
+                $offer->description = $request->description;
+                $offer->condition = $request->type_id == 2 ? $request->condition : null;
+                $offer->experience = $request->type_id == 7 ? $request->experience : null;
         
-        if ($request->hasFile('additional_images')) {
-            foreach ($request->file('additional_images') as $image) {
-                $ext = $image->getClientOriginalExtension();  // Get the file extension
-                $name = uniqid() . '.' . $ext;
+                // Save the offer changes
+                $offer->save();
+        
+                // Handle default image upload
+                if ($request->hasFile('default_image')) {
+                    $extention = explode("/", $request->default_image->getMimeType())[1];
+                    $imageDefault = uniqid() . '.' . $extention;
+                    $file = $request->file('default_image');
+                    $storePath = 'public/offer_pictures/' . $imageDefault;
+                    ImageHelper::addWatermarkAndSave($file, $storePath);
+        
+                    $defaultImage = OfferImages::create([
+                        'offer_photo' => $imageDefault,
+                        'offer_id' => $offer->id,
+                    ]);
+                    $offer->default_image_id = $defaultImage->id;
+                    $offer->save();
+                }
+        
+                // Handle additional images upload
+                if ($request->hasFile('additional_images')) {
+                    foreach ($request->file('additional_images') as $image) {
+                        $ext = $image->getClientOriginalExtension();
+                        $name = uniqid() . '.' . $ext;
+                        $storePath = 'public/profile_pictures/' . $name;
+                        ImageHelper::addWatermarkAndSave($image, $storePath);
+        
+                        OfferImages::create([
+                            'offer_photo' => $name,
+                            'offer_id' => $offer->id
+                        ]);
+                    }
+                }
+        
+                // Update availabilities
+                if ($request->has('availability')) {
+                    $availabilityDates = json_decode($request->input('availability'), true);
+        
+                    // Delete the existing availabilities
+                    $offer->availabilities()->delete();
+        
+                    // Create new availabilities
+                    foreach ($availabilityDates as $availability) {
+                        $offer->availabilities()->create([
+                            'date' => $availability['date'],
+                            'is_available' => true, // Or set to true if it's always available
+                        ]);
+                    }
+                }
+        
+                // Commit the transaction
+                DB::commit();
+        
+               // return redirect()->route('offers.show', $offerId)->with('success', 'Offer updated successfully with availabilities.');
+            } catch (\Exception $e) {
+                // Rollback the transaction if there was an error
+                DB::rollBack();
                 
-               // Storage::putFileAs('public/offer_pictures', $image, $name);
-                $storePath = 'public/profile_pictures/' . $name;
-                 ImageHelper::addWatermarkAndSave($image,$storePath);
-                OfferImages::create([
-                    'offer_photo' => $name,
-                    'offer_id' => $offer->id
-                ]);
+               // return redirect()->back()->withErrors(['error' => 'An error occurred while updating the offer: ' . $e->getMessage()]);
             }
         }
-       
-
-    }
+        
     protected function show($offerid, $slug)
     {
         $offer = Offer::find($offerid);
