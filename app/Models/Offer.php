@@ -73,7 +73,10 @@ class Offer extends Model
     {
         return $this->belongsTo(Category::class,'subcategory_id');
     }
-
+    public function availabilities()
+    {
+        return $this->hasMany(Availability::class);
+    }
 
     public function department(): BelongsTo
     {

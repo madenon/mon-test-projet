@@ -19,78 +19,73 @@ use Illuminate\Support\Facades\Log;
 use App\Events\PropositionStatusUpdated;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\ImageHelper;
+use Illuminate\Support\Facades\Auth;
+use App\Models\PropositionImages;
+use App\Models\OfferImages;
+use GrahamCampbell\ResultType\Success;
 
 class PropositionController extends Controller
 {
-    public function index(Request $request){
-        $prepositions = Preposition::with('user', 'offer')
-        ->select('prepositions.*', 'users.first_name as user_name', 'offers.title as offer_name')
-        ->join('users', 'users.id', '=', 'prepositions.user_id')
-        ->join('offers', 'offers.id', '=', 'prepositions.offer_id')
-        ->join('users as userOffers', 'offers.user_id', '=', 'userOffers.id')
-        ->where(function ($query) {
-            $query->where('users.id', auth()->id())
-                ->orWhere('userOffers.id', auth()->id());
-        })
-        ->orderBy('created_at','desc');
-        
-        if (!($request->has('in_progress')) || $request->input('in_progress')==1){
-            $prepositions = $prepositions->where(function ($query) {
+    public function index(Request $request)
+    {
+        $query = Preposition::with('user', 'offer')
+            ->select('prepositions.*', 'users.first_name as user_name', 'offers.title as offer_name')
+            ->join('users', 'users.id', '=', 'prepositions.user_id')
+            ->join('offers', 'offers.id', '=', 'prepositions.offer_id')
+            ->join('users as userOffers', 'offers.user_id', '=', 'userOffers.id')
+            ->where(function ($query) {
+                $query->where('users.id', auth()->id())
+                    ->orWhere('userOffers.id', auth()->id());
+            });
+    
+        // Apply additional filters before pagination
+        if (!($request->has('in_progress')) || $request->input('in_progress') == 1) {
+            $query->where(function ($query) {
                 $query->where('prepositions.status', 'En cours')
                     ->orWhere(function ($query) {
                         $query->where('status', 'Acceptée')
-                            ->where('validation','!=', 'confirmedTransaction');
+                            ->where('validation', '!=', 'confirmedTransaction');
                     });
             });
         }
-         // Add condition to filter based on `buy_authorized`
-         if ($request->has('buy_authorized')) {
-            $buyAuthorized = $request->input('buy_authorized');
-            $prepositions = $prepositions->whereHas('offer', function ($query) use ($buyAuthorized) {
-                $query->where('buy_authorized', $buyAuthorized);
-            });
-        } else {
-            $prepositions = $prepositions->whereHas('offer', function ($query) {
-                $query->where('buy_authorized', 0);
-            });
+    
+        if ($status = $request->input('status')) {
+            if ($status == 'pending') $status = 'En cours';
+            if ($status == 'accepted') $status = 'Acceptée';
+            if ($status == 'rejected') $status = 'Rejetée';
+            $query->where('status', $status);
         }
-        
-       
-        if ($status = request('status')) {
-            if($status == 'pending') $status = 'En cours';
-            if($status == 'accepted') $status = 'Acceptée';
-            if($status == 'rejected') $status = 'Rejetée';
-            $prepositions->where('status', $status);
+    
+        if ($startDate = $request->input('start_date')) {
+            $query->whereDate('prepositions.created_at', '>=', $startDate);
         }
-
-        if ($startDate = request('start_date')) {
-            $prepositions->whereDate('prepositions.created_at', '>=', $startDate);
+    
+        if ($endDate = $request->input('end_date')) {
+            $query->whereDate('prepositions.created_at', '<=', $endDate);
         }
-
-        if ($endDate = request('end_date')) {
-            $prepositions->whereDate('prepositions.created_at', '<=', $endDate);
+    
+        if ($numberProp = $request->input('number_prop')) {
+            $query->where('prepositions.uuid', 'like', '%' . $numberProp . '%');
         }
-
-        if ($numberProp = request('number_prop')) {
-            $prepositions->where('prepositions.uuid', 'like', '%' . $numberProp . '%');
+    
+        if ($nameOffer = $request->input('name_offer')) {
+            $query->where('offers.title', 'like', '%' . $nameOffer . '%');
         }
-
-        if ($nameOffer = request('name_offer')) {
-            $prepositions->where('offers.title', 'like', '%' . $nameOffer . '%');
-        }
-
-
-        
-        $prepositions = $prepositions->get();
-        
-
+    
+        // Paginate the results
+        $prepositions = $query->orderBy('created_at', 'desc')->paginate(10);
+    
         return view('preposition.index', compact('prepositions'));
     }
+    
     
     public function create(Request $request,$offerid,$userid)
     { 
         //create request and don't authorize autotroc
         $offer = Offer::find($offerid);
+        $user = Auth::user();
+        $offers = $user->offer;
+        $images = OfferImages::where('offer_id',$offer->id)->get();
         $request->merge([
             'other_id'=>  $offer->user_id,
             'user_id'=>  auth()->id(),
@@ -102,7 +97,7 @@ class PropositionController extends Controller
             'user_id.different' => 'Vous ne pouvez pas faire de trocs avec vous meme, veuillez svp choisir l\'offre d\'une personne tierce'
         ]);
 
-        return view('preposition.create', compact('offer','userid'));
+        return view('preposition.create', compact('offer','userid','offers','images'));
     }
 
     public function store(Request $request)
@@ -115,7 +110,16 @@ class PropositionController extends Controller
             'user_id' => 'required',
             'status' => 'required',
             'price' => 'nullable|numeric',
+            'image' => ['nullable', 'image', 'mimes:jpeg,png', 'max:4096'],
+            'additional_images.*' => ['nullable', 'image', 'mimes:jpeg,png', 'max:4096'],
+            'additional_images' => ['max:8'],
+            'existing_images' => ['max:10'],
             
+        ], [
+            'image.max' => 'Vous ne pouvez pas télécharger plus de 4 Mo.',
+            'image.mimes' => 'Les fichiers téléchargés doivent être au format jpg ou png.',
+            'additional_images.max' => 'Le nombre maximal d\'images autorisé est :max.',
+            'existing_images.max' => 'Le nombre maximal d\'images autorisé est :max.',
         ]);
 
        
@@ -144,7 +148,7 @@ class PropositionController extends Controller
         ]);
         $receiver=User::find($preposition->offer->user_id);
         
-        $receiver->notify(new NewPreposition($preposition));
+      //  $receiver->notify(new NewPreposition($preposition));
         
         
 
@@ -153,9 +157,31 @@ class PropositionController extends Controller
             $preposition->update(['images' => json_encode($imageName)]);
         }
         
+        if($request->has('additional_images')){
+            foreach ($request->additional_images as $key => $value) {
+                $imageName = uniqid() . '.' . $value->getClientOriginalExtension();
+                $storePath = 'public/proposition_pictures/' . $imageName;
+             ImageHelper::addWatermarkAndSave($value,$storePath);
+                PropositionImages::create([
+                    'proposition_photo' => $imageName,
+                    'proposition_id' => $preposition->id,
+                    'photo_path_type' => 'proposition'
+                ]);
+            }
+        }
         
-        // You can add a success message or redirect to a different page
-        return redirect()->route('propositions.index')->with('success', 'Proposition created successfully');
+             // Handle existing image URLs or IDs
+    if ($request->has('existing_images')) {
+        foreach ($request->input('existing_images') as $existingImage) {
+            // Use existing image path or ID to link the image to the proposition
+            PropositionImages::create([
+                'proposition_photo' => $existingImage,
+                'proposition_id' => $preposition->id,
+                'photo_path_type' => 'offer'
+            ]);
+        }
+    }
+              return redirect()->route('propositions.index')->with('success', 'Proposition created successfully');
     }
     public function updateStatus(Request $request)
     {

@@ -12,7 +12,7 @@ use App\Models\Region;
 use App\Models\Offer;
 use App\Models\Type;
 
-class FiltersSM extends Component
+class FilterSome extends Component
 {
     /**
      * Create a new component instance.
