@@ -115,46 +115,6 @@
                     <div class="mt-auto mb-auto w-1/2 relative">
                         <img src="{{ route('offer-pictures-file-path',$offer->defaultImage->offer_photo) }}" alt="Responsive image"
                             class="zoomD img-fluid" />
-                            <div class="fleche-container">
-                            <div class="fleche gauche" onclick="prevImage()">&#10094;</div>
-                            <div class="fleche droite" onclick="nextImage()">&#10095;</div>
-    </div>
-
-
-    <script>
-    let currentIndex = 0;
-
-    function showImage(index) {
-        const items = document.querySelectorAll('.carousel-item');
-        const totalItems = items.length;
-        if (index >= totalItems) {
-            currentIndex = 0;
-        } else if (index < 0) {
-            currentIndex = totalItems - 1;
-        } else {
-            currentIndex = index;
-        }
-        const offset = -currentIndex * 100; 
-        document.querySelector('.carousel').style.transform = `translateX(${offset}%)`;
-    }
-
-    function prevImage() {
-    console.log("prevImage function called");
-    showImage(currentIndex - 1);
-}
-    function nextImage() {
-        showImage(currentIndex + 1);
-        console.log("NextImage function called");
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        showImage(currentIndex);
-    });
-</script>
-
-
-   
-
 
 
                      </div>
