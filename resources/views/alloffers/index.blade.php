@@ -115,13 +115,56 @@
                     <div class="mt-auto mb-auto w-1/2 relative">
                         <img src="{{ route('offer-pictures-file-path',$offer->defaultImage->offer_photo) }}" alt="Responsive image"
                             class="zoomD img-fluid" />
-                    </div>
+                            <div class="fleche-container">
+                            <div class="fleche gauche" onclick="prevImage()">&#10094;</div>
+                            <div class="fleche droite" onclick="nextImage()">&#10095;</div>
+    </div>
+
+
+    <script>
+    let currentIndex = 0;
+
+    function showImage(index) {
+        const items = document.querySelectorAll('.carousel-item');
+        const totalItems = items.length;
+        if (index >= totalItems) {
+            currentIndex = 0;
+        } else if (index < 0) {
+            currentIndex = totalItems - 1;
+        } else {
+            currentIndex = index;
+        }
+        const offset = -currentIndex * 100; 
+        document.querySelector('.carousel').style.transform = `translateX(${offset}%)`;
+    }
+
+    function prevImage() {
+    console.log("prevImage function called");
+    showImage(currentIndex - 1);
+}
+    function nextImage() {
+        showImage(currentIndex + 1);
+        console.log("NextImage function called");
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        showImage(currentIndex);
+    });
+</script>
+
+
+   
+
+
+
+                     </div>
                     <div class="offer_details md:ml-8 md:mr-4 md:mt-4 mr-2 ml-2 mt-2">
                         <div class="">
                             <a href="{{route('offer.offer', [$offer, urlencode($offer->slug)])}}" class="no-underline">
                                 <h1 class="text-titles text-lg md:text-2xl">
                                     {{ Str::limit($offer->title, 35) }}</h1>
                             </a>
+                            
                         </div>
                         <div class="flex  items-center   ">
                             <span >
@@ -137,7 +180,7 @@
 
                     <div class="flex    items-center   ">
                         <span >
-                            Categorie:
+                            Catégorie:
                         </span>
                     </div>
                     <div class="flex    items-center   ">
@@ -160,6 +203,7 @@
                             <div class=" text-titles text-xs hidden md:block">
                                 <h6 class=" font-normal ">  Etudie toute proposition</h6>
                             </div>
+                            
                             @endif
                         @else
                             @if($offer->dynamic_inputs)
