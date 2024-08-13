@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -84,8 +85,25 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
+
+        // Delete related chat messages
+        $user->chMessages()->delete();
+        
+        // Get all offers related to the user
+        $offers = DB::table('offers')->where('user_id', $user->id)->get();
+       // dd($offers);
+        // Loop through each offer
+        foreach ($offers as $offre) {
+           $offre->delete();
+                    }
+        
+        // Now, delete all offers associated with the user
+
+        
+        // Finally, delete the user
         Auth::logout();
         $user->delete();
+    
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

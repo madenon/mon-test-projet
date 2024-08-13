@@ -35,14 +35,14 @@
         <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 
         <link type="text/css" href="{{ asset('binshops-blog.css') }}" rel="stylesheet"> 
-
+        @livewireStyles
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen">
             @if(!request()->routeIs('admin.*'))
             <livewire:header/>
             @endif
-
+            @livewireScripts
             <!-- Page Heading -->
              <!-- @if (isset($header))
                 <header class="bg-white">

@@ -148,7 +148,7 @@ class PropositionController extends Controller
         ]);
         $receiver=User::find($preposition->offer->user_id);
         
-      //  $receiver->notify(new NewPreposition($preposition));
+        $receiver->notify(new NewPreposition($preposition));
         
         
 
