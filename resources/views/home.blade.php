@@ -233,194 +233,222 @@
         @endif
     </div>
 
-    <div class="flex flex-col justify-center space-y-10 bg-slate-100 pb-12" style='background:#343a40 url("https://www.faistroquer.fr/public/img/bg-counters.png");' >
-        <h1 class="text-center mt-12" style ="color:white" >Comment ca marche?</h1>
-        <h4 class="text-center"style ="color:white" >Deposer une annonce</h4>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mx-16 my-2">
-            <div class="flex-1 p-4 " style="background-color:#00000060">
-                <div class="flex justify-between items-center">
-                    <i class="fa fa-list " style ="color:white"></i>
-                    <span style ="color:white" class="text-5xl font-sans font-thin">01</span>
-                </div>
-                <h5 style ="color:white">Créer un compte</h5>
-                <p style ="color:white" >
-                Pour créer un compte, appuyez simplement sur le bouton "S'authentifier" en haut : <img src="{{ asset('images/header.png') }}"/> et choisissez l'option "S'enregistrer".
-                Ajoutez vos informations essentielles pour finaliser le processus d'inscription.
-                </p>
-            </div>
-            <div class="flex-1 p-4 "style="background-color:#00000060">
-                <div class="flex justify-between items-center">
-                    <i class="fa fa-list " style ="color:white"></i>
-                    <span class="text-5xl font-sans font-thin"style ="color:white" >02</span>
-                </div>
-                <h5 style ="color:white">Deposer une annonce</h5>
-                <p style ="color:white" >
-                    Une fois votre compte créé, rendez-vous sur la rubrique <img  src="{{ asset('images/add_offer.png') }}"/>
-                    Remplissez le formulaire en indiquant les détails de votre offre.
-                    Choisissez votre troc en précisant contre quoi vous souhaitez échanger.<br>
-                    Facultatif : activez un compte à rebours pour une touche d'urgence.
-                    Choisissez entre un dépôt d'annonce immédiat ou différé.
-                    Validez en cliquant sur "Déposer un troc" ou en appuyant sur la touche entrée.
-                </p>
-            </div>
-            <div class="flex-1 p-4 " style="background-color:#00000060">
-                <div class="flex justify-between items-center">
-                    <i class="fa fa-list " style ="color:white"></i>
-                    <span class="text-5xl font-sans font-thin"style ="color:white" >03</span>
-                </div>
-                <h5 style ="color:white">Obtenir des propositions</h5>
-                <p style ="color:white">
-                Une fois votre annonce publiée, attendez de recevoir des propositions d'autres membres.
-            Pour maximiser vos chances d'être contacté, activez l'option "Étudie toutes propositions" en plus des autres détails de trocs que vous avez indiqués.
-            Communiquez et négociez avec les autres membres via les messages.
-            Choisissez ensuite une date de rendez-vous pour finaliser l'échange.
-                </p>
-            </div>
-            </div>   
-
-        </div>   
-         <div class="flex flex-col justify-center space-y-10 bg-slate-100 pb-12" style='background-image:url("");' >
-
-
-        <h4 class="text-center">Faire un troc</h4>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mx-16 my-2">
-        <div class="flex-1 border bg-white p-4 ">
-                <div class="flex justify-between items-center">
-                    <i class="fa fa-list "></i>
-                    <span class="text-5xl font-sans font-thin">01</span>
-                </div>
-                <h5>Créer un compte</h5>
-                <p>
-                    
-                </p>
-            </div>
-            <div class="flex-1 border bg-white p-4 ">
-                <div class="flex justify-between items-center">
-                    <i class="fa fa-list "></i>
-                    <span class="text-5xl font-sans font-thin">02</span>
-                </div>
-                <h5>Envoyer une proposition</h5>
-                <p>
-                Explorez les offres en utilisant des filtres ou la recherche. Sélectionnez une offre et appuyez sur "Troquer maintenant" pour proposer un échange. Remplissez le formulaire, puis validez pour soumettre votre proposition à l'auteur de l'offre, qui pourra examiner, accepter, rejeter, ou négocier davantage.
-        
-                </p>
-            </div>
-            <div class="flex-1 border bg-white p-4 ">
-                <div class="flex justify-between items-center">
-                    <i class="fa fa-list "></i>
-                    <span class="text-5xl font-sans font-thin">03</span>
-                </div>
-                <h5>Obtenir l'acceptation</h5>
-                <p>
-                Une fois que la proposition est acceptée, vous pouvez convenir d'un rendez-vous avec l'offreur ou entamer une discussion via le chat (messagerie).
-                </p>
-            </div>
-            <div class="flex-1 border bg-white p-4 ">
-                <div class="flex justify-between items-center">
-                    <i class="fa fa-list "></i>
-                    <span class="text-5xl font-sans font-thin">04</span>
-                </div>
-                <h5>Effectuer l'echange</h5>
-                <p>
-                Quand la proposition est acceptée, une transaction apparaîtra dans la section <img src="{{ asset('images/transactions.png') }}"/>  avec le statut "En cours". Après l'échange, vous devrez valider la transaction pour qu'elle soit comptabilisée comme un troc réalisé dans votre com
-                </p>
-            </div>
-        
+    <div id="featured-offers" class="flex flex-col my-4 mx-2 md:mx-24 pb-12">
+    <div id="featured-offers-title" class="flex justify-between items-center mb-4">
+        <h4>Offres en vedette</h4>
+        <div class="flex">
+            <i class="pl-2 fa fa-long-arrow-left"></i>
+            <i class="pl-2 fa fa-long-arrow-right"></i>
         </div>
     </div>
-@if ($bothBannersShown || $onlyLeftBannerShown || $onlyRightBannerShown)
-<div class="flex justify-center  bg-primary-color text-white " style="height:25vh" >
-@else
-<div class="flex flex-wrap md:flex-no-wrap justify-center space-x-4 md:space-x-20 bg-primary-color text-white ml-0 mr-0 md:ml-24 md:mr-24" style="height:25vh" >
+    <div id="featured-offers-container" class="flex flex-nowrap overflow-x-auto space-x-5 mb-4">
+        @for ($i=0; $i<count($featuredOffers); $i++)
+            <div class="basis-full md:basis-1/3 grow-0 shrink-0">
+                <x-offer-present-card :offer="$featuredOffers[$i]"></x-offer-present-card>
+            </div>
+        @endfor
+    </div>
+    @if(count($featuredOffers) > 3)
+        <div class="flex justify-end">
+            <a class="more-btn text-sm" href="{{ route('alloffers.index') }}">Voir plus<i class="pl-2 fa fa-long-arrow-right"></i></a>
+        </div>
     @endif
-        <div class="flex items-center">
-            <div class="m-3"><i class="fa fa-cube fa-2x"></i></div>
-            <div class="flex flex-col justify-center items-center space-y-1">
-                <div class="text-lg font-meduim">{{count($offers)}}+</div>
-                <div class="text-xs">Annonces</div>
-            </div>
-        </div>
-        <div class="flex items-center">
-            <div class="m-3"><i class="fa fa-users fa-2x"></i></div>
-            <div class="flex flex-col justify-center items-center space-y-1">
-                <div class="text-lg font-meduim">{{count($users)}}+</div>
-                <div class="text-xs">Utilisateurs</div>
-            </div>
-        </div>
-        <div class="flex items-center">
-            <div class="m-3"><i class="fa fa-handshake fa-2x"></i></div>
-            <div class="flex flex-col justify-center items-center space-y-1">
-                <div class="text-lg font-meduim">{{count($transactions)}}+</div>
-                <div class="text-xs">Transactions</div>
-            </div>
-        </div>
-        <div class="flex items-center">
-            <div class="m-3"><i class="fa fa-map-marker-alt fa-2x"></i></div>
-            <div class="flex flex-col justify-center items-center space-y-1">
-                <div class="text-lg font-meduim">{{count($regions)}}+</div>
-                <div class="text-xs">Regions</div>
-            </div>
+</div>
+
+<div id="recent-offers" class="flex flex-col my-4 mx-2 md:mx-24 pb-12">
+    <div id="recent-offers-title" class="flex justify-between items-center mb-4">
+        <h4>Plus récentes</h4>
+        <div class="flex">
+            <i class="pl-2 fa fa-long-arrow-left"></i>
+            <i class="pl-2 fa fa-long-arrow-right"></i>
         </div>
     </div>
-
-    <div id="description-website" class="flex flex-col justify-center space-y-20 my-12 ml-2 mr-2 md:ml-24 md:mr-24">
-        <div class="flex items-center">
-            <div class="image" style="height:35%;width:40%"><img src="{{ asset('storage/Home/Avantage-troc.jpg') }}"/></div>
-            <div class="div" style="width:10%"></div>
-            <div style="width:40%"class="flex flex-col justify-start items-start space-y-3">
-                <div class="text-2xl font-meduim">Echanger ses affaires pour creer un monde meilleur</div>
-                <div class="text-sm">
-                   
-                </div>
+    <div id="recent-offers-container" class="flex flex-nowrap overflow-x-auto space-x-5 mb-4">
+        @for ($i=0; $i<count($recentOffers); $i++)
+            <div class="basis-full md:basis-1/3 grow-0 shrink-0">
+                <x-offer-present-card :offer="$recentOffers[$i]"></x-offer-present-card>
             </div>
-        </div>
-        <div class="flex items-center">
-            <div class="image" style="height:35%;width:40%"><img src="{{ asset('storage/Home/comportement-troqueur.jpg') }}"/></div>
-            <div class="div" style="width:10%"></div>
-            <div style="width:40%" class="flex flex-col justify-start items-start space-y-3">
-                <div class="text-2xl font-meduim">Troquer pour favoriser la solidarité et les contacts sociaux</div>
-                <div class="text-sm">
-                   
-                </div>
-            </div>
-        </div>
-        <div class="flex items-center">
-            <div class="image" style="height:35%;width:40%"><img src="{{ asset('storage/Home/troqueur.jpg') }}"/></div>
-            <div class="div" style="width:10%"></div>
-            <div style="width:40%" class="flex flex-col justify-start items-start space-y-3">
-                <div class="text-2xl font-meduim">Ici c'est aussi un site d'echange de services et bien plus encore</div>
-                <div class="text-sm">
-                    
-                </div>
-            </div>
-        </div>
+        @endfor
     </div>
-
-    <div id="newsletter-container" class="flex justify-center space-x-4 md:space-x-20 bg-primary-color text-white ml-2 mr-2 md:ml-24 md:mr-24 rounded p-2 md:p-8">
-        <div class="hidden md:block w-2/5">
-            <h2 class="mb-4 text-2xl tracking-tight font-medium sm:text-4xl dark:text-white">Abonnez vous à notre newsletter</h2>
-            <p class="mx-auto max-w-2xl font-light sm:text-sm dark:text-gray-400">Inscrivez vous à notre newsletter pour recevoir nos offres et promotions</p>
+    @if(count($recentOffers) > 3)
+        <div class="flex justify-end">
+            <a class="more-btn text-sm" href="{{ route('alloffers.index', ['sort_by' => 'latest']) }}">Voir plus<i class="pl-2 fa fa-long-arrow-right"></i></a>
         </div>
-        <form method="POST" action="{{route('newsletters.addEmail')}}">
-            <h2 class="mb-4 block md:hidden text-2xl tracking-tight font-medium sm:text-4xl dark:text-white">Abonnez vous à notre newsletter</h2>
-            @csrf
-            <div class="items-center mx-auto mb-3 space-y-4 max-w-screen-sm sm:flex sm:space-y-0">
-                <div class="relative w-full">
-                    <label for="email" class="hidden mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email address</label>
-                    <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/1000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+    @endif
+</div>
+
+<div class="background-image flex flex-col items-center">
+    <div class="w-full max-w-6xl px-4 py-12">
+        <h4 class="text-center text-xl font-bold mb-8 text-white">Déposer une annonce</h4>
+        <div class="relative flex flex-col justify-center space-y-10 bg-cover bg-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Step 1 -->
+                <div class="border bg-white p-4 rounded-lg shadow-md max-w-xs mx-auto">
+                    <div class="flex justify-between items-center mb-2">
+                        <i class="fa fa-list text-xl"></i>
+                        <span class="text-4xl font-thin">01</span>
                     </div>
-                    <input class="block z-10 py-3 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:rounded-none sm:rounded-l-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="entrer votre Email" type="email" id="email" name="email" required="">
-                    <div class="flex absolute z-[1000] inset-y-0 right-0 items-center pl-3 ">
-                        <button type="submit" class="m-2 p-2 w-full text-sm font-medium text-center  rounded border cursor-pointer bg-primary-color border-primary-600 sm:rounded-none sm:rounded-r-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">s'abonner</button>
+                    <h5 class="text-lg font-semibold mb-2">Créer un compte</h5>
+                    <p class="text-sm">Cliquez sur "S'authentifier", choisissez "S'enregistrer" et ajoutez vos informations pour créer un compte.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="border bg-white p-4 rounded-lg shadow-md max-w-xs mx-auto">
+                    <div class="flex justify-between items-center mb-2">
+                        <i class="fa fa-list text-xl"></i>
+                        <span class="text-4xl font-thin">02</span>
                     </div>
+                    <h5 class="text-lg font-semibold mb-2">Déposer une annonce</h5>
+                    <p class="text-sm">Accédez à la rubrique, remplissez le formulaire avec les détails de votre offre et choisissez votre troc.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="border bg-white p-4 rounded-lg shadow-md max-w-xs mx-auto">
+                    <div class="flex justify-between items-center mb-2">
+                        <i class="fa fa-list text-xl"></i>
+                        <span class="text-4xl font-thin">03</span>
+                    </div>
+                    <h5 class="text-lg font-semibold mb-2">Obtenir des propositions</h5>
+                    <p class="text-sm">Attendez les propositions des membres, activez "Étudie toutes propositions", et négociez via les messages.</p>
                 </div>
             </div>
-            <div class="mx-auto max-w-screen-sm text-sm text-left newsletter-form-footer dark:text-gray-300">Nous nous soucions de la protection de vos données. 
-                <a href="#" class="font-medium text-primary-600 dark:text-primary-500 hover:underline">Lisez notre politique de confidentialité</a>.</div>
-        </form>
+        </div>
+        <h4 class="text-center text-xl font-bold mt-12 mb-8 text-black">Faire un troc</h4>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mx-4">
+            <div class="flex flex-col border bg-white p-4 rounded-lg shadow-md items-center text-center">
+                <div class="flex justify-center mb-4 text-blue-500">
+                    <i class="fa fa-list text-3xl"></i>
+                </div>
+                <h5 class="text-lg font-semibold mb-2">Créer un compte</h5>
+                <p>Inscrivez-vous pour commencer à échanger.</p>
+            </div>
+            <div class="flex flex-col border bg-white p-4 rounded-lg shadow-md items-center text-center">
+                <div class="flex justify-center mb-4 text-green-500">
+                    <i class="fa fa-list text-3xl"></i>
+                </div>
+                <h5 class="text-lg font-semibold mb-2">Envoyer une proposition</h5>
+                <p>Explorez les offres, sélectionnez-en une et soumettez une proposition d'échange.</p>
+            </div>
+            <div class="flex flex-col border bg-white p-4 rounded-lg shadow-md items-center text-center">
+                <div class="flex justify-center mb-4 text-red-500">
+                    <i class="fa fa-list text-3xl"></i>
+                </div>
+                <h5 class="text-lg font-semibold mb-2">Obtenir l'acceptation</h5>
+                <p>Attendez que votre proposition soit acceptée pour organiser un rendez-vous ou discuter.</p>
+            </div>
+            <div class="flex flex-col border bg-white p-4 rounded-lg shadow-md items-center text-center">
+                <div class="flex justify-center mb-4 text-purple-500">
+                    <i class="fa fa-list text-3xl"></i>
+                </div>
+                <h5 class="text-lg font-semibold mb-2">Effectuer l'échange</h5>
+                <p>Validez la transaction après l'échange dans la section <img src="{{ url('images/transactions.png') }}" class="inline-block w-12 h-12"/> pour finaliser le troc.</p>
+            </div>
+        </div>
     </div>
+</div>
 
+@if ($bothBannersShown || $onlyLeftBannerShown || $onlyRightBannerShown)
+    <div class="flex justify-center bg-primary-color text-white" style="height: 25vh;">
+@else
+    <div class="flex flex-wrap md:flex-nowrap justify-center space-x-4 md:space-x-20 text-white mx-4 md:mx-24" style="height: 25vh;">
+@endif
+    <div class="flex items-center bg-white p-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
+        <div class="text-blue-500 mr-4">
+            <i class="fa fa-cube fa-2x"></i>
+        </div>
+        <div class="flex flex-col">
+            <div class="text-2xl font-semibold text-gray-800">{{ count($offers) }}+</div>
+            <div class="text-sm text-gray-500">Annonces</div>
+        </div>
+    </div>
+    <div class="flex items-center bg-white p-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
+        <div class="text-green-500 mr-4">
+            <i class="fa fa-users fa-2x"></i>
+        </div>
+        <div class="flex flex-col">
+            <div class="text-2xl font-semibold text-gray-800">{{ count($users) }}+</div>
+            <div class="text-sm text-gray-500">Utilisateurs</div>
+        </div>
+    </div>
+    <div class="flex items-center bg-white p-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
+        <div class="text-red-500 mr-4">
+            <i class="fa fa-handshake fa-2x"></i>
+        </div>
+        <div class="flex flex-col">
+            <div class="text-2xl font-semibold text-gray-800">{{ count($transactions) }}+</div>
+            <div class="text-sm text-gray-500">Transactions</div>
+        </div>
+    </div>
+    <div class="flex items-center bg-white p-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
+        <div class="text-purple-500 mr-4">
+            <i class="fa fa-map-marker-alt fa-2x"></i>
+        </div>
+        <div class="flex flex-col">
+            <div class="text-2xl font-semibold text-gray-800">{{ count($regions) }}+</div>
+            <div class="text-sm text-gray-500">Regions</div>
+        </div>
+    </div>
+</div>
+
+<div id="description-website" class="flex flex-col my-12 mx-2 md:mx-24">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Image et texte 1 -->
+        <div class="flex items-center space-x-4">
+            <div class="w-24 h-24 relative flex-shrink-0">
+                <img src="{{ asset('images/add.jpg') }}" class="w-full h-full object-cover rounded-full shadow-lg" alt="Description 1"/>
+            </div>
+            <div class="flex flex-col">
+                <div class="text-xl font-semibold mb-1">Créer un monde meilleur</div>
+                <p class="text-sm">Échangez vos affaires pour un avenir plus durable.</p>
+            </div>
+        </div>
+
+        <!-- Image et texte 2 -->
+        <div class="flex items-center space-x-4">
+            <div class="w-24 h-24 relative flex-shrink-0">
+                <img src="{{ asset('images/abcd.jpg') }}" class="w-full h-full object-cover rounded-full shadow-lg" alt="Description 2"/>
+            </div>
+            <div class="flex flex-col">
+                <div class="text-xl font-semibold mb-1">Favoriser la solidarité</div>
+                <p class="text-sm">Encouragez les contacts sociaux à travers le troc.</p>
+            </div>
+        </div>
+
+        <!-- Image et texte 3 -->
+        <div class="flex items-center space-x-4">
+            <div class="w-24 h-24 relative flex-shrink-0">
+                <img src="{{ asset('images/af.jpg') }}" class="w-full h-full object-cover rounded-full shadow-lg" alt="Description 3"/>
+            </div>
+            <div class="flex flex-col">
+                <div class="text-xl font-semibold mb-1">Échanger des services</div>
+                <p class="text-sm">Découvrez un site complet pour échanger services et biens.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="newsletter-container" class="flex justify-center space-x-4 md:space-x-20 text-white ml-2 mr-2 md:ml-24 md:mr-24 rounded p-2 md:p-8">
+    <div class="hidden md:block w-2/5">
+        <!-- Titre et paragraphe cachés sur mobile -->
+    </div>
+    <form method="POST" action="{{route('newsletters.addEmail')}}">
+        @csrf
+        <h2 class="mb-4 text-2xl tracking-tight font-medium sm:text-4xl dark:text-white">Abonnez vous à notre newsletter</h2>
+        <p class="max-w-2xl font-light sm:text-sm dark:text-gray-400">Inscrivez vous à notre newsletter pour recevoir nos offres et promotions</p>
+        <div class="items-center mx-auto mb-3 space-y-4 max-w-screen-sm sm:flex sm:space-y-0">
+            <div class="relative w-full">
+                <label for="email" class="mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email address</label>
+                <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/1000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+                </div>
+                <input class="block z-10 py-3 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:rounded-none sm:rounded-l-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="entrer votre Email" type="email" id="email" name="email" required="">
+            </div>
+            <button type="submit" class="m-2 p-2 w-full text-sm font-medium text-center  rounded border cursor-pointer bg-primary-color border-primary-600 sm:rounded-none sm:rounded-r-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">s'abonner</button>
+        </div>
+        <div class="mx-auto max-w-screen-sm text-sm text-left newsletter-form-footer dark:text-gray-300">Nous nous soucions de la protection de vos données. 
+            <a href="#" class="font-medium text-primary-600 dark:text-primary-500 hover:underline">Lisez notre politique de confidentialité</a>.</div>
+    </form>
+</div>
                             @foreach ($banners as $banner)
         @if ($banner->is_active && ($banner->page === 'home' || $banner->page ==='all') && $banner->position === 'bottom')
         <div class="flex justify-center mt-4">
@@ -560,20 +588,81 @@
 .offer-count {
     font-size: 14px; /* Adjust the font size of the offer count */
 }
-#newsletter-container{
-    background: -webkit-radial-gradient(40% 50%, circle closest-side, var(--primary-color-hover) 100% 0, var(--primary-color-hover) 100% 99%, var(--primary-color-hover) 0% 100%), var(--primary-color);
-  background: -moz-radial-gradient(40% 50%, circle closest-side, var(--primary-color-hover) 100% 0, var(--primary-color-hover) 100% 99%, var(--primary-color-hover) 0% 100%), var(--primary-color);
-  background: radial-gradient(circle closest-side at 40% 50%, var(--primary-color-hover) 100% 0, var(--primary-color-hover) 100% 99%, var(--primary-color) 0% 100%), var(--primary-color);//center of cercle
-  background-repeat: no-repeat;
-  background-position: 45% 50%;//Position on the big background
-  -webkit-background-origin: padding-box;
-  background-origin: padding-box;
-  -webkit-background-clip: border-box;
-  background-clip: border-box;
-  -webkit-background-size: 400% 400%;
-  background-size: 400% 400%;//Size to define big background
-    //The goal is to be a position where we can see the desired portion of circle on the big background
+#newsletter-container {
+  background-color: #f9f9f9;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
+#newsletter-container h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+#newsletter-container p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: #666;
+}
+
+#newsletter-container .form-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+#newsletter-container label {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+#newsletter-container input[type="email"] {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  width: 100%;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+#newsletter-container button[type="submit"] {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.5rem;
+  color: #fff;
+  background-color: #8BC34A;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#newsletter-container button[type="submit"]:hover {
+  background-color: #689F38;
+}
+
+#newsletter-container .input-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+#newsletter-container .input-group input[type="email"] {
+  width: 70%;
+  margin-right: 1rem;
+}
+
+#newsletter-container .input-group button[type="submit"] {
+  width: 30%;
 }
 
 #description-website > .flex:nth-child(even) > .image{
@@ -1174,4 +1263,14 @@ background-position: -24px -53px;
 
     });
 </script>
+<style>
+    .background-image {
+    background-image: url('{{ asset('images/ab.png') }}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    padding: 2rem;
+    }
+</style>
  
