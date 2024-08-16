@@ -426,29 +426,35 @@
 </div>
 
 
-
-<div id="newsletter-container" class="flex justify-center space-x-4 md:space-x-20 text-white ml-2 mr-2 md:ml-24 md:mr-24 rounded p-2 md:p-8">
-    <div class="hidden md:block w-2/5">
-        <!-- Titre et paragraphe cachés sur mobile -->
-    </div>
-    <form method="POST" action="{{route('newsletters.addEmail')}}">
-        @csrf
-        <h2 class="mb-4 text-2xl tracking-tight font-medium sm:text-4xl dark:text-white">Abonnez vous à notre newsletter</h2>
-        <p class="max-w-2xl font-light sm:text-sm dark:text-gray-400">Inscrivez vous à notre newsletter pour recevoir nos offres et promotions</p>
-        <div class="items-center mx-auto mb-3 space-y-4 max-w-screen-sm sm:flex sm:space-y-0">
-            <div class="relative w-full">
-                <label for="email" class="mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email address</label>
-                <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/1000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+<div class="flex items-center justify-center "> <!-- Centrage du conteneur -->
+    <div id="newsletter-container" class="flex flex-col items-center space-y-4 text-white rounded-lg p-4 bg-primary-color border border-gray-700 max-w-md w-full sm:w-96"> <!-- Réduit la taille du conteneur et centre le contenu -->
+        <form method="POST" action="{{route('newsletters.addEmail')}}" class="w-full">
+            @csrf
+            <h2 class="mb-4 text-xl font-semibold text-center dark:text-white">Abonnez-vous à notre newsletter</h2> <!-- Réduit la taille du titre -->
+            <p class="mb-4 text-center text-xs dark:text-gray-400">Inscrivez-vous à notre newsletter pour recevoir nos offres et promotions</p> <!-- Réduit la taille du texte du paragraphe -->
+            <div class="space-y-4">
+                <div class="relative w-full">
+                    <label for="email" class="block mb-2 text-xs font-medium text-gray-900 dark:text-gray-300">Adresse email</label> <!-- Réduit la taille de la police du label -->
+                    <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/1000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+                    </div>
+                    <input class="block w-full py-2 pl-10 text-xs text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:ring-primary-500 focus:border-primary-500" placeholder="Entrez votre Email" type="email" id="email" name="email" required> <!-- Réduit la taille de la police et la bordure -->
                 </div>
-                <input class="block z-10 py-3 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:rounded-none sm:rounded-l-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="entrer votre Email" type="email" id="email" name="email" required="">
+                <button type="submit" class="w-full py-1 text-xs font-medium text-center text-white bg-primary-color border border-primary-500 rounded-lg hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:border-primary-500 dark:hover:bg-primary-700 dark:focus:ring-primary-800"> <!-- Réduit la taille du bouton -->
+                    S'abonner
+                </button>
             </div>
-            <button type="submit" class="m-2 p-2 w-full text-sm font-medium text-center  rounded border cursor-pointer bg-primary-color border-primary-600 sm:rounded-none sm:rounded-r-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">s'abonner</button>
-        </div>
-        <div class="mx-auto max-w-screen-sm text-sm text-left newsletter-form-footer dark:text-gray-300">Nous nous soucions de la protection de vos données. 
-            <a href="#" class="font-medium text-primary-600 dark:text-primary-500 hover:underline">Lisez notre politique de confidentialité</a>.</div>
-    </form>
+            <div class="mt-4 text-xs text-center dark:text-gray-300"> <!-- Réduit la taille du texte du footer -->
+                Nous nous soucions de la protection de vos données. 
+                <a href="#" class="font-medium text-primary-600 dark:text-primary-100 hover:underline">Lisez notre politique de confidentialité</a>.
+            </div>
+        </form>
+    </div>
 </div>
+
+
+
+
                             @foreach ($banners as $banner)
         @if ($banner->is_active && ($banner->page === 'home' || $banner->page ==='all') && $banner->position === 'bottom')
         <div class="flex justify-center mt-4">
@@ -587,82 +593,6 @@
 
 .offer-count {
     font-size: 14px; /* Adjust the font size of the offer count */
-}
-#newsletter-container {
-  background-color: #f9f9f9;
-  padding: 2rem;
-  border-radius: 1rem;
-  margin: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-#newsletter-container h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #333;
-}
-
-#newsletter-container p {
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-  color: #666;
-}
-
-#newsletter-container .form-group {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
-
-#newsletter-container label {
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 0.5rem;
-}
-
-#newsletter-container input[type="email"] {
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
-  width: 100%;
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 1rem;
-}
-
-#newsletter-container button[type="submit"] {
-  padding: 1rem 2rem;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1.5rem;
-  color: #fff;
-  background-color: #8BC34A;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#newsletter-container button[type="submit"]:hover {
-  background-color: #689F38;
-}
-
-#newsletter-container .input-group {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
-
-#newsletter-container .input-group input[type="email"] {
-  width: 70%;
-  margin-right: 1rem;
-}
-
-#newsletter-container .input-group button[type="submit"] {
-  width: 30%;
 }
 
 #description-website > .flex:nth-child(even) > .image{
