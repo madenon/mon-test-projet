@@ -115,6 +115,7 @@
                 else $prep = null;
             @endphp
             @foreach ($prepositions as $preposition)
+            @if ($preposition->offer && $preposition->offer->user)
                 @php 
                 $isReceiveid = $preposition->offer->user == auth()->user();
                 if ($isReceiveid) $counterparty = $preposition->user; 
@@ -232,6 +233,7 @@
                         @endif
                     </td>
                 </tr>
+                @endif
             @endforeach
         </tbody>
     </table>

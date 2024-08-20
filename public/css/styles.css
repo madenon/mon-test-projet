@@ -326,7 +326,7 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    /* column-gap: 24px; */
+     column-gap: 24px;
     height: 48px;
 }
 @media (min-width: 768px) {
@@ -1611,9 +1611,7 @@ input[type="checkbox"]:checked{
             "."
             "."; 
     }
-    #header-user-messages-icon {
-        display: none;
-    }
+   
     #header-contest-icon {
         display: none;
     }

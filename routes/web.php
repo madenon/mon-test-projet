@@ -222,7 +222,7 @@ Route::middleware('check.offers')->group(function () {
     Route::get('/offres/{type}', [TypeController::class, 'index'])->name('type.index');
     Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
     Route::get('/offres/search', [OfferController::class, 'search'])->name('offer.search');
-    
+    Route::post('/offers/{id}/restore', [OfferController::class, 'restoreOffer'])->name('admin.restoreOffer');
 });
 
 

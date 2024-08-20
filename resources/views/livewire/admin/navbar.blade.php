@@ -2,7 +2,7 @@
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <ul class="navbar-nav">
             <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button" onclick="toggleSidebar()"><i class="fas fa-bars md:hidden"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="{{route('admin.index')}}" class="nav-link">Home</a>
@@ -10,8 +10,7 @@
         </ul>
 
         <div id="header-authenticated-user" class="ml-auto">
-            <div class="">
-                <div class="navbar-search-block">
+                <div class="navbar-search-block" id="navbar-search">
                     <form class="form-inline" method="GET" action="{{route('admin.offers')}}" >
                         <div class="input-group input-group-sm">
                         <input class="form-control form-control-navbar" type="search" name="search" placeholder="Rechercher Offre" aria-label="Rechercher">
@@ -23,7 +22,6 @@
                         </div>
                     </form>
                 </div>
-            </div>
 
             <div class="dropdown" class="header-authenticated-user-content">
                 <div id="header-user-notification-icon" class="" data-bs-toggle="dropdown" aria-expanded="false">
@@ -112,3 +110,11 @@
         </div>
     </nav>
 </div>
+<script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('hidden');
+            var search = document.getElementById('navbar-search');
+            search.classList.toggle('hidden');
+        }
+    </script>

@@ -112,9 +112,9 @@
            
                 @foreach ($offers as $offer)
                 <div class="offer_list_card mt-0 mb-4">
-                    <div class="mt-auto mb-auto w-1/2 relative">
+                    <div class="mt-auto mb-auto w-1/2 relative" style="height:400px;">
                         <img src="{{ route('offer-pictures-file-path',$offer->defaultImage->offer_photo) }}" alt="Responsive image"
-                            class="zoomD img-fluid" />
+                            class="zoomD img-fluid" style="height:99%;" />
 
 
                      </div>

@@ -427,12 +427,49 @@ class OfferController extends Controller
             ]));
     }
 
-    public function destroyOffer(Offer $offer){
+    public function destroyOffer(Offer $offer)
+    {
+         // Delete related transaction if it exists
+         if ($offer->transaction) {
+            $offer->transaction()->delete();
+        }
+        // Loop through each preposition associated with the offer
+        foreach ($offer->preposition as $preposition) {
+            // If the preposition has related chmessages, delete them
+            if ($preposition->chmessages) {
+                $preposition->chmessages()->delete();
+            }
+    
+            
+            foreach ($preposition->propositionImages as $image) {
+                if($image->photo_path_type=='propostion'){
+             // Get the file path from the image record
+    $filePath = 'public/proposition_pictures/' . $image->propostion_photo;
+    // Delete the image record from the database
+    $image->delete();
+     // Delete the actual image file from storage
+    
+     Storage::delete($filePath);
+} else {    $image->delete();}
+}
+// Delete the preposition itself
+$preposition->delete();
+   }    
+        // Finally, delete the offer itself
         $offer->delete();
-
-        return redirect()->route('myaccount.offers')->with('success','Annoce supprimer avec succès');
+    
+        // Redirect with success message
+        return redirect()->route('myaccount.offers')->with('success', 'Annonce supprimée avec succès');
     }
-
+    
+    public function restoreOffer($id)
+    {
+        $offer = Offer::withTrashed()->findOrFail($id);
+        $offer->restore();
+    
+        return redirect()->back()->with('success', 'Offer restored successfully.');
+    }
+    
     public function activate(Offer $offer)
     {
         $offer->update(['active_offer' => true]);
