@@ -311,7 +311,7 @@
                 </div>
             </div>
         </div>
-        <h4 class="text-center text-xl font-bold mt-12 mb-8 text-black">Faire un troc</h4>
+        <h4 class="text-center text-xl font-bold mt-12 mb-8 text-white">Faire un troc</h4>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mx-4">
             <div class="flex flex-col border bg-white p-4 rounded-lg shadow-md items-center text-center">
                 <div class="flex justify-center mb-4 text-blue-500">
@@ -348,82 +348,96 @@
 @if ($bothBannersShown || $onlyLeftBannerShown || $onlyRightBannerShown)
     <div class="flex justify-center bg-primary-color text-white" style="height: 25vh;">
 @else
-    <div class="flex flex-wrap md:flex-nowrap justify-center space-x-4 md:space-x-20 text-white mx-4 md:mx-24" style="height: 25vh;">
+    <div class="flex flex-wrap justify-center space-x-4 space-y-4 md:space-x-20 text-white mx-4 md:mx-24" style="height: 25vh;">
 @endif
-    <div class="flex items-center bg-white p-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
+    <div class="flex flex-col items-center md:flex-row bg-white p-4 rounded-lg shadow-md transform transition-transform duration-200 hover:scale-105">
         <div class="text-blue-500 mr-4">
             <i class="fa fa-cube fa-2x"></i>
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col text-center md:text-left w-full">
             <div class="text-2xl font-semibold text-gray-800">{{ count($offers) }}+</div>
             <div class="text-sm text-gray-500">Annonces</div>
         </div>
     </div>
-    <div class="flex items-center bg-white p-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
+    <div class="flex flex-col items-center md:flex-row bg-white p-4 rounded-lg shadow-md transform transition-transform duration-200 hover:scale-105">
         <div class="text-green-500 mr-4">
             <i class="fa fa-users fa-2x"></i>
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col text-center md:text-left w-full">
             <div class="text-2xl font-semibold text-gray-800">{{ count($users) }}+</div>
             <div class="text-sm text-gray-500">Utilisateurs</div>
         </div>
     </div>
-    <div class="flex items-center bg-white p-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
+    <div class="flex flex-col items-center md:flex-row bg-white p-4 rounded-lg shadow-md transform transition-transform duration-200 hover:scale-105">
         <div class="text-red-500 mr-4">
             <i class="fa fa-handshake fa-2x"></i>
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col text-center md:text-left w-full">
             <div class="text-2xl font-semibold text-gray-800">{{ count($transactions) }}+</div>
             <div class="text-sm text-gray-500">Transactions</div>
         </div>
     </div>
-    <div class="flex items-center bg-white p-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
+    <div class="flex flex-col items-center md:flex-row bg-white p-4 rounded-lg shadow-md transform transition-transform duration-200 hover:scale-105">
         <div class="text-purple-500 mr-4">
             <i class="fa fa-map-marker-alt fa-2x"></i>
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col text-center md:text-left w-full">
             <div class="text-2xl font-semibold text-gray-800">{{ count($regions) }}+</div>
             <div class="text-sm text-gray-500">Regions</div>
         </div>
     </div>
 </div>
 
-<div id="description-website" class="flex flex-col my-12 mx-2 md:mx-24">
+
+
+
+<div id="description-website" class="flex flex-col my-12 mx-2 md:mx-24 relative">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Image et texte 1 -->
-        <div class="flex items-center space-x-4">
-            <div class="w-24 h-24 relative flex-shrink-0">
+        <div class="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 space-x-0 md:space-x-7 z-10">
+            <!-- Conteneur de l'image -->
+            <div class="w-24 h-24 flex-shrink-0 mb-4 md:mb-0">
                 <img src="{{ asset('images/add.jpg') }}" class="w-full h-full object-cover rounded-full shadow-lg" alt="Description 1"/>
             </div>
-            <div class="flex flex-col">
+            <!-- Conteneur du texte -->
+            <div class="flex flex-col text-center md:text-left w-full md:w-auto">
                 <div class="text-xl font-semibold mb-1">Créer un monde meilleur</div>
                 <p class="text-sm">Échangez vos affaires pour un avenir plus durable.</p>
             </div>
-        </div>
+        </div>                                                                                                                                                    
+     
+
 
         <!-- Image et texte 2 -->
-        <div class="flex items-center space-x-4">
-            <div class="w-24 h-24 relative flex-shrink-0">
+        <div class="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 space-x-0 md:space-x-7">
+            <div class="w-24 h-24 flex-shrink-0 mb-4 md:mb-0">
                 <img src="{{ asset('images/abcd.jpg') }}" class="w-full h-full object-cover rounded-full shadow-lg" alt="Description 2"/>
             </div>
-            <div class="flex flex-col">
+            <div class="flex flex-col text-center md:text-left w-full md:w-auto">
                 <div class="text-xl font-semibold mb-1">Favoriser la solidarité</div>
                 <p class="text-sm">Encouragez les contacts sociaux à travers le troc.</p>
             </div>
         </div>
 
         <!-- Image et texte 3 -->
-        <div class="flex items-center space-x-4">
-            <div class="w-24 h-24 relative flex-shrink-0">
+        <div class="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 space-x-0 md:space-x-7">
+            <div class="w-24 h-24 flex-shrink-0 mb-4 md:mb-0">
                 <img src="{{ asset('images/af.jpg') }}" class="w-full h-full object-cover rounded-full shadow-lg" alt="Description 3"/>
             </div>
-            <div class="flex flex-col">
+            <div class="flex flex-col text-center md:text-left w-full md:w-auto">
                 <div class="text-xl font-semibold mb-1">Échanger des services</div>
                 <p class="text-sm">Découvrez un site complet pour échanger services et biens.</p>
             </div>
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
 
 
 <div class="flex items-center justify-center "> <!-- Centrage du conteneur -->
@@ -435,11 +449,13 @@
             <div class="space-y-4">
                 <div class="relative w-full">
                     <label for="email" class="block mb-2 text-xs font-medium text-gray-900 dark:text-gray-300">Adresse email</label> <!-- Réduit la taille de la police du label -->
-                    <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/1000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
-                    </div>
-                    <input class="block w-full py-2 pl-10 text-xs text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:ring-primary-500 focus:border-primary-500" placeholder="Entrez votre Email" type="email" id="email" name="email" required> <!-- Réduit la taille de la police et la bordure -->
-                </div>
+                    <div class="relative flex items-center">
+        <svg class="absolute left-3 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+        </svg>
+        <input class="block w-full py-2 pl-10 pr-3 text-xs text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:ring-primary-500 focus:border-primary-500" placeholder="Entrez votre Email" type="email" id="email" name="email" required>
+    </div>
                 <button type="submit" class="w-full py-1 text-xs font-medium text-center text-white bg-primary-color border border-primary-500 rounded-lg hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:border-primary-500 dark:hover:bg-primary-700 dark:focus:ring-primary-800"> <!-- Réduit la taille du bouton -->
                     S'abonner
                 </button>
@@ -461,17 +477,19 @@
         <a href="{{$banner->description}}" target="_blank" >
             <img src="{{ asset('storage/'. $banner->banner ) }}" alt="Banner" style="width:820px;height:70px;">
 </a>
+
+
         </div>
             @endif
     @endforeach
     </div>
-     <div id="footer-create-add-button" >
+    <div id="footer-create-add-button" >
                 <a class="" href="{{ route('offer.create') }}">
                     <div class="footer-create-add-button-img">
                         <img src="{{ asset('images/plus-icon-white.svg') }}" alt="" />
                     </div>
                     <span class="footer-create-add-button-span">
-                        Déposer <br />
+                        Déposer
                         une annonce
                     </span>
                 </a>
@@ -595,18 +613,8 @@
     font-size: 14px; /* Adjust the font size of the offer count */
 }
 
-#description-website > .flex:nth-child(even) > .image{
-    order:3;
-}
-#description-website > .flex:nth-child(even) > .flex{
-    order:1;
-}
-#description-website > .flex:nth-child(even) > .div{
-    order:2;
-}
-#description-website > .flex:nth-child(even) > .flex{
-    order:1;
-}
+
+
 .owl-carousel,.owl-carousel .owl-item {
     -webkit-tap-highlight-color: transparent;
     display:flex !important;flex-wrap: nowrap !important;overflow-x: hidden !important;gap: 20px !important;padding:10px !important;
@@ -1202,5 +1210,175 @@ background-position: -24px -53px;
     min-height: 100vh;
     padding: 2rem;
     }
+   
+/* Styles pour le conteneur principal en mode mobile */
+@media (max-width: 767px) {
+    .flex-wrap {
+        flex-wrap: wrap;
+    }
+    
+    .flex-col-mobile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 1rem; /* Espacement entre les éléments en mode mobile */
+    }
+    
+    .flex-row-mobile {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 1rem; /* Espacement entre les éléments en mode mobile */
+    }
+    
+    .grid-cols-1-mobile {
+        grid-template-columns: 1fr;
+    }
+    
+    .space-y-mobile > *:not(:last-child) {
+        margin-bottom: 1rem; /* Espacement entre les éléments en mode mobile */
+    }
+    
+    .w-full-mobile {
+        width: 100%;
+    }
+}
+
+/* Styles pour le conteneur principal en mode grand écran */
+@media (min-width: 768px) {
+    .flex-col-mobile {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        margin-bottom: 0;
+    }
+    
+    .flex-row-mobile {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        margin-bottom: 0;
+    }
+    
+    .grid-cols-1-mobile {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .space-y-mobile > *:not(:last-child) {
+        margin-bottom: 0;
+    }
+    
+    .w-full-mobile {
+        width: auto;
+    }
+}
+
+/* Appliquez les classes CSS suivantes dans votre HTML */
+.flex-col-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.flex-row-mobile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+}
+
+.grid-cols-1-mobile {
+    grid-template-columns: 1fr;
+}
+
+.space-y-mobile > *:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+.w-full-mobile {
+    width: 100%;
+}
+<style>
+/* Styles par défaut pour les grands écrans */
+.card {
+    margin-bottom: 1rem;
+    flex: 1;
+}
+
+.icon {
+    font-size: 2rem;
+}
+
+/* Styles pour les écrans de 768px ou moins (tablettes et petits écrans) */
+@media (max-width: 768px) {
+    .flex {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .icon {
+        font-size: 1.5rem;
+    }
+
+    .count {
+        font-size: 1.5rem;
+    }
+
+    .label {
+        font-size: 0.875rem;
+    }
+
+    .mx-4 {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+
+    .md\:mx-24 {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+}
+
+/* Styles pour les écrans de 480px ou moins (mobiles très petits) */
+@media (max-width: 480px) {
+    .card {
+        padding: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .icon {
+        font-size: 1.25rem;
+    }
+
+    .count {
+        font-size: 1.25rem;
+    }
+
+    .label {
+        font-size: 0.75rem;
+    }
+
+    .mx-4 {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+
+    .md\:mx-24 {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+}
+
+
+</style>
+
 </style>
  

@@ -30,7 +30,8 @@ use Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
 
 
 /*
@@ -295,8 +296,16 @@ Route::controller(ContestController::class)->prefix('/contests')->group(function
     Route::get('/{contestId}', 'contestRegistration' )->name('contests.registration');
 });
 Route::get('/test-image', [ImageController::class, 'createImage']);
+Route::get('/aide', function () {return view('aide');})->name('aide');
 
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/page-details', function () {return view('page-details');});
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
 
 require __DIR__.'/auth.php';
+
+
+
 
 

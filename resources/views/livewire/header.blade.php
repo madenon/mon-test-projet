@@ -107,9 +107,8 @@
                 </button>
             </div>
             <div >
-                <a class="header-user-avatar-dropdown-item" href="{{route('binshopsblog.index' , 'fr')}}" style="color:#24A19C;font-weight: 900">
-                    <img src="{{asset('images/blog.png')}}" alt="" class="header-user-avatar-dropdown-item-img" />
-                    <span hidden md:inline>BLOG</span>
+                <a class="header-user-avatar-dropdown-item" href="{{ route('blog.index') }}"style="color:#24A19C;font-weight: 900">
+                    <span >BLOG</span>
                 </a>
             </div>
             <div id="header-user">
