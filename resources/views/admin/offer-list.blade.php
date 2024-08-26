@@ -112,11 +112,11 @@
                             <div class="flex items-center justify-center space-x-1">
                                 <a href="{{ route('admin.showOffer', [$offer->id, $offer->slug]) }}" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded text-xs">Voir</a>
                                 <a href="{{ route('admin.editOffer', [$offer->id]) }}" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded text-xs">Modifier</a>
-                                <form action="{{ route('admin.deleteOffer', [$offer->id]) }}" method="post" class="inline">
+                              <!--  <form action="{{ route('admin.deleteOffer', [$offer->id]) }}" method="post" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-xs">Supprimer</button>
-                                </form>
+                                </form>-->
                             </div>
                         </td>
                     </tr>
