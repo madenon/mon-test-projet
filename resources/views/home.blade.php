@@ -233,49 +233,7 @@
         @endif
     </div>
 
-    <div id="featured-offers" class="flex flex-col my-4 mx-2 md:mx-24 pb-12">
-    <div id="featured-offers-title" class="flex justify-between items-center mb-4">
-        <h4>Offres en vedette</h4>
-        <div class="flex">
-            <i class="pl-2 fa fa-long-arrow-left"></i>
-            <i class="pl-2 fa fa-long-arrow-right"></i>
-        </div>
-    </div>
-    <div id="featured-offers-container" class="flex flex-nowrap overflow-x-auto space-x-5 mb-4">
-        @for ($i=0; $i<count($featuredOffers); $i++)
-            <div class="basis-full md:basis-1/3 grow-0 shrink-0">
-                <x-offer-present-card :offer="$featuredOffers[$i]"></x-offer-present-card>
-            </div>
-        @endfor
-    </div>
-    @if(count($featuredOffers) > 3)
-        <div class="flex justify-end">
-            <a class="more-btn text-sm" href="{{ route('alloffers.index') }}">Voir plus<i class="pl-2 fa fa-long-arrow-right"></i></a>
-        </div>
-    @endif
-</div>
-
-<div id="recent-offers" class="flex flex-col my-4 mx-2 md:mx-24 pb-12">
-    <div id="recent-offers-title" class="flex justify-between items-center mb-4">
-        <h4>Plus récentes</h4>
-        <div class="flex">
-            <i class="pl-2 fa fa-long-arrow-left"></i>
-            <i class="pl-2 fa fa-long-arrow-right"></i>
-        </div>
-    </div>
-    <div id="recent-offers-container" class="flex flex-nowrap overflow-x-auto space-x-5 mb-4">
-        @for ($i=0; $i<count($recentOffers); $i++)
-            <div class="basis-full md:basis-1/3 grow-0 shrink-0">
-                <x-offer-present-card :offer="$recentOffers[$i]"></x-offer-present-card>
-            </div>
-        @endfor
-    </div>
-    @if(count($recentOffers) > 3)
-        <div class="flex justify-end">
-            <a class="more-btn text-sm" href="{{ route('alloffers.index', ['sort_by' => 'latest']) }}">Voir plus<i class="pl-2 fa fa-long-arrow-right"></i></a>
-        </div>
-    @endif
-</div>
+   
 
 <div class="background-image flex flex-col items-center">
     <div class="w-full max-w-6xl px-4 py-12">
@@ -1203,7 +1161,7 @@ background-position: -24px -53px;
 </script>
 <style>
     .background-image {
-    background-image: url('{{ asset('images/ab.png') }}');
+   
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1382,3 +1340,22 @@ background-position: -24px -53px;
 
 </style>
  
+<style> /* S'applique uniquement pour les petits écrans */
+/* S'applique pour tous les écrans */
+
+
+.relative svg {
+    position: absolute;
+    left: 10px; /* Ajustez cette valeur pour aligner horizontalement */
+    top: 50%;
+    transform: translateY(-50%); /* Centre verticalement l'icône */
+    pointer-events: none; /* Empêche l'icône d'interférer avec l'interaction utilisateur */
+}
+
+input[type="email"] {
+    padding-left: 2.5rem; /* Laisse de la place pour l'icône */
+    width: 100%; /* Assurez-vous que l'input prend toute la largeur */
+    box-sizing: border-box; /* Inclut le padding dans la largeur totale */
+}
+
+</style>
