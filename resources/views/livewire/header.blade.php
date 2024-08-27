@@ -64,7 +64,7 @@
     }
 </style>
 <!--  -->
-        <div class="h-container">
+        <div class="h-container overflow-x-scroll">
             <div id="header-logo" class="">
                 <a href="{{ route('home') }}">
                     <img src="{{asset('images/logo-faistroquerfr.svg')}}" alt="Logo faistroquer.fr" class="logo-desktop" />
@@ -76,6 +76,7 @@
                     id="header-categories-button-btn"
                     class="header-categories-button-button">
                         <img
+                        style="min-width:15px"
                             src="{{ asset('images/list-icon-24.svg') }} "
                             alt=""
                             id="header-categories-button-button-icon" />
@@ -107,9 +108,8 @@
                 </button>
             </div>
             <div >
-                <a class="header-user-avatar-dropdown-item" href="{{route('binshopsblog.index' , 'fr')}}" style="color:#24A19C;font-weight: 900">
-                    <img src="{{asset('images/blog.png')}}" alt="" class="header-user-avatar-dropdown-item-img" />
-                    <span hidden md:inline>BLOG</span>
+                <a class="header-user-avatar-dropdown-item" href="{{ route('blog.index') }}"style="color:#24A19C;font-weight: 900">
+                    <span >BLOG</span>
                 </a>
             </div>
             <div id="header-user">
@@ -341,7 +341,7 @@
                 @if(request()->is('offer.*'))
                 @if(request()->has('category'))
     <a href="{{ route('offer.index', ['region' => $region->id,'category'=>request('category')]) }}" class="header-categories-dropdown-menu-item">
-        <img src="{{ asset('images/map-pin-icon.svg') }}" alt="" />
+        <img  src="{{ asset('images/map-pin-icon.svg') }}" alt="" />
         <h3>{{ $region['name'] }}</h3>
     </a>
     @else

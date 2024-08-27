@@ -119,11 +119,3 @@ opacity: 0.5;
  
  
  
-
-
-<div id="scrollUp">
-<a href="#top"><img src="{{ asset('to_top.png') }}"/></a>
-</div>
-
-
- 

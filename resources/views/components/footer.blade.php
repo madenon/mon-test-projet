@@ -56,6 +56,8 @@
                                             </li>
                                         </ul>
                                     </nav>
+                                    <!-- Exemple dans resources/views/welcome.blade.php -->
+                                    <a href="{{ route('aide') }}" class="btn btn-primary">Besoin d'aide ?</a>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-8">

@@ -125,5 +125,15 @@
     </div>
     {{ $offers->links() }}
 </div>
-
+<div id="footer-create-add-button" >
+                <a class="" href="{{ route('offer.create') }}">
+                    <div class="footer-create-add-button-img">
+                        <img src="{{ asset('images/plus-icon-white.svg') }}" alt="" />
+                    </div>
+                    <span class="footer-create-add-button-span">
+                        Déposer
+                        une annonce
+                    </span>
+                </a>
+            </div>
 </x-app-layout>
