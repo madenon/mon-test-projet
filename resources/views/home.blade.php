@@ -89,14 +89,16 @@
    
    <div class="d-flex align-items-center justify-content-center">
     <div>
-        <h1 class="titlee">Avez-vous un bien ou un service ?<br>cherchez, postez et <span style="font-size: 41px;font-weight: 800;color:#24a19c;" >troquez</span>  !</h1>
+        <h1 class="titlee text-xl sm:text-2xl md:text-4xl lg:text-5xl">Avez-vous un bien ou un service ?<br>cherchez, postez et <span style="font-size: 41px;font-weight: 800;color:#24a19c;" >troquez</span>  !</h1>
         <div class="mt-4 d-flex align-items-center justify-content-center" >
-            <a class="sg-btn" href="{{route('alloffers.index')}}">Consultez nos offres <i class="pl-2 fa fa-long-arrow-right"></i></a>
+            <a class="sg-btn w-64 sm:w-72 md:w-96 text-2xl sm:text-3xl md:text-5xl lg:text-6xl" href="{{route('alloffers.index')}}">Consultez nos offres <i class=" pl-2 fa fa-long-arrow-right"></i></a>
         </div>
     </div>  
     </div>
-    <h1 class="titlee text-center font-bold">Ne perdez plus votre temps et rejoignez notre réseau de <span style="font-size: 41px;font-weight: 800;color:#24a19c;">troqueurs </span> !</h1>
-
+    <h1 class="titlee text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-center mt-4">
+            Ne perdez plus votre temps et rejoignez notre réseau de 
+            <span class="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-teal-600">troqueurs</span>!
+        </h1>
     </div>  
 
     <div class="swiper-wrapper" >

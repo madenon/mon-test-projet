@@ -64,7 +64,7 @@
     }
 </style>
 <!--  -->
-        <div class="h-container">
+        <div class="h-container overflow-x-scroll">
             <div id="header-logo" class="">
                 <a href="{{ route('home') }}">
                     <img src="{{asset('images/logo-faistroquerfr.svg')}}" alt="Logo faistroquer.fr" class="logo-desktop" />
@@ -76,6 +76,7 @@
                     id="header-categories-button-btn"
                     class="header-categories-button-button">
                         <img
+                        style="min-width:15px"
                             src="{{ asset('images/list-icon-24.svg') }} "
                             alt=""
                             id="header-categories-button-button-icon" />
@@ -340,7 +341,7 @@
                 @if(request()->is('offer.*'))
                 @if(request()->has('category'))
     <a href="{{ route('offer.index', ['region' => $region->id,'category'=>request('category')]) }}" class="header-categories-dropdown-menu-item">
-        <img src="{{ asset('images/map-pin-icon.svg') }}" alt="" />
+        <img  src="{{ asset('images/map-pin-icon.svg') }}" alt="" />
         <h3>{{ $region['name'] }}</h3>
     </a>
     @else
