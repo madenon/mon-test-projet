@@ -135,7 +135,7 @@
                         document.getElementById('insertImage').style.display = 'block';
                         document.getElementById('offerSelect').style.display = 'block';
                         document.getElementById('descriptionContainer').style.display = 'block';
-                        document.getElementById('offerSelectContainer').style.display = 'block';
+                       // document.getElementById('offerSelectContainer').style.display = 'block';
                         document.getElementById('additionalImageSelected').style.display = 'block';
                     } else if (type === 'achat') {
     document.getElementById('buySection').style.display = 'none';
@@ -160,11 +160,17 @@
     document.getElementById('soulte').style.display = 'none';
     document.getElementById('soulte').disabled = true;
     
-    document.getElementById('offerSelectContainer').style.display = 'none';
     document.getElementById('offerSelectContainer').disabled = true;
     
     document.getElementById('additionalImageSelected').style.display = 'none';
     document.getElementById('additionalImageSelected').disabled = true;
+    // offer selection 
+    var offerSelectContainer = document.getElementById('offerSelectContainer');
+    var text = document.getElementById('offerToggle');
+            if (!offerSelectContainer.classList.contains('hidden')) {
+                offerSelectContainer.classList.add('hidden');
+                text.textContent = 'Sélectionner une offre existante';
+            } 
    // Get all elements by name 'existing_images[]'
 var elements = Array.from(document.getElementsByName('existing_images[]'));
 
@@ -185,6 +191,7 @@ images.forEach(function(element) {
         // Toggle the visibility of the offer select container
         document.getElementById('offerToggle').addEventListener('click', function() {
             var offerSelectContainer = document.getElementById('offerSelectContainer');
+            console.log(offerSelectContainer);
             if (offerSelectContainer.classList.contains('hidden')) {
                 offerSelectContainer.classList.remove('hidden');
                 this.textContent = 'Cacher la sélection des offres';

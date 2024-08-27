@@ -404,6 +404,7 @@ class OfferController extends Controller
     protected function show($offerid, $slug)
     {
         $offer = Offer::find($offerid);
+        if($offer){
         $subcategoryIds=$offer->subcategory->parent->children->pluck('id')->toArray();
         $similaroffers = Offer::whereIn('subcategory_id', $subcategoryIds)->where('id', '!=', $offer->id)->Paginate(3);
         if(!$similaroffers){
@@ -424,7 +425,8 @@ class OfferController extends Controller
                 'similaroffers',
                 'subcategory',
                 'images'
-            ]));
+            ]));} else {        abort(403, 'Unauthorized action.');
+            }
     }
 
     public function destroyOffer(Offer $offer)
