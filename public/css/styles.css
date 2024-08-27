@@ -39,7 +39,17 @@ body {
     display: flex;
     align-items: center;
     column-gap: 12px;
+    /* Default behavior (for larger screens) */
+    overflow-x: hidden;
 }
+
+/* Media query for small screens and below */
+@media (max-width: 640px) {
+    .h-container {
+        overflow-x: scroll; /* Enable horizontal scrolling */
+    }
+}
+
 #header-logo {
 }
 #header-logo a {}
