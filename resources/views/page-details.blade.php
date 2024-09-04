@@ -229,6 +229,22 @@
 
         <p>Le troc de services, cela revient un peu à obtenir des « avantages en nature » tout à fait appréciables, et de rendre la pareille. Envie de vous lancer ? Pour trouver des partenaires d’échange, c’est par ici !</p>
     </div>
+     <!-- Affichage des commentaires -->
+     <div class="comments-section">
+        <h2>Commentaires</h2>
+        @if($comments->isEmpty())
+            <p>Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
+        @else
+            @foreach($comments as $comment)
+                <div class="comment">
+                    <h5>{{ $comment->name }}</h5> <!-- Nom de l'auteur -->
+                    <p>{{ $comment->comment }}</p> <!-- Contenu du commentaire -->
+                    <small>Posté le {{ $comment->created_at->format('d/m/Y à H:i') }}</small> <!-- Date de création -->
+                </div>
+                <hr>
+            @endforeach
+        @endif
+    </div>
    <div class="form-container">
         <h2>Laisser un commentaire</h2>
         <p class="note">Votre adresse e-mail ne sera pas publiée. Les champs obligatoires sont indiqués avec *</p>

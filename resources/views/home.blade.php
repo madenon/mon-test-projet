@@ -79,6 +79,7 @@
 <div >
 @endif    
 
+
 <div class="swiper mySwiper flex flex-col justify-center " style="height:80vh">
    <div class="content" style="width: 100%;
     position: absolute;
