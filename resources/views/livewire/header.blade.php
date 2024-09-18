@@ -8,7 +8,6 @@
     height: 34px;
     }
 
-    /* Hide default HTML checkbox */
     .switch input {
     opacity: 0;
     width: 0;
@@ -64,7 +63,7 @@
     }
 </style>
 <!--  -->
-        <div class="h-container overflow-x-scroll">
+        <div class="h-container overflow">
             <div id="header-logo" class="">
                 <a href="{{ route('home') }}">
                     <img src="{{asset('images/logo-faistroquerfr.svg')}}" alt="Logo faistroquer.fr" class="logo-desktop" />

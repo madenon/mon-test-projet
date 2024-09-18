@@ -106,7 +106,9 @@
                     ->where('rated_by_user_id', Auth::user()->id )
                     ->where('transaction_id',$transaction->id)->first();
                     @endphp
-                    <p class="text-sm text-slate-300 space-y-0 p-0 m-0">Mes commentaires : <span class="text-xs">{{ Carbon\Carbon::parse($myRating?->created_at)->format('Y-m-d H:i:s'); }}</span></p>
+                    <p class="text-sm text-slate-300 space-y-0 p-0 m-0">Mes commentaires : <span class="text-xs">{{ Carbon\Carbon::parse($myRating?->created_at)->format('Y-m-d H:i:s') }}
+
+                    </span></p>
                     <button id="myRating" type="button" class="btn rating-button text-center" data-transaction-id="{{ $transaction->id }}" data-transaction-uuid="{{ $transaction->uuid }}">
                         @if(!$myRating || $myRating->stars==0)
                         <span  class="badge bg-warning rounded-pill" data-transaction-id="{{ $transaction->id }}" data-transaction-uuid="{{ $transaction->uuid }}">Notez</span>
@@ -128,7 +130,8 @@
 
                         @endif
                     </button>
-                    <p class="text-sm text-slate-300 space-y-0 p-0 m-0">Commentaires de la contrepartie : <span class="text-xs">{{ Carbon\Carbon::parse($counterpartyRating?->created_at)->format('Y-m-d H:i:s'); }}</span></p>
+                    <p class="text-sm text-slate-300 space-y-0 p-0 m-0">Commentaires de la contrepartie : <span class="text-xs">{{ Carbon\Carbon::parse($myRating?->created_at)->format('Y-m-d H:i:s') }}
+                    </span></p>
                     <button id="counterpartyRating" type="button" class="btn text-center">
                         @if(!$counterpartyRating || $counterpartyRating->stars==0)
                         <span>Pas de commentaires</span>

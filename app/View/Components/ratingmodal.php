@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class rating-modal extends Component
+class ratingmodal extends Component
 {
     /**
      * Create a new component instance.

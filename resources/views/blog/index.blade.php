@@ -155,7 +155,7 @@
         <p>Vous rêvez de voyager à peu de frais ? Naturellement ! Qui ne le souhaiterait pas ? Eh bien, ça tombe bien, nous avons une solution pour vous. Généralement, pourquoi les vacances coûtent-elles si cher ? Qu’est-ce qui occasionne le plus de dépenses ? Le logement…</p>
         <p>À moins de camper, sous tente et non en chalet de camping, le portefeuille a vite fait de faire la grimace après une ou trois semaines de séjour… On vous raconte comment se loger gratuitement en…</p>
     </div>
-    <a href="/" class="btn">Lire la suite</a>
+    <a href="{{ url('/pagearticle2') }}" class="btn">Lire la suite</a>
 </div>
 <div class="article-container">
     <div class="image-container">
@@ -171,7 +171,7 @@
         <p>Quel est le moyen de transport individuel le plus pratique et le plus écologique à la fois ? Celui qui vous rend autonome et se faufile agilement entre les interminables files de voitures ? Le vélo, bien entendu ! Les beaux jours sont de retour, c’est le moment idéal pour se procurer cet accessoire si agréable d’utilisation.</p>
         <p>Vous cherchez un nouveau vélo pas cher voire gratuit ? Nous avons la solution ! On vous explique tout sur le troc vélo. Comment trouver un vélo d’occasion ?…</p>
     </div>
-    <a href="/" class="btn">Lire la suite</a>
+    <a href="{{ url('/pagearticle3') }}" class="btn">Lire la suite</a>
 </div>
 <div class="article-container">
     <div class="image-container">
@@ -187,7 +187,7 @@
         <p>Quand on se retrouve encombré par des objets dont on n’a plus l’utilité, on songe généralement à les revendre… Mais on peut tout aussi bien en faire don ! Pourquoi donner ses affaires ? Où trouver des receveurs intéressés ? Aujourd’hui, on vous explique tout sur cet acte de gentillesse et de solidarité !</p>
         <p>L’un des avantages immédiats dans le fait de donner ses affaires, c’est la certitude de leur trouver un nouveau propriétaire. Un objet mis…</p>
     </div>
-    <a href="" class="btn">Lire la suite</a>
+    <a href="{{ url('/pagearticle4') }}" class="btn">Lire la suite</a>
 </div>
 <div class="article-container">
     <div class="image-container">
@@ -199,14 +199,38 @@
         <span><i class="fas fa-user icon"></i> Sandra Novelli</span>
         <span><i class="fas fa-comments icon"></i> 2 commentaires</span>
     </div>
-    <div class="content">
+    <div class="content"> 
         <p>Pour pouvoir consommer avec un petit budget, deux solutions majeures existent : le troc ou la vente. Laquelle des deux préférez-vous ? Quels sont les avantages de l’un et de l’autre ? Leurs intérêts respectifs peuvent varier en fonction de vos besoins. Mais sur certains aspects, ils se </p>
         <p>rejoignent… Faisons le point sur ces deux modes de consommation alternatifs !   Le troc et la vente présentent des avantages communs   Lorsque les affaires commencent à s’amasser dans le garage, dans le grenier ou…
 
 </p>
     </div>
-    <a href="" class="btn">Lire la suite</a>
 </div>
+
+<div class="container">
+   
+
+    <h1>Soumettre un Article</h1><form action="{{ route('articles.store') }}" method="post" enctype="multipart/form-data">
+    @csrf
+        <label for="titre">Titre de l'article :</label>
+        <input type="text" id="titre" name="titre" required>
+
+        <label for="auteur">Nom de l'auteur :</label>
+        <input type="text" id="auteur" name="auteur" required>
+
+        <label for="categorie">Catégorie :</label>
+        <input type="text" id="categorie" name="categorie" required>
+
+        <label for="contenu">Contenu de l'article :</label>
+        <textarea id="contenu" name="contenu" rows="10" required></textarea>
+
+        <label for="photo">Ajouter une photo :</label>
+        <input type="file" id="photo" name="photo" accept="image/*" required>
+
+        <input type="submit" value="Soumettre l'article">
+    </form>
+</div>
+
 <footer>
     <div class="footer-container">
         <div class="footer-section">
@@ -237,6 +261,58 @@
 
 </html>
 <style>
+ 
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #555;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="file"] {
+    border: none;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+input[type="submit"] {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+input[type="submit"]:hover {
+    background-color: #218838;
+}
+
     /* Style pour le conteneur de l'article */
 .article-container {
     background-color: #ffffff;
@@ -393,5 +469,6 @@ footer button[type="submit"]:hover {
     background-color: #d1d8e0; /* Changement de couleur au survol */
     color: #27ae60;
 }
+
 
 </style>
