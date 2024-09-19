@@ -135,22 +135,63 @@
                         document.getElementById('insertImage').style.display = 'block';
                         document.getElementById('offerSelect').style.display = 'block';
                         document.getElementById('descriptionContainer').style.display = 'block';
+                       // document.getElementById('offerSelectContainer').style.display = 'block';
+                        document.getElementById('additionalImageSelected').style.display = 'block';
                     } else if (type === 'achat') {
-                        document.getElementById('buySection').style.display = 'none';
-                        document.getElementById('priceSection').style.display = 'block';
-                        document.getElementById('buyAuth').style.display = 'block';
-                        document.getElementById('description').value = 'Proposition d\'achat';
-                        document.getElementById('offerPrice').value = '{{ $offer->price }}';
-                        document.getElementById('photos').style.display = 'none';
-                        document.getElementById('insertImage').style.display = 'none';
-                        document.getElementById('offerSelect').style.display = 'none';
-                        document.getElementById('descriptionContainer').style.display = 'none';
-                        document.getElementById('soulte').style.display = 'none';
+    document.getElementById('buySection').style.display = 'none';
+    document.getElementById('priceSection').style.display = 'block';
+    document.getElementById('buyAuth').style.display = 'block';
+    document.getElementById('description').value = 'Proposition d\'achat';
+    document.getElementById('offerPrice').value = '{{ $offer->price }}';
+    
+    // Hide and disable fields
+    document.getElementById('photos').style.display = 'none';
+    document.getElementById('photos').disabled = true;
+    
+    document.getElementById('insertImage').style.display = 'none';
+    document.getElementById('insertImage').disabled = true;
+    
+    document.getElementById('offerSelect').style.display = 'none';
+    document.getElementById('offerSelect').disabled = true;
+    
+    document.getElementById('descriptionContainer').style.display = 'none';
+    document.getElementById('descriptionContainer').disabled = true;
+    
+    document.getElementById('soulte').style.display = 'none';
+    document.getElementById('soulte').disabled = true;
+    
+    document.getElementById('offerSelectContainer').disabled = true;
+    
+    document.getElementById('additionalImageSelected').style.display = 'none';
+    document.getElementById('additionalImageSelected').disabled = true;
+    // offer selection 
+    var offerSelectContainer = document.getElementById('offerSelectContainer');
+    var text = document.getElementById('offerToggle');
+            if (!offerSelectContainer.classList.contains('hidden')) {
+                offerSelectContainer.classList.add('hidden');
+                text.textContent = 'Sélectionner une offre existante';
+            } 
+   // Get all elements by name 'existing_images[]'
+var elements = Array.from(document.getElementsByName('existing_images[]'));
 
-                    }}
+// Iterate over the array and remove each element
+elements.forEach(function(element) {
+    element.remove();
+});
+var images = Array.from(document.getElementsByName('additional_images[]'));
+
+// Iterate over the array and remove each element
+images.forEach(function(element) {
+    element.remove();
+});
+
+
+}
+}
         // Toggle the visibility of the offer select container
         document.getElementById('offerToggle').addEventListener('click', function() {
             var offerSelectContainer = document.getElementById('offerSelectContainer');
+            console.log(offerSelectContainer);
             if (offerSelectContainer.classList.contains('hidden')) {
                 offerSelectContainer.classList.remove('hidden');
                 this.textContent = 'Cacher la sélection des offres';

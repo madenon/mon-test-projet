@@ -39,7 +39,17 @@ body {
     display: flex;
     align-items: center;
     column-gap: 12px;
+    /* Default behavior (for larger screens) */
+    overflow-x: hidden;
 }
+
+/* Media query for small screens and below */
+@media (max-width: 640px) {
+    .h-container {
+        overflow-x: scroll; /* Enable horizontal scrolling */
+    }
+}
+
 #header-logo {
 }
 #header-logo a {}
@@ -326,7 +336,7 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    /* column-gap: 24px; */
+     column-gap: 24px;
     height: 48px;
 }
 @media (min-width: 768px) {
@@ -1612,9 +1622,7 @@ input[type="checkbox"]:checked{
             "."
             "."; 
     }
-    #header-user-messages-icon {
-        display: none;
-    }
+   
     #header-contest-icon {
         display: none;
     }

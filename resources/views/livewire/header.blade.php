@@ -68,7 +68,6 @@
 
 <!--  -->
 <div class="h-container">
-
             <div id="header-logo" class="">
                 <a href="{{ route('home') }}">
                     <img src="{{asset('images/logo-faistroquerfr.svg')}}" alt="Logo faistroquer.fr" class="logo-desktop" />

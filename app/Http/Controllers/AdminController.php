@@ -199,7 +199,7 @@ class AdminController extends Controller
         return $user;
     }
 public function offers(Request $request){
-    $query = Offer::query();
+    $query=Offer::withTrashed();
     if ($request->has('search')) {
         $searchTerm = $request->input('search');
         $query->where(function ($query) use ($searchTerm) {

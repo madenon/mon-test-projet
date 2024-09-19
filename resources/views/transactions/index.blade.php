@@ -99,6 +99,7 @@
             </thead>
             <tbody>
                 @foreach ($transactions as $transaction)
+                @if ($transaction->proposition && $transaction->proposition->offer && $transaction->proposition->offer->user )
                     @php 
                     $isReceiveid= $transaction->proposition->offer->user==auth()->user();
                     if($isReceiveid) $counterparty = $transaction->proposition->user; 
@@ -158,6 +159,7 @@
                         </td>
                         @endif
                     </tr>
+                    @endif
                 @endforeach
             </tbody>
         </table>

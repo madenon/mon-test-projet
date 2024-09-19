@@ -1,7 +1,7 @@
 @extends('admin.template')
 
 @section('admin-content')
-    <div class="bg-white p-4 rounded shadow">
+    <div >
         <h1>Utilisateurs</h1>
         <form action="{{ route('admin.users') }}" method="GET">
             <div class="mb-4 ">
