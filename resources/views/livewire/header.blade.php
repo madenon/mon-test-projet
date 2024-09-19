@@ -1,6 +1,8 @@
 @props(['parentcategories'])
 <header id="main-header" wire:poll.30000ms="refreshData">
 <style>
+
+
     .switch {
     position: relative;
     display: inline-block;
@@ -8,7 +10,6 @@
     height: 34px;
     }
 
-    /* Hide default HTML checkbox */
     .switch input {
     opacity: 0;
     width: 0;
@@ -63,6 +64,8 @@
     border-radius: 50%;
     }
 </style>
+
+
 <!--  -->
 <div class="h-container">
             <div id="header-logo" class="">
@@ -304,21 +307,22 @@
                             <img src="{{ asset('images/user-icon-24.svg') }} " alt="" class="" />
                             <span>S'authentifier</span>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end header-user-avatar-dropdown">
-                            <li>
-                                <a class="header-user-avatar-dropdown-item" href="{{ route('login') }}">
-                                    <img src="{{asset('images/user-icon-16.svg')}}" class="header-user-avatar-dropdown-item-img" alt="" />
-                                    Se connecter
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="header-user-avatar-dropdown-item" href="{{ route('register') }}">
-                                    <img src="{{asset('images/user-plus-icon-24.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
-                                    S'enregistrer
-                                </a>
-                            </li>
-                        </ul>
+                        <ul class="dropdown-menu dropdown-menu-end header-user-avatar-dropdown" style="max-height: none; overflow: visible;">
+    <li>
+        <a class="header-user-avatar-dropdown-item" href="{{ route('login') }}">
+            <img src="{{ asset('images/user-icon-16.svg') }}" class="header-user-avatar-dropdown-item-img" alt="" />
+            Se connecter
+        </a>
+    </li>
+    <li><hr class="dropdown-divider"></li>
+    <li>
+        <a class="header-user-avatar-dropdown-item" href="{{ route('register') }}">
+            <img src="{{ asset('images/user-plus-icon-24.svg') }}" alt="" class="header-user-avatar-dropdown-item-img" />
+            S'enregistrer
+        </a>
+    </li>
+</ul>
+
                     </div>
                 </div>
                 @endguest

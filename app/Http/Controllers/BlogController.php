@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Comment;
 
 use Illuminate\Http\Request;
 
@@ -15,4 +16,12 @@ class BlogController extends Controller
         ];
         return view('blog.index', compact('posts'));
     }
+    public function show()
+{
+    // Remplacez cela par votre logique pour récupérer les commentaires
+    $comments = Comment::all(); 
+
+    // Passez les commentaires à la vue
+    return view('page-details', compact('comments'));
+}
 }

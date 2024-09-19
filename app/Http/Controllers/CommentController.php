@@ -9,7 +9,7 @@ class CommentController extends Controller
     public function index()
     {
         $comments = Comment::all();
-        dd($comments); // Affiche le contenu de $comments et arrête l'exécution.
+       // dd($comments); // Affiche le contenu de $comments et arrête l'exécution.
         return view('page-details', compact('comments'));
     }
     

@@ -118,4 +118,23 @@ opacity: 0.5;
 </script>
  
  
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var header = document.querySelector('header'); // Sélectionnez votre header
+    var lastScrollTop = 0;
+
+    window.addEventListener("scroll", function() {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop) {
+            // Scroll vers le bas, cacher le header
+            header.style.transform = 'translateY(-100%)';
+        } else {
+            // Scroll vers le haut, montrer le header
+            header.style.transform = 'translateY(0)';
+        }
+        lastScrollTop = scrollTop;
+    });
+});
+</script>
  

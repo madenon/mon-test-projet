@@ -34,6 +34,9 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
 
 
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\ArticleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -296,16 +299,37 @@ Route::controller(ContestController::class)->prefix('/contests')->group(function
     Route::get('/{contestId}', 'contestRegistration' )->name('contests.registration');
 });
 Route::get('/test-image', [ImageController::class, 'createImage']);
-Route::get('/aide', function () {return view('aide');})->name('aide');
 
+Route::get('/aide', function () {return view('aide');})->name('aide');
+ 
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/page-details', function () {return view('page-details');});
 Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
-
+Route::get('/page-details', [BlogController::class, 'show'])->name('page.details');
 require __DIR__.'/auth.php';
 
+Route::get('auth.reset-passsword', [PasswordResetLinkController::class, 'create'])->name('password.request');
+Route::post('password/email', [PasswordResetLinkController::class, 'store'])->name('password.email');
+Route::get('password/reset/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+Route::post('password/reset', [NewPasswordController::class, 'store'])->name('password.update');
+  
+Route::get('/pagearticle2', [BlogController::class, 'show'])->name('pagearticle2');
+Route::get('/pagearticle2', function () {return view('pagearticle2');});
+
+Route::get('/pagearticle3', [BlogController::class, 'show'])->name('pagearticle3');
+Route::get('/pagearticle3', function () {return view('pagearticle3');});
 
 
+Route::get('/pagearticle4', [BlogController::class, 'show'])->name('pagearticle4');
+Route::get('/pagearticle4', function () {return view('pagearticle4');});
 
+
+Route::get('/pagearticle5', [BlogController::class, 'show'])->name('pagearticle5');
+Route::get('/pagearticle5', function () {return view('pagearticle5');});
+
+Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
+Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
+Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+Route::resource('articles', ArticleController::class);
 

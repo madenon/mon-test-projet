@@ -79,6 +79,7 @@
 <div >
 @endif    
 
+
 <div class="swiper mySwiper flex flex-col justify-center " style="height:80vh">
    <div class="content" style="width: 100%;
     position: absolute;
@@ -366,7 +367,7 @@
             </div>
         </div>                                                                                                                                                    
      
-
+         
 
         <!-- Image et texte 2 -->
         <div class="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 space-x-0 md:space-x-7">
@@ -391,12 +392,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
 
 
 
