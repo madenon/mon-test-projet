@@ -276,10 +276,10 @@
                                             wire:ignore
                                             wire:click="becomePro"
                                         @else
-                                            {{$user->pro_on = !$user->pro_on, $user->save()}}  
+                                            {{$user->pro_on = !$user->pro_on , $user->save()}}  
                                             onclick="changePro({{$user->pro_on}})" 
                                         @endif>
-                                    <span class="slider round"></span>
+                                    <span> class="slider round"></span>
                                     </label>
                                 </div>
                             </li>
