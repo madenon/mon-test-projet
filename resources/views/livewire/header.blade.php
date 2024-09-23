@@ -131,7 +131,7 @@
                             </div>
 
                         </div>
-                        <ul class="dropdown-menu notification-dropdown overflow-auto" style="max-height:60vh">
+                        <ul class="dropdown-menu notification-dropdown " style="max-height:60vh">
                             @if(count($notifications)==0)
                             <li>
                                 <div class="notification-dropdown-item">
@@ -279,7 +279,7 @@
                                             {{$user->pro_on = !$user->pro_on , $user->save()}}  
                                             onclick="changePro({{$user->pro_on}})" 
                                         @endif>
-                                    <span> class="slider round"></span>
+                                   
                                     </label>
                                 </div>
                             </li>
