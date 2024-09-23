@@ -23,15 +23,30 @@
         });
     </script>
     <div class="container px-0">    
-    <h1 class="my-6">Mes propositions</h1>
+    <div class="container my-2 top-first">
+        <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
+            <ol class="breadcrumb" class="no-underline bg-green-500 ">
+                <li class="breadcrumb-item active" aria-current="page">{{ Diglactic\Breadcrumbs\Breadcrumbs::render('propositionsall') }}</li>
+            </ol>
+        </nav>
+    </div>   
+    <style>
+    @media (max-width: 768px) {
+  .top-first{
+    margin-top: 100px !important;
+  }
+}</style>
+    <div class="flex justify-center">
+   </div>
         <div class="flex space-x-4 mt-4 mx-2">
-            <div class="pe-4" style="{{ !(request()->has('in_progress')) || request()->input('in_progress')==1 ?  'border-bottom: 2px solid #24a19c' : ''}}">
-                <a href="{{route('propositions.index', ['in_progress'=>1])}}" class="text-gray-600 hover:text-gray-800 no-underline focus:outline-none focus:text-gray-800 transition duration-300 ease-in-out">En cours</a>
-            </div>
-            <div class="pe-6" style="{{ !(request()->has('in_progress')) || request()->input('in_progress')==1 ? '' : 'border-bottom: 2px solid #24a19c' }}">
-                <a href="{{route('propositions.index', ['in_progress'=>0])}}" class="text-gray-600 hover:text-gray-800 no-underline focus:outline-none focus:text-gray-800 transition duration-300 ease-in-out">Tous</a>
-            </div>
-        </div>
+    <div class="pe-4" style="{{ !(request()->has('in_progress')) || request()->input('in_progress')==1 ?  'border-bottom: 2px solid #24a19c' : ''}}">
+        <a href="{{ route('propositions.index', array_merge(request()->query(), ['in_progress' => 1])) }}" class="text-gray-600 hover:text-gray-800 no-underline focus:outline-none focus:text-gray-800 transition duration-300 ease-in-out">En cours</a>
+    </div>
+    <div class="pe-6" style="{{ !(request()->has('in_progress')) || request()->input('in_progress')==1 ? '' : 'border-bottom: 2px solid #24a19c' }}">
+        <a href="{{ route('propositions.index', array_merge(request()->query(), ['in_progress' => 0])) }}" class="text-gray-600 hover:text-gray-800 no-underline focus:outline-none focus:text-gray-800 transition duration-300 ease-in-out">Tous</a>
+    </div>
+</div>
+
         @if((request()->has('in_progress')) && request()->input('in_progress')==0 )
         <form action="{{ route('propositions.index', ['in_progress'=>0]) }}" method="GET">
             <input type="text" name="in_progress" id="in_progress" value="0" hidden />
@@ -84,180 +99,166 @@
             </div>
         </form>
         @endif
-        <table class="table align-middle mt-4 mb-0 bg-white hidden md:block">
-            <thead class="bg-light">
-                <tr>
-                <th>Image</th>
-                <th>Proposition</th>
-                <th>Offre</th>
-                <th>Valeur</th>
-                <th>Prix </th>
-                <th>Contrepartie</th>
-                <th>Statut</th>
-                <th>Rencontre</th>
-                <th>Chat</th>
-                <th>Validation</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="overflow-x-auto">
+    <table class="table-auto w-full bg-white mt-4 mb-0">
+        <thead class="bg-gray-800 text-white">
+            <tr>
+            <th class="px-4 py-2 text-left">Proposition</th>
+                <th class="px-4 py-2 text-left">Image</th>
+                <th class="px-4 py-2 text-left">Action</th>
+                <th class="px-4 py-2 text-left">Validation</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php 
+                if(count($prepositions)) $prep = $prepositions[0];
+                else $prep = null;
+            @endphp
+            @foreach ($prepositions as $preposition)
+            @if ($preposition->offer && $preposition->offer->user)
                 @php 
-                    if(count($prepositions)) $prep = $prepositions[0];
-                    else  $prep = null;
+                $isReceiveid = $preposition->offer->user == auth()->user();
+                if ($isReceiveid) $counterparty = $preposition->user; 
+                else $counterparty = $preposition->offer->user;
+                $images = $preposition->propositionImages;
                 @endphp
-                @foreach ($prepositions as $preposition)
-                    @php 
-                    $isReceiveid= $preposition->offer->user==auth()->user();
-                    if($isReceiveid) $counterparty = $preposition->user; 
-                    else $counterparty = $preposition->offer->user;
-                    @endphp
-                    <tr  style="background-color : WhiteSmoke">
-                        <td style="background-color : WhiteSmoke; border-bottom : 0"><span class="text-{{ $isReceiveid? 'red' : 'green'}}-600 font-bold text-xs">{{ $isReceiveid? 'Réçu' : 'Envoyé'}}</span></td>
-                        <td  style="background-color : WhiteSmoke; border-bottom : 0">
-                            <span class="text-xs">{{ Carbon\Carbon::parse($preposition->created_at)->format('Y-m-d H:i:s'); }}</span>
-                        </td>
-                        <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
-                        <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
-                        <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
-                        <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
-                        <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
-                        <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
-                        <td  style="background-color : WhiteSmoke; border-bottom : 0"></td>
-                        <td nowrap  style="background-color : WhiteSmoke; border-bottom : 0" class="preposition-uuid">
-                            <a type="button" href="#" style="color: #24a19c;">
-                                <span class="text-xs" >{{$preposition->uuid}}</span>
+                <tr class="odd:bg-gray-100 even:bg-white">
+                  
+                <td class="px-4 py-2" id=" prepositioName-{{$preposition->id}}">
+                <span class="font-semibold">Nom :</span>  {{$preposition->name}} 
+
+                        <a class="no-underline font-medium hidden md:block text-sm md:text-base" style="color:#14B6A8"
+                           href="{{ route('offer.offer', [$preposition->offer->id, $preposition->offer->slug]) }}">
+                           <span class="font-semibold" style="color:#717171">Offre :</span> {{ $preposition->offer_name }}
+                        </a>
+                        <div> <span class="font-semibold">Prix :</span> {{ $preposition->offer->price }}</div>
+                        <div> <span class="font-semibold">Valeur :</span> {{ $preposition->price }}</div>
+                        <div> <span class="font-semibold">Contrepartie :</span>
+                            <a type="button" class="btn chat-button"
+                               href="{{ route('profile.showProfile', $counterparty->id) }}">
+                                <span class="text-teal-500">{{ $counterparty->name }}</span>
                             </a>
-                            <i class="fa fa-copy" style="color: #24a19c;" data-preposition-uuid="{{ $preposition->uuid }}" data-bs-toggle="tooltip" data-bs-placement="left" title="Copy"></i>     
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            @if($preposition->images)
-                            <img class="h-16 w-16 rounded-full" src="{{ route('proposition-pictures-file-path',stripslashes(trim($preposition->images, '"'))) }}" alt="Proposition Image">
-                            @endif
-                        </td>
-                        <td id="prepositioName-{{$preposition->id}}">
-                            @livewire('split-long-text ', [
-                                'text' => $preposition->name,
-                                'parentClass' => '#prepositioName-'.$preposition->id,
-                                ])
-                        </td>
-                        <td id="prepositionOfferName-{{$preposition->id}}">
-                            
-                            <a class="no-underline font-medium hidden md:block text-sm md:text-base" href="{{route('offer.offer', [$preposition->offer->id, $preposition->offer->slug])}}">
-                                {{$preposition->offer_name}}
-                            </a>
-                                
-                        </td>
-                        <td>{{ $preposition->offer->price}}</td>
-                        <td>{{ $preposition->price }}</td>
-                        <td>
-                            <a type="button" class="btn  chat-button" href="{{route('profile.showProfile',$counterparty->id)}}">
-                                <span style="color: #24a19c;">
-                                {{ $counterparty->first_name . ' ' . $counterparty->last_name }}
-                                </span>
-                            </a>
-                        </td>
-                        <td>
-                            <span class="badge {{ getStatusBadgeClass($preposition->status) }} rounded-pill d-inline">
-                                {{ $preposition->status }}
-                            </span>
-                        </td>
-                        <td>
-                            @if($preposition->meetup)
-                            <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" >
-                            <i class="fas fa-calendar" style="color: #24a19c;"></i>
+                        </div>
+                        <span class="badge {{ getStatusBadgeClass($preposition->status) }} rounded-pill d-inline">
+                            {{ $preposition->status }}
+                        </span>
+                    </td>
+                    <td class="p-2">
+                        <div class="flex space-x-2 overflow-x-auto scrollbar-thin">
+                            @foreach ($images as $img)
+                                <img src="{{ $img->photo_path_type == 'proposition' ? route('proposition-pictures-file-path', $img->proposition_photo) : route('offer-pictures-file-path', $img->proposition_photo) }}"
+                                     alt="Image produit" class="h-20 w-24 object-cover rounded-lg" />
+                            @endforeach
+
+                        </div>
+                    </td>
+                    <td class="px-4 py-2">
+                        @if($preposition->meetup)
+                            <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button">
+                                <i class="fas fa-calendar text-teal-500"></i>
                             </a>
                             @if($preposition->status != "pending")
-                            <a class="inline-block btn btn-primary" href="#" 
-                                    data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Modifier</a>
+                                <a class="inline-block btn btn-primary" href="#" style="background-color:var(--primary-color);border-color:var(--primary-color)"
+                                   data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Modifier</a>
                             @endif
-                            @else 
-                            <a class="inline-block btn btn-primary" href="#" 
-                                    data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Planifier</a>
-                            @endif
-                        </td>
-                        
-                        <td>
-                            <div class="flex">
-                                <!-- Chat button with icon -->
-                                <a type="button" class="btn  chat-button" href="{{route('propositions.chat',$preposition->id)}}">
-                                    <span style="color: #24a19c;">Contact</span>
-                                </a>
-                            </div>
-                        </td>
-                        <td>
-                            @php
-                            $isReceiveid= $preposition->offer->user==auth()->user();
-                            if($isReceiveid) $counterparty = $preposition->user; 
-                            else $counterparty = $preposition->offer->user;
-
-                            $isButton=null;
-                                $validation_text=null;
-                                if(!$preposition->validation || $preposition->validation == 'none'){
-                                    if($preposition->status != 'Rejetée'){
-                                        $validation_text = $isReceiveid ? 'Valider la proposition' : 'En attente de validation';
-                                        $isButton = $isReceiveid ? true : false; 
-                                    }else{
-                                        $validation_text =  'La proposition a été rejetée';
-                                        $isButton = false; 
-                                    }
+                        @else 
+                            <a class="inline-block btn btn-primary" href="#" style="background-color:var(--primary-color);border-color:var(--primary-color)"
+                               data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Planifier</a>
+                        @endif
+                        <a type="button" class="btn chat-button" href="{{ route('propositions.chat', $preposition->id) }}">
+                            <span class="text-teal-500">Contact</span>
+                        </a>
+                    </td>
+                    <td class="px-4 py-2">
+                        @php
+                        $isReceiveid = $preposition->offer->user == auth()->user();
+                        $validation_text = null;
+                        $isButton = null;
+                        if (!$preposition->validation || $preposition->validation == 'none') {
+                            if ($preposition->status != 'Rejetée') {
+                                $validation_text = $isReceiveid ? 'Valider la proposition' : 'En attente de validation';
+                                $isButton = $isReceiveid ? true : false; 
+                            } else {
+                                $validation_text = 'La proposition a été rejetée';
+                                $isButton = false; 
+                            }
+                        } else if ($preposition->validation == 'validated') {
+                            $validation_text = $isReceiveid ? 'En attente de confirmation' : 'Confirmer la proposition';
+                            $isButton = $isReceiveid ? false : true; 
+                        } else if ($preposition->validation == 'confirmed') {
+                            $transaction = $preposition->transaction;
+                            if (auth()->id() == $preposition->user->id) {
+                                if ($transaction->applicant_status == 'En cours') {
+                                    $validation_text = 'Valider la transaction';
+                                    $isButton = true; 
+                                } else {
+                                    $validation_text = 'En attente de validation';
+                                    $isButton = false;  
                                 }
-                                else if($preposition->validation == 'validated'){
-                                    $validation_text = $isReceiveid ? 'En attente de confirmation' : 'Confirmer la proposition';
-                                    $isButton = $isReceiveid ? false : true; 
+                            } else {
+                                if ($transaction?->offeror_status == 'En cours') {
+                                    $validation_text = 'Valider la transaction';
+                                    $isButton = true; 
+                                } else {
+                                    $validation_text = 'En attente de validation';
+                                    $isButton = false;  
                                 }
-                                else if($preposition->validation == 'confirmed'){
-                                    $transaction = $preposition->transaction;
-                                    if(auth()->id() == $preposition->user->id){
-                                        if($transaction->applicant_status == 'En cours'){
-                                            $validation_text = 'Valider la transaction' ;
-                                            $isButton = true ; 
-                                        }else{
-                                            $validation_text = 'En attente de validation' ;
-                                            $isButton = false ;  
-                                        }
-                                    } else {
-                                        if($transaction?->offeror_status == 'En cours'){
-                                            $validation_text = 'Valider la transaction' ;
-                                            $isButton = true ; 
-                                        }else{
-                                            $validation_text = 'En attente de validation' ;
-                                            $isButton = false ;  
-                                        }
-                                    } 
-                                }else{// confirmedTransaction
-                                    $isButton = false ;  
-                                    $validation_text = 'Transaction completée' ;
-                                    $transaction = $preposition->transaction;
-                                    if($transaction?->offeror_status == 'Réussi' && $transaction->applicant_status == 'Réussi'){
-                                        $validation_text = 'Transaction completée' ;
-                                    }else{
-                                        $validation_text = 'Transaction rejetée' ;
-                                    }
-                                }
-                                @endphp 
-                                
-                                @if($isButton)
-                                <div class="col-span-full d-flex items-center justify-center">
+                            } 
+                        } else { // confirmedTransaction
+                            $isButton = false;  
+                            $validation_text = 'Transaction complétée';
+                            $transaction = $preposition->transaction;
+                            if ($transaction?->offeror_status == 'Réussi' && $transaction->applicant_status == 'Réussi') {
+                                $validation_text = 'Transaction complétée';
+                            } else {
+                                $validation_text = 'Transaction rejetée';
+                            }
+                        }
+                        @endphp 
+                        @if($isButton)
+                            <div class="col-span-full d-flex items-center justify-center">
                                 @if(!$preposition->validation || $preposition->validation == 'none')
-                                <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="#" 
-                                    data-bs-toggle="modal" data-bs-target="#propositionValidationModal-{{$preposition->id}}">{{$validation_text}}</a>
-                                    @elseif($preposition->validation == 'validated')
-                                    <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="#" 
-                                    data-bs-toggle="modal" data-bs-target="#propositionConfirmationModal-{{$preposition->id}}">{{$validation_text}}</a>
-                                    @elseif($preposition->validation == 'confirmed')
-                                <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" 
-                                href="{{route('transactions.index')}}" >{{$validation_text}}</a>
+                                    <a class="inline-block px-3 py-2 text-black no-underline text-center bg-teal-500 rounded transition duration-300 ease-in-out"
+                                       href="#" data-bs-toggle="modal" data-bs-target="#propositionValidationModal-{{$preposition->id}}">{{ $validation_text }}</a>
+                                @elseif($preposition->validation == 'validated')
+                                    <a class="inline-block px-3 py-2 text-black no-underline text-center bg-teal-500 rounded transition duration-300 ease-in-out"
+                                       href="#" data-bs-toggle="modal" data-bs-target="#propositionConfirmationModal-{{$preposition->id}}">{{ $validation_text }}</a>
+                                @elseif($preposition->validation == 'confirmed')
+                                    <a class="inline-block px-3 py-2 text-black no-underline text-center bg-teal-500 rounded transition duration-300 ease-in-out"
+                                       href="{{ route('transactions.index') }}">{{ $validation_text }}</a>
                                 @endif
                             </div>                              
-                            @else
-                                <span>{{$validation_text}}</span>
-                                @endif
-                            </td>
-                            </tr>
-                @endforeach
-            </tbody>
-        </table>
+                        @else
+                            <span>{{ $validation_text }}</span>
+                        @endif
+                    </td>
+                </tr>
+                @endif
+            @endforeach
+        </tbody>
+    </table>
+</div>
+{{$prepositions->links()}}
+<style>/* Custom Scrollbar Styles */
+.scrollbar-thin {
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #24a19c #e2e8f0; /* For Firefox */
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+    height: 8px; /* Scrollbar height */
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+    background: #e2e8f0; /* Track background color */
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #24a19c; /* Scrollbar color */
+    border-radius: 10px; /* Round scrollbar edges */
+    border: 2px solid #e2e8f0; /* Space around the scrollbar */
+}
+</style>
         @foreach ($prepositions as $preposition)
         <div>
             <x-preposition-validation-modal :preposition=$preposition></x-preposition-validation-modal>
@@ -274,159 +275,7 @@
         </script>
         @endforeach
         
-        <div class="grid grid-cols-1 mt-4 mx-2 block md:hidden">
-            @foreach ($prepositions as $preposition)
-            <div class="border border-2 border-gray-300 bg-white rounded-lg p-2 my-2">
-                <div class="flex justify-between">
-                    <div>
-                        <img class="h-16 w-16 rounded-full" src="{{ route('proposition-pictures-file-path',stripslashes(trim($preposition->images, '"'))??'') }}" alt="Proposition Image">
-                        <!-- @if($preposition->images)
-                        @endif -->
-                    </div>
-                    <div class="flex flex-col">
-                        <div nowrap  style="background-color : WhiteSmoke; border-bottom : 0" class="preposition-uuid">
-                                <a type="button" href="#" style="color: #24a19c;">
-                                    <span class="text-xs" >{{$preposition->uuid}}</span>
-                                </a>
-                                <i class="fa fa-copy" style="color: #24a19c;" data-preposition-uuid="{{ $preposition->uuid }}" data-bs-toggle="tooltip" data-bs-placement="left" title="Copy"></i>     
-                        </div>
-                        <div class="text-xl font-bold">{{$preposition->name}}</div> 
-                        <div>
-                            <span class="text-{{ $isReceiveid? 'red' : 'green'}}-600 font-bold text-xs">{{ $isReceiveid? 'Réçu' : 'Envoyé'}}</span>
-                            <span class="text-xs"> , {{ Carbon\Carbon::parse($preposition->created_at)->format('Y-m-d H:i:s'); }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-2">
-                    L'Offre :
-                    <a class="no-underline font-medium md:block text-sm md:text-base" href="{{route('offer.offer', [$preposition->offer->id, $preposition->offer->slug])}}">
-                         {{$preposition->offer_name}}
-                    </a>
-                                
-                </div>
-                <div class="flex justify-between items-center my-1">
-                    <div class="flex flex-col">
-                        <div>Valeur:</div>
-                        <div></div>{{ $preposition->offer->price}}
-                    </div>
-                    <div class="flex flex-col">
-                        <div>Prix proposée:</div>
-                        {{ $preposition->price }}
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="badge {{ getStatusBadgeClass($preposition->status) }} rounded-pill d-inline">
-                            {{ $preposition->status }}
-                        </span>
-                    </div>
-                </div>
-                <div class ="flex justify-between my-2">
-                    <div class="flex flex-col">
-                        <a type="button" class="block no-underline" href="{{route('profile.showProfile',$counterparty->id)}}">
-                            <span class="text-sm" style="color: #24a19c;">
-                            {{Str::limit($counterparty->first_name . ' ' . $counterparty->last_name, 15)}}
-                            </span>
-                        </a>
-                    </div>
-                    <div class="flex flex">
-                        @if($preposition->meetup)
-                        <a type="button" data-meet="{{ $preposition->meetup }}" id="meet" class="btn meet-button" data-bs-toggle="modal" data-bs-target="#meetModal">
-                        <i class="fas fa-calendar" style="color: #24a19c;"></i>
-                        @if($preposition->status != "pending")
-                        <a class="inline-block btn btn-primary" href="#" 
-                                data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Modifier</a>
-                        @endif
-                        </a>
-                        @else 
-                        <a class="inline-block btn btn-primary" href="#" 
-                        data-bs-toggle="modal" data-bs-target="#meetModal-{{$preposition->id}}">Planifiez</a>
-                        @endif
-                    </div>
-                    <div class="flex flex-col">
-                        <div class="flex">
-                            <!-- Chat button with icon -->
-                            <a type="button" class="btn  chat-button" href="{{route('propositions.chat',$preposition->id)}}">
-                                <span style="color: #24a19c;">Contact</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="">
-                    @php
-                    $isReceiveid= $preposition->offer->user==auth()->user();
-                    if($isReceiveid) $counterparty = $preposition->user; 
-                    else $counterparty = $preposition->offer->user;
-                    $isButton=null;
-                    $validation_text=null;
-                    if(!$preposition->validation || $preposition->validation == 'none'){
-                        if($preposition->status != 'Rejetée'){
-                            $validation_text = $isReceiveid ? 'Valider la proposition' : 'En attente de validation';
-                            $isButton = $isReceiveid ? true : false; 
-                        }else{
-                            $validation_text =  'La proposition a été rejetée';
-                            $isButton = false; 
-                        }
-                    }
-                    else if($preposition->validation == 'validated'){
-                        $validation_text = $isReceiveid ? 'En attente de confirmation' : 'Confirmer la proposition';
-                        $isButton = $isReceiveid ? false : true; 
-                    }
-                    else if($preposition->validation == 'confirmed'){
-                        $transaction = $preposition->transaction;
-                        if(auth()->id() == $preposition->user->id){
-                            if($transaction->applicant_status == 'En cours'){
-                                $validation_text = 'Valider la transaction' ;
-                                $isButton = true ; 
-                            }else{
-                                $validation_text = 'En attente de validation' ;
-                                $isButton = false ;  
-                            }
-                        } else {
-                            if($transaction?->offeror_status == 'En cours'){
-                                $validation_text = 'Valider la transaction' ;
-                                $isButton = true ; 
-                            }else{
-                                $validation_text = 'En attente de validation' ;
-                                $isButton = false ;  
-                            }
-                        } 
-                    }else{// confirmedTransaction
-                        $isButton = false ;  
-                        $validation_text = 'Transaction completée' ;
-                        $transaction = $preposition->transaction;
-                        if($transaction?->offeror_status == 'Réussi' && $transaction->applicant_status == 'Réussi'){
-                            $validation_text = 'Transaction completée' ;
-                        }else{
-                            $validation_text = 'Transaction rejetée' ;
-                        }
-                    }
-                    @endphp 
-                    
-                    @if($isButton)
-                    <div class="col-span-full d-flex items-center justify-center">
-                        @if(!$preposition->validation || $preposition->validation == 'none')
-                        <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="#" 
-                            data-bs-toggle="modal" data-bs-target="#propositionValidationModal-{{$preposition->id}}">{{$validation_text}}</a>
-                        @elseif($preposition->validation == 'validated')
-                        <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" href="#" 
-                            data-bs-toggle="modal" data-bs-target="#propositionConfirmationModal-{{$preposition->id}}">{{$validation_text}}</a>
-                        @elseif($preposition->validation == 'confirmed')
-                        <a class="inline-block px-4 py-2 text-black text-decoration-none rounded transition duration-300 ease-in-out" style="background-color: #24a19c;" 
-                            href="{{route('transactions.index')}}" >{{$validation_text}}</a>
-                        @endif
-                    </div>                              
-                    @else
-                    <div class="flex justify-center">
-                        <div>{{$validation_text}}</div>
-                    </div>
-                    @endif
-                </div>
-
-                    
-            </div>       
-                        
-            @endforeach
-        </div>
+        
         
         
         <div class="modal fade" id="meetModal" tabindex="-1" aria-labelledby="meetModalLabel" aria-hidden="true">

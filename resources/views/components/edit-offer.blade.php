@@ -25,62 +25,180 @@
                     <div class="flex gap-4 lg:gap-8 flex-wrap ">
                         <div class="md:flex-1 w-full">
                             <label for="" class="text-sm text-text block">Type</label>
-                            <select  name='type'
-                                class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover"
-                                id="type-dropdown" onchange="changerType(this)">
-                                <option value="0" selected hidden>Choisir le type de troc *</option>
-                                @foreach($types as $type)
-                                <option value="{{ $type->id }}" @if($offer->type && $offer->type->id == $type->id) selected @endif>{{ $type->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                            <select name="type" class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover" id="type-dropdown" onchange="changerType(this)" disabled>
+            <option value="0" selected hidden>Choisir le type de troc *</option>
+            @foreach($types as $type)
+            <option value="{{ $type->id }}" @if($offer->type && $offer->type->id == $type->id) selected @endif>{{ $type->name }}</option>
+            @endforeach
+        </select>
+        <input type="hidden" name="type" id="hidden_type" value="{{ $offer->type ? $offer->type->id : '' }}">
+    </div>
                         <div class="md:flex-1 w-full hidden " id="experience-dropdown">
                             <label for="" class="text-sm text-text block">Expérience du service</label>
-                            <select name='experience'
-                                class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
-                                <option value="0" selected>Choisir l'expérience</option>
-                                @foreach ($experienceLevels as $key => $value)
-                                <option value="{{ $value }}" {{ $offer->experience == $value ? 'selected' : '' }}>{{ $key }}</option>
-                                @endforeach
-
-                            </select>
-                        </div>
+                            <select name="experience" class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover" disabled>
+            <option value="0" selected>Choisir l'expérience</option>
+            @foreach ($experienceLevels as $key => $value)
+            <option value="{{ $value }}" {{ $offer->experience == $value ? 'selected' : '' }}>{{ $key }}</option>
+            @endforeach
+        </select>
+        <input type="hidden" name="experience" id="hidden_experience" value="{{ $offer->experience }}">
+    </div>
                         <div class="md:flex-1 w-full hidden" id="condition-dropdown">
                             <label for="" class="text-sm text-text block">Etat</label>
-                            <select name='condition'
-                                class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
-                                <option value="0" selected>
-                                    {{ __('Choisir l\'état') }}
-                                </option>
-                                @foreach ($conditions as $key => $value)
-                                <option value="{{ $value }}" {{ $offer->condition == $value ? 'selected' : '' }}>{{ $key }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                            <select name="condition" class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover" disabled>
+            <option value="0" selected>
+                {{ __('Choisir l\'état') }}
+            </option>
+            @foreach ($conditions as $key => $value)
+            <option value="{{ $value }}" {{ $offer->condition == $value ? 'selected' : '' }}>{{ $key }}</option>
+            @endforeach
+        </select>
+        <input type="hidden" name="condition" id="hidden_condition" value="{{ $offer->condition }}">
+    </div>
+                        @if($offer->type_id==3)
+                        <input type="hidden" name="availability" class="notRequired" id="availability">
+<div class="md:flex-1 w-full" id="calendar-container">
+    <label for="calendar" class="text-sm text-text block">Disponibilités</label>
+    <div id="calendar"></div>
+</div>
 
+<style>
+    /* Calendar container */
+    #calendar-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    /* Calendar title */
+    .fc .fc-toolbar-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2D3748; /* Dark gray color */
+        text-align: center;
+    }
+    a{
+        text-decoration: none;
+    }
+
+    /* Month grid styling */
+    .fc .fc-daygrid-day {
+        border: 1px solid #CBD5E0; /* Light gray border */
+        padding: 5px;
+    }
+
+    /* Day number styling */
+    .fc .fc-daygrid-day-number {
+        color: #2D3748; /* Dark gray color */
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    /* Day name styling */
+    .fc .fc-daygrid-day-name {
+        color: #4A5568; /* Darker gray color */
+        font-size: 0.875rem;
+        font-weight: 700;
+    }
+
+    /* Event styling */
+    .fc .fc-daygrid-event {
+        background-color: #38B2AC; /* Teal color */
+        color: #FFFFFF;
+        border-radius: 4px;
+        padding: 2px 4px;
+    }
+
+    .fc .fc-daygrid-event:hover {
+        background-color: #2C7A7B; /* Darker teal */
+    }
+
+    /* Button styling */
+    .fc .fc-button-primary {
+        background-color: #38B2AC; /* Teal color */
+        border: none;
+        color: #FFFFFF;
+    }
+
+    .fc .fc-button-primary:hover {
+        background-color: #2C7A7B; /* Darker teal */
+    }
+
+    /* Hide scrollbars */
+    .fc .fc-daygrid-day { 
+        overflow: hidden; /* Prevent scrolling */
+    }
+
+    /* Ensure calendar shows only the current month */
+    .fc .fc-daygrid-day {
+        max-height: 100px; /* Set a max-height to avoid vertical scrolling */
+        overflow: hidden;
+    }
+     .default-day-background {
+        background-color: red !important;
+    }
+</style>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+     var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'fr', // Set the locale to French
+            selectable: true,
+            select: function(info) {
+                // Toggle date availability
+                let event = calendar.getEventById(info.startStr);
+                if (event) {
+                    event.remove();
+                } else {
+                    calendar.addEvent({
+                        id: info.startStr,
+                        start: info.startStr,
+                        end: info.endStr,
+                        color: 'green'
+                    });
+                }
+            },
+            events: [
+                // Load existing availability data
+            ]
+        });
+        calendar.render();
+
+        document.getElementById('submitBtn').addEventListener('click', function(e) {
+            var events = calendar.getEvents();
+            var dates = events.map(event => ({
+                date: event.startStr,
+            }));
+            document.getElementById('availability').value = JSON.stringify(dates);
+        });
+    });
+</script> @endif
                         <div class="md:flex-1 w-full">
                             <label for="" class="text-sm text-text block">Catégorie du troc</label>
-                            <select  name='category' id="select_type"
-                                class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover"
-                                onchange="changerCategory(this)">
-                                <option value="0" selected hidden>Choisir la Catégorie *</option>
-                                @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ $category->id == $offer->subcategory->parent_id ? 'selected' : '' }}>{{ $category->name }}</option>
-                                @endforeach
-                            </select>
+                            <select name="category" id="select_type" class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover" disabled>
+    <option value="0" selected hidden>Choisir la Catégorie *</option>
+    @foreach($categories as $category)
+    <option value="{{ $category->id }}" {{ $category->id == $offer->subcategory->parent_id ? 'selected' : '' }}>{{ $category->name }}</option>
+    @endforeach
+</select>
+
+<input type="hidden" name="category" id="category_hidden" value="{{ $offer->subcategory->parent_id }}">
+
                         </div>
                         <div class="md:flex-1 w-full">
                             <label for="" class="text-sm text-text block">Sous catégorie du troc</label>
-                            <select  name='subcategory' id="select_category"
-                                class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
-                                <option value="0" selected hidden>Choisir la sous catégorie *</option>
-                                @foreach($subcategories as $subcategory)
-                                @if($subcategory->id==$offer->subcategory_id)
-                                <option value="{{ $subcategory->id }}" {{ $subcategory->id == $offer->subcategory_id ? 'selected' : '' }}>{{ $subcategory->name }}</option>
-                                @endif
-                                @endforeach
-                            </select>
-                        </div>
+                            <select name="subcategory" id="select_category" class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover" disabled>
+            <option value="0" selected hidden>Choisir la sous catégorie *</option>
+            @foreach($subcategories as $subcategory)
+            @if($subcategory->id == $offer->subcategory_id)
+            <option value="{{ $subcategory->id }}" {{ $subcategory->id == $offer->subcategory_id ? 'selected' : '' }}>{{ $subcategory->name }}</option>
+            @endif
+            @endforeach
+        </select>
+        <input type="hidden" name="subcategory" id="hidden_subcategory" value="{{ $offer->subcategory_id }}">
+    </div>
+
                     </div>
                 </div>
                 <div class="border-b border-line py-4 mt-4">
@@ -88,27 +206,26 @@
                         <div class="col-md-4 col-12">
                             <div class="flex flex-col  w-full mb-3">
                                 <label for="" class="text-sm text-text block">Région</label>
-                                <select  name='region' onchange="changerDepartement(this)"
-                                    class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
-                                    <option value="" selected hidden>Choisir une région *</option>
-                                    @foreach($regions as $region)
-                                    <option value="{{ $region->id }}" {{ $region->id == $offer->department->region_id ? 'selected' : '' }}>{{ $region->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                                <select name="region" onchange="changerDepartement(this)" class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover" disabled>
+            <option value="" selected hidden>Choisir une région *</option>
+            @foreach($regions as $region)
+            <option value="{{ $region->id }}" {{ $region->id == $offer->department->region_id ? 'selected' : '' }}>{{ $region->name }}</option>
+            @endforeach
+        </select>
+        <input type="hidden" name="region" id="hidden_region" value="{{ $offer->department->region_id }}">
+    </div>
                         </div>
                         <div class="col-md-4 col-12">
                             <div class="flex flex-col w-full mbdropdown-3">
                                 <label for="" class="text-sm text-text block">Département</label>
-                                <select  name='department' id="select_department"
-                                    onchange="changerNumDepartement(this)"
-                                    class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
-                                    <option value="0" selected hidden>Choisir un département *</option>
-                                    @foreach($departments as $department)
-                                        <option value="{{ $department->id }}" {{ $department->id == $offer->department_id ? 'selected' : '' }}>{{ $department->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                                <select name="department" id="select_department" onchange="changerNumDepartement(this)" class="w-[100%] rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover" disabled>
+            <option value="0" selected hidden>Choisir un département *</option>
+            @foreach($departments as $department)
+            <option value="{{ $department->id }}" {{ $department->id == $offer->department_id ? 'selected' : '' }}>{{ $department->name }}</option>
+            @endforeach
+        </select>
+        <input type="hidden" name="department" id="hidden_department" value="{{ $offer->department_id }}">
+    </div>
                         </div>
                         <div class="col-md-4 col-12">
                             <div class="flex flex-col w-full">
@@ -138,60 +255,21 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
-                            <div class="flex flex-col div-image ">
-                                <span for="" class="text-sm text-text">
-                                    {{ __('Insérer la photo de couverture') }}</span>
-                                <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 ">
-                                    <label for="default_image" class="cursor-pointer w-full" >
-                                        <input id="default_image" type="file" name="default_image" accept="image/*"  
-                                            class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
-                                            style="width: 0; height: 0;">
-                                        <div class="flex items-center justify-center gap-4 text-center w-full">
-                                            <img src="/images/IconContainer.svg" alt="" srcset="">
-                                            <p id="browse_default_text" class="text-text text-sm mt-3">
-                                                {{ __('Parcourir l\'image ') }}</span></p>
-                                        </div>
-                                    </label>
-                                    <!-- Affiche le nom du fichier sélectionné (facultatif) -->
-                                    <span id="selectedFileName" class="text-text text-sm mt-2">Aucun fichier
-                                        sélectionné</span>
-                                </div>
-                                <div class="my-2">
-                                    <img id="defaultImageSelected" src="{{ route('offer-pictures-file-path',$offer->defaultImage->offer_photo) }}" alt="" width="150px">
-                                </div>
-                                <x-input-error :messages="$errors->get('default_image')" class="mt-2" />
-                                <span for="" class="text-sm text-text mt-4">
-                                    {{ __('Insérer plus de photo detaillées') }}</span>
-                                <div class="flex items-center border-dashed border-2 border-line rounded-md px-3">
-                                    <label for="additional_images" class="cursor-pointer w-full" >
-                                        <input id="additional_images" type="file" name="additional_images[]" accept="image/*" multiple disabled
-                                        class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
-                                        style="width: 0; height: 0;" />
-                                        <div class="flex items-center justify-center gap-4 text-center w-full">
-                                            <img src="/images/IconContainer.svg" alt="" srcset="">
-                                            <p id="browse_additional_text" class="text-text text-sm mt-3">{{ __('Parcourir l\'image ') }}</p>
-                                        </div>
-                                    </label>
-                                    <!-- Affiche le nom du fichier sélectionné (facultatif) -->
-                                    <span id="selectedFileNameMultiple" class="text-text text-sm mt-2">Aucun fichier
-                                        sélectionné</span>
-                                    </div>
-                                    <x-input-error :messages="$errors->get('additional_images')" class="mt-2" />
-                                </div>
-                                <div id="additionalImageSelected" class="my-2 flex justify-start flex-wrap">
+                        <div class="flex justify-center div-image ">
+                        <div id="additionalImageSelected" class="my-2 flex justify-start flex-wrap">
                                     @foreach ($images as $image)
                                         <div class="me-4">
-                                            <img alt="" src="{{ route('offer-pictures-file-path',$image->offer_photo) }}" style="height:30px"><button class="w-full">
-                                            <img src="{{asset('images/trash-icon.png')}}" class="mx-auto my-2" style="width: 25px;"></button>
+                                            <img alt="" src="{{ route('offer-pictures-file-path',$image->offer_photo) }}" style="height:60px"><button class="w-full">
                                         </div>
                                     @endforeach
                                 </div>
-                            </div>
-                    </div>
-                </div>
-
+                        </div>
+                        <a href="{{ route('offer.offer', [$offer->id, urlencode($offer->slug)]) }}" id="goToOffer" class="inline-block rounded-md border border-primary-color bg-primary-color text-white no-underline px-4 py-2 text-center h-12 flex items-center justify-center mx-auto mt-6 mb-6">
+    Modifier les images
+</a>
+</div>
                 <div class="flex justify-end gap-2">
-                    <button class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-primary-color hover:bg-primary-hover" type="submit">
+                    <button class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-primary-color hover:bg-primary-hover" id="submitBtn" type="submit">
                         Mettre l'annonce à jours
                     </button>
                     <button class="text-white rounded-md w-48 h-12 flex justify-center items-center bg-gray-900  hover:bg-black">
@@ -324,7 +402,7 @@ additional_images.addEventListener("change", function () {
             const buttonElement = document.createElement('button');
             const imgTrashElement = document.createElement('img');
             buttonElement.className = 'w-full';
-            imgTrashElement.src = '{{asset("/images/trash-icon.png")}}';
+            imgTrashElement.src = '{{asset("/images/close-icon.png")}}';
             imgTrashElement.className = 'mx-auto my-2';
             imgTrashElement.style.width = "25px";
             buttonElement.onclick = () =>{

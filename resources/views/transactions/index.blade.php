@@ -47,13 +47,13 @@
                     <select name="status" id="filterStatus" class="md:w-1/2 mt-1 p-2 border rounded-md"  onchange="this.form.submit()">
                         <option value="">Tous les status</option>
                         <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
-                            pending
+                        en attente
                         </option>
                         <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>
-                            rejected
+                        rejeté
                         </option>
                         <option value="accepted" {{ request('status') == 'accepted' ? 'selected' : '' }}>
-                            accepted
+                        accepté
                         </option>
                     </select>
                     
@@ -99,6 +99,7 @@
             </thead>
             <tbody>
                 @foreach ($transactions as $transaction)
+                @if ($transaction->proposition && $transaction->proposition->offer && $transaction->proposition->offer->user )
                     @php 
                     $isReceiveid= $transaction->proposition->offer->user==auth()->user();
                     if($isReceiveid) $counterparty = $transaction->proposition->user; 
@@ -117,7 +118,7 @@
                             <a class="no-underline font-medium hidden md:block text-sm md:text-base" href="{{route('offer.offer', [$transaction->proposition->offer->id, $transaction->proposition->offer->slug])}}">{{ $transaction->proposition->offer->title }}</a>
                             <a class="no-underline font-medium block md:hidden text-sm md:text-base" href="{{route('offer.offer', [$transaction->proposition->offer->id, $transaction->proposition->offer->slug])}}">{{ Str::limit($transaction->proposition->offer->title, 8)}}</a>
                         </td>
-                        <td class="hidden md:table-cell">{{ $counterparty->first_name }} {{$counterparty->last_name }}</td>
+                        <td class="hidden md:table-cell">{{ $counterparty->name }}</td>
                         <td class="text-xs md:text-base">{{ $transaction->amount }}</td>
                         <td class="hidden md:table-cell">{{ $transaction->date }}</td>
                         <td>
@@ -158,6 +159,7 @@
                         </td>
                         @endif
                     </tr>
+                    @endif
                 @endforeach
             </tbody>
         </table>

@@ -113,7 +113,7 @@
             </li>
             <li class="p-3" id="filter-6">
                 <div class="flex justify-between my-2">
-                    <label for="type">PRICES</label>
+                    <label for="type">PRIX</label>
                     <i class="fa fa-angle-down toggle-arrow"></i>
                     <i class="fa fa-angle-up hidden toggle-arrow"></i>
                 </div>

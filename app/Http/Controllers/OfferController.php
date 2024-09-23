@@ -19,7 +19,7 @@ use App\Enums\ExperienceLevel;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use App\Notifications\NewReport;
-
+use App\Helpers\ImageHelper;
 
 
 class OfferController extends Controller
@@ -129,7 +129,7 @@ class OfferController extends Controller
             'department' => ['required'],
             'title' => ['required', 'string', 'between:2,100'],
             'description' => ['required','string'],
-            'default_image' => ['required','image','mimes:jpeg,png','max:4096'],
+            'default_image' => ['nullable','image','mimes:jpeg,png','max:4096'],
             'additional_images.*' => ['nullable','image','mimes:jpeg,png','max:4096'],
             'additional_images' => ['max:10'],
         'valueInput' => 'nullable|numeric',
@@ -148,10 +148,17 @@ class OfferController extends Controller
             $region = Region::find($request->region);
             $department = Department::find($request->department);
             $type = Type::find($request->type);
-            $extention = explode("/", $request->default_image->getMimeType())[1];
-            $imageDefault = uniqid() . '.' . $extention;
+            $image = $request->default_image;
+            $imageDefault = '';
+            if(!$image){
+                $imageDefault = 'default.png';
+            }else{
+                $extention = explode("/",$image->getMimeType())[1];
+                $imageDefault = uniqid() . '.' . $extention;
+            }
             $experience = $request->has('experience')? $request->experience : null;
             $condition  = $request->has('condition')? $request->condition : null;
+            $date  = $request->has('date')? $request->date : null;
             // Retrieve values from dynamic inputs
             $dynamicInputs = $request->input('dynamicInputs');
             // Serialize the values before saving to the database
@@ -201,6 +208,7 @@ class OfferController extends Controller
                         'department_id' => $department->id,
                         'experience' => $experience,
                        'condition' => $condition,
+                      // 'date' => $date,
                        'expiration_date'=>$expirationDate,
                        'launch_date'=>$launchDate,
                        'price'=>$request->valueInput ? $request->valueInput : 0 ,
@@ -212,7 +220,10 @@ class OfferController extends Controller
                     ]
                 );
           
-            Storage::putFileAs('public/offer_pictures', $request->default_image, $imageDefault);
+            if($image){$file = $request->file('default_image');
+                $storePath = 'public/offer_pictures/' . $imageDefault;
+                 ImageHelper::addWatermarkAndSave($file,$storePath);}
+                //Storage::putFileAs('public/offer_pictures', $request->default_image, $imageDefault);
             $defaultImage = OfferImages::create([
                 'offer_photo' => $imageDefault,
                 'offer_id' => $id,
@@ -220,11 +231,28 @@ class OfferController extends Controller
             $offer = Offer::find($id);
             $offer->default_image_id = $defaultImage->id;
             $offer->save();
+ // Check if availability dates are provided
+ if ($request->has('availability')) {
+    $availabilityDates = json_decode($request->input('availability'), true);
 
+    if (is_array($availabilityDates)) {
+        foreach ($availabilityDates as $availability) {
+            if (isset($availability['date'])) {
+                $formattedDate = Carbon::parse($availability['date'])->format('Y-m-d'); // Ensuring the date is correctly formatted
+                $offer->availabilities()->create([
+                    'date' => $formattedDate,
+                    'is_available' => true // or any other logic to set availability
+                ]);
+            }
+        }
+    }
+}
             if($request->has('additional_images')){
                 foreach ($request->additional_images as $key => $value) {
                     $name = uniqid() . '.' . $extention;
-                    Storage::putFileAs('public/offer_pictures', $value, $name);
+                  //  Storage::putFileAs('public/offer_pictures', $value, $name);
+                $storePath = 'public/offer_pictures/' . $name;
+                 ImageHelper::addWatermarkAndSave($value,$storePath);
                     OfferImages::create([
                         'offer_photo' => $name,
                         'offer_id' => $id
@@ -234,7 +262,7 @@ class OfferController extends Controller
             return $id;
         });
 
-        return redirect()->route('offer.offer', ['offerId'=>$id, 'slug'=>$slug])->with('success', 'produit ajouté');
+        return redirect()->route('offer.success', ['offerId'=>$id, 'slug'=>$slug])->with('success', 'produit ajouté');
 
     }
     public function storeOfferImage(Request $request)
@@ -251,7 +279,9 @@ class OfferController extends Controller
                 foreach ($request->additional_images as $key => $value) {
                     $ext = $value->getClientOriginalExtension();  // Get the file extension
                     $name = uniqid() . '.' . $ext;
-                    Storage::putFileAs('public/offer_pictures', $value, $name);
+                $storePath = 'public/offer_pictures/' . $name;
+                 ImageHelper::addWatermarkAndSave($value,$storePath);
+                   // Storage::putFileAs('public/offer_pictures', $value, $name);
                     OfferImages::create([
                         'offer_photo' => $name,
                         'offer_id' => $offerId
@@ -286,68 +316,95 @@ class OfferController extends Controller
             'additional_images.max' => 'Le nombre maximal d\'images autorisé est :max.',
         ]);
         
-        $offer = Offer::findOrFail($offerId);
+            // Fetch the offer
+            $offer = Offer::findOrFail($offerId);
         
-        $category = Category::find($request->category);
-        $subcategory = Category::find($request->subcategory);
-        $region = Region::find($request->region);
-        $department = Department::find($request->department);
-        $type = Type::find($request->type);
-        $experience = $request->has('experience')? $request->experience : null;
-        $condition  = $request->has('condition')? $request->condition : null;
+            // Begin a transaction to ensure data integrity
+            DB::beginTransaction();
         
-        $offer->title = $request->title;
-        $offer->type_id = $type->id;
-        $offer->subcategory_id=$subcategory->id;
-
+            try {
+                // Fetch related entities
+                $category = Category::find($request->category);
+                $subcategory = Category::find($request->subcategory);
+                $region = Region::find($request->region);
+                $department = Department::find($request->department);
+                $type = Type::find($request->type);
         
-        $offer->department_id = $department->id;
-        $offer->description = $request->description;
-        // $offer->price = $request->price;
-        // $offer->perimeter = $request->perimeter;
-        if($request->type_id==2){
-            $offer->condition = $request->condition;}
-            else {        $offer->condition = null;}
-            if($request->type_id==7){
-            $offer->experience = $request->experience;}
-            else {        $offer->experience = null;}
-            
-            
-            
-            
-            $offer->save();
-            
-            if ($request->hasFile('default_image')) {
-                $extention = explode("/", $request->default_image->getMimeType())[1];
-            $imageDefault = uniqid() . '.' . $extention;
-            Storage::putFileAs('public/offer_pictures', $request->default_image, $imageDefault);
-            $defaultImage = OfferImages::create([
-                'offer_photo' => $imageDefault,
-                'offer_id' => $offer->id,
-            ]);
-            $offer->default_image_id = $defaultImage->id;
-            $offer->save();
-            
-            
-        }
+                // Update offer details
+                $offer->title = $request->title;
+                $offer->type_id = $type->id;
+                $offer->subcategory_id = $subcategory->id;
+                $offer->department_id = $department->id;
+                $offer->description = $request->description;
+                $offer->condition = $request->type_id == 2 ? $request->condition : null;
+                $offer->experience = $request->type_id == 7 ? $request->experience : null;
         
-        if ($request->hasFile('additional_images')) {
-            foreach ($request->file('additional_images') as $image) {
-                $ext = $image->getClientOriginalExtension();  // Get the file extension
-                $name = uniqid() . '.' . $ext;
-                Storage::putFileAs('public/offer_pictures', $image, $name);
-                OfferImages::create([
-                    'offer_photo' => $name,
-                    'offer_id' => $offer->id
-                ]);
+                // Save the offer changes
+                $offer->save();
+        
+                // Handle default image upload
+                if ($request->hasFile('default_image')) {
+                    $extention = explode("/", $request->default_image->getMimeType())[1];
+                    $imageDefault = uniqid() . '.' . $extention;
+                    $file = $request->file('default_image');
+                    $storePath = 'public/offer_pictures/' . $imageDefault;
+                    ImageHelper::addWatermarkAndSave($file, $storePath);
+        
+                    $defaultImage = OfferImages::create([
+                        'offer_photo' => $imageDefault,
+                        'offer_id' => $offer->id,
+                    ]);
+                    $offer->default_image_id = $defaultImage->id;
+                    $offer->save();
+                }
+        
+                // Handle additional images upload
+                if ($request->hasFile('additional_images')) {
+                    foreach ($request->file('additional_images') as $image) {
+                        $ext = $image->getClientOriginalExtension();
+                        $name = uniqid() . '.' . $ext;
+                        $storePath = 'public/profile_pictures/' . $name;
+                        ImageHelper::addWatermarkAndSave($image, $storePath);
+        
+                        OfferImages::create([
+                            'offer_photo' => $name,
+                            'offer_id' => $offer->id
+                        ]);
+                    }
+                }
+        
+                // Update availabilities
+                if ($request->has('availability')) {
+                    $availabilityDates = json_decode($request->input('availability'), true);
+        
+                    // Delete the existing availabilities
+                    $offer->availabilities()->delete();
+        
+                    // Create new availabilities
+                    foreach ($availabilityDates as $availability) {
+                        $offer->availabilities()->create([
+                            'date' => $availability['date'],
+                            'is_available' => true, // Or set to true if it's always available
+                        ]);
+                    }
+                }
+        
+                // Commit the transaction
+                DB::commit();
+        
+               // return redirect()->route('offers.show', $offerId)->with('success', 'Offer updated successfully with availabilities.');
+            } catch (\Exception $e) {
+                // Rollback the transaction if there was an error
+                DB::rollBack();
+                
+               // return redirect()->back()->withErrors(['error' => 'An error occurred while updating the offer: ' . $e->getMessage()]);
             }
         }
-       
-
-    }
+        
     protected function show($offerid, $slug)
     {
         $offer = Offer::find($offerid);
+        if($offer){
         $subcategoryIds=$offer->subcategory->parent->children->pluck('id')->toArray();
         $similaroffers = Offer::whereIn('subcategory_id', $subcategoryIds)->where('id', '!=', $offer->id)->Paginate(3);
         if(!$similaroffers){
@@ -368,15 +425,53 @@ class OfferController extends Controller
                 'similaroffers',
                 'subcategory',
                 'images'
-            ]));
+            ]));} else {        abort(403, 'Unauthorized action.');
+            }
     }
 
-    public function destroyOffer(Offer $offer){
+    public function destroyOffer(Offer $offer)
+    {
+         // Delete related transaction if it exists
+         if ($offer->transaction) {
+            $offer->transaction()->delete();
+        }
+        // Loop through each preposition associated with the offer
+        foreach ($offer->preposition as $preposition) {
+            // If the preposition has related chmessages, delete them
+            if ($preposition->chmessages) {
+                $preposition->chmessages()->delete();
+            }
+    
+            
+            foreach ($preposition->propositionImages as $image) {
+                if($image->photo_path_type=='propostion'){
+             // Get the file path from the image record
+    $filePath = 'public/proposition_pictures/' . $image->propostion_photo;
+    // Delete the image record from the database
+    $image->delete();
+     // Delete the actual image file from storage
+    
+     Storage::delete($filePath);
+} else {    $image->delete();}
+}
+// Delete the preposition itself
+$preposition->delete();
+   }    
+        // Finally, delete the offer itself
         $offer->delete();
-
-        return redirect()->route('myaccount.offers')->with('success','Annoce supprimer avec succès');
+    
+        // Redirect with success message
+        return redirect()->route('myaccount.offers')->with('success', 'Annonce supprimée avec succès');
     }
-
+    
+    public function restoreOffer($id)
+    {
+        $offer = Offer::withTrashed()->findOrFail($id);
+        $offer->restore();
+    
+        return redirect()->back()->with('success', 'Offer restored successfully.');
+    }
+    
     public function activate(Offer $offer)
     {
         $offer->update(['active_offer' => true]);

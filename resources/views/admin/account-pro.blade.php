@@ -1,8 +1,8 @@
 @extends('admin.template')
 
 @section('admin-content')
-    <div class="bg-white p-4 rounded shadow">
-        <h1>Pro</h1>
+    <div >
+        <h1>Utilisateurs Professionnels</h1>
         <form action="{{ route('admin.pro') }}" method="GET">
             <div class="mb-4 ">
                 <label class="block text-sm font-medium text-gray-700">Rechercher :</label>
@@ -20,10 +20,19 @@
                     <select name="statut" id="filterStatut" class="mt-1 p-2 border rounded-md" style="width: 200px;" onchange="this.form.submit()">
                         <option value="">Tous les statuts</option>
                         @foreach ($statuts as $statut)
-                            <option value="{{ $statut }}" {{ request('statut') == $statut ? 'selected' : '' }}>
-                                {{ $statut }}
-                            </option>
-                        @endforeach
+    <option value="{{ $statut }}" {{ request('statut') == $statut ? 'selected' : '' }}>
+        @if ($statut == 'pending')
+            En attente
+        @elseif ($statut == 'accepted')
+            Accepté
+        @elseif ($statut == 'rejected')
+            Rejeté
+        @else
+            Non  <!-- For any other status, just capitalize the first letter -->
+        @endif
+    </option>
+@endforeach
+
                     </select>
                 </div>
                 <div class="mb-4">
@@ -58,18 +67,29 @@
                     <tr class="user-row" data-statut="{{ $user->statusPro }}" data-created="{{ $user->created_at ? $user->created_at->format('Y-m-d') : '' }}">
                         <td class="py-2 px-4 border-b">{{ $user->email }}</td>
                         <td class="py-2 px-4 border-b">
-                            <span class="badge 
-                            @if ($user->statusPro == 'pending')
-                            bg-warning
-                            @elseif ($user->statusPro == 'accepted')
-                            bg-success
-                            @elseif ($user->statusPro == 'rejected')
-                                bg-danger
-                                @else
-                                bg-secondary
-                                @endif
-                                ">{{$user->statusPro}}</span>
-                            </td> 
+    <span class="badge 
+    @if ($user->statusPro == 'pending')
+    bg-warning
+    @elseif ($user->statusPro == 'accepted')
+    bg-success
+    @elseif ($user->statusPro == 'rejected')
+        bg-danger
+    @else
+        bg-secondary
+    @endif
+    ">
+        @if ($user->statusPro == 'pending')
+            En attente
+        @elseif ($user->statusPro == 'accepted')
+            Accepté
+        @elseif ($user->statusPro == 'rejected')
+            Rejeté
+        @else
+            Inconnu
+        @endif
+    </span>
+</td>
+ 
                         <td class="py-2 px-4 border-b">
                             <div class="flex justify-between space-x-1 md:space-x-2">
                                 @if($user->statusPro != "rejected" )

@@ -18,6 +18,10 @@ use Illuminate\View\View;
 use App\Enums\Gender;
 use App\Notifications\proRequest;
 use Imagick;
+use App\Helpers\ImageHelper;
+
+use Intervention\Image\Facades\Image;
+
 
 
 
@@ -95,21 +99,24 @@ class RegisteredUserController extends Controller
                 'google_id'=> $request->google_id,
                 'profile_photo_path' => $storePicture,
                 'avatar'=> $storePicture,
-                'name' => trim($request->first_name) . ' ' . trim($request->last_name),
+                'name' => $request->nickname,
                 'is_pro' => false,
                 "role" => "user",
                 'statusPro' => $request->is_pro ? "pending" : "none",
             ]);
-            Storage::putFileAs('public/profile_pictures', $request->profile_photo_path, $storePicture);
+          //  Storage::putFileAs('public/profile_pictures', $request->profile_photo_path, $storePicture);
             
-            
+          // Get the uploaded file
+        $file = $request->file('profile_photo_path');
+       $storePath = 'public/profile_pictures/' . $storePicture;
+        ImageHelper::addWatermarkAndSave($file,$storePath);
             if(request()->hasfile('company_identification_document')){
                 $extention = explode("/", $request->company_identification_document->getMimeType())[1];
                 $storePicture = uniqid() . '.' . $extention;
                 Storage::putFileAs('public/company_identification_document', $request->company_identification_document, $storePicture);
             }else $storePicture = null;            
             
-            
+            $request->merge(['bio' => 'none']);
             $this->createUserInfos($user, $request->only([
                 'phone', 'nickname', 'gender', 'bio','social_reason','siren_number'
             ]), $storePicture);

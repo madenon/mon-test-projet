@@ -20,9 +20,9 @@
                             <label for="type" class="text-sm text-text block">Type</label>
                             <select name='type' class="w-full rounded-md border-line text-sm text-titles focus:border-primary-hover focus:ring-primary-hover">
                                 <option value="" selected hidden>Choisir un type *</option>
-                                <option value="invite_friends">Invite friends</option>
-                                <option value="total_transactions">Reach a total of transactions</option>
-                                <option value="total_amount">Transacte a total amount</option>
+                                <option value="invite_friends">Inviter des amis</option>
+                                <option value="total_transactions">Atteindre un total de transactions</option>
+                                <option value="total_amount">Effectuer une transaction d'un montant total</option>
                             </select>
                             <x-input-error class="mt-2" :messages="$errors->get('type')" />
                         </div>
@@ -71,22 +71,22 @@
                 </div>
                 <div class="row">
                     <div class="col-3">
-                        <button type="submit" class="bg-lime-600 my-4 p-2 rounded text-black">Create Contest</button>
+                        <button type="submit" class="bg-lime-600 my-4 p-2 rounded text-black">Créer un concours</button>
                     </div>
                 </div>
             </form>
         </div>
         <div class="contest-list">
-            <h1>Contests of The Week</h1>
+            <h1>Concours de la semaine</h1>
             @if(count($contestsOfTheWeek)==0)
-            <div>None contest this week</div>
+            <div>Aucun concours cette semaine</div>
             @else
                 @foreach( $contestsOfTheWeek as $contest)
                 <x-contest-card :contest=$contest></x-contest-card>
                 @endforeach
             @endif
             @if(count($previousContests))
-            <h1>Previous Contests</h1>
+            <h1>Concours précédents</h1>
             @endif
             @foreach( $previousContests as $contest)
             <x-contest-card :contest=$contest></x-contest-card>

@@ -1,7 +1,7 @@
 @extends('admin.template')
 
 @section('admin-content')
-    <div class="bg-white p-4 rounded shadow">
+    <div >
         <h1>Utilisateurs</h1>
         <form action="{{ route('admin.users') }}" method="GET">
             <div class="mb-4 ">
@@ -25,7 +25,6 @@
                             </option>
                         @endforeach
                     </select>
-
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Trier par date de création :</label>
@@ -33,6 +32,14 @@
                         <option value="asc">Par défaut</option>
                         <option value="asc" {{ request('sort_created_at') == 'asc' ? 'selected' : '' }}>Les plus anciens en premier</option>
                         <option value="desc" {{ request('sort_created_at') == 'desc' ? 'selected' : '' }}>Les plus récents en premier</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Filtrer par statut :</label>
+                    <select name="status" id="filterStatus" class="mt-1 p-2 border rounded-md" style="width: 200px;" onchange="this.form.submit()">
+                        <option value="">Tous les statuts</option>
+                        <option value="actif" {{ request('status') == 'actif' ? 'selected' : '' }}>Actif</option>
+                        <option value="inactif" {{ request('status') == 'inactif' ? 'selected' : '' }}>Inactif</option>
                     </select>
                 </div>
                 <div class="mt-8">
@@ -62,12 +69,13 @@
                         <td class="py-2 px-4 border-b">{{ $user->email }}</td>
                         <td class="py-2 px-4 border-b">{{ $user->userInfo->phone ?? '' }}</td>
                         <td class="py-2 px-4 border-b">
-                            @if ($user->active)
+                            @if ($user->hasVerifiedEmail())
                                 <i class="fas fa-check text-green-500"></i>
                             @else
                                 <i class="fas fa-times text-red-500"></i>
                             @endif
-                        </td>                <td class="py-2 px-4 border-b">{{ $user->role }}</td>
+                        </td>                
+                        <td class="py-2 px-4 border-b">{{ $user->role }}</td>
                         <td class="py-2 px-4 border-b">
                             <a href="{{ route('admin.user-details', ['id' => $user->id]) }}" class="text-blue-500 hover:underline">Voir les détails</a>
                             <!-- Add other actions as needed, e.g., edit, delete, etc. -->

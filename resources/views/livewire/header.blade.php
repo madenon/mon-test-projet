@@ -1,6 +1,8 @@
 @props(['parentcategories'])
 <header id="main-header" wire:poll.30000ms="refreshData">
 <style>
+
+
     .switch {
     position: relative;
     display: inline-block;
@@ -8,7 +10,6 @@
     height: 34px;
     }
 
-    /* Hide default HTML checkbox */
     .switch input {
     opacity: 0;
     width: 0;
@@ -63,8 +64,10 @@
     border-radius: 50%;
     }
 </style>
+
+
 <!--  -->
-        <div class="h-container">
+<div class="h-container">
             <div id="header-logo" class="">
                 <a href="{{ route('home') }}">
                     <img src="{{asset('images/logo-faistroquerfr.svg')}}" alt="Logo faistroquer.fr" class="logo-desktop" />
@@ -76,6 +79,7 @@
                     id="header-categories-button-btn"
                     class="header-categories-button-button">
                         <img
+                        style="min-width:15px"
                             src="{{ asset('images/list-icon-24.svg') }} "
                             alt=""
                             id="header-categories-button-button-icon" />
@@ -105,6 +109,11 @@
                     <img src="{{asset('images/filter-icon.svg')}}" alt="" />
                     <span>Filtre</span>
                 </button>
+            </div>
+            <div >
+                <a class="header-user-avatar-dropdown-item" href="{{ route('blog.index') }}"style="color:#24A19C;font-weight: 900">
+                    <span >BLOG</span>
+                </a>
             </div>
             <div id="header-user">
                 @auth
@@ -247,9 +256,9 @@
                                 </a>
                             </li> -->
                             <li>
-                                <a class="header-user-avatar-dropdown-item" href="{{route('binshopsblog.index' , 'fr')}}">
-                                    <img src="{{asset('images/shopping-bag-icon-16.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
-                                    Mon bloc
+                                <a class="header-user-avatar-dropdown-item" href="{{route('binshopsblog.index' , 'fr')}}" style="color:#24A19C;font-weight: 900">
+                                    <img src="{{asset('images/blog.png')}}" alt="" class="header-user-avatar-dropdown-item-img" />
+                                    BLOG
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
@@ -298,21 +307,22 @@
                             <img src="{{ asset('images/user-icon-24.svg') }} " alt="" class="" />
                             <span>S'authentifier</span>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end header-user-avatar-dropdown">
-                            <li>
-                                <a class="header-user-avatar-dropdown-item" href="{{ route('login') }}">
-                                    <img src="{{asset('images/user-icon-16.svg')}}" class="header-user-avatar-dropdown-item-img" alt="" />
-                                    Se connecter
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="header-user-avatar-dropdown-item" href="{{ route('register') }}">
-                                    <img src="{{asset('images/user-plus-icon-24.svg')}}" alt="" class="header-user-avatar-dropdown-item-img" />
-                                    S'enregistrer
-                                </a>
-                            </li>
-                        </ul>
+                        <ul class="dropdown-menu dropdown-menu-end header-user-avatar-dropdown" style="max-height: none; overflow: visible;">
+    <li>
+        <a class="header-user-avatar-dropdown-item" href="{{ route('login') }}">
+            <img src="{{ asset('images/user-icon-16.svg') }}" class="header-user-avatar-dropdown-item-img" alt="" />
+            Se connecter
+        </a>
+    </li>
+    <li><hr class="dropdown-divider"></li>
+    <li>
+        <a class="header-user-avatar-dropdown-item" href="{{ route('register') }}">
+            <img src="{{ asset('images/user-plus-icon-24.svg') }}" alt="" class="header-user-avatar-dropdown-item-img" />
+            S'enregistrer
+        </a>
+    </li>
+</ul>
+
                     </div>
                 </div>
                 @endguest
@@ -335,7 +345,7 @@
                 @if(request()->is('offer.*'))
                 @if(request()->has('category'))
     <a href="{{ route('offer.index', ['region' => $region->id,'category'=>request('category')]) }}" class="header-categories-dropdown-menu-item">
-        <img src="{{ asset('images/map-pin-icon.svg') }}" alt="" />
+        <img  src="{{ asset('images/map-pin-icon.svg') }}" alt="" />
         <h3>{{ $region['name'] }}</h3>
     </a>
     @else
@@ -420,7 +430,7 @@
     function changePro(pro_on){
         if(pro_on){
             Swal.fire({
-                title: 'Vous avez activer votre compte proffessionel',
+                title: 'Vous avez activé votre compte proffessionel',
                 timer: 2500,
                 showCancelButton: false,
                 showConfirmButton: false
@@ -429,7 +439,7 @@
             });
         }else{
             Swal.fire({
-                title: 'Vous avez activer votre compte particulier',
+                title: 'Vous avez activé votre compte particulier',
                 timer: 2500,
                 showCancelButton: false,
                 showConfirmButton: false

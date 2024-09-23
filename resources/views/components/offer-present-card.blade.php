@@ -21,7 +21,7 @@
                     </span>
                 </div>
                 <div class="group inline-flex rounded-xl">
-                    <span class="text-red-500 text-lg">
+                    <span class=" text-lg" style='color:#24A19C;font-weight: 900;text-transform: uppercase;'>
                         {{$offer->type->name }}
                     </span>
                 </div>

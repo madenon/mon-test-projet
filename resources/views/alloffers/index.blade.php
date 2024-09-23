@@ -85,9 +85,9 @@
             transform: translateX(100%);
         }
     </style>
-    <div id="offCanvas" class="fixed inset-y-0 right-0 w-64 bg-gray-800 text-white z-50 p-4 ease-in-out duration-300">
+    <div id="offCanvas" class="fixed inset-y-0 right-0 w-64 bg-gray-800 text-white z-50 p-4 ease-in-out duration-300 mt-5">
         <button id="closeFilterButton" class="text-white">&times; Close</button>
-        <!-- <x-filters></x-filters>       -->
+        <x-filter-some></x-filter-some>      
     </div>
 
         <div class="row">
@@ -112,47 +112,73 @@
            
                 @foreach ($offers as $offer)
                 <div class="offer_list_card mt-0 mb-4">
-                    <div class="offer_image w-2/5 relative">
-                        <img src="{{ route('offer-pictures-file-path',$offer->defaultImage->offer_photo) }}" alt=""
-                            class="zoomD object-cover h-full w-full rounded-tl-lg rounded-bl-lg " />
-                    </div>
+                    <div class="mt-auto mb-auto w-1/2 relative">
+                        <img src="{{ route('offer-pictures-file-path',$offer->defaultImage->offer_photo) }}" alt="Responsive image"
+                            class="zoomD img-fluid" />
+
+
+                     </div>
                     <div class="offer_details md:ml-8 md:mr-4 md:mt-4 mr-2 ml-2 mt-2">
                         <div class="">
                             <a href="{{route('offer.offer', [$offer, urlencode($offer->slug)])}}" class="no-underline">
                                 <h1 class="text-titles text-lg md:text-2xl">
                                     {{ Str::limit($offer->title, 35) }}</h1>
                             </a>
+                            
                         </div>
-                        <div class="flex gap-2 items-center text-xs md:text-base">
-                            <img src="/images/Stack.svg" alt="" class="">
-                            {{$offer->type->name}}
-                            <img src="/images/chevron-right.svg" alt="" class="">
-                            <img src="/images/Stack.svg" alt="" class="">
-                            {{$offer->subcategory->parent->name}}
-                            <img src="/images/chevron-right.svg" alt="" class="">
-                            <img src="/images/Stack.svg" alt="" class="">
-                            {{$offer->subcategory->name}}
+                        <div class="flex  items-center   ">
+                            <span >
+                                Type de troc:
+                            </span>
                         </div>
-                       @if($offer->type->name!='Moment')
-                       @if($offer->specify_proposition)
-                        <div class=" text-titles text-xs mt-3 hidden md:block">
-                            <h6 class=" font-normal ">  Etudie toute proposition</h6>
-                        </div>
-                        @endif
-                        @else
-                        <div class=" text-titles text-xs mt-3 hidden md:block">
-                            <h6 class=" font-normal ">À PARTAGER AVEC :</h6>
-                            @if($offer->dynamic_inputs)
-                        @foreach (json_decode($offer->dynamic_inputs, true)?? [] as $prop )
-                        @if($prop!=null && is_numeric($prop))
-                        <span class="px-5">
-                             {{$prop}} partenaire(s).
+                    <div class="flex  items-center   ">
+                        <span class="text-titles text-lg "style="color : #24A19C;font-weight: 700;" >
+                            {{$offer->type->name }}
                         </span>
-                            @endif
-                                @endforeach
+                        
+                    </div>
 
-                                @endif
-                        </div>
+                    <div class="flex    items-center   ">
+                        <span >
+                            Catégorie:
+                        </span>
+                    </div>
+                    <div class="flex    items-center   ">
+                        <span class="text-titles text-lg flex items-center div-categorie"style="color : #24A19C;font-weight: 700;" >
+                            <img src="/images/Stack.svg" alt="" class="mr-2">
+                            {{$offer->subcategory->parent->name}}
+                            <img src="/images/chevron-right.svg" alt="" class="px-2">
+                            {{$offer->subcategory->name}}
+                        </span>
+                    </div>
+                       @if($offer->type->name=='Don')
+                       @elseif($offer->type->name!='Moment')
+                        
+                        @if($offer->specify_proposition)
+                        <div class="flex  items-center  hidden md:block">
+                                <span >
+                                    À ÉCHANGER CONTRE:
+                                </span>
+                            </div>
+                            <div class=" text-titles text-xs hidden md:block">
+                                <h6 class=" font-normal ">  Etudie toute proposition</h6>
+                            </div>
+                            
+                            @endif
+                        @else
+                            @if($offer->dynamic_inputs)
+                            <div class=" text-titles text-xs mt-3 hidden md:block">
+                                <h6 class=" font-normal ">À PARTAGER AVEC:</h6>
+                                    @foreach (json_decode($offer->dynamic_inputs, true)?? [] as $prop )
+                                    @if($prop!=null && is_numeric($prop))
+                                    <span>
+                                        {{$prop}} partenaire(s).
+                                    </span>
+                                    @endif
+                                    @endforeach
+
+                            </div>
+                            @endif
                         @endif
                         <div class=" mt-3 flex w-full md:mb-3 ">
                             <div class=" w-[40%] flex gap-1 items-center">
@@ -196,10 +222,11 @@
                             </style>
 
                             <span class="flex bg-with-primary  rounded-full px-1 py-1 gap-1 text-white">
-                                <span class="text-center text-xs md:text-base">€ Envoi autorisé</span>
+                                <span class="text-center text-xs md:text-base"> <i class="fa-solid fa-dolly"></i> Envoi autorisé</span>
                             </span>
                             @endif
                         </div>
+                        @if($offer->expiration_date!=NULL)
                         <div class="pb-7 md:pb-12 md:mt-2 offer-container" data-expiration="{{ $offer->expiration_date }}">
                             <div class="flex gap-2 pr-3">
                                 <div class="w-1/4">
@@ -228,7 +255,7 @@
                                 </div>
                             </div>
                         </div>
-
+                         @endif
                         <div class="offer_owner md:mb-10" >
                             <div class="flex gap-3 ">
                                 <div class="relative">
@@ -238,14 +265,14 @@
                                     <img class="w-12 h-12 rounded-full" src="{{ route('profile_pictures-file-path',$offer->user->profile_photo_path) }}" alt=""
                                     class="rounded-full">
                                     @endif
-                                    <span class="status-indicator absolute bottom-0 right-0 transform translate-x-[-50%] translate-y-[-50%] 
+                                    <span class="status-indicator absolute top-0 right-0 transform translate-x-[-50%] translate-y-[-50%] 
                                     @if ($offer->user->is_online == 1) bg-green-600 @else bg-red-600 @endif">
                                     </span>
                                 </div>
                             <div class="flex space-x-2 md:space-x-4">
-                                <span class="flex flex-col w-1/2 relative">
+                                <span class="flex flex-col w-full relative">
                                     <span class="text-titles font-medium text-xs md:text-base break-words">
-                                            {{Str::limit($offer->user->name,10)}}
+                                            {{$offer->user->name}}
                                         </span>
                                         <style>
                                             .status-indicator {
@@ -403,4 +430,3 @@ show({days:'00',hours:'00',minutes:'00',seconds:'00'})        }
  });
 
 </script>
-

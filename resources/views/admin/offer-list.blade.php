@@ -60,93 +60,76 @@
     </form>
 
     <div class="container">
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            @if(count($offers) > 0 && !$offers->every('deleted_at'))
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">
-                                Nom de l'annonce
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Image
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Date de création
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Type
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Catégorie
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Prix
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-center">
-                                Action
-                            </th>
-                        </tr>
-                    </thead>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        @if(count($offers) > 0)
+            <table class="w-full text-xs text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-2 py-2">Nom</th>
+                        <th scope="col" class="px-2 py-2">Image</th>
+                        <th scope="col" class="px-2 py-2">Création</th>
+                        <th scope="col" class="px-2 py-2">Type</th>
+                        <th scope="col" class="px-2 py-2">Catégorie</th>
+                        <th scope="col" class="px-2 py-2">Prix</th>
+                        <th scope="col" class="px-2 py-2">Validation</th>
+                        <th scope="col" class="px-2 py-2 text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
                     @foreach ($offers as $offer)
-                    <tbody>
-                        <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex gap-2">
+                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                        <td class="px-2 py-2 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                             {{$offer->title}}
-                            @if($offer->active_offer)
-                                <form method="post" action="{{route('myaccount.deactivate', $offer)}}">
-                                    @csrf
-                                    @method('POST')
-                                    <button class="text-white rounded-full h-8 w-8 bg-red-700 hover:bg-red-800" type="submit">P</button>
-                                </form>
-                            @else
-                                <form method="post" action="{{route('myaccount.activate', $offer)}}">
-                                    @csrf
-                                    @method('POST')
-                                    <button class="text-white rounded-full h-8 w-8 bg-primary-color hover:bg-primary-hover" type="submit">M</button>
-                                </form>
-                            @endif
-                        </th>
-                        <td class="px-6 py-4">
-                            <img class="h-16 w-16 rounded-full" src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}" alt="Annonce Image">
                         </td>
-                        <td class="px-6 py-4">
-                            @if (!$offer->updated_at)
-                                {{$offer->created_at}}
-                            @else
-                                {{$offer->updated_at}}
-                            @endif
+                        <td class="px-2 py-2">
+                            <img class="h-10 w-10 rounded-full" src="{{ route('offer-pictures-file-path',$offer->offer_default_photo) }}" alt="Annonce Image">
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-2 py-2">
+                            {{ $offer->created_at ? $offer->created_at->format('d-m-Y') : 'N/A' }}
+                        </td>
+                        <td class="px-2 py-2">
                             {{$offer->type->name}}
                         </td>
-                        <td class="px-6 py-4">
-                        {{$offer->subcategory->parent->name}}
+                        <td class="px-2 py-2">
+                            {{$offer->subcategory->parent->name}}
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-2 py-2">
                             {{$offer->price}}
                         </td>
-                        <td class="flex gap-1 px-6 py-4">
-                            <button class=" bg-blue-700 hover:bg-blue-800 text-white font-bold h-12 w-24 rounded-full"><a class="no-underline font-medium text-white " href="{{route('admin.showOffer', [$offer->id, $offer->slug])}}">Voir offre</a></button>
-                            <button class="bg-green-700 hover:bg-green-800 text-white font-bold h-12 w-20 rounded-full"><a class="no-underline font-medium text-white" href="{{route('admin.editOffer', [$offer->id])}}">Modifier</a></button>
-                            <form class="" action="{{route('admin.deleteOffer', [$offer->id])}}" method="post">
-                                @method('DELETE')
+                        <td class="px-2 py-2 text-center">
+                            <form action="{{ $offer->deleted_at ? route('admin.restoreOffer', $offer->id) : route('admin.deleteOffer', $offer->id) }}" method="post" class="inline">
                                 @csrf
-                                <button class="bg-red-700 hover:bg-red-800 text-white font-bold h-12 w-24 rounded-full">Supprimer offre</button>
+                                @if($offer->deleted_at)
+                                    @method('POST')
+                                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded text-xs">Non</button>
+                                @else
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-xs">Oui</button>
+                                @endif
                             </form>
                         </td>
-                        </tr>
-                    </tbody>
+                        <td class="px-2 py-2 text-center">
+                            <div class="flex items-center justify-center space-x-1">
+                                <a href="{{ route('admin.showOffer', [$offer->id, $offer->slug]) }}" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded text-xs">Voir</a>
+                                <a href="{{ route('admin.editOffer', [$offer->id]) }}" class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded text-xs">Modifier</a>
+                              <!--  <form action="{{ route('admin.deleteOffer', [$offer->id]) }}" method="post" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-xs">Supprimer</button>
+                                </form>-->
+                            </div>
+                        </td>
+                    </tr>
                     @endforeach
-                </table>
-            @else
-                <p>Vous n'avez aucune annonce.</p>
-            @endif
-        </div>
-        <div class="py-4">
-            {{ $offers->appends(request()->query())->links() }}
-        </div>
+                </tbody>
+            </table>
+        @else
+            <p>Vous n'avez aucune annonce.</p>
+        @endif
     </div>
-
+    <div class="py-4">
+        {{ $offers->appends(request()->query())->links() }}
+    </div>
+</div>
 @endsection
 

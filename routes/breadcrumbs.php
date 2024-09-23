@@ -15,6 +15,11 @@ Breadcrumbs::for('offersall', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Offres', route('alloffers.index', []));
 });
+// Home > Propositions
+Breadcrumbs::for('propositionsall', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Propositions', route('propositions.index', []));
+});
 // Home > Offres
 Breadcrumbs::for('offers', function (BreadcrumbTrail $trail) {
     if(count(request()->all())){
@@ -36,6 +41,12 @@ Breadcrumbs::for('create', function (BreadcrumbTrail $trail) {
     $trail->parent('offers');
     $trail->push('create', route('offer.create'));
     
+});
+// Home > Offres>CreateProp
+Breadcrumbs::for('createprop', function (BreadcrumbTrail $trail, $offerId, $userId,$slug) {
+    $trail->parent('offersall');
+    $trail->push('Offre', route('offer.offer', ['offerId' => $offerId,'slug'=>$slug]));
+    $trail->push('Create Proposition', route('propositions.create', ['offerid' => $offerId, 'userid' => $userId]));
 });
 
 // Home > Offres > Type

@@ -57,7 +57,7 @@
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                     </svg>
                     <span class="me-1 sm:me-2 num">5</span>
-                    <span class="name">Poster</span>
+                    <span class="name">Publier</span>
                 </span>
             </li>
         </ol>
@@ -111,6 +111,88 @@
                                 @endforeach
                             </select>
                         </div>
+                        <input type="hidden" name="availability" class="notRequired" id="availability">
+<div class="md:flex-1 w-full hidden" id="calendar-container">
+    <label for="calendar" class="text-sm text-text block">Disponibilités</label>
+    <div id="calendar"></div>
+</div>
+
+<style>
+    /* Calendar container */
+    #calendar-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    /* Calendar title */
+    .fc .fc-toolbar-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2D3748; /* Dark gray color */
+        text-align: center;
+    }
+    a{
+        text-decoration: none;
+    }
+
+    /* Month grid styling */
+    .fc .fc-daygrid-day {
+        border: 1px solid #CBD5E0; /* Light gray border */
+        padding: 5px;
+    }
+
+    /* Day number styling */
+    .fc .fc-daygrid-day-number {
+        color: #2D3748; /* Dark gray color */
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    /* Day name styling */
+    .fc .fc-daygrid-day-name {
+        color: #4A5568; /* Darker gray color */
+        font-size: 0.875rem;
+        font-weight: 700;
+    }
+
+    /* Event styling */
+    .fc .fc-daygrid-event {
+        background-color: #38B2AC; /* Teal color */
+        color: #FFFFFF;
+        border-radius: 4px;
+        padding: 2px 4px;
+    }
+
+    .fc .fc-daygrid-event:hover {
+        background-color: #2C7A7B; /* Darker teal */
+    }
+
+    /* Button styling */
+    .fc .fc-button-primary {
+        background-color: #38B2AC; /* Teal color */
+        border: none;
+        color: #FFFFFF;
+    }
+
+    .fc .fc-button-primary:hover {
+        background-color: #2C7A7B; /* Darker teal */
+    }
+
+    /* Hide scrollbars */
+    .fc .fc-daygrid-day { 
+        overflow: hidden; /* Prevent scrolling */
+    }
+
+    /* Ensure calendar shows only the current month */
+    .fc .fc-daygrid-day {
+        max-height: 100px; /* Set a max-height to avoid vertical scrolling */
+        overflow: hidden;
+    }
+     .default-day-background {
+        background-color: red !important;
+    }
+</style>
 
                         <div class="md:flex-1 w-full">
                             <label for="" class="text-sm text-text block">Catégorie du troc</label>
@@ -189,7 +271,7 @@
                                 <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 ">
                                     <label for="default_image" class="cursor-pointer w-full" >
                                         <input id="default_image" type="file" name="default_image" accept="image/*"  oninput="validatePrimaryPhoto()"
-                                            class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
+                                            class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color notRequired"
                                             style="width: 0; height: 0;">
                                         <div class="flex items-center justify-center gap-4 text-center w-full">
                                             <img src="/images/IconContainer.svg" alt="" srcset="">
@@ -201,8 +283,16 @@
                                     <span id="selectedFileName" class="text-text text-sm mt-2">Aucun fichier
                                         sélectionné</span>
                                 </div>
-                                <div class="my-2">
-                                    <img id="defaultImageSelected" src="" alt="" width="150px">
+                                <div class="my-2 text-sm">
+                                    Si vous ne choississez pas d'image, l'annonce aura pour image par defaut le logo de faistroquer.   
+                                </div>
+                                <div class="my-3 hidden">
+                                    <div class="relative w-60 h-36">
+                                        <img id="defaultImageSelected" src="" alt="" class="w-full h-full object-cover ">
+                                        <button id="deleteDefaultImage" class="absolute top-0 right-0">
+                                            <img src="{{ asset('/images/close-icon2.png') }}" alt="Delete" class="w-6 h-6">
+                                        </button>
+                                    </div>
                                 </div>
                                 <x-input-error :messages="$errors->get('default_image')" class="mt-2" />
                                 <span for="" class="text-sm text-text mt-4">
@@ -210,7 +300,7 @@
                                 <div class="flex items-center border-dashed border-2 border-line rounded-md px-3 bg-neutral-300">
                                     <label for="additional_images" class="cursor-pointer w-full" >
                                         <input id="additional_images" type="file" name="additional_images[]" accept="image/*" multiple disabled
-                                        class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
+                                        class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color notRequired"
                                         style="width: 0; height: 0;" />
                                         <div class="flex items-center justify-center gap-4 text-center w-full">
                                             <img src="/images/IconContainer.svg" alt="" srcset="">
@@ -306,21 +396,24 @@
                             </div>
 
                             <!-- Right Section: Your Estimation -->
-                            <div class="col-md-6">
+                            <div class="col-md-5 offset-md-1 mt-4 mt-md-0">
                                 <h3 class="text-lg font-bold text-titles mb-3">Votre estimation</h3>
                                 <hr>
-                                    <div class="form-group">
+                                    <div class="form-group mb-2 mt-2">
                                         <label for="valueInput">Valeur</label>
+                                        <div class="input-group">
                                         <input type="number" step="any" min="0" class="form-control" id="valueInput" name="valueInput" placeholder="Prix en €" value="0">
+                                        <button class="btn btn-outline-secondary" type="button">€</button>
+                                        </div>
                                     </div>
 
                                     <!-- Checkbox for "autorise la vente" -->
-                                    <div class="form-check">
+                                    <div class="form-check mt-1">
                                         <input type="checkbox" class="form-check-input" name="sellCheckbox" id="sellCheckbox">
                                         <label class="form-check-label" for="sellCheckbox">Autorise la vente</label>
                                     </div>
                                     <!-- Checkbox for "autorise la vente" -->
-                                    <div class="form-check">
+                                    <div class="form-check mt-1">
                                         <input type="checkbox" class="form-check-input" name="sendCheckbox" id="sendCheckbox">
                                         <label class="form-check-label" for="sendCheckbox">Autorise l'envoi</label>
                                     </div>
@@ -380,8 +473,8 @@
                         <h3 class="text-lg font-bold text-titles mb-3">Mise en ligne de l'annonce</h3>
                         <div class="flex space-x-4">
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="immediatCheckbox" name="launchOption" value="immediat">
-                                    <label class="form-check-label" for="immediatCheckbox">Immédiat</label>
+                                    <input type="checkbox" class="form-check-input" id="immediatCheckbox" name="launchOption" value="immediat" checked>
+                                    <label class="form-check-label" for="immediatCheckbox" >Immédiat</label>
                                 </div>
     
                                 <div class="form-check">
@@ -495,23 +588,33 @@
     // 
     const conditionDropdownElement = document.getElementById('condition-dropdown')
     const yearsOfExperienceDropdownElement = document.getElementById('experience-dropdown')
+    const dateDropdownElement = document.getElementById('date-dropdown')
 
     const experienceOrLevel = (selectedValue) => {
-        const hasCondition = [6,1, ,"6","1"]
+        const hasCondition = [6,1, "6","1"]
         const hasExprience = 2
+        const hasDate = 3
         if(hasCondition.includes(selectedValue)){
             // if bien, don, moment => show condition dropdown
             conditionDropdownElement.style.display = "inline-block"
             yearsOfExperienceDropdownElement.style.display = "none"
+            dateDropdownElement.style.display = "none"
 
         } else if(selectedValue === 2 || selectedValue === "2") {
             // if service        => show experience dropdown
-            conditionDropdownElement.style.display = "none"
             yearsOfExperienceDropdownElement.style.display = "inline-block"
+            conditionDropdownElement.style.display = "none"
+            dateDropdownElement.style.display = "none"
+        } else if(selectedValue === 3 || selectedValue === "3") {
+            // if service        => show experience dropdown
+            yearsOfExperienceDropdownElement.style.display = ""
+            conditionDropdownElement.style.display = "none"
+            dateDropdownElement.style.display = "inline-block"
         } else {
             // else              => show nothing
             conditionDropdownElement.style.display = "none"
             yearsOfExperienceDropdownElement.style.display = "none"
+            dateDropdownElement.style.display = "none"
         }
     }
     // Type dropdown change handler
@@ -526,7 +629,7 @@
     const spanElement = document.getElementById("selectedFileName");
     const defaultImageSelected = document.getElementById("defaultImageSelected");
     const browse_default_text = document.getElementById("browse_default_text");
-    
+    const deleteDefaultImage = document.getElementById("deleteDefaultImage");
     
     inputElement.addEventListener("change", function () {
         const selectedFiles = inputElement.files;
@@ -545,6 +648,25 @@
             if(browse_default_text.classList.contains("hidden"))
             browse_default_text.classList.remove("hidden");
     }
+    
+    deleteDefaultImage.onclick = () =>{
+        event.preventDefault();
+        const div = deleteDefaultImage.parentElement.parentElement;
+        if(browse_default_text.classList.contains("hidden"))
+        browse_default_text.classList.remove("hidden");
+        if(!div.classList.contains("hidden"))
+        div.classList.add("hidden");
+    spanElement.textContent = "Aucun fichier sélectionné";
+        defaultImageSelected.src = '';
+        inputElement.value = '';
+        additional_images.disabled = true; 
+        if(!defaultImageSelected.parentElement.parentElement.classList.contains("hidden"))
+        defaultImageSelected.parentElement.parentElement.classList.add("hidden");
+        if(!additional_images.parentElement.parentElement.classList.contains("bg-neutral-300"))
+        additional_images.parentElement.parentElement.classList.add("bg-neutral-300");
+
+    };
+
 });
 
 
@@ -563,22 +685,29 @@ additional_images.addEventListener("change", function () {
         browse_additional_text.classList.add("hidden");
         selectedFilesMultiple.forEach((item, index) => {
             const divElement = document.createElement('div');
-            divElement.className = 'me-4';
+            divElement.className = 'm-4 relative';
+            divElement.style.width = '100px';
+            divElement.style.height = '50px';
             
             const imgElement = document.createElement('img');
+            imgElement.style.width = '100%';
+            imgElement.style.height = '100%'; 
+            imgElement.style.objectFit = 'cover';
+            imgElement.alt = '';
+
             const reader = new FileReader();
             reader.onload = function (e) {
                 imgElement.src = e.target.result;
-                imgElement.setAttribute("style","height:30px");
+                // imgElement.setAttribute("style","width:200px");
             }
             reader.readAsDataURL(item);
             imgElement.alt = '';
             const buttonElement = document.createElement('button');
             const imgTrashElement = document.createElement('img');
-            buttonElement.className = 'w-full';
-            imgTrashElement.src = '{{asset("/images/trash-icon.png")}}';
+            buttonElement.className = 'absolute top-0 right-0';
+            imgTrashElement.src = '{{asset("/images/close-icon.png")}}';
             imgTrashElement.className = 'mx-auto my-2';
-            imgTrashElement.style.width = "25px";
+            imgTrashElement.className = 'w-4 h-4 mx-1 my-1';
             buttonElement.onclick = () =>{
                 event.preventDefault();
                 buttonElement.parentNode.remove();
@@ -590,7 +719,6 @@ additional_images.addEventListener("change", function () {
             divElement.appendChild(imgElement);
             divElement.appendChild(buttonElement);
             additionalImageSelected.appendChild(divElement);
-            
             
         });
         spanElementMultiple.textContent = selectedFilesMultiple.length + " fichier(s) sélectionné(s)";
@@ -689,7 +817,60 @@ const changerCategory = (e) => {
                 donation.classList.remove('hidden');
                 donation.classList.add('row');
             }
-        }else{ 
+        }else if(selectedTypeId == 3){ // pret et location
+                if (partner.classList.contains('row')){
+                partner.classList.remove('row');
+                partner.classList.add('hidden');
+                Array.from(partner.getElementsByTagName("input")).forEach(e =>{
+                    e.classList.add("notRequired");
+                });
+            }
+            if (donation.classList.contains('row')){
+                donation.classList.remove('row');
+                donation.classList.add('hidden');
+                Array.from(donation.getElementsByTagName("input")).forEach(e =>{
+                    e.classList.add("notRequired");
+                });
+            }
+            if (exchange.classList.contains('hidden')){
+                exchange.classList.remove('hidden');
+                exchange.classList.add('row');
+            }
+            document.querySelector('#calendar-container').classList.remove('hidden');
+            var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'fr', // Set the locale to French
+            selectable: true,
+            select: function(info) {
+                // Toggle date availability
+                let event = calendar.getEventById(info.startStr);
+                if (event) {
+                    event.remove();
+                } else {
+                    calendar.addEvent({
+                        id: info.startStr,
+                        start: info.startStr,
+                        end: info.endStr,
+                        color: 'green'
+                    });
+                }
+            },
+            events: [
+                // Load existing availability data
+            ]
+        });
+        calendar.render();
+
+        document.getElementById('submitBtn').addEventListener('click', function(e) {
+            var events = calendar.getEvents();
+            var dates = events.map(event => ({
+                date: event.startStr,
+            }));
+            document.getElementById('availability').value = JSON.stringify(dates);
+        });
+        }
+        else{ 
             if (partner.classList.contains('row')){
                 partner.classList.remove('row');
                 partner.classList.add('hidden');
@@ -811,8 +992,8 @@ function validatePrimaryPhoto() {
         // console.log(additional_images.parentElement.parentElement);
         
     } else {
+        defaultImageSelected.parentElement.parentElement.classList.remove("hidden");
         additional_images.parentElement.parentElement.classList.remove("bg-neutral-300");
-        console.log(additional_images.parentElement.parentElement);
         additional_images.disabled = false; 
     }
 }
@@ -846,7 +1027,7 @@ function showTab(n) {
 function nextPrev(n) {
   var x = document.getElementsByClassName("stepTab");
     
-  if (n == 1 && !validateForm()) {
+ if (n == 1 && !validateForm()) {
     return false;
   }
 
@@ -889,10 +1070,11 @@ function validateForm() {
     if ((window.getComputedStyle(y[i].parentNode, null).display != "none") && y[i].value === "" ) {
       if(y[i].classList.contains("notRequired"))continue;
       y[i].classList.add("invalid");
-        
+      
       appendError("Veuillez ne pas laisser les champs en * vide, elles sont obligatoires");
       valid = false;
     }else{
+        if(y[i].classList.contains("notRequired"))continue;
         y[i].classList.remove("invalid");
     }
     var dynamicInputs = document.getElementsByName("dynamicInputs[]");

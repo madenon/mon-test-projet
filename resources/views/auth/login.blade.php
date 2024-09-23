@@ -6,7 +6,7 @@
         <h1 class="text-center text-primary-color text-4xl">{{ __('Se connecter') }}</h1>
     </div>
     <div class="flex justify-center items-center space-x-4 mt-[6vh] google-fb">
-        <!--  Bouton "Sign In with Google" -->
+        <!--  Bouton "Sign In with Google" 
         <a href="{{ url('auth/google') }}"
             class="bg-white border border-gray-300 hover:border-gray-400 text-gray-700 px-4 py-2 rounded-md flex items-center space-x-2 google">
             <svg class="w-6 h-6" viewBox="0 0 256 262" xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +27,7 @@
             <span>Connexion avec Google</span>
         </a>
 
-        <!-- Bouton " Sign In with Facebook" -->
+        <!-- Bouton " Sign In with Facebook" 
         <a href=""
             class="facebook bg-white border border-gray-300 hover:border-gray-400 text-gray-700 px-4 py-2 rounded-md flex items-center space-x-2">
             <svg class="w-6 h-6" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -37,7 +37,7 @@
             </svg>
 
             <span>Connexion avec Facebook</span>
-        </a>
+        </a> -->
     </div>
     <form method="POST" action="{{ route('login') }}">
         @csrf

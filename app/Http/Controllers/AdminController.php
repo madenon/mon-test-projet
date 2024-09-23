@@ -131,9 +131,15 @@ class AdminController extends Controller
         $roles = Role::all();
         $query = User::query();
             
-        // Filter by role
         if ($request->has('role') && $request->role!='') {
             $query->where('role', $request->role);
+        }
+        if ($request->has('status') && $request->status!='') {
+            if ($request->status == 'actif') {
+                $query->whereNotNull('email_verified_at');
+            } elseif ($request->status == 'inactif') {
+                $query->whereNull('email_verified_at');
+            }        
         }
     
         if ($request->has('sort_created_at')) {
@@ -193,7 +199,7 @@ class AdminController extends Controller
         return $user;
     }
 public function offers(Request $request){
-    $query = Offer::query();
+    $query=Offer::withTrashed();
     if ($request->has('search')) {
         $searchTerm = $request->input('search');
         $query->where(function ($query) use ($searchTerm) {

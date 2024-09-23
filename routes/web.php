@@ -22,6 +22,7 @@ use App\Http\Controllers\PusherController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\FollowingController;
 use App\Http\Controllers\ContestController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -29,9 +30,13 @@ use Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
 
 
-
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\ArticleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -141,11 +146,16 @@ Route::controller(AdminController::class)->prefix('/admin')->group(function () {
    Route::get('/offerInfos',  function () {
         return view('admin.offer-info');
     })->middleware('admin')->name('admin.offerInfos');
+
+
+
    Route::get('/blogAdmin',  function () {
         if (DB::table('binshops_languages')->exists())
             return redirect()->route('binshopsblog.admin.index');
         return redirect()->route('binshopsblog.admin.setup');
     })->middleware('admin')->name('admin.blog');
+
+
     
    Route::get('/badges',  'badges')->middleware('admin')->name('admin.badges');
    Route::get('/contests',  'contest')->middleware('admin')->name('admin.contests');
@@ -196,8 +206,11 @@ Route::middleware('auth', 'check.offers', 'verified')->group(function () {
 });
 
 Route::middleware('check.offers')->group(function () {
+    Route::get('/offres/success/{offerId}/{slug}', function ($offerId, $slug) {
+        return view('offer.success', ['offerId' => $offerId, 'slug' => $slug]);
+    })->name('offer.success');
+    
     Route::get('/offres/{offerId}/{slug}', [OfferController::class, 'show'])->name('offer.offer');
-
     Route::get('/offres/{type}/{category}', [CategoryController::class, 'index'])->name('category.index');
     Route::get('/offres/{offer}/{category_id}/{category_name}', [CategoryController::class, 'showSimilarOffers'])->name('category.showSimilarOffers');
     Route::get('/offres/{slug}', [CategoryController::class, 'showOffersByCategory'])->name('category.showOffersByCategory');
@@ -205,16 +218,17 @@ Route::middleware('check.offers')->group(function () {
     Route::delete('/offres/{offer}/removeFromFavorites', [OfferController::class, 'removeFromFavorites'])->name('offers.removeFromFavorites');
     Route::delete('/offres/removeOfferImage', [OfferController::class, 'deleteImage'])->name('offers.deleteImage');
     Route::get('/alloffers', [AlloffersController::class, 'index'])->name('alloffers.index');
+    Route::get('/alloffers/{id}', [AlloffersController::class, 'indexx'])->name('alloffers.indexx');
     Route::post('/offres/updateActiveAnimation', [OfferController::class, 'updateActiveAnimation'])->name('offers.updateActiveAnimation');
     Route::post('/offres/toogleActive', [OfferController::class, 'toogleActive'])->name('offers.toogleActive');
     Route::post('/offres/putOnTop', [OfferController::class, 'putOnTop'])->name('offers.putOnTop');
-
-
-
+    
     Route::get('/offres/{type}', [TypeController::class, 'index'])->name('type.index');
     Route::get('/offres', [OfferController::class, 'index'])->name('offer.index');
     Route::get('/offres/search', [OfferController::class, 'search'])->name('offer.search');
+    Route::post('/offers/{id}/restore', [OfferController::class, 'restoreOffer'])->name('admin.restoreOffer');
 });
+
 
 
 Route::middleware('auth', 'verified')->group(function () {
@@ -284,8 +298,38 @@ Route::controller(ContestController::class)->prefix('/contests')->group(function
     Route::get('/compete/{contestId}', 'index')->name('contests.compete');
     Route::get('/{contestId}', 'contestRegistration' )->name('contests.registration');
 });
+Route::get('/test-image', [ImageController::class, 'createImage']);
 
-
+Route::get('/aide', function () {return view('aide');})->name('aide');
+ 
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/page-details', function () {return view('page-details');});
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
+Route::get('/page-details', [BlogController::class, 'show'])->name('page.details');
 require __DIR__.'/auth.php';
 
+Route::get('auth.reset-passsword', [PasswordResetLinkController::class, 'create'])->name('password.request');
+Route::post('password/email', [PasswordResetLinkController::class, 'store'])->name('password.email');
+Route::get('password/reset/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+Route::post('password/reset', [NewPasswordController::class, 'store'])->name('password.update');
+  
+Route::get('/pagearticle2', [BlogController::class, 'show'])->name('pagearticle2');
+Route::get('/pagearticle2', function () {return view('pagearticle2');});
+
+Route::get('/pagearticle3', [BlogController::class, 'show'])->name('pagearticle3');
+Route::get('/pagearticle3', function () {return view('pagearticle3');});
+
+
+Route::get('/pagearticle4', [BlogController::class, 'show'])->name('pagearticle4');
+Route::get('/pagearticle4', function () {return view('pagearticle4');});
+
+
+Route::get('/pagearticle5', [BlogController::class, 'show'])->name('pagearticle5');
+Route::get('/pagearticle5', function () {return view('pagearticle5');});
+
+Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
+Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
+Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+Route::resource('articles', ArticleController::class);
 

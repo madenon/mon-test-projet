@@ -247,11 +247,11 @@ class MessagesController extends Controller
                 $currentDate = now()->format('Y-m-d');
                 $givenDate = $datetime->format('Y-m-d');
                 if ($givenDate == $currentDate) {
-                    $datetimeString= 'Today';
+                    $datetimeString= 'Aujourd\'hui';
                 } elseif ($givenDate == date('Y-m-d', strtotime('-1 day'))) {
-                    $datetimeString= 'Yesterday';
+                    $datetimeString= 'Hier';
                 } else {
-                    $datetimeString= date('d F Y', strtotime($datetime));
+                    $datetimeString= $datetime->translatedFormat('jS F Y');
                 }
                 $allMessages .= '<p class="messenger-title"><span>'.$datetimeString.'</span></p>';
             }

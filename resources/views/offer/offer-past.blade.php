@@ -396,12 +396,12 @@ location.reload();
                         </span>
                         @if($offer->dynamic_inputs)
                         @foreach (json_decode($offer->dynamic_inputs, true)?? [] as $prop )
-                        @if($prop!=null)
-                        <span class="flex gap-2 px-5">
+                            @if($prop!=null)
+                            <span class="flex gap-2 px-5">
                             <img src="/images/Icon.svg" alt="">  {{$prop}} </span>
                             @endif
-                                @endforeach
-                                @endif
+                        @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
@@ -425,8 +425,7 @@ location.reload();
                             @endif
                             <span class="flex flex-col">
                                 <span class="text-titles font-medium">
-                                    {{$offer->user->first_name . " " .
-                                    $offer->user->last_name}}
+                                    {{$offer->user->name}}
                                 </span>
                                 @if ($offer->user->is_online=="Offline")
                                 <span class="text-red-500">Hors ligne</span>

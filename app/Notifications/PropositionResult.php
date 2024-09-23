@@ -41,7 +41,7 @@ class PropositionResult extends Notification
         $url = url('/propositions');
         return (new MailMessage)
                     ->subject('Résultat de la proposition')
-                    ->greeting('Bonjour '. $this->taker->first_name)
+                    ->greeting('Bonjour '. $this->taker->name)
                     ->line('L\'état de votre proposition a été mis à jour sur l\'offre :' . $this->preposition->offer->title)
                     ->action('Voir la Proposition', $url)
                     ->line(new HtmlString('Merci de consulter votre compte sur <a href="https://darkorange-wolf-733627.hostingersite.com/">faistroquer.fr</a> pour avoir plus d\'informations à propos de sa proposition.'));
@@ -57,7 +57,7 @@ class PropositionResult extends Notification
     {
         return [
             'id' => $this->preposition->id,
-            'name' => $this->preposition->offer->user->first_name . ' ' . $this->preposition->offer->user->last_name,
+            'name' => $this->preposition->offer->user->name,
             'title' => $this->preposition->name,
             'content' => 'a '.$this->preposition->status.' votre proposition',
             'link' => url('/propositions')

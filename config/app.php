@@ -169,6 +169,8 @@ return [
         \Chatify\ChatifyServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Ladumor\OneSignal\OneSignalServiceProvider::class, 
+        Barryvdh\Debugbar\ServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -184,6 +186,11 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Chatify' => Chatify\Facades\ChatifyMessenger::class,
+        'OneSignal' => \Ladumor\OneSignal\OneSignal::class, 
+        'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
+
     ])->toArray(),
+    
+
 
 ];

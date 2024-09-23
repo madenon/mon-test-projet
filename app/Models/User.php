@@ -105,7 +105,10 @@ public function sendPasswordResetNotification($token)
     {
         return $this->hasOne(UserInfos::class);
     }
-
+ public function chMessages()
+    {
+        return $this->hasMany(ChMessage::class, 'to_id');
+    }
     public function offer(): HasMany
     {
         return $this->hasMany(Offer::class);

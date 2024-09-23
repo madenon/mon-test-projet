@@ -104,8 +104,7 @@
                             @endif
                                 <span class="flex flex-col">
                                     <span class="text-titles font-medium">
-                                        {{$offer->user->first_name . " " .
-                                        $offer->user->last_name}}
+                                        {{$offer->user->name}}
                                     </span>
                                     @if ($offer->user->is_online=="Offline")
                                     <span class="text-red-500">Hors ligne</span>
@@ -126,5 +125,15 @@
     </div>
     {{ $offers->links() }}
 </div>
-
+<div id="footer-create-add-button" >
+                <a class="" href="{{ route('offer.create') }}">
+                    <div class="footer-create-add-button-img">
+                        <img src="{{ asset('images/plus-icon-white.svg') }}" alt="" />
+                    </div>
+                    <span class="footer-create-add-button-span">
+                        Déposer
+                        une annonce
+                    </span>
+                </a>
+            </div>
 </x-app-layout>

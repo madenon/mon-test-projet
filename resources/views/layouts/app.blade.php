@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
+    <!--<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "f5408d83-371c-46f0-b800-6a1d310552c4",
+    });
+  });
+</script>-->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -17,8 +26,13 @@
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
 
-        @vite(['resources/css/app.css', 'resources/js/app.js','resources/carousel/slick/slick.css','resources/carousel/slick/slick-theme.css'])
+            @vite(['resources/css/app.css', 'resources/js/app.js','resources/carousel/slick/slick.css','resources/carousel/slick/slick-theme.css'])
         
+  <!-- FullCalendar CSS -->
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
+    <!-- FullCalendar JS -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales/fr.js'></script>
 
         <!-- Main Styles -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -30,6 +44,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 
         <link type="text/css" href="{{ asset('binshops-blog.css') }}" rel="stylesheet"> 
+        @livewireStyles
+        <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 
     </head>
     <body class="font-sans antialiased">
@@ -37,7 +53,7 @@
             @if(!request()->routeIs('admin.*'))
             <livewire:header/>
             @endif
-
+            @livewireScripts
             <!-- Page Heading -->
              <!-- @if (isset($header))
                 <header class="bg-white">
@@ -61,6 +77,7 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         <script src="{{ asset('js/app.js') }}"></script>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
         <script>
     $(document).ready(function () {
         // Set CSRF token for all AJAX requests
@@ -74,8 +91,50 @@
     });
 </script>
 
-<script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
+<style>
+#scrollUp
+{
+position: fixed;
+bottom : 10px;
+right: -100px;
+opacity: 0.5;
+}
+</style>
+ 
+ 
+<script>
+            jQuery(function(){
+                $(function () {
+                    $(window).scroll(function () {
+                        if ($(this).scrollTop() > 200 ) { 
+                            $('#scrollUp').css('right','10px');
+                        } else { 
+                            $('#scrollUp').removeAttr( 'style' );
+                        }
+ 
+                    });
+                });
+            });
+</script>
+ 
+ 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var header = document.querySelector('header'); // Sélectionnez votre header
+    var lastScrollTop = 0;
 
+    window.addEventListener("scroll", function() {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-    </body>
-</html>
+        if (scrollTop > lastScrollTop) {
+            // Scroll vers le bas, cacher le header
+            header.style.transform = 'translateY(-100%)';
+        } else {
+            // Scroll vers le haut, montrer le header
+            header.style.transform = 'translateY(0)';
+        }
+        lastScrollTop = scrollTop;
+    });
+});
+</script>
+ 

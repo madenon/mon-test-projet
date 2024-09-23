@@ -43,20 +43,20 @@
                 <h1 class="text-center text-primary-color text-4xl">{{ __('S\'enregistrer') }}</h1>
             </div>
             <div class="flex  justify-center mt-10 rounded-md bg-gray-100 py-3 types-div">
-                <div class="border border-gray-300 rounded-l-md py-2 px-3 bg-primary-color text-white cursor-pointer "
+                <div class="border border-gray-300 rounded-l-md py-2 bg-primary-color text-white cursor-pointer w-1/2 flex justify-center"
                     id="particulier" onclick="selectType('particulier')">
-                    Particulier
+                    <div>Particulier</div>
                 </div>
-                <div class="border-t border-b border border-gray-300 rounded-r-md py-2 px-3 bg-white cursor-pointer"
-                id="professionnel" onclick="selectType('professionnel')">
-                Professionnel
-            </div>
+                <div class="border-t border-b border border-gray-300 rounded-r-md py-2 px-3 bg-white cursor-pointer w-1/2 flex justify-center"
+                    id="professionnel" onclick="selectType('professionnel')">
+                    <div>Professionnel</div>
+                </div>
                 {{-- <input type="hidden" name="role" id="selectedType" value="particulier"> --}}
             </div>
             <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                 @csrf
-                <div class="flex justify-center items-center space-x-4 mt-[6vh]">
-                    <!--  Bouton "Sign In with Google" -->
+               <!--  <div class="flex justify-center items-center space-x-4 mt-[6vh]">
+                     Bouton "Sign In with Google" 
                     <a href="{{ url('auth/google') }}"
                     class="bg-white border border-gray-300 hover:border-gray-400 text-gray-700 px-4 py-2 rounded-md flex items-center space-x-2">
                     <svg class="w-6 h-6" viewBox="0 0 256 262" xmlns="http://www.w3.org/2000/svg"
@@ -74,10 +74,10 @@
                                 d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
                                 fill="#EB4335" />
                             </svg>
-                            <span>Sign In with Google</span>
+                            <span>Connexion avec Google</span>
                         </a>
                     
-                        <!-- Bouton " Sign In with Facebook" -->
+                         Bouton " Sign In with Facebook" 
                         <a href=""
                         class="bg-white border border-gray-300 hover:border-gray-400 text-gray-700 px-4 py-2 rounded-md flex items-center space-x-2">
                         <svg class="w-6 h-6" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -86,9 +86,9 @@
                                 fill="#1877F2" />
                             </svg>
                             
-                            <span>Sign In with Facebook</span>
+                            <span>Connexion avec Facebook</span>
                         </a>
-                </div>
+                </div>-->
                 <div>
                     <input type="hidden" id="is_pro" name="is_pro" value="false" />
                 </div>
@@ -119,29 +119,35 @@
                         placeholder="Prenom" />
                     <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
                 </div>
-                <div class="flex space-x-8">
-                    <x-text-input id="email" class="block mt-1 focus:border-primary-color" type="email"
-                        name="email" :value="old('email',isset($user['email']) ? $user['email'] : '')" required autofocus autocomplete="email"
-                        placeholder="Email" />
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                    <style>
-                    /* Chrome, Safari, Edge, Opera */
-                    input::-webkit-outer-spin-button,
-                    input::-webkit-inner-spin-button {
-                    -webkit-appearance: none;
-                    margin: 0;
-                    }
+                <div class="flex flex-col space-y-4 sm:flex-row sm:space-x-8 sm:space-y-0">
+                    <div class="flex-1">
+                        <x-text-input id="email" class="block w-full mt-1 focus:border-primary-color" type="email"
+                            name="email" :value="old('email', isset($user['email']) ? $user['email'] : '')" required autofocus autocomplete="email"
+                            placeholder="Email" />
+                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    </div>
 
-                    /* Firefox */
-                    input[type=number] {
-                    -moz-appearance: textfield;
-                    }
-                    </style>
-                    <x-text-input id="phone" class="block mt-1 w-full focus:border-primary-color" type="text" pattern="^\+33\d{9}$"
-                        name="phone" :value="old('phone')" value="+33" required autofocus autocomplete="phone"
-                        placeholder="Téléphone" />
-                    <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                    <div class="flex-1">
+                        <style>
+                            /* Chrome, Safari, Edge, Opera */
+                            input::-webkit-outer-spin-button,
+                            input::-webkit-inner-spin-button {
+                                -webkit-appearance: none;
+                                margin: 0;
+                            }
+
+                            /* Firefox */
+                            input[type=number] {
+                                -moz-appearance: textfield;
+                            }
+                        </style>
+                        <x-text-input id="phone" class="block w-full mt-1 focus:border-primary-color" type="text" pattern="^\+33\d{9}$"
+                            name="phone" :value="old('phone')" value="+33" required autofocus autocomplete="phone"
+                            placeholder="Téléphone" />
+                        <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                    </div>
                 </div>
+
                 <div class="mt-4">
                     <x-text-input id="nickname" class="block mt-1 w-full focus:border-primary-color" type="text"
                         name="nickname" value="" placeholder="Pseudo" />
@@ -180,14 +186,7 @@
                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                 </div>
                 @endif
-                <div class="mt-4">
-                    <textarea id="bio"
-                        class="block mt-1 w-full rounded-md border-gray-400 mb-10 focus:border-primary-color" name="bio"
-                        required placeholder="À propos de moi"></textarea>
-                    <x-input-error :messages="$errors->get('bio')" class="mt-2" />
-                </div>
-                <div
-                    class="flex items-center w-full relative border-dashed border-2 border-gray-300 rounded-md px-3 py-2 div-file">
+                <div class="flex items-center w-full relative border-dashed border-2 border-gray-300 rounded-md mt-4 px-3 py-2 div-file">
                     <label for="profile_photo_path" class="cursor-pointer w-full">
                         <input id="profile_photo_path" type="file" name="profile_photo_path" accept="image/*"
                             class="absolute inset-0 opacity-0 z-10 w-full focus:border-primary-color"
@@ -200,9 +199,16 @@
 
                     <!-- Affiche le nom du fichier sélectionné (facultatif) -->
                     <span id="selectedFileName" class="text-gray-600 mt-2">Aucun fichier sélectionné</span>
-                    <x-input-error :messages="$errors->get('profile_photo_path')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('profile_photo_path')" class="mt-2" id="profilePhotoErrors" />
                 </div>
-                
+                <div class="my-3 hidden">
+                                    <div class="relative w-60 h-36">
+                                        <img id="defaultImageSelected" src="" alt="" class="w-full h-full object-cover ">
+                                        <button id="deleteDefaultImage" class="absolute top-0 right-0">
+                                            <img src="{{ asset('/images/close-icon2.png') }}" alt="Delete" class="w-6 h-6">
+                                        </button>
+                                    </div>
+                                </div>
                 <div class="mt-4 professional hidden">
                     <x-text-input id="social_reason" class="block mt-1 w-full focus:border-primary-color" type="text"
                         name="social_reason" value="" placeholder="Raison social" />
@@ -232,15 +238,12 @@
                 </div>
                 
                 <div class="my-6 flex items-center checkbox-register">
-                    <input type="checkbox" id="agree" name="agree" class=" border-gray-300 rounded text-primary-color"
-                    required>
-                    <label for="agree" class="ml-2 text-gray-700 ">
-                        {{ __('I\'ve read and agree with your ') }} <a href="#"
-                            class="font-semibold text-black hover:underline">Privacy
-                            Policy</a> and <a href="#" class="font-semibold text-black hover:underline">Terms &
-                            Conditions</a>
+                    <input type="checkbox" id="agree" name="agree" class="border-gray-300 rounded text-primary-color" required>
+                    <label for="agree" class="ml-2 text-gray-700">
+                        {{ __('J\'ai lu et j\'accepte votre ') }} <a href="#" class="font-semibold text-black hover:underline">Politique de Confidentialité</a> et <a href="#" class="font-semibold text-black hover:underline">Conditions Générales</a>
                     </label>
                 </div>
+
                 <button class="w-full text-white  font-semibold py-3 rounded-md bg-primary-color hover:bg-primary-hover"
                     type="submit">
                     <div class="  transition-transform transform hover:translate-x-3 flex items-center justify-center">
@@ -314,10 +317,52 @@ const selectedCompanyFileName = document.getElementById('selectedCompanyFileName
 companyFileInput.addEventListener('change', (event) => {
     selectedCompanyFileName.textContent = event.target.files[0] ? event.target.files[0].name : 'Aucun fichier sélectionné';
 });
-fileInput.addEventListener('change', (event) => {
-    selectedFileName.textContent = event.target.files[0] ? event.target.files[0].name : 'Aucun fichier sélectionné';
-});
 
+    const spanElement = document.getElementById("selectedFileName");
+    const defaultImageSelected = document.getElementById("defaultImageSelected");
+    const deleteDefaultImage = document.getElementById("deleteDefaultImage");
+    
+    fileInput.addEventListener("change", function () {
+        const selectedFiles = fileInput.files;
+        if (selectedFiles.length > 0) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                defaultImageSelected.src = e.target.result;
+            }
+            reader.readAsDataURL(selectedFiles[0]);
+            spanElement.textContent = selectedFiles[0].name;
+            defaultImageSelected.parentElement.parentElement.classList.remove("hidden");
+            const errorList = document.querySelector('ul.text-red-600');
+            
+            // Clear all error messages
+            if (errorList) {
+                while (errorList.firstChild) {
+                    errorList.removeChild(errorList.firstChild);
+                }
+            }
+           // browse_default_text.classList.add("hidden");
+        } else {
+            spanElement.textContent = "Aucun fichier sélectionné";
+           // if(browse_default_text.classList.contains("hidden"))
+           // browse_default_text.classList.remove("hidden");
+    }
+    
+    deleteDefaultImage.onclick = () =>{
+        event.preventDefault();
+        const div = deleteDefaultImage.parentElement.parentElement;
+       // if(browse_default_text.classList.contains("hidden"))
+       // browse_default_text.classList.remove("hidden");
+        if(!div.classList.contains("hidden"))
+        div.classList.add("hidden");
+    spanElement.textContent = "Aucun fichier sélectionné";
+        defaultImageSelected.src = '';
+        fileInput.value = '';
+        if(!defaultImageSelected.parentElement.parentElement.classList.contains("hidden"))
+        defaultImageSelected.parentElement.parentElement.classList.add("hidden");
+
+    };
+
+});
 
 
 

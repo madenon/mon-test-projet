@@ -24,6 +24,8 @@ class Offer extends Model
         'description',
         'exchange_state',
         'experience',
+        'date',
+        'condition',
         'offer_default_photo',
         'price',
         'slug',
@@ -71,7 +73,10 @@ class Offer extends Model
     {
         return $this->belongsTo(Category::class,'subcategory_id');
     }
-
+    public function availabilities()
+    {
+        return $this->hasMany(Availability::class);
+    }
 
     public function department(): BelongsTo
     {
