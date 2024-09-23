@@ -332,4 +332,5 @@ Route::get('/articles/create', [ArticleController::class, 'create'])->name('arti
 Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 Route::resource('articles', ArticleController::class);
+Route::delete('/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
 

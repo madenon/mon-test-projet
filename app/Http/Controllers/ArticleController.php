@@ -46,6 +46,21 @@ class ArticleController extends Controller
     }
     
 
+    public function destroy($id)
+    {
+        $article = Article::findOrFail($id);
     
+        // Si l'article a une photo, la supprimer du stockage
+        if ($article->photo) {
+            Storage::disk('public')->delete($article->photo);
+        }
+    
+        // Supprimer l'article de la base de données
+        $article->delete();
+    
+        return redirect()->route('articles.index')->with('success', 'Article supprimé avec succès.');
+    }
 }
+
+
 
