@@ -121,6 +121,8 @@
 </head>
 
 <body>
+ 
+
     <div class="container">
         <div class="image-container">
             <img src="{{ asset('images/haa.jpg') }}" alt="Image représentant le troc de services">
