@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+=<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -194,13 +194,15 @@ footer button[type="submit"]:hover {
         <div class="article-container">
             <div>
                 @if($article->photo)
-                    <img src="{{ asset('storage/' . $article->photo) }}" alt="Image de {{ $article->titre }}" class="article-image">
-                @else
+                    <img src="{{  url('storage/images/'.$article->photo) }}" alt="Image de {{ $article->titre }}" class="article-image">
+
+                    @else
                     <p>Aucune image disponible</p>
                 @endif
             </div>
             <div class="article-content">
                 <div class="article-title">{{ $article->titre }}</div>
+
                 <div class="article-paragraph">{{ Str::limit($article->contenu, 100000) }}</div>
                 <a href="{{ route('articles.show', $article->id) }}">Voir plus</a>
                 <form action="{{ route('articles.destroy', $article->id) }}" method="POST" style="display:inline;">
@@ -233,8 +235,8 @@ footer button[type="submit"]:hover {
             </form>
         </div>
     </div>
-   
-    
+
+
 </footer>
 
 </body>

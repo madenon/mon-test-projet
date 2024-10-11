@@ -12,11 +12,11 @@
                             <ul>
                                 <li>
                                     <span>Email:</span>
-                                    <a href="">{{$information->email}}</a>
+                                    <a href="">{{$information->email ?? null}}</a>
                                 </li>
                                 <li>
                                     <span>Tel:</span>
-                                    <a href="">{{$information->phone}}</a>
+                                    <a href="">{{$information->phone ?? null}}</a>
                                 </li>
                             </ul>
                             <div class="footer-socialmedias">
@@ -43,7 +43,7 @@
                                             </li>
 
                                             <li>
-                                                <a href="{{$information->contrat}}" target="_blank">Contrat d'échange</a>
+                                                <a href="{{$information->contrat ?? null}}" target="_blank">Contrat d'échange</a>
                                             </li>
                                             <li>
                                                 <a href="{{route('help')}}">Aide</a>
@@ -70,7 +70,7 @@
                                             <li>
                                                 <a href="{{route('alloffers.index',['category'=> $parentcategory['id']])}}">{{$parentcategory['name']}}</a>
                                             </li>
-                                            @endforeach                                        
+                                            @endforeach
                                             @endif
                                         </ul>
                                     </nav>
